@@ -1,0 +1,35 @@
+<h2>Me - Changing Settings</h2>
+
+<%= error_messages_for :admin_user %>
+
+<% form_for(:admin_user, @admin_user, :url => { :action => :update } ) do |f| %>
+
+<h3>General</h3>
+
+<dl>
+	<dt>First name</dt>
+	<dd><%= f.text_field :firstname %></dd>
+	
+	<dt>Last name</dt>
+	<dd><%= f.text_field :lastname %></dd>
+	
+	<dt>Language</dt>
+	<% languages = [ ['English (US)', 'en-US'], ['Dutch (Belgian)', 'nl-BE'], ['French', 'fr-FR'] ] %>
+	<dd><%= f.select :language_code, languages, :include_blank => true %></dd>
+</dl>
+
+<h3>Change E-mail Address</h3>
+
+<p>When changing your e-mail address, a confirmation e-mail will be sent, containing a confirmation code you will need to use in order to confirm that the given e-mail address is yours.</p>
+
+<p><%= text_field_tag :email_address, @admin_user.email_address %></p>
+
+<h3>Change Password</h3>
+
+<p>Enter your password twice in order to make sure you have typed it correctly.</p>
+
+<p><%= password_field_tag :password %><br /><%= password_field_tag :password_confirmation %></p>
+
+<p><%= link_to 'Cancel', admin_me_url %> - <%= submit_tag 'Save changes' %></p>
+
+<% end %>

@@ -1,0 +1,34 @@
+<h1>Listing categories</h1>
+
+<%= breadcrumb(params[:id]) unless params[:id].nil?  %>
+
+<div id="itemlist">
+<ul id="categories_tree" class="dhtmlgoodies_tree">
+<li id="node10000" noDrag="true" noSiblings="true"><a href="#">Categories</a>
+<ul>
+<% # TODO: convert this into a non-recursive linear algorithm in order to speed it up %>
+<% @categories.select { |c| c.parent_id == nil }.each do |category| %>
+	<li id="node<%= category.id %>">
+		<%= link_to category.name, { :action => 'edit', :id => category }, :id => 'cat_' + category.id.to_s %>
+		<%= render_subtree(@categories, category.id) %>
+	</li>
+<% end %>
+</ul>
+</ul>
+
+<script type="text/javascript">
+function save_categories()
+{
+  var str = treeObj.saveTree();
+  document.forms['categories_save'].saveString.value = str;
+  document.forms['categories_save'].submit();
+}
+</script>
+<% form_tag({:action => 'save_nodes'}, {:id => "categories_save"}) do %>
+  <%= hidden_field_tag 'saveString' %>
+  <input type="button" onclick="javascript:save_categories()" value="Save Changes">
+<% end %>
+</div>
+<br />
+
+<%= link_to image_tag('newspaper_add.png', :border=>0) + ' New category', :action => 'edit' %>

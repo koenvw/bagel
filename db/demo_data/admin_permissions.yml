@@ -1,0 +1,85 @@
+--- 
+admin_permissions_024: 
+  name: admin_generators_management
+  id: "62"
+admin_permissions_013: 
+  name: admin_users_management
+  id: "51"
+admin_permissions_002: 
+  name: _content_management
+  id: "39"
+admin_permissions_025: 
+  name: content_news_management
+  id: "63"
+admin_permissions_014: 
+  name: content_document_management
+  id: "52"
+admin_permissions_003: 
+  name: admin_settings_management
+  id: "40"
+admin_permissions_026: 
+  name: admin_generator_files_management
+  id: "64"
+admin_permissions_015: 
+  name: content_forms_management
+  id: "53"
+admin_permissions_004: 
+  name: _admin_management
+  id: "41"
+admin_permissions_027: 
+  name: content_gallery_management
+  id: "65"
+admin_permissions_016: 
+  name: admin_content_types_management
+  id: "54"
+admin_permissions_005: 
+  name: admin_relations_management
+  id: "42"
+admin_permissions_028: 
+  name: _main_menu_webfolder
+  id: "66"
+admin_permissions_017: 
+  name: admin_websites_management
+  id: "55"
+admin_permissions_006: 
+  name: content_images_management
+  id: "43"
+admin_permissions_018: 
+  name: content_site_users_management
+  id: "56"
+admin_permissions_007: 
+  name: content_tags_management
+  id: "45"
+admin_permissions_019: 
+  name: admin_tools_management
+  id: "57"
+admin_permissions_008: 
+  name: admin_form_definitions_management
+  id: "46"
+admin_permissions_020: 
+  name: admin_roles_management
+  id: "58"
+admin_permissions_009: 
+  name: content_page_management
+  id: "47"
+admin_permissions_021: 
+  name: content_book_management
+  id: "59"
+admin_permissions_010: 
+  name: _main_menu_admin
+  id: "48"
+admin_permissions_022: 
+  name: admin_url_mappings_management
+  id: "60"
+admin_permissions_011: 
+  name: _main_menu_content
+  id: "49"
+admin_permissions_023: 
+  name: content_video_management
+  id: "61"
+admin_permissions_012: 
+  name: content_menu_management
+  id: "50"
+admin_permissions_001: 
+  name: content_container_management
+  id: "38"

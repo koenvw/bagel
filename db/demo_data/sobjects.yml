@@ -1,0 +1,14 @@
+--- 
+sobjects_001: 
+  created_on: 2007-04-10 17:00:24
+  content_type: News
+  content_id: "1"
+  updated_on: 2007-04-10 17:00:24
+  cached_categories: |+
+    --- {}
+    
+  created_by: 
+  content_type_id: "1"
+  updated_by: 
+  id: "1"
+  cached_category_ids: ;2;

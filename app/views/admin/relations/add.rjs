@@ -1,0 +1,19 @@
+#page.visual_effect :appear, "relations#{params[:sub_id]}", :duration => 0.5
+obj = Sobject.find(params[:id]).content
+unless params[:id].nil? || params[:cat_id].nil? || params[:direction].nil?
+  uniq_id = generate_id
+  uniq2_id = generate_id
+  page.insert_html :bottom,
+                   "relations_sorted_#{params[:direction]}#{params[:sub_id]}list",
+                   :partial => "admin/relations/list_item", 
+                   :locals => { :to_sobject_id=> params[:id], :category_id=> params[:cat_id], :editor_id => uniq_id, :uniq_id => params[:sub_id], :uniq2_id => uniq2_id, :direction => params[:direction], :ajax=>true }
+  # higlight the partial that was added
+  page.visual_effect :highlight, "relations_item_#{params[:direction]}#{uniq2_id}_#{params[:id]}-#{params[:cat_id]}", :duration => 2
+  # FIXME: isn't there a helper for this ?
+  page << "Sortable.create(\"relations_sorted_inlist\", {handle:'dragme', onChange:function(){$('relations').value = Sortable.sequence(\"relations_sorted_inlist\")}, onUpdate:function(){new Ajax.Request('', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"relations_sorted_inlist\")})}, only:'draggable'})"
+  # update hidden form field
+  page << "$('relations').value = Sortable.sequence(\"relations_sorted_#{params[:direction]}list\")"
+else
+  page.alert("id, cat_id or direction is empty!")
+end
+

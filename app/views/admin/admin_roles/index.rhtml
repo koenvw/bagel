@@ -1,0 +1,32 @@
+<div class="topButton">
+	<h1>Roles</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Create new role', admin_roles_url(:action => 'new'), :class => "new", :title => "Add new role" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Role name</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+<% @roles.each do |role| %>
+		<tr class="content">
+			<td><%= link_to h(role.name), admin_role_url(:id => role, :action => "edit") %></td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to "delete", admin_role_url(:id => role, :action => 'destroy'), :class => "delete", :confirm => "Are you sure you want to delete the role '#{role.name}'? You cannot undo this action.", :method => :post %>
+					<%= link_to "edit",   admin_role_url(:id => role, :action => 'edit'), :class => "edit",   :title => 'Edit role' %>
+				</span>
+			</td>
+		</tr>
+<% end %>
+<% if @roles.size == 0 %>
+		<tr>
+			<td colspan="2">(No roles created yet)</td>
+		</tr>
+<% end %>
+	</table>
+</div>

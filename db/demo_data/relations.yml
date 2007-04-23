@@ -1,0 +1,29 @@
+--- 
+relations_001: 
+  created_on: 2007-04-13 10:25:53
+  name: News
+  updated_on: 2007-04-18 18:50:30
+  content_type_id: "1"
+  id: "1"
+  name_reverse: ""
+relations_002: 
+  created_on: 2007-04-13 10:26:06
+  name: Image
+  updated_on: 2007-04-18 18:50:14
+  content_type_id: "2"
+  id: "2"
+  name_reverse: ""
+relations_003: 
+  created_on: 2007-04-18 18:50:47
+  name: Photo Gallery
+  updated_on: 2007-04-18 18:50:47
+  content_type_id: "4"
+  id: "3"
+  name_reverse: ""
+relations_004: 
+  created_on: 2007-04-18 19:00:40
+  name: Template
+  updated_on: 2007-04-18 19:00:40
+  content_type_id: "10"
+  id: "4"
+  name_reverse: ""

@@ -1,0 +1,25 @@
+<h1><%= @urlmapping.new_record? ? "Creating" : "Editing" %> Alias</h1>
+
+<%= start_form_tag :action => 'edit', :id => @urlmapping %>
+	<%= error_messages_for 'urlmapping' %>
+
+	<!--[form:urlmapping]-->
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="urlmapping_path">Path</label>
+			<%= text_field 'urlmapping', 'path' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<div class="mceFrame">
+			<%= text_area 'urlmapping', 'options', :class => "text_area_large", :cols => 40, :rows => 20 %>* yaml code (see documentation)<br/><br/>
+		</div>
+		<fieldset class="oneline">
+			<label for="urlmapping_position">Position</label>
+			<%= text_field 'urlmapping', 'position'  %><br/>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+	<!--[eoform:urlmapping]-->
+
+	<%= submit_tag 'Save Changes' %>
+<%= end_form_tag %>
+or <%= link_to 'Back',:action => 'list' %>

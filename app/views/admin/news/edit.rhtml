@@ -1,0 +1,31 @@
+<h1><%= figure_out_action(@news) %> <%= figure_out_content_type_name(@news) %></h1>
+
+<% form_tag :action => 'edit', :id => @news do %>
+
+	<%= hidden_field_tag "book_id", params[:book_id] %>
+	<%= hidden_field_tag "news[type_id]", @news.type_id || params[:type_id] %>
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'news' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="news_title">Title</label>
+			<%= text_field 'news', 'title' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<div class="mceFrame">
+		  <%= text_area  'news', 'body', :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
+		</div>
+		<div class="bottom"></div>
+	</div>
+	<%= render :partial => "admin/sitems/list", :locals => { :item => @news } %>
+	<%= render :partial => "admin/tags/list", :locals => { :item => @news } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @news } %>
+	
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end %>

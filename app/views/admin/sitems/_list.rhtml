@@ -1,0 +1,34 @@
+<%
+# Parameters:
+# - item : the content object
+# - start_open   : default open
+%>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<h3 class="forClose">Websites</h3>
+	<%= hidden_field_tag :tagDisplayState, params[:tagDisplayState] %>
+	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:tagDisplayState] == "1" ? "block" : "none" %>;">
+		<table class="uniTable">
+			<tr class="heading">
+				<td>&nbsp;</td>
+				<td colspan="4">Name</th>
+			</tr>
+			<% if item.sitems.empty? %>
+				<div id="websites_list_empty">No websites.</div>
+			<% else %>
+				<% for sitem in item.sitems %>
+					<%= render :partial => "admin/sitems/list_item", :locals => { :sitem => sitem, :item => item }  %>
+				<% end %>
+			<% end %>
+			<% sobject = item.sobject %>
+			<% if !sobject.new_record? %>
+				<% sobject.updated_by = AdminUser.current_user if sobject.updated_by.nil? %>
+			<% end %>
+		</table>
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label for="updated_by">Published by</label>
+			<%= select "sobject", "updated_by", AdminUser.find(:all).map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id.to_s] }, {:selected => sobject[:updated_by].to_s, :include_blank => true}, :class => "largeSelect" %>
+		</fieldset>
+	</div>
+	<div class="bottom"></div>
+</div>

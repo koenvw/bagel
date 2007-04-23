@@ -1,0 +1,91 @@
+<h1>Configure Website</h1>
+
+	<div id="contentFrame">
+	
+		<!-- Begin left/right container -->
+		<div id="leftRightContent">
+			
+			<div class="subContentLeft">
+				<h2>Help</h2>
+					<div class="loopme">
+						<h3></h3>
+						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque id tortor. Cras eleifend. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Pellentesque id ipsum. Nam eget leo quis metus euismod aliquet. Nullam at ipsum. Suspendisse placerat nisl a ligula. Duis consequat turpis sit amet sapien. Nulla eget felis. Aenean commodo, eros ac ultricies faucibus, diam mauris aliquam lacus, quis tincidunt dolor mi at arcu. Mauris ut libero id sapien blandit nonummy. Donec cursus est. Maecenas ut massa. Quisque dictum nunc vel arcu. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus bibendum vulputate neque.</p>
+					</div>
+				<div class="clear"></div>
+				<div class="bottom"></div>
+			</div>
+			<div class="subContentRight">
+				<h2>Options</h2>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_url_mappings_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Aliases", :controller => "url_mappings" %></h3>
+						<p>Use this for url rewriting</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_generator_files_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Files", :controller => "generator_files" %></h3>
+						<p>Use this if you want to write a template to a physical file on the server</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_form_definitions_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Forms", :controller => "form_definitions" %></h3>
+						<p>Use forms for contact-forms and content which does not in fit in a core content type</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_relations_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Relations", :controller => "relations" %></h3>
+						<p>Give names to the different relationships your content types can have</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_roles_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Roles", :controller => "roles" %></h3>
+						<p>Assign roles (permissions) to admin users</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_settings_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Settings", :controller => "settings" %></h3>
+						<p>General system settings</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_generators_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Templates", :controller => "generators" %></h3>
+						<p>The html code for the frontend</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_tools_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Tools", :controller => "tools" %></h3>
+						<p>Miscellaneous tools</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_content_types_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Types", :controller => "content_types" %></h3>
+						<p>Configure the different content types</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_users_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Users", :controller => "users" %></h3>
+						<p>Set up admin users here</p>
+					</div>
+					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_websites_management) %>
+					<div class="container loopme">
+						<h3><%= link_to "Websites", :controller => "websites" %></h3>
+						<p>Configure your websites (domains) here</p>
+					</div>
+					<% end %>
+				<div class="clear"></div>
+				<div class="bottom"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!-- End left/right container -->
+	</div>

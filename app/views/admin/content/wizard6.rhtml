@@ -1,0 +1,16 @@
+<%
+	type = ContentType.find(params[:type_id])
+	type.nil? ? type_name = "??" : type_name = type.name
+%>
+<h1>Adding <%= type_name %></h1>
+
+<h2>Step 6: Assigning to website</h2>
+
+<%= render :partial => 'admin/sitems/popup', :locals => { :obj => @news } %>
+
+<%= start_form_tag :action => 'wizard6', :id => @news, :type_id => params[:type_id] %>
+
+<%= render :partial => "admin/sitems/list", :locals => { :obj => @news } %>
+<br/>
+<div class="button"><%= submit_tag 'Next' %></div>
+<%= end_form_tag %>

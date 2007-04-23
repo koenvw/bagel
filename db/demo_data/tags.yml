@@ -1,0 +1,71 @@
+--- 
+tags_001: 
+  created_on: 2007-04-05 20:20:23
+  name: MyFirstTag
+  updated_on: 2007-04-05 20:20:23
+  lft: "1"
+  id: "1"
+  extra_info: hihi
+  rgt: "4"
+  parent_id: 
+  active: "0"
+tags_002: 
+  created_on: 2007-04-05 21:27:10
+  name: MySecondTag
+  updated_on: 2007-04-05 21:27:10
+  lft: "5"
+  id: "2"
+  extra_info: ""
+  rgt: "6"
+  parent_id: 
+  active: "0"
+tags_003: 
+  created_on: 2007-04-05 21:27:22
+  name: subtag
+  updated_on: 2007-04-05 21:27:22
+  lft: "2"
+  id: "3"
+  extra_info: ""
+  rgt: "3"
+  parent_id: "1"
+  active: "0"
+tags_004: 
+  created_on: 2007-04-09 11:20:37
+  name: MyThirdTag
+  updated_on: 2007-04-09 11:20:37
+  lft: "7"
+  id: "4"
+  extra_info: ""
+  rgt: "14"
+  parent_id: 
+  active: "0"
+tags_005: 
+  created_on: 2007-04-09 11:20:47
+  name: Sub1
+  updated_on: 2007-04-09 11:20:47
+  lft: "8"
+  id: "5"
+  extra_info: ""
+  rgt: "11"
+  parent_id: "4"
+  active: "0"
+tags_006: 
+  created_on: 2007-04-09 11:20:55
+  name: Sub2
+  updated_on: 2007-04-09 11:20:55
+  lft: "12"
+  id: "6"
+  extra_info: ""
+  rgt: "13"
+  parent_id: "4"
+  active: "0"
+tags_007: 
+  created_on: 2007-04-09 11:21:03
+  name: SubSub1
+  updated_on: 2007-04-09 11:21:03
+  lft: "9"
+  id: "7"
+  extra_info: ""
+  rgt: "10"
+  parent_id: "5"
+  active: "1"

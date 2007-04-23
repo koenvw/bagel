@@ -1,0 +1,9 @@
+Dear <%= @admin_user.firstname %>,
+
+Somebody, probably you, has requested your e-mail address to be changed to this address (<%= @admin_user.email_address_unconfirmed %>). In order to do so, please click on this link:
+
+  <%= change_email_address_url(:code => @admin_user.email_address_code) %>
+
+If you received this message without asking for your e-mail address to be changed, it means that this user has tried changing his e-mail address to yours, probably accidentally. In this case, please disregard this message.
+
+The Bagel team

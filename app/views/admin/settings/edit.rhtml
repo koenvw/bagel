@@ -1,0 +1,28 @@
+<h1><%= figure_out_action(@setting) %> setting</h1>
+
+<% form_tag :action => 'edit', :id => @setting do %>
+  <%= error_messages_for 'setting' %>
+	<!--[form:setting]-->
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="setting_name">Name</label>
+			<%= text_field 'setting', 'name'  %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="setting_value">Value</label>
+			<%= text_field 'setting', 'value'  %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="setting_value">Type</label>
+			<%= select 'setting', 'value_type', ["string","integer","float","symbol","date"] %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="setting_parent_id">Parent</label>
+			<%= select_nested_set_tag :parent_id, Setting, @setting.parent_id %>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+	<!--[eoform:setting]-->
+	<%= submit_tag 'Save Changes' %>
+<% end %>
+or <%= link_to 'Back', :action => 'list' %>

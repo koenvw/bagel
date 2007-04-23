@@ -1,0 +1,30 @@
+<h2>User: <%=h @admin_user.fullname %> (<%=h @admin_user.username %>)</h2>
+
+<dl>
+	<dt>Username</dt>
+	<dd><%=h @admin_user.username %></dd>
+	
+	<dt>Full name</dt>
+	<dd><%=h @admin_user.fullname %></dd>
+	
+	<dt>E-mail address</dt>
+	<dd><%=h @admin_user.email_address.blank? ? '(none)' : @admin_user.email_address %></dd>
+	
+	<dt>Is Active?</dt>
+	<dd><%= @admin_user.is_active? ? 'Yes' : 'No' %></dd>
+	
+	<dt>Roles</dt>
+	<dd>
+		<ul>
+<% @admin_user.admin_roles.each do |role| %>
+			<li><%= link_to h(role.name), admin_role_url(:id => role) %></li>
+<% end %>
+<% if @admin_user.admin_roles.count == 0 %>
+			<li>(none)</li>
+<% end %>
+		</ul>
+	</dd>
+</dl>
+
+<p><%= link_to_if_authorized 'Edit', admin_user_url(:id => @admin_user, :action => :edit) %></p>
+<p><%= link_to_if_authorized 'Delete', admin_user_url(:id => @admin_user, :action => 'destroy'), :class => "delete", :confirm => "Are you sure you want to delete the user '#{@admin_user.username}'? You cannot undo this action.", :method => :post %></p>

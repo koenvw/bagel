@@ -1,0 +1,31 @@
+<%
+	type = ContentType.find(:first, :conditions => ["id=?",params[:type_id]])
+%>
+<h1>Adding <%= type && type.name || "??" %></h1>
+
+	<div class="stepBar">
+		<ul class="stepList">
+			<li><%= link_to "Images", {:action => "wizard1", :type_id => params[:type_id]}, :class => "done" %></li>
+			<li><%= link_to "Gallery", {:action => "wizard2", :type_id => params[:type_id]}, :class => "done" %></li>
+			<li><%= link_to "Text", {:action => "wizard3", :type_id => params[:type_id]}, :class => "done" %></li>
+			<li><%= link_to "Tags", {:action => "wizard4", :type_id => params[:type_id]}, :class => "active" %></li>
+			<li><a class="normal" href="#">Relations</a></li>
+			<li><a class="end" href="#">Website</a></li>
+		</ul>
+	</div>
+
+<h2>Step 4: Adding tags</h2>
+
+<%= start_form_tag :action => 'wizard4', :id => @news, :type_id => params[:type_id] %>
+
+<%= render :partial => "admin/tags/list", :locals => { :item => Image.create, :startOpen => true } %>
+
+<div class="bottomButton">
+	<ul class="mainNav">
+		<li><a class="next-step-big" href="#" onclick="document.getElementsByTagName('form')[0].submit(); return false;">Next step</a></li>
+		<li><%= link_to 'Prev Step', { :action => 'wizard3', :type_id => params[:type_id] }, :class => "prev-step" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<%= end_form_tag %>

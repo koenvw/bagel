@@ -1,0 +1,17 @@
+--- 
+sitems_001: 
+  created_on: 2007-04-10 17:00:24
+  status: Published
+  content_type: News
+  name: TestNieuws
+  sobject_id: "1"
+  content_id: "1"
+  website_id: "2"
+  updated_on: 2007-04-10 17:00:24
+  publish_till: 
+  id: "1"
+  click_count: "0"
+  publish_date: 2007-04-10 00:00:00
+  publish_from: 2007-04-10 17:00:00
+  link: 
+  parent_id: 

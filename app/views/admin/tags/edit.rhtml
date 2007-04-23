@@ -1,0 +1,32 @@
+<h1>Editing Tag</h1>
+
+<%= start_form_tag :action => 'edit', :id => @tag %>
+  <%= error_messages_for 'tag' %>
+
+  <!--[form:category]-->
+  <fieldset><legend>Tag</legend>
+
+  <label for="category_name">Name</label>
+  <%= text_field 'tag', 'name'  %><br/>
+  
+  <label for="category_extra_info">Extra Info</label>
+  <%= text_field 'tag', 'extra_info'  %><br/>
+  
+  <label for="category_parent_id">Parent</label>
+  <%= select_nested_set_tag :parent_id, Tag, @tag.parent_id %><br/>
+  
+  <label for="category_parent_id">Active</label>
+  <%= check_box 'tag', 'active' %><br/>
+
+  <!--[eoform:category]-->
+  </fieldset>
+  
+    <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+or <%= link_to 'Back', :action => 'list' %>
+<% unless @tag.new_record? %>
+or <%= link_to 'Delete', { :action => 'destroy', :id => @tag} , :confirm => 'Are you sure?', :method => :post %>
+<% end %>
+<% unless @tag.new_record? %>
+or <%= link_to 'Sort Children', :action => 'sort_children', :id => @tag %>
+<% end %>

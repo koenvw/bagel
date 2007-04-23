@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--	
+	 _                      _ 
+	| |                    | |
+	| |__   __ _  __ _  ___| |
+	| '_ \ / _` |/ _` |/ _ \ |
+	| |_) | (_| | (_| |  __/ |
+	|_.__/ \__,_|\__, |\___|_|
+	              __/ |       
+	             |___/
+	             
+	created by dotProjects 
+
+-->
+<title>Bagel Test Layout</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- do some beauty -->
+<%= stylesheet_link_tag "/layout/bluegel/css/style.css" %>
+</head>
+<body>
+<div id="loginBox">
+<% form_tag :action => 'login' do %>
+	<fieldset>
+		
+		<% unless flash[:notice].nil? %><p class="loginerr"><%= flash[:notice] %></p><% end %>
+		<% unless flash[:message].nil? %><p class="loginerr"><%= flash[:message] %></p><% end %>
+		<% unless flash[:warning].nil? %><p class="loginerr"><%= flash[:warning] %></p><% end %>
+		
+		<label for="user_login">Username</label>
+		<%= text_field :admin_user, "username", {:class => "textfield"} %>
+		<br />
+		<label for="user_password">Password</label>
+		<%= password_field :admin_user, "password", :class => "textfield" %>
+		<div class="loginPos">
+			<%= submit_tag 'Login',          :name => 'login',          :class => "button" %>
+			<%= submit_tag 'Reset Password', :name => 'reset_password', :class => "button" %>
+		</div>
+		
+	</fieldset>
+<% end %>
+</div>
+</body>
+</html>

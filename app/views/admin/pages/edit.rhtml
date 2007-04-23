@@ -1,0 +1,44 @@
+<h1>Editing page</h1>
+
+<%= render :partial => 'admin/tags/popup' %>
+<%= render :partial => 'admin/relations/popup', :locals => { :direction => "out" } %> 
+<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in" } %>
+<%= render :partial => 'admin/sitems/popup', :locals => { :obj => @page } %>
+
+
+<%= start_form_tag :action => 'edit', :id => @page %>
+  <div id="tab-control">
+    <div id="tabs" class="tabs">
+		<div id="tab-toolbar">&nbsp;</div>
+	</div>
+	<div id="pages" class="pages">
+	  <div class="page" id="page-1">
+		<%= error_messages_for 'page' %>
+		<!--[form:page]-->
+		<label class="nowidth" for="page_title">Title</label><br/>
+		<%= text_field 'page', 'title', :class => 'text_field_large' %><br/>
+		
+		<label class="nowidth" for="page_body">Body</label><br/>
+		<%= text_area  'page', 'body', :class=> 'text_area_large' %><br/>
+		<!--[eoform:page]-->
+		<%= render :partial => "admin/tags/list", :locals => { :obj => @page } %>
+	  </div>
+	  <div class="page" id="page-2">
+	    <%= render :partial => "admin/relations/list", :locals => { :obj => @page, :direction => "in"  } %>
+		<%= render :partial => "admin/relations/list", :locals => { :obj => @page, :direction => "out"  } %>
+		<%= render :partial => "admin/sitems/list", :locals => { :obj => @page } %>
+	  </div>
+	</div>
+  </div>
+  <script type="text/javascript">
+    // <![CDATA[
+      var tabControl = new TabControl('tab-control');
+      tabControl.addTab('tab-1', 'Meta', 'page-1');
+      tabControl.addTab('tab-2', 'Extra', 'page-2');
+      tabControl.select(tabControl.firstTab());
+    // ]]>
+  </script>
+
+  <%= submit_tag 'Save Changes' %>
+<%= end_form_tag %>
+or <%= link_to 'Back', :action => 'list' %>

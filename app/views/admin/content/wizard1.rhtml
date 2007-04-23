@@ -1,0 +1,40 @@
+<%
+	type = ContentType.find(:first, :conditions => ["id=?",params[:type_id]])
+%>
+	<h1>Adding <%= type && type.name || "??" %></h1>
+	
+	<div class="stepBar">
+		<ul class="stepList">
+			<li><%= link_to "Images", {:action => "wizard1", :type_id => params[:type_id]}, :class => "active" %></li>
+			<li><a class="normal" href="#">Gallery</a></li>
+			<li><a class="normal" href="#">Text</a></li>
+			<li><a class="normal" href="#">Tags</a></li>
+			<li><a class="normal" href="#">Relations</a></li>
+			<li><a class="end" href="#">Website</a></li>
+		</ul>
+	</div>
+	
+	<h2>Step 1: Uploading images</h2>
+	<div class="subContent">
+
+		<div id="filebrowser" style="text-align: center;">
+			You need to install macromedia flash
+		</div>
+		
+		<script type="text/javascript">
+			var uploadbrowser = new SWFObject("/swf/multipleUpload.swf", "mymovie", "750", "210", "7", "#eeeeee");
+			uploadbrowser.addParam("allowScriptAccess", "sameDomain");
+			uploadbrowser.write("filebrowser");
+		</script>
+		
+		<div class="bottom"></div>
+	</div>
+	
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Next Step', { :action => 'wizard2', :type_id => params[:type_id] }, :class => "next-step-big" %></li>
+			<li><%= link_to 'Prev Step', { :action => 'wizard', :type_id => params[:type_id] }, :class => "prev-step" %></li>
+		</ul>
+	</div>
+	
+	<div class="clear"></div>

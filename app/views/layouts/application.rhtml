@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--
+     _                      _
+    | |                    | |
+    | |__   __ _  __ _  ___| |
+    | '_ \ / _` |/ _` |/ _ \ |
+    | |_) | (_| | (_| |  __/ |
+    |_.__/ \__,_|\__, |\___|_|
+                  __/ |
+                 |___/
+
+    created by dotProjects
+
+-->
+<title>Bagel Test Layout</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!-- do some beauty -->
+<%= stylesheet_link_tag "bluegel/style.css", :plugin => "bagel" %>
+<%= stylesheet_link_tag "bluegel/overlay.css", :plugin => "bagel" %>
+
+<!-- bagel specific stylesheets -->
+<%= stylesheet_link_tag 'drag-drop-folder-tree' %>
+<%= stylesheet_link_tag 'calendar-system.css', :plugin => "bagel" %>
+
+<!-- do some magic (aligned to the left to preserve structure) -->
+<%= javascript_include_tiny_mce_if_used %>
+<%= tiny_mce if using_tiny_mce? %>
+
+<!-- load prototype/scriptaculous bundle -->
+<%= javascript_include_tag 'prototype/prototype', :plugin => "bagel" %>
+<%= javascript_include_tag 'prototype/effects', :plugin => "bagel" %>
+<%= javascript_include_tag 'prototype/dragdrop', :plugin => "bagel" %>
+<%= javascript_include_tag 'prototype/controls', :plugin => "bagel" %>
+<%= javascript_include_tag 'bagelCollapse', :plugin => "bagel" %>
+<%= javascript_include_tag 'bagelOverlay', :plugin => "bagel" %>
+<%= javascript_include_tag 'bagelTagdrag', :plugin => "bagel" %>
+<%= javascript_include_tag 'application', :plugin => "bagel" %>
+
+<!-- load other handy scripts -->
+<%= javascript_include_tag 'swfobject', :plugin => "bagel" %>
+<%= javascript_include_tag 'popup', :plugin => "bagel" %>
+<%= javascript_include_tag 'tabcontrol', :plugin => "bagel" %>
+<% # dragdrop folder %>
+<%= javascript_include_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
+<%= javascript_include_tag 'ajax', :plugin => "bagel" %>
+<% # js calendar %>
+<%= javascript_include_tag 'calendar', 'calendar-en', 'calendar-setup', :plugin => "bagel" %>	
+
+<% if @content_for_page_scripts -%>
+<script type="text/javascript">
+// <![CDATA[
+<%= @content_for_page_scripts %>
+// ]]>
+</script>
+<% end -%>
+
+</head>
+<body>
+
+	<div id="mainContainer">
+		<div id="header">
+			<!-- Toolbar (logout, view, help, ...) -->
+			<ul class="toolBar"> 
+				<li><%= link_to 'Help', 'http://wiki.bagel.be' %></li>
+				<li><%= link_to 'Settings', '/admin/me/edit' %></li>
+				<li><%= link_to 'Logout', logout_url %></li>
+			</ul>
+			<!-- Main Menu -->
+			<ul class="mainMenu">
+				<%
+					website_active = ""; webfolder_active = ""; admin_active = "";
+					case controller.class.to_s
+						when "Admin::HomeController"
+							case params[:action]
+								when "index"	: website_active = "active"
+								when "webfolder": webfolder_active = "active"
+								when "admin"	: admin_active = "active"
+							end
+						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController"
+							website_active = "active"
+						when "Admin::ImagesController"
+							case params[:action]
+								when "import" : webfolder_active = "active"
+							else
+								website_active = "active"
+							end
+						when "Admin::SettingsController","Admin::AdminUsersController","Admin::AdminRolesController","Admin::GeneratorsController","Admin::GeneratorFilesController","Admin::FormDefinitionsController","Admin::ContentTypesController","Admin::RelationsController","Admin::WebsitesController","Admin::UrlmappingsController","Admin::ToolsController"
+							admin_active = "active"
+					end
+				%>
+				<li><%= link_to_if_authorized "Website", {:controller => "/admin/home", :action => "index"}, :class => website_active %></li>
+				<li><%= link_to_if_authorized "Webfolder", {:controller => "/admin/home", :action => "webfolder"}, :class => webfolder_active %></li>
+				<li><%= link_to_if_authorized "Admin", {:controller => "/admin/home", :action => "admin"}, :class => admin_active %></li>
+			</ul>
+			<!-- Sub Menu -->
+			<ul class="subMenu">
+			<% if website_active=="active" %>
+				<li><%= link_to_if_authorized 'Content', '/admin/content/list' %></li>
+				<li><%= link_to_if_authorized 'Media gallery', '/admin/images/list' %></li>
+				<li><%= link_to_if_authorized 'Menu', '/admin/menus/list' %></li>
+				<li><%= link_to_if_authorized 'Tags', '/admin/tags/list' %></li>
+			<% end %>
+			<% if webfolder_active=="active" %>
+			<!-- nothing here... (yet) -->
+			<% end %>
+			<% if admin_active=="active" %>
+				<li><%= link_to_if_authorized 'Settings', '/admin/settings' %></li>
+				<li><%= link_to_if_authorized 'Templates', '/admin/generators' %></li>
+				<li><%= link_to_if_authorized 'Files', '/admin/generator_files' %></li>  
+				<li><%= link_to_if_authorized 'Forms', '/admin/form_definitions' %></li>
+				<li><%= link_to_if_authorized 'Types', '/admin/content_types' %></li>
+				<li><%= link_to_if_authorized 'Relations', '/admin/relations' %></li>
+				<li><%= link_to_if_authorized 'Websites', '/admin/websites' %></li>
+				<li><%= link_to_if_authorized 'Aliases', '/admin/urlmappings' %></li>
+				<li><%= link_to_if_authorized 'Tools', '/admin/tools' %></li>
+				<li><%= link_to_if_authorized 'Users', admin_users_url %></li>
+				<li><%= link_to_if_authorized 'Roles', admin_roles_url %></li>
+			<% end %>
+			</ul>
+		</div>
+		<div id="content">
+			<% if !flash.empty? %>
+			<div id="flash-messages">
+				<% unless flash[:help].nil? %><div class="flash-help"><%= flash[:help] %></div><% end %>
+				<% unless flash[:notice].nil? %><div class="flash-notice"><%= flash[:notice] %></div><% end %>
+				<% unless flash[:warning].nil? %><div class="flash-warning"><%= flash[:warning] %></div><% end %>
+				<% unless flash[:confirm].nil? %><div class="flash-confirm"><%= flash[:confirm] %></div><% end %>
+				<% unless flash[:error].nil? %><div class="flash-error"><%= flash[:error] %></div><% end %>
+			</div>
+			<% end %>
+			<!-- content for layout begin -->
+			<%= @content_for_layout %>
+			<!-- content for layout end -->
+		</div>
+	</div>
+	<div id="footer">Bagel is a product by dotProjects - (c) 2007</div>
+
+</body>
+</html>

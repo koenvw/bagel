@@ -1,0 +1,102 @@
+Rails Dynamic Routing 
+=====================
+- create catch all route (exec when none of the routes in routes.rb match)
+- lookup route in db
+- if found -> add_route(path, options = {})
+
+
+EXPERIMENTING IN CONSOLE
+========================
+rs = ActionController::Routing::Routes
+puts rs.routes
+rs.recognize_path "/path"
+rs.generate :controller => "test"
+rs.load!
+
+DOCUMENTATION
+=============
+http://weblog.jamisbuck.org/2006/10/2/under-the-hood-rails-routing-dsl (1)(Mapper)
+http://weblog.jamisbuck.org/2006/10/4/under-the-hood-route-recognition-in-rails (2)(Route recognition)
+http://weblog.jamisbuck.org/2006/10/16/under-the-hood-route-generation-in-rails (3)(Route generation)
+
+http://weblog.jamisbuck.org/2006/10/26/monkey-patching-rails-extending-routes-2
+http://weblog.jamisbuck.org/2006/10/20/monkey-patching-rails-extending-routes-1
+
+http://dev.rubyonrails.org/browser/trunk/actionpack/lib/action_controller/routing.rb?rev=5169
+
+
+ROUTES.RB
+=========	
+ActionController::Routing::Routes.draw do |map|
+  # ...
+  map.connect ":controller/:action/:id"
+end
+RouteSet
+def draw
+  clear!
+  yield Mapper.new(self)
+  named_routes.install
+end
+RouteSet::Mapper
+def connect(path, options = {})
+  @set.add_route(path, options)
+end
+RouteSet
+def add_route(path, options = {})
+  route = builder.build(path, options)
+  routes << route
+  route
+end
+
+RECOGNITION
+===========
+RouteSet
+def recognize(request)
+  params = recognize_path(request.path, extract_request_environment(request))
+  request.path_parameters = params.with_indifferent_access
+  "#{params[:controller].camelize}Controller".constantize
+end
+def recognize_path(path, environment={})
+  path = CGI.unescape(path)
+  routes.each do |route|
+    result = route.recognize(path, environment) and return result
+  end
+  raise RoutingError, "no route found to match #{path.inspect} with #{environment.inspect}"
+end
+
+Route
+def recognize(path, environment={})
+  write_recognition ->It rewrites itself on demand
+  recognize path, environment 
+end
+def write_recognition
+  body = "params = parameter_shell.dup\n#{recognition_extraction * "\n"}\nparams"
+  body = "if #{recognition_conditions.join(" && ")}\n#{body}\nend"
+
+  method_decl = "def recognize(path, env={})\n#{body}\nend"
+
+  instance_eval method_decl, "generated code (#{__FILE__}:#{__LINE__})"
+  method_decl
+end
+
+
+ISSUES
+======
+ISSUE1: 
+ANY    /:controller/:action/:id/                {}
+ANY    /hehe/                                   {:controller=>"site", :action=>"hello"}
+
+==> dynamic routes are added _after_ the default route
+
+Solutions:
+1/ add default route dynamicly ?
+2/ move the default route to the last position after adding a dynamic route => chose this
+
+ISSUE2:
+The order of adding dynamic routes is "first loaded wins" => can be problematic when order is important!
+
+Solution:
+
+
+
+

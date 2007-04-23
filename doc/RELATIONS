@@ -1,0 +1,44 @@
+- Every Content Type has a "Sobject" (SiteObject), this is the unique identifier for the Content Type:
+
+>> newsitem = News.find(:first)
+=> #<News:0xb749db84>
+>> newsitem.sobject
+=> #<Sobject:0xb72fcdac>
+
+- A Sobject can hold relations to other Sobjects. 
+
+- These relations are "named", that is, you can qualify them with a category (= a label, tag)
+
+- The relation database table looks like this: "id | from_sobject_id | to_sobject_id | category_id"
+
+Operations
+===========
+
+General
+-------
+- objects used below:
+>> category = Category.find_by_name("picture")
+>> image = Image.find(:first)
+
+Adding
+------
+We add a relation "picture" from a newsitem to an image :
+>> newsitem.sobject.build_to_relations_as_from :to => image.sobject, :category => category
+
+Or adding a relation "picture" from an image to a news item
+>> image.sobject.build_to_relations_as_to :from => newsitem.sobject, :category => category
+
+Removing
+--------
+Remove all relations for a content type
+>> newsitem.sobject.relations_as_from.clear
+
+Remove 1 relation for a content type
+>> newsitem.sobject.relations_as_from.find_by_to_sobject_id_and_category_id(image.sobject.id,category.id).first.destroy
+
+Remove all relations of type "picture"
+>>newsitem.sobject.relations_as_from.find_by_category_id(category.id).each { |rel| rel.destroy }
+
+
+
+

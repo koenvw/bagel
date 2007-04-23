@@ -1,0 +1,17 @@
+<h2>Me - Confirm e-mail address change</h2>
+
+<% if flash[:notice] %>
+<p style="color: red"><%= flash[:notice] %></p>
+<% end %>
+
+<p>To confirm your e-mail address change, put the code in the e-mail you received in the field below (if it isn't already), and submit.</p>
+
+<% form_tag do %>
+
+<%= hidden_field_tag :code, params[:code] %>
+
+<p><%= text_field_tag :code, params[:code] %></p>
+
+<%= submit_tag 'Change e-mail address' %>
+
+<% end %>

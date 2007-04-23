@@ -1,0 +1,66 @@
+	<div class="topButton">
+		<h1>Add Content</h1>
+		<ul class="mainNav">
+			<li><%= link_to 'List', { :controller => "content", :action => 'list' }, :class => "list", :title => "List content of your website"  %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+	<div id="contentFrame">
+	
+	<div class="subContent">
+		<fieldset class="oneline">
+			<input style="width: 670px; float: left;" id="filterContent" type="text" class="large_text_input" />
+			<a style="float: right;" id="filterContentBtn" class="filter" href="#" onclick="return false;">filter</a>
+			<div class="clear"></div>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+	
+		<!-- Begin left/right container -->
+		<div id="leftRightContent">
+			<div class="subContentLeft">
+				<h2>Wizards</h2>
+				<% @wizard_content_types.each do |ctype| %>
+					<div class="loopme">
+						<h3><%= link_to ctype.name, { :action => 'wizard1', :type_id => ctype.id } %></h3>
+						<p>
+						<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
+							<%= link_to "#{ctype.name}", { :action => 'wizard1', :type_id => ctype.id }, :class => "addGr" %>
+						</p>
+					</div>
+				<% end %>	
+				<div class="clear"></div>
+				<div class="bottom"></div>
+			</div>
+			
+			<div class="subContentRight">
+				<h2>Content</h2>
+				<% @content_types.each do |ctype| %>
+					<% 
+						action = "edit"
+						param_id = nil
+						type = ctype.core_content_type
+						ctrl = type.tableize.downcase 
+						if type == "form"
+							action = "show"
+							#FIXME:
+							#param_id = ctype.extra_info.split(";")[1]
+						end
+						link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id }
+					%>
+					<div class="container loopme">
+						<h3><%= link_to ctype.name, link_hash %></h3>
+						<p>
+							<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
+							<%= link_to "#{ctype.name}", link_hash , :class => "addGr" %>
+						</p>
+					</div>
+				<% end %>	
+				<div class="clear"></div>
+				<div class="bottom"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+		<!-- End left/right container -->
+	</div>

@@ -1,0 +1,32 @@
+<h2>Role: <%=h @role.name %></h2>
+
+<dl>
+	<dt>Name</dt>
+	<dd><%=h @role.name %></dd>
+	
+	<dt>Permissions</dt>
+	<dd>
+		<ul>
+<% @role.admin_permissions.each do |permission| %>
+			<li><%= permission.name %></li>
+<% end %>
+<% if @role.admin_permissions.count == 0 %>
+			<li>(none)</li>
+<% end %>
+		</ul>
+	</dd>
+	
+	<dt>Users</dt>
+	<dd>
+		<ul>
+<% @role.admin_users.each do |user| %>
+			<li><%= link_to "#{h(user.fullname)} (#{h(user.username)})", admin_user_url(:id => user) %></li>
+<% end %>
+<% if @role.admin_users.count == 0 %>
+			<li>(none)</li>
+<% end %>
+		</ul>
+	</dd>
+</dl>
+
+<p><%= link_to 'Edit', admin_role_url(:id => @role, :action => :edit) %> - <%= link_to 'Delete', admin_role_url(:id => @role, :action => 'destroy'), :class => "delete", :confirm => "Are you sure you want to delete the role '#{@role.name}'? You cannot undo this action.", :method => :post %></p>

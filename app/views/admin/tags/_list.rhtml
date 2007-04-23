@@ -1,0 +1,65 @@
+<%
+# Parameters:
+# - item : the content object
+# - start_open   : default relationpopup open
+#
+
+
+posted_tags = []
+parent_tags = []
+if request.post?
+  if !params["tags"].nil_or_empty?
+	tags = params["tags"]
+	tags.split(",").each do |element|
+	  tag = Tag.find(element)
+	  posted_tags << tag
+	  parent_tags << tag.parent
+	  parent_tags << tag.parent.parent if tag.parent && tag.parent.has_parent?
+	end
+  end
+end
+item.tags.each do |tag|
+	parent_tags << tag.parent
+	parent_tags << tag.parent.parent if tag.parent && tag.parent.has_parent?
+end
+%>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<h3 class="forClose">Tags</h3>
+	
+	<!-- Add tag -->
+	<a class="addGrLight addTag" href="#">Add</a>
+	<div class="addTagField" style="display: none;">
+		<div class="smallPopup">
+			<a href="#" class="close">close</a>
+			<div class="newTagFrame">
+				<h3>Create new tag</h3>
+				<label for="tagname">Name</label>
+				<%= text_field_tag "new_tag", "", :id =>"tag_new_tag", :class => "text" %>
+				<label for="subtag">for</label>
+				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
+				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %> 
+			</div>
+		</div>
+	</div>
+	<!-- end Add tag -->
+	
+	<%= hidden_field_tag :websiteDisplayState, params[:websiteDisplayState] %>
+	<div id="dragdropContainer" class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
+		<%= hidden_field_tag :tags %>
+		<!-- Drop tags here -->
+		<div id="tagList" class="taglistLeft">
+			<% (Tag.roots - item.tags - posted_tags - parent_tags).each do |tag| %>
+				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
+			<% end %>
+		</div>
+		<!-- Drop tags here -->
+		<div id="droplist" class="taglistRight">
+			<% (posted_tags.size > 0 ? posted_tags : item.tags).each do |tag| %>
+				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
+			<% end %>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="bottom"></div>
+</div>

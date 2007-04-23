@@ -1,0 +1,72 @@
+<%
+# Parameters
+# - to_sobject_id : the target for the relation 
+# - category_id   : the category for the relation
+# - uniq_id       : the identifier that will make this relations list unique (in case of multiple instances per page) 
+# - editor_id     : the DOM id of the tinymce instance (for inserting images)
+# - direction     : "in" or "out"
+%>
+
+<% uniq2_id ||= generate_id  %>
+<% relation_category = Relation.find(category_id) %>
+<% @rels_html ||= "" %>
+<% ajax ||= false %>
+<% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{category_id}" %>
+
+<li id="<%= li_id %>" class="draggable">
+    <span class="dragme"><%= image_tag "/layout/bluegel/images/icons/icon_draghandle.png" %></span> 
+<% @sobject = Sobject.find_by_id(to_sobject_id) -%>
+<% unless @sobject.content_type == "News" && @sobject.content.title == "" %> 
+
+
+<% if direction == "in" %>
+  <% relation_name = "#{relation_category.name}: " %>
+<% elsif direction == "out" %>
+  <% relation_category.name_reverse.nil_or_empty? ? relation_name = "" : relation_name = "#{relation_category.name_reverse}: " %>
+<% end %>
+
+<% case @sobject.content_type
+   when 'Image'
+    @image=@sobject.content -%>
+	
+	<div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
+		<div><%= relation_name + @image.image_file %></div>
+	</div>
+    
+<span class="icon">
+<%= link_to "Edit" ,"/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
+<% when 'News','Page','Book','Gallery'
+    @item=@sobject.content -%>
+
+  <%= relation_name + @item.title %>
+  <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
+
+<% when 'Form','Generator' -%>
+<% @item=@sobject.content -%>
+  <%= relation_name + @item.title %>
+  <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
+
+<% else
+
+  @item=@sobject.content -%>
+  <%= relation_name + @item.title %>
+  <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.tableize.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
+
+
+<% end %>
+<% end %>
+
+<% if direction == "in" %>
+  <%= link_to_function("delete", :title => 'delete', :class => "delete") do |page|
+      page << "if (confirm('Are you sure ?')) {"
+      page.remove "#{li_id}"
+      page << "$('relations').value = Sortable.sequence('relations_sorted_#{direction}list')"
+      page << "}"
+    end
+  %>
+<% end %>
+
+</span>
+
+</li>
+

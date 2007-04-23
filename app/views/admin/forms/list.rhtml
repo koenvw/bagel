@@ -1,0 +1,41 @@
+<div class="topButton">
+	<h1>Listing Forms</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add new form', { :action => 'show', :id => params[:id] }, :class => "new", :title => "Add new form" %></li>
+		<li><%= link_to 'Export forms', { :action => 'export_csv', :id => params[:id] }, :class => "export", :title => "Export forms" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<div id="breadcrumb"><%= link_to "Forms".t, :controller => 'form_definitions' %> > <%= @formdef.name %> </div>
+<br/>
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Name</td>
+			<td class="colDesc">Date</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% for form in @forms %>
+		<tr class="content">
+			<td><%= link_to form.name, :action => 'edit', :id => form %></td>
+			<td><%= form.created_on.format_out %></td>
+			<td class="iconbox" style="width: 150px;">
+				<span class="icon">
+					<%= link_to "delete", { :action => 'destroy', :id => form }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :action => 'edit', :id => form }, :class => "edit", :title => "Edit entry"  %>
+					<%= link_to "clone", { :action => 'clone_form', :id => form }, :class => "edit", :title => "Clone entry"  %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% if @forms.empty? %>
+		<tr>
+			<td colspan="3"><%= "Create new forms".t %></td>
+		</tr>
+		<% end %>
+	</table>
+</div>
+
+<%= link_to 'Previous page'.t, { :page => @form_pages.current.previous } if @form_pages.current.previous %>
+<%= link_to 'Next page'.t, { :page => @form_pages.current.next } if @form_pages.current.next %> 

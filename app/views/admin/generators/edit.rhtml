@@ -1,0 +1,41 @@
+<h1>Editing generator</h1>
+
+<% form_tag({:action => "edit", :id => @generator, :website_id => params[:website_id] }, :id => "generator-form" ) do %>
+
+	<%= error_messages_for 'generator' %>
+	<%= hidden_field 'generator', 'template' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="generator_name">Name</label>
+			<%= text_field 'generator', 'name' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<div class="mceFrame">
+			<%= text_area_tag 'codepress1', @generator.template, :class => 'codepress html', :style => "width:773px;height:500px;" %><br/>
+		</div>
+		<fieldset class="oneline">
+			<label for="generator_description">Description</label>
+			<%= text_field 'generator', 'description', :class => 'text_area_large' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_website_id">Website</label>
+			<%= select 'generator', 'website_id', Website.find(:all,:order => "name").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_name">ContentType</label>
+			<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %><br/>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$('generator_template').value = codepress1.getCode(); this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+<% end %>
+
+<% # do not use rails javascript helper the ?timestamp will fck things up %>
+<script src="/plugin_assets/bagel/javascripts/codepress/codepress.js" type="text/javascript"></script>
+

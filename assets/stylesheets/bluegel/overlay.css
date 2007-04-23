@@ -1,0 +1,148 @@
+/* ***************************************************
+ * overlay Bagel style
+ * dotProjects 2007
+ * ***************************************************/
+
+/* OVERLAY LAYOUT (mixed)
+ * ***************************************************/
+
+ 	.overlay { background-color: #000; }
+ 	.overlay-cont { padding: 10px; }
+		
+	/* some styling for small popup box */
+	
+	div.bigPopup
+	{
+		width: 450px;
+		height: 281px;
+		background: url('../images/overlay_big.png') no-repeat top left;
+		position: relative;
+		margin: 0 auto 0 auto;
+	}
+	div.smallPopup
+	{
+		width: 310px;
+		height: 125px;
+		background: url('../images/overlay_med.png') no-repeat top left;
+		margin: 0 auto 0 auto;
+		position: relative;
+	}
+	div.bigPopup a.close,
+	div.smallPopup a.close
+	{
+		width: 24px;
+		height: 24px;
+		line-height: 5000px;
+		overflow: hidden;
+		display: block;
+		position: absolute;
+		top: 4px;
+		right: 11px;
+		background: #000 url('../images/icons/icon_close.png') no-repeat top left;
+	}
+	div.bigPopup .spinner,
+	div.smallPopup .spinner
+	{
+		position: absolute;
+		background: url('../images/loader.gif') no-repeat top left;
+		width: 220px;
+		height: 19px;
+		left: 50%;
+		top: 50%;
+		margin: 5px 0 0 -110px;
+	}
+	div.bigPopup .headerinf,
+	div.smallPopup .headerinf
+	{
+		position: absolute;
+		top: 10px;
+		right: 50px;
+		color: #666;
+	}
+	
+	/* Specific task styles */
+	
+		div.smallPopup .newTagFrame,
+		div.smallPopup .subTag
+		{
+			width: 285px;
+			margin: 0 auto 0 auto;
+			padding: 11px 0 0 0;
+		}
+		div.smallPopup .subTag h3 { padding: 0; margin: 0 0 28px 0; }
+		div.smallPopup .subTag select { width: 285px; }
+		div.smallPopup .subTag .buttons { margin-top: 10px; }
+		
+		div.smallPopup .newTagFrame h3 { padding 0; margin: 0 0 4px 0; }
+		div.smallPopup .newTagFrame label { display: block; }
+		div.smallPopup .newTagFrame input.text { width: 280px; }
+		div.smallPopup .newTagFrame select { width: 190px; }
+		div.smallPopup .newTagFrame input.button { width: 88px; }
+		
+		div.bigPopup .relation
+		{
+			width: 420px;
+			margin: 0 auto 0 auto;
+			padding: 11px 0 0 0;
+		}
+		div.bigPopup .relation h3 { padding: 0; margin: 0 0 18px 0; }
+		div.bigPopup .relation label { float: left; padding-top: 3px; margin-right: 65px; }
+		div.bigPopup .relation fieldset { background-color: #DADADA; margin-bottom: 8px; padding: 5px; }
+		div.bigPopup .relation fieldset.search
+		{ 
+			border-bottom: 1px solid #DADADA;
+			background-color: #EAEAEA;
+		}
+		div.bigPopup .relation fieldset.search input { float: right; width: 266px; }
+		div.bigPopup .relation fieldset select { float: right; width: 270px; }
+		div.bigPopup .relation .relContent
+		{ 
+			overlow: auto;
+			overflow-x: hidden;
+			width: 420px;
+			margin: 3px auto 0 auto;
+			height: 144px;
+		}
+		div.bigPopup .relation .spinner
+		{
+			background-color: #fff;
+			background-position: center 35px;
+			width: 420px;
+			height: 150px;
+			left: 15px;
+			top: 116px;
+			margin: 0;
+		}
+		div.bigPopup .relation .relContent table
+		{
+			width: 419px;
+			border-top: 1px solid #DADADA;
+			border-left: 1px solid #DADADA;
+			border-right: 1px solid #DADADA;
+			border-collapse: collapse;
+			margin-left: 1px;
+			margin-top: 2px;
+		}
+		div.bigPopup .relation .relContent table td { padding: 2px; }
+		div.bigPopup .relation .relContent table tr.header td,
+		div.bigPopup .relation .relContent table td
+		{ 
+			font-weight: bold;
+			border-bottom: 1px solid #DADADA;
+			background-color: #EAEAEA;
+		}
+		div.bigPopup .relation .relContent table td.firstRow { width: 220px; }
+		div.bigPopup .relation .relContent table td { background: #fff; font-weight: normal; padding: 2px; }
+		div.bigPopup .relation .relContent table td.imgContainer { color: #666; padding: 12px; text-align: center; }
+		div.bigPopup .relation .relContent table td.imgContainer img { border: 1px solid #6D6D6D; }
+		div.bigPopup .relation .relContent table.imgTable { margin-top: 18px; }
+		
+		div.imageBlock {
+			background-color: #fff;
+			padding: 12px;
+			text-align: center;
+		}
+		div.imageBlock a 
+		{
+			display: block;
+		}

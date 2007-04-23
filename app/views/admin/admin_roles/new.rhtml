@@ -1,0 +1,23 @@
+<h2>New role</h2>
+
+<%= error_messages_for :role %>
+
+<% form_for(:role, @role, :url => { :action => :create } ) do |f| %>
+
+<dl>
+	<dt>Name</dt>
+	<dd><%= f.text_field :name %></dd>
+	
+	<dt>Permissions</dt>
+	<dd>
+		<ul>
+<% AdminPermission.find(:all).each do |permission| %>
+			<li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
+<% end %>
+		</ul>
+	</dd>
+</dl>
+
+<%= submit_tag 'Create role' %>
+
+<% end %>

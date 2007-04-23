@@ -1,0 +1,53 @@
+<div class="topButton">
+	<h1>Listing Files</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add new generator file', { :action => 'edit' }, :class => "new", :title => "Add new generator file" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Name</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% for generator_file in @generator_files %>
+		<tr class="content">
+			<td><%= link_to generator_file.name, :action => 'edit', :id => generator_file %></td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to "delete", { :action => 'destroy', :id => generator_file }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :action => 'edit', :id => generator_file }, :class => "edit", :title => "Edit entry"  %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% if @generator_files.empty? %>
+		<tr>
+			<td colspan="3"><%= "Create new files".t %></td>
+		</tr>
+		<% end %>
+	</table>
+</div>
+
+<!--
+
+<%= link_to 'Previous page', { :page => @generator_files_pages.current.previous } if @generator_files_pages.current.previous %>
+<%= link_to 'Next page', { :page => @generator_files_pages.current.next } if @generator_files_pages.current.next %> 
+
+-->
+<% if @generator_files_pages.current.next || @generator_files_pages.current.previous %>
+	<div class="bottomButton">
+		<ul class="mainNav">
+		<% if @generator_files_pages.current.next %>
+			<li><%= link_to 'Next page', { :page => @generator_files_pages.current.next }, :class => "next" %></li>
+		<% end %>
+		<% if @generator_files_pages.current.previous %> 
+			<li><%= link_to 'Prev page', { :page => @generator_files_pages.current.previous }, :class => "prev" %></li>
+		<% end %>
+		</ul>
+	</div>
+<% end %>
+
+<div class="clear"></div>

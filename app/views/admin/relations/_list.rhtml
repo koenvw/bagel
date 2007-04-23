@@ -1,0 +1,20 @@
+<%
+# Parameters:
+# - item		 : the content object
+# - start_open   : default relationpopup open
+%>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in" } %>
+	<%= hidden_field_tag :relationDisplayState, params[:relationDisplayState] %>
+	<div class="relationContent collapsed" style="display: <%= (startOpen ||= false) || params[:relationDisplayState] == "1" ? "block" : "none" %>;">
+		<div>
+			<%= render :partial => "admin/relations/list_direction", :locals => { :item => item, :direction => "in" } %>
+			<div style="text-align: right"><a onclick="$('relationsOut').toggle(); return false;" href="#"><em>This article has relation with</em></a></div>
+			<div id="relationsOut" style="display: none;">
+				<%= render :partial => "admin/relations/list_direction", :locals => { :item => item, :direction => "out" } %>
+			</div>
+		</div>
+	</div>
+	<div class="bottom"></div>
+</div>

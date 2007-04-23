@@ -1,0 +1,51 @@
+<%
+# Parameters:
+# - sitem  : the sitem object
+# - item   : the content object
+%>
+<% uniq_id ||= generate_id %>
+<% sitem_id = sitem.id || uniq_id %>
+<%
+unless sitem.website.nil?
+  website_name = sitem.website.name
+else
+  website_name = "no website!"
+end
+%>
+<!--[form:sitem]-->
+<tr class="content">
+	<td style="width: 20px;">
+		<% if sitem.status == "1" %>
+			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1, :checked => (sitem.status == "1" ? "checked" : "checked" ) } %>
+		<% else %>
+			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1 } %>
+		<% end %>
+	</td>
+	<td class="descr">
+		<% if  item.class.to_s == "News" %>
+			<% if item.new_record? %>
+				<%= link_to website_name, :controller => '/site', :action => 'content', :id => sitem.content_id, :type => "news", :site => website_name  %>
+			<% else %>
+				<%= website_name %>
+			<% end %>
+		<% else %>
+			<%= website_name %>
+		<% end %>
+	</td>
+	<% case item.class.to_s
+		when "Menu" then %>
+			<td style="text-align: right;">
+				Link <%= text_field_tag "sitems[#{sitem_id}][link]", sitem.link, :class => "bigText" %>
+			</td>
+		<% else %>
+			<td style="text-align: right; width: 260px;">
+				Publish From: <%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+			</td>
+			<td style="text-align: right; width: 260px;">
+				Publish Till: <%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+			</td>
+	<% end%>
+</tr>
+<%= tag "input", {:type => "hidden", :name => "sitems[#{sitem_id}][website_id]", :value => sitem.website_id } %>
+<!--[eoform:sitem]-->
+

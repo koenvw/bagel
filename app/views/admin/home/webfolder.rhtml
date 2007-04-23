@@ -1,0 +1,62 @@
+<h1>Your files</h1>
+
+<% form_tag :controller => "webfolder", :action => 'import_do', :tag_id => params[:tag_id] do %>
+
+<table class="uniTable">
+	<tr class="heading">
+		<td style="width: 20px;"><input id="chkAll" type="checkbox" name="chkAll" onclick="javascript:SelectAllCheckboxes(this);" /></td>
+		<td class="headDesc">Filename</td>
+		<td class="headDesc" style="text-align: center; width: 50px;">Type</td>
+		<td class="headDesc" style="width: 100px;">Date</td>
+		<td class="headDesc" style="width: 100px;">&nbsp;</td>
+	</tr>
+<% @dir_entries.each do |entry| %>
+	<% uniq_id = generate_id %>
+	<tr class="content">
+	<td>
+	<% if File.directory?(entry) %>
+		<% count_files=Dir.entries(entry).length-2 %>
+		<%= tag("input", { "type" => "checkbox", "id" => "folders_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
+	<% else %>
+		<%= tag("input", { "type" => "checkbox", "id" => "files_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
+	<% end %>
+	</td>
+	<td>
+	<% if File.directory?(entry) %>
+		<%= File.basename(entry) + "(" + count_files.to_s + ")" %>
+	<% else %>
+		<%= File.basename(entry) %>
+	<% end %>
+	</td>
+	<td style="text-align: center;">
+	<% if File.directory?(entry) %>
+		<%= image_tag "folder" %>
+	<% else %>
+		<%= image_tag "image" %>
+	<% end %>
+	</td>
+	</td>
+		<td><%= File.atime(entry).format_out %></td>
+		<td class="iconbox">
+			<span class="icon">
+				<%= link_to "delete", "#", :class => "delete", :confirm => 'Are you sure?' %>
+				<%= link_to "edit", "#", :class =>"edit", :title => "Edit" %>
+			</span>
+		</td>
+	</tr>
+<% end %>
+</table>
+<% if @dir_entries.size == 0 %>
+  No files uploaded
+<% end %>
+
+<%= render :partial => "admin/tags/list", :locals => { :item => Image.create, :startOpen => true } %>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "import-big", :onclick => "document.getElementsByTagName('form')[0].submit(); return false;" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end %>

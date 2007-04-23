@@ -1,0 +1,5 @@
+<h2>Me</h2>
+
+<p>You are logged in as <em><%=h AdminUser.current_user.username %></em>.</p>
+
+<p><%= link_to 'Change settings', admin_me_url(:action => :edit) %></p>

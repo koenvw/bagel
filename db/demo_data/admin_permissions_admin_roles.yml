@@ -1,0 +1,19 @@
+--- 
+admin_permissions_admin_roles_003: 
+  admin_permission_id: "60"
+  admin_role_id: "2"
+admin_permissions_admin_roles_004: 
+  admin_permission_id: "39"
+  admin_role_id: "2"
+admin_permissions_admin_roles_005: 
+  admin_permission_id: "48"
+  admin_role_id: "2"
+admin_permissions_admin_roles_006: 
+  admin_permission_id: "66"
+  admin_role_id: "2"
+admin_permissions_admin_roles_001: 
+  admin_permission_id: "49"
+  admin_role_id: "2"
+admin_permissions_admin_roles_002: 
+  admin_permission_id: "54"
+  admin_role_id: "2"

@@ -1,0 +1,26 @@
+<h1><%= figure_out_action(@generator_file) %> file</h1>
+
+<% form_tag({:action => "edit", :id => @generator_file }, :id => "generator_file-form" ) do %>
+	<%= error_messages_for 'generator_file' %>
+	<!--[form:generator_file]-->
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="generator_file_name">Name</label>
+			<%= text_field 'generator_file', 'name', :class => 'large_text_input', :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_file_path">Filepath</label>
+			<%= text_field 'generator_file', 'file_path', :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_file_path">Template</label>
+			<%= select 'generator_file', 'generator_id', Generator.find(:all,:order=>"name ASC").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+    <%= submit_tag 'Save & Publish' %>
+	<!--[eoform:generator_file]-->
+<% end %>
+or <%= link_to 'Back', :action => 'list' %>
+
+

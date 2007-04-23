@@ -1,0 +1,43 @@
+<h1><%= figure_out_action(@site_user) %> <%= figure_out_content_type_name(@site_user) %></h1>
+
+<% form_tag :action => 'edit', :id => @site_user do %>
+
+	<%= hidden_field_tag "site_user[type_id]", @site_user.type_id || params[:type_id] %>
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'site_user' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="site_user_email">Email</label>
+			<%= text_field 'site_user', 'email' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		
+		<fieldset class="oneline">
+			<label for="site_user_title">Name</label>
+			<%= text_field 'site_user', 'name' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label class="nowidth" for="site_user_title">login</label>
+			<%= text_field 'site_user', 'login' %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="site_user_title">password</label>
+			<%= text_field 'site_user', 'password' %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="site_user_title">Active</label>
+			<%= check_box 'site_user', 'active' %>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+	<%= render :partial => "admin/sitems/list", :locals => { :item => @site_user } %>
+	<%= render :partial => "admin/tags/list", :locals => { :item => @site_user } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @site_user } %>
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end %>

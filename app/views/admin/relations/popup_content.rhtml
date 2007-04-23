@@ -1,0 +1,29 @@
+<%
+if params['rel_id'].to_i > 0
+	r_type = Relation.find(params['rel_id'].to_i).content_type.core_content_type.downcase
+	
+	if r_type.match(";")
+		r_type, r_sub_type = r_type.split(';') 
+	else
+		r_sub_type = nil
+	end
+%>
+	<fieldset class="search">
+		<label for="relations">Search:</label>
+		<input id="sub_search<%=params[:sub_id]%>" name="sub_search<%=params[:sub_id]%>" type="text" value="">
+	</fieldset>
+	<div class="spinner" id="spinner_relations_search" style="display: none;"></div>
+	<%= observe_field "sub_search#{params[:sub_id]}",  :frequency => 0.5, 
+		:update => "relations#{params[:sub_id]}_sub_content",
+        :url => {:controller => "relations", :action => "sub_content_#{r_type}", :id => params['rel_id'], :sub_id => params[:sub_id], :r_sub_type => r_sub_type, :rel_id => params[:rel_id], :direction => params[:direction]},
+		:loading => "Element.show('spinner_relations_search')",
+		:complete => "Element.hide('spinner_relations_search')",
+		:with => "'search=' + escape(value)"
+	%>
+	<div class="relContent" id="relations<%=params[:sub_id]%>_sub_content">
+    	<!--<%= r_type.t %>-->
+		<%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{:id=>params['rel_id'], :r_sub_type=>r_sub_type} %>
+	</div>
+<% else %>
+    select a category!
+<% end %>

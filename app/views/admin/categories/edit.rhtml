@@ -1,0 +1,32 @@
+<h1>Editing category</h1>
+
+<%= start_form_tag :action => 'edit', :id => @category %>
+  <%= error_messages_for 'category' %>
+
+  <!--[form:category]-->
+  <fieldset><legend>Category</legend>
+
+  <label for="category_name">Name</label>
+  <%= text_field 'category', 'name'  %><br/>
+  
+  <label for="category_protected">Protected</label>
+  <%= check_box 'category', 'protected' %><br/>
+  
+  <label for="category_extra_info">Extra Info</label>
+  <%= text_field 'category', 'extra_info'  %><br/>
+  
+  <label for="category_parent_id">Parent</label>
+  <%= select_nested_set_tag :parent_id, Tag, @category.parent_id %><br/>
+  
+  <!--[eoform:category]-->
+  </fieldset>
+  
+    <%= submit_tag 'Edit' %>
+<%= end_form_tag %>
+or <%= link_to 'Back', :controller => 'categories', :action => 'list' %>
+<% unless @category.new_record? %>
+or <%= link_to 'Delete', {:controller => 'categories', :action => 'destroy', :id => @category} , :confirm => 'Are you sure?', :method => :post %>
+<% end %>
+<% unless @category.new_record? %>
+or <%= link_to 'Sort Children', :controller => 'categories', :action => 'sort_children', :id => @category %>
+<% end %>

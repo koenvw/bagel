@@ -1,0 +1,33 @@
+<h1>Listing Settings</h1>
+
+<div class="button"><%= link_to "add setting", :action => 'edit' %></div>
+
+<%= Setting.get("watermark_image") %>
+
+<% if @settings.size > 0 %>
+
+<table>
+	<tr style="background: #ddd">
+		<th>Key</th>
+		<th>Value</th>
+		<th colspan="4">Actions</th>
+	</tr>
+<% for setting in @settings %>
+	<tr id="item_<%= setting.id %>">
+		<td><%= indent(setting, image_tag('pagetab.gif', :width => 27, :height => 10)) %><%= link_to setting.name, {:action => 'edit', :id => setting}, :id=> "cat_#{setting.id}" %></td>
+		<td><%= truncate setting.value %></td>
+		<td><%= link_to image_tag('newspaper_delete.png', :border=>0), { :action => 'destroy', :id => setting }, :confirm => 'Are you sure?', :method => :post %></td>
+	</tr>
+<% end %>
+</table>
+<%= sortable_element("sortlist", :url => { :action => "sort" }) %>
+
+<% else %>
+  <div class="item">
+	<span class="itemtitle">Create new settings</span>
+	<span class="itemproperty"></span>
+	<span class="itemproperty"></span>
+  </div>
+<% end %>
+
+<div class="button"><%= link_to "add setting", :action => 'edit' %></div>

@@ -1,0 +1,39 @@
+<div class="topButton">
+	<h1>Map URLs to content</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add Alias', '/admin/urlmappings/edit', :class => "new", :title => "Add new Alias" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Path</td>
+			<td class="tabDesc">Position</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% for @item in @urlmappings %>
+		<tr class="content">
+			<td><%= link_to @item.path, :controller => "urlmappings", :action => "edit", :id => @item.id %> </td>
+			<td><%= @item.position %> </td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to "delete", { :controller => "urlmappings", :action => 'destroy', :id => @item.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :controller => "urlmappings", :action => 'edit', :id => @item.id }, :class => "edit", :title => "Edit Entry" %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% if @urlmappings.size == 0 %>
+		<tr>
+			<td colspan="5">No items yet</td>
+		</tr>
+		<% end %>
+	</table>
+</div>
+<% if @urlmappings.size > 0 %>
+	<div class="paging"><%= bagel_pagination_links @urlmappings_pages %></div>
+<% end %>
+
+

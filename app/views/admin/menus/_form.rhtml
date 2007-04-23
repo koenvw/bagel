@@ -1,0 +1,21 @@
+<% form_tag :action => 'edit', :id => @menu do %>
+	<%= error_messages_for 'menu' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			Name <%= text_field 'menu', 'name'  %>
+			&nbsp; Parent <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+	
+	<%= render :partial => "admin/sitems/list", :locals => { :item => @menu, :startOpen => true } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @menu } %>
+	
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+		
+<% end %>

@@ -1,0 +1,68 @@
+<%
+    params[:sub_id]=params[:sub_id].to_s
+    
+    if params["search"].nil?
+        searchphrase = ""
+    else
+        searchphrase=params["search"]
+    end
+    @pages_pages, @pages = controller.paginate :page,:per_page=>10,:conditions => ["title LIKE ?", "%" + searchphrase + "%"],:order_by => "updated_on DESC"
+%>
+
+<div class="headerinf">results: <%= @pages_pages.item_count %> - page <%= @pages_pages.current.number %>/<%= @pages_pages.length %></div>
+
+<table>
+<tr class="header">
+	<td>title</td>
+	<td>created</td>
+	<td>updated</td>
+</tr>
+<%
+	for @page in @pages
+	id=params['id'] if id.nil?
+%>
+<tr>
+<td class="firstRow">
+   <%= link_to_remote @page.title,
+		:url => "/admin/relations/add/#{@page.sobject.id}?cat_id=#{id}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
+		:loading => "Element.show('spinner_relations_search')",
+		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
+		:position => :top
+    %>
+</td>
+<td><%= @page.created_on.format_out %></td>
+<td><%= @page.updated_on.format_out %></td>
+</tr>
+<% end %>
+</table>
+<%
+@item=@pages_pages
+r_type='page'
+%>
+<% url = "/admin/relations/sub_content_#{r_type}?id=#{id}&search=#{searchphrase}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}" %>
+<!-- FIRST -->
+<%= link_to_remote image_tag('arrow_left',:border=>0,:alt=> "first"),
+                   :update=>"relations#{params[:sub_id]}_sub_content",
+                   :url => url + '&page='+@item.first.number.to_s %>
+<!-- PREVIOUS -->
+<% if @item.current.previous %>
+  <%= link_to_remote image_tag('arrow_left_green.png', :border=>0,:alt=> "next"),
+                     :update=>"relations#{params[:sub_id]}_sub_content",
+                     :url => url + '&page='+@item.current.previous.number.to_s %>
+<% else %>
+  <%= image_tag 'dot_clear.gif', :width=>16, :height=>16 %>
+<% end %>
+<!-- NEXT -->
+<% if @item.current.next %>
+  <%= link_to_remote image_tag('arrow_right_green.png', :border=>0,:alt=> "previous"),
+                    :update=>"relations#{params[:sub_id]}_sub_content",
+                    :url => url + '&page='+@item.current.next.number.to_s %>
+<% else %>
+  <%= image_tag 'dot_clear.gif', :width=>16, :height=>16 %>
+<% end %>
+<!-- LAST -->
+<%= link_to_remote image_tag('arrow_right.png', :border=>0,:alt=> "last"),
+                   :update=>"relations#{params[:sub_id]}_sub_content",
+                   :url => url + '&page='+@item.last.number.to_s %>
+
+<%= image_tag("loader.gif", :align => 'absmiddle', :border=> 0, :id => "spinner_relations#{params[:sub_id]}", :style=>"display: none;" ) %>

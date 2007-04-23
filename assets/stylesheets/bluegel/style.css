@@ -1,0 +1,854 @@
+/* ***************************************************
+ * Default Bagel style
+ * ## Bluegel
+ * dotProjects 2007
+ * ***************************************************/
+
+/* Globals
+ * ***************************************************/
+ 
+	body { background: #DDDFE2; margin: 0; padding-top: 15px; }
+	body, input, textarea, select, h1, h2, h3, h4, h5, h6,ol, ul, li, p
+	{
+		font-family: "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
+		color: #000;
+		font-size: 11px;
+	}
+	img { border: none; }
+  	a:link, a:visited
+  	{
+		color: #144282;
+		text-decoration: none;
+	}
+	a:hover { color: #144282; }
+	.clear { clear: both !important; line-height: 0; height: 0; }
+	form { margin: 0; padding: 0; }
+	h2 { color: #1A5BB2; font-size: 14px; }
+	.greyText { color: #ccc; }
+ 
+			
+/* LOGIN BOX 
+ * ***************************************************/
+	 
+	#loginBox
+	{
+		width: 513px;
+		height: 312px;
+		background: url('../images/loginbox.png') no-repeat top right;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -215px 0 0 -265px;
+	}
+	#loginBox fieldset
+	{
+		border: none;
+		position: absolute;
+		top: 160px;
+		left: 90px;
+	}
+	#loginBox fieldset .loginPos { text-align: right; width: 316px; }
+	#loginBox fieldset input.textfield
+	{
+		width: 200px;
+		padding: 3px;
+		font-size: 14px;
+		font-weight: bold;
+		border: 1px solid #ccc;
+		margin-bottom: 3px;
+	}
+	#loginBox fieldset label
+	{
+		font-size: 14px;
+		margin-top: 3px;
+		float: left;
+		width: 110px;
+	}
+	#loginBox p.loginerr
+	{
+		font-weight: bold;
+		color: red;
+		top: 140px;
+		left: 99px;
+		width: 313px;
+		text-align: center;
+	}
+	
+/* MAIN CONTAINER
+ * ***************************************************/
+     
+	#mainContainer
+	{
+		width: 900px;
+		margin: 0 auto 0 auto;
+		padding: 0 0 30px 0;
+		background: #fff url('../../images/bluegel/footer.png') no-repeat bottom left;
+	}
+	
+		#header
+		{
+			background: url('../../images/bluegel/header.png') no-repeat top left;
+			width: 900px;
+			height: 139px;
+			position: relative;
+			z-index: 0;
+		}
+		
+		/* Toolbar menu (login,help,view, ..) */
+		
+		#header ul.toolBar
+		{
+			position: absolute;
+			margin: 0;
+			padding: 0;
+			right: 20px;
+			top: 5px;
+		}
+		#header ul.toolBar li { display: inline; }
+		#header ul.toolBar a
+		{
+			color: #fff;
+			float: left;
+			background: url('../../images/bluegel/toolbar_tabs.png') no-repeat 0px 0px;
+			width: 72px;
+			height: 18px;
+			text-align: center;
+			margin-left: 8px;
+		}
+		#header ul.toolBar li a:hover {  background-position: -77px 0; }
+		
+		/* Main menu (big tabs) */
+		
+		#header ul.mainMenu
+		{
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			position: absolute;
+			top: 73px;
+			left: 23px;
+		}
+		
+		#header ul.mainMenu li { display: inline; }
+		#header ul.mainMenu a
+		{
+			background: url('../../images/bluegel/menu_tabs.png') no-repeat -121px 0px;
+			width: 116px;
+			height: 33px;
+			float: left;
+			margin-right: 4px;
+			text-align: center;
+			line-height: 29px;
+			overflow: hidden;
+			text-decoration: none;
+			color: #fff;
+		}
+		#header ul.mainMenu a:hover { background-position: -241px 0px; }
+		#header ul.mainMenu .active:hover { background-position: 0px 0px; }
+		#header ul.mainMenu .active
+		{ 
+			background: url('../../images/bluegel/menu_tabs.png') no-repeat 0px 0px;
+			color: #144282;
+			line-height: 32px;
+		}
+		
+		/* sub Menu (horizontal links below the big tabs) */
+		
+		#header ul.subMenu
+		{
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			position: absolute;
+			top: 111px;
+			left: 25px;
+			border-left: 1px solid #A9C1E3;
+		}
+		#header ul.subMenu li { display: inline; }
+		#header ul.subMenu li a
+		{
+			top: 100px;
+			float: left;
+			margin: 0;
+		    border-right: 1px solid #A9C1E3;
+		    padding: 0 11px 0 11px;
+		}
+		#header ul.subMenu li a:hover { color: #000; }
+
+/* CONTENT
+ * ***************************************************/
+ 
+ 	#content
+ 	{  
+ 		margin: 20px 30px 0 30px;
+ 		position: relative;
+ 		z-index: 1;
+ 	}
+ 	#content h1
+ 	{ 
+ 		font-size: 18px;
+ 		margin: 0 0 25px 0;
+ 		padding-top: 5px;
+ 	}
+	
+	/* universal (i hope) table styling */
+ 	#content table.uniTable
+ 	{
+ 		width: 830px;
+		border-top: 1px solid #D2D6DA;
+ 		border-collapse: collapse;
+ 		margin: 0 auto 15px auto;
+ 	}
+ 	#content table.uniTable td { padding: 4px; }
+	#content table.uniTable tr.heading td
+	{ 
+		border-bottom: 2px solid #7C92B0;
+		padding: 5px;
+		background: url('../../images/bluegel/table_gradient1.png') repeat-x bottom left;
+	}
+	#content table.uniTable tr.heading td.tabDesc { color: #144282; font-weight: bold; font-size: 12px; }
+	#content table.uniTable tr.heading td.colDesc
+	{ 
+		width: 90px;
+		font-weight: bold;
+		font-size: 10px;
+	}
+	#content table.uniTable tr.heading td.headDesc { font-size: 10px; font-weight: bold; }
+	#content table.uniTable tr.content td { border-bottom: 1px solid #D2D6DA; }
+	#content table.uniTable tr.content td.iconbox { width: 100px; text-align: right; }
+	#content table.uniTable td.more { text-align: right; }
+	
+	/* special class(es) for the image gallery table because this really doenst meet grid standards :-) */
+	
+	#imageGallery 
+	{
+		margin: 0 auto 0 auto;
+		width: 750px;
+	}
+	#imageGallery .imgContainer 
+	{
+		background: url('../../images/bluegel/gallery_background.png') no-repeat -5px 0;
+		padding: 9px 10px 13px 9px;
+		width: 152px;
+		height: 137px;
+		position: relative;
+		z-index: 3;
+		overflow: hidden;
+		white-space: nowrap;
+		float: left;
+		margin: 7px;
+	}
+	#imageGallery .imgContainer img { margin: 4px 0 6px 0; border: 1px solid #ccc;  }
+	#imageGallery .imgContainer p,
+	#imageGallery .imgContainer h3 
+	{
+		color: #666;
+		font-weight: normal;
+		margin: 0;
+		padding: 0;
+		font-size: 10px;
+		text-align: center;
+	}
+	#imageGallery .imgContainer p { color: #999; }
+	#imageGallery .imgContainer .checkbox
+	{
+		position: absolute;
+		right: 12px;
+		top: 14px;
+	}
+	#imageGallery ul.imgActions
+	{
+		list-style-type: none;
+		padding: 4px 0 0 6px; margin: 0;
+		list-style-type: none;
+		position: absolute;
+		top: 18px;
+		left: 9px;
+		background: url('../../images/bluegel/gallery_iconbg.gif') no-repeat;
+		width: 70px;
+		height: 28px;
+	}
+	#imageGallery ul.imgActions li { display: inline; }
+	#imageGallery ul.imgActions li a
+	{
+		float: left;
+		background: url('../../images/bluegel/icons/icons_simple.png') no-repeat;
+		width: 17px;
+		height: 20px;
+		margin-right: 5px;
+		line-height: 5000px;
+		overflow: hidden;
+	}
+	#imageGallery ul.imgActions li a.del { background-position: -18px 0; }	
+	
+	/* action buttons (add,edit,...) */
+	
+  	ul.mainNav
+ 	{
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+ 	}
+ 	ul.mainNav li { display: inline; }
+ 	a.filter,
+ 	a.addGr,
+ 	a.addGrLight,
+	ul.mainNav li a
+	{
+		background: url('../../images/bluegel/buttonmap.png') no-repeat;
+		width: 78px;
+		height: 35px;
+		float: left;
+		line-height: 5000px;
+		overflow: hidden;
+	}	
+	ul.mainNav li a.add { background-position: -2px -33px; }
+	ul.mainNav li a.add:hover { background-position: -105px -33px; }
+	
+ 	ul.mainNav li a.addContent { width: 135px; background-position: -2px -137px; }
+	ul.mainNav li a.addContent:hover { background-position: -138px -137px; }
+	ul.mainNav li a.edit { background-position: -2px -67px; }
+	ul.mainNav li a.edit:hover { background-position: -105px -67px; }
+	ul.mainNav li a.list { background-position: -2px -101px; }
+	ul.mainNav li a.list:hover { background-position: -105px -101px; }	
+	ul.mainNav li a.delete { width: 100px; background-position: -2px -0px; }
+	ul.mainNav li a.delete:hover { background-position: -105px -0px; }
+	ul.mainNav li a.next-step { width: 102px; background-position: -2px -239px; }
+	ul.mainNav li a.next-step:hover { background-position: -105px -239px; }
+	ul.mainNav li a.next-step-big { height: 40px; width: 102px; background-position: -2px -420px; }
+	ul.mainNav li a.next-step-big:hover { background-position: -105px -420px; }
+	ul.mainNav li a.prev-step { width: 102px; background-position: -2px -273px; }
+	ul.mainNav li a.prev-step:hover { background-position: -105px -273px; }
+	ul.mainNav li a.save-big { height: 40px; width: 102px; background-position: -2px -568px; }
+	ul.mainNav li a.save-big:hover { background-position: -105px -568px; }
+	ul.mainNav li a.import-big { height: 40px; width: 102px; background-position: -2px -643px; }
+	ul.mainNav li a.import-big:hover { background-position: -105px -643px; }
+	ul.mainNav li a.add-image { width: 122px; background-position: -2px -309px; }
+	ul.mainNav li a.add-image:hover { background-position: -125px -309px; }
+	ul.mainNav li a.next { background-position: -2px -172px; }
+	ul.mainNav li a.next:hover { background-position: -105px -172px; }
+	ul.mainNav li a.prev { background-position: -2px -207px; }
+	ul.mainNav li a.prev:hover { background-position: -105px -207px; }
+	ul.mainNav li a.new { width: 122px; background-position: -2px -458px; }
+	ul.mainNav li a.new:hover { background-position: -125px -458px; }
+	ul.mainNav li a.back { background-position: -2px -606px; }
+	ul.mainNav li a.back:hover { background-position: -105px -606px; }
+	a.filter { margin-top: -5px; background-position: -2px -379px; }
+	a.filter:hover { background-position: -105px -379px; }
+	a.addGr { width: 61px; height: 28px; background-position: -2px -500px; }
+	a.addGr:hover { background-position: -83px -500px; }
+	a.addGrLight { width: 60px; height: 27px; background-position: -2px -534px; }
+	a.addGrLight:hover { background-position: -83px -534px; }
+		/* positioning containers */
+		
+		.topButton
+		{
+			width: 840px;
+			margin-bottom: 15px;
+		}
+		.topButton h1 { float: left; }
+		.topButton ul.mainNav li a { float: right; }
+		
+		.bottomButton { margin: 10px 0 0 0; text-align: right; }
+		.bottomButton ul.mainNav li a { float: right; }
+		.bottomButtonLeft ul.mainNav li a { float: left; }
+		
+	/* Icon definitions can be used anywhere within a <span class="icon"> element. 
+	 * Keep in mind that it has a float to the right by default so it's best to 
+	 * surround it in a static width container such as a div or a td or something...
+	 */
+	
+	span.icon a
+	{
+		float: right;
+		width: 42px;
+		padding-right: 3px;
+		height: 16px;
+		font-size: 9px;
+		background: url('../../images/bluegel/buttonmap.png') no-repeat;
+		color: #333;
+		text-align: center;
+		line-height: 15px;
+		overflow: hidden;
+		margin-left: 2px;
+	}
+	span.icon a:hover { color: #000; }
+	span.icon a.edit { background-position: -189px -56px; }
+	span.icon a.delete { background-position: -189px -38px; }
+	
+	/* rounded container (grey one) */
+	
+	.subContent
+	{
+		background: #eeeeee url('../../images/bluegel/rounded_top.png') no-repeat top left;
+		width: 835px;
+		padding: 17px 0 0 0;
+		margin: 0 auto 15px auto;
+		position: relative;
+	}
+	.subContent a.openClose
+	{
+		float: left;
+		line-height: 5000px;
+		overflow: hidden;
+		height: 24px;
+		width: 24px;
+		background: url('../../images/bluegel/icons/icon_rnd_open.png') no-repeat top left;
+		position: absolute;
+		left: 10px;
+		top: 14px;
+	}
+	.subContent a.closed { background: url('../../images/bluegel/icons/icon_rnd_close.png') no-repeat top left; }
+ 	.subContent h2 {  margin: 0; padding: 0 0 10px 10px; }
+ 	.subContent h3
+ 	{
+ 		margin: 0;
+ 		padding: 0 0 8px 15px;
+ 		font-size: 12px;
+ 		color: #999;
+ 	}
+ 	.subContent h3.forClose { padding-top: 1px; margin-left: 30px; }
+	.subContent .bottom 
+	{
+		background: #eeeeee url('../../images/bluegel/rounded_bottom.png') no-repeat bottom left;
+		height: 10px;
+		width: 835px;
+	}
+	.subContent a.addGrLight {  position: absolute; right: 12px; top: 13px;  }
+	.subContent div.collapsed {  }
+
+	/* Taglisting system */
+		
+		#dragdropContainer { margin: 0 15px 0 15px; }
+		#dragdropContainer div.taglistLeft,
+		#dragdropContainer div.taglistRight
+		{
+			width: 375px;
+			float: left;
+			border: 1px solid #ccc;
+			background: #fff;
+			padding: 10px 0 8px 19px;
+			margin: 10px 0 15px 0;
+			min-height: 215px;
+			height: auto !important;
+			height: 230px;			
+		}
+		#dragdropContainer div.taglistRight
+		{ 
+			background: #fff url('../../images/bluegel/droptagstxt.png') no-repeat center center;
+			float: right;
+		}
+		#dragdropContainer div.taglistLeft div,
+		#dragdropContainer div.taglistRight div
+		{
+			float: left;
+			width: 106px;
+			height: 35px;
+			background: url('../../images/bluegel/tag.png') no-repeat top left;
+			line-height: 34px;
+			overflow: hidden;
+			text-align: center;
+			padding-left: 10px;
+			margin: 0 0 8px 4px;
+			font-size: 10px;
+			cursor: pointer;
+		}
+		#dragdropContainer div.taglistLeft div.hasSubTag,
+		#dragdropContainer div.taglistRight div.hasSubTag { background: url('../../images/bluegel/tag_sel.png') no-repeat top left; }
+	
+	/* Relations draggables */
+	
+	.relationContent { width: 805px; margin: 10px auto 0 auto; }
+	.subContent .relationContent h4
+	{
+		margin: 0;
+		padding: 0;
+	}
+	.subContent .relationContent ul 
+	{
+		margin: 10px 0 10px 0;
+		padding: 0;
+		list-style-type: none;
+	}
+	.subContent .relationContent li
+	{
+		padding: 5px;
+		border: 1px solid #ccc;
+		background: #fff;
+		position: relative;
+		margin-bottom: 2px;
+	}
+	.subContent .relationContent li.draggable
+	{
+		background: #fff ;
+		padding-left:  5px;
+	}
+	.subContent .relationContent li.draggable span.dragme
+	{
+		cursor: pointer;
+	}
+	.subContent .relationContent li.draggable div.imgItem
+	{
+		height: 40px;
+		padding-left: 80px;
+		background-repeat: no-repeat;
+		background-position: left center;
+	}
+	.subContent .relationContent li.draggable div.imgItem div { padding-top: 12px; }
+	.subContent .relationContent li span.icon a.edit,
+	.subContent .relationContent li span.icon a.delete
+	{
+		position: absolute;
+		float: none;
+		right: 3px;
+		top: 4px;
+	}
+	.subContent .relationContent li span.icon a.edit { right: 53px; }
+	.subContent .relationContent li span.dragme img {
+		padding-top: 2px;
+		padding-right: 5px;
+		padding-left: 5px;
+		margin-bottom: -1px;
+	}
+	
+	/* Website view */
+	
+	#content .subContent table.uniTable
+	{
+		width: 775px;
+		margin: 15px auto 10px auto;
+		background: #fff;
+		border: 1px solid #D2D6DA;
+	}
+	#content .subContent table.uniTable td.descr { font-weight: bold; }
+	#content .subContent table.uniTable tr.heading td { font-weight: bold; }
+	#content .subContent table.uniTable input.date { width: 150px; }
+	#content .subContent table.uniTable img.date { cursor: pointer; }
+	#content .subContent table.uniTable tr.hidden td { background: #eeeeee; }
+	#content .subContent table.uniTable input.bigText { width: 450px; }
+	/* Image Revisions */
+	
+	.subContent .imgPreview
+	{
+		position: absolute;
+		top: 10px;
+		padding: 5px;
+		right: 32px;
+		border: 1px solid #ccc;
+		background: #fff;
+	}
+	
+	.subContent ul.imageRevisions
+	{
+		list-style-type: none;
+		padding: 8px 0 0 0;
+		margin: 0;
+	}
+	.subContent ul.imageRevisions li { display: inline; }
+	.subContent ul.imageRevisions a
+	{
+		float: left;
+		padding: 4px;
+		border: 1px solid #ccc;
+		background: #fff;
+		margin: 0 2px 0 2px;
+	}
+	.subContent ul.imageRevisions a:hover { background: #ECECEC; }
+	
+	/* Left and right containers (one small, one big */
+	
+	#leftRightContent .subContentLeft
+	{ 
+		background: #eeeeee url('../../images/bluegel/rounded_split_top.png') no-repeat top left;
+		width: 300px;
+		padding: 10px 0 0 0;
+		margin-left: 3px;
+		float: left;		
+	}
+	#leftRightContent .subContentLeft .bottom
+	{ 
+		height: 12px;
+		width: 300px;
+		background: #eeeeee url('../../images/bluegel/rounded_split_bottom.png') no-repeat bottom left;
+	}
+	#leftRightContent .subContentRight
+	{
+		background: #eeeeee url('../../images/bluegel/rounded_split_top.png') no-repeat top right;
+		width: 520px;
+		padding: 10px 0 0 0;
+		float: right	
+	}
+	#leftRightContent .subContentRight .bottom
+	{
+		height: 12px;
+		width: 520px;
+		background: #eeeeee url('../../images/bluegel/rounded_split_bottom.png') no-repeat bottom right;	
+	}
+	#leftRightContent h2
+	{
+		margin: 0 10px 10px 10px;
+		padding: 0 0 7px 0;
+		font-size: 16px;
+		color: #000;
+		border-bottom: 1px solid #ccc;
+	}
+	#leftRightContent h3
+	{
+		margin: 0 10px 0 10px;
+		font-size: 12px;
+		color: #1A5BB2;
+		clear: right;
+	}
+	#leftRightContent p
+	{
+		margin: 5px 15px 3px 20px;
+		background-color: #DADADA;
+		padding: 5px 5px 2px 5px;
+		color: #4A4A4A;
+	}
+	#leftRightContent a.addGr
+	{
+		float: none;
+		display: block;
+		margin: 0 0 0 194px;
+	}
+	#leftRightContent .container a.addGr { margin: 0 0 0 155px; }
+	#leftRightContent .container p { margin: 5px 10px 3px 20px; }
+	#leftRightContent .container
+	{
+		float: left;
+		width: 256px;
+	}
+	/* content buttons */
+	
+	ul.contentList
+	{ 
+		padding: 0 0 0 15px;
+		margin: 0 auto 0 auto;
+		list-style-type: none;
+	}
+	ul.contentList li { display: inline; }
+	ul.contentList a.contentButton
+	{
+		float: left;
+		width: 102px;
+		height: 70px;
+		background-repeat: no-repeat;
+		background-position: top center;
+		background-color: #eee;
+		text-align: center;
+		overflow: hidden;
+		line-height: 115px;
+		margin-top: 10px;
+	}
+	
+	/* Step bar for the wizzard(s) (step1, step2, step3, ...)
+	 * use class .active for the active button, .normal for the inactive button, .done for the completed button
+	 * and .end for the end of the bar 
+	 * If you wish to expand the bar don't forget to change de width of the the .stepBar class
+	 * 
+	 * Note: - if the end is active use .active-end
+	 *       - if you wish to use the buttons as links remove the cursor property :-)
+	 *
+	 */ 
+	 
+	.stepBar
+	{
+		height: 60px;
+		width: 720px;
+		margin: 20px auto 0 auto;
+	}
+	ul.stepList
+	{
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+	ul.stepList li { display: inline; }
+	ul.stepList li a 
+	{
+		background: url('../../images/bluegel/step_bar.png') no-repeat top left;
+		float: left;
+		line-height: 44px;
+		overflow: hidden;
+		text-align: center;
+		font-weight: bold;
+		color: #144282;
+		font-size: 9px;
+		height: 46px;
+		width: 108px;
+		padding-right: 6px;
+		cursor: default;
+	}
+	ul.stepList li a.done { color: #ccc; }
+	ul.stepList li a.active-end,
+	ul.stepList li a.active
+	{
+		height: 49px;
+		width: 146px;
+		background-position: -125px 0px;
+		line-height: 47px;
+		font-size: 16px;
+		color: #000;
+		padding-right: 15px;
+	}
+	ul.stepList li a.active-end { padding-left: 2px; width: 135px; }
+	ul.stepList li a.end
+	{
+		width: 100px;
+		background-position: -294px 0;
+		padding: 0;
+	}
+/* PAGING */
+
+	.paging { margin-left: 5px; }
+	.paging a
+	{	
+		font-weight: bold;
+		padding: 4px 7px 4px 7px;
+		border: 1px solid #ccc;	
+		margin: 0 5px 0 5px;	
+	}
+	.paging a.selected { font-weight: bold; }
+	.paging a.notselected
+	{
+		font-weight: normal;
+		margin: 0;
+	}
+
+/* FORMS */
+
+	fieldset
+	{
+		margin: 0 auto 0 auto;
+		padding: 0;
+		border: 0;
+	}
+	.subContent .urlList { padding-top: 8px; height: 24px; text-align: center; }
+	.subContent .urlList a
+	{
+		padding: 6px 8px 6px 8px;
+		margin: 0 3px 0 3px;
+		border: 1px solid #ccc;
+		background-color: #fff;
+	}
+	.subContent .urlList a:hover { background-color: #eee; }
+	fieldset.textarea,
+	fieldset.oneline
+	{
+		padding: 8px;
+		width: 760px;
+		background-color: #DADADA;
+	}
+	#dragdropContainer fieldset.oneline { margin-bottom: 10px; width: 788px; }
+	fieldset.oneline label
+	{
+		font-size: 14px;
+		padding-top: 2px;
+		float: left;
+		margin-right: 40px;
+	}
+	fieldset.oneline label.small { margin: 0 5px 0 5px; font-size: 11px; float: none; }
+	fieldset.oneline input.large_text_input_fullsize,
+	fieldset.oneline input.large_text_input
+	{
+		font-weight: bold;
+		font-size: 15px;
+		border: 1px solid #ccc;
+		padding: 2px;
+		height: 20px;
+		width: 630px;
+		float: right;
+	}
+	fieldset.oneline select.largeSelect { width: 200px; }
+	.subContent .mceFrame 
+	{
+		margin: 15px 0 0 29px;
+		width: 772px;
+	}
+	.subContent .mceFrame .text_area_large { width: 770px; }
+
+/* Notice and error styles */
+	
+	/* form field  (input, ...) with errors */
+	.fieldWithErrors { display: inline; }
+	.fieldWithErrors input.large_text_input { border: 1px solid red; background-color: #FFD9DB; }
+
+	.errorExplanation
+	{
+		border: 1px solid red;
+		background-color: #ffffff;
+		width: 773px;
+		margin: 0 auto 15px auto;
+	}
+	.errorExplanation h2
+	{ 
+		padding: 5px 0 5px 15px;
+		color: red; 
+		margin: 0 0 10px 0;
+		border-bottom: 1px solid #ddd;
+	}
+	.errorExplanation p { margin: 0px 5px 10px 15px; }
+	.errorExplanation ul
+	{
+		margin: 0 0 15px 0;
+		padding: 0 0 0 30px;
+		list-style-type: square;
+		color: red;
+	}
+	.errorExplanation ul li { color: red; }
+	.msgerr { position: absolute; }
+	.msgerr
+	{
+		position: absolute;
+		width: 815px;
+		border: 1px solid red;
+		padding: 10px;
+		background-color: #FFD9DB;
+	}
+	#flash-messages div
+	{
+		border-width: 1px;
+		border-style: solid;
+		padding: 21px 20px 21px 70px;
+		font-weight: bold;
+		font-size: 12px;
+		margin: 10px 0 18px 0;
+		width: 745px;
+		clear: both;
+	}
+	div.flash-notice
+	{ 
+		background: #fafafd url('../../images/bluegel/icons/icon_notice.png') no-repeat 12px center; color: #636363;
+		border-color: #ccc;
+	}
+	div.flash-error
+	{
+		background: #FFE2E2 url('../../images/bluegel/icons/icon_error.png') no-repeat 12px center; color: red;
+		border-color: #FFA6A6;
+	}
+	div.flash-warning
+	{
+		background: #FFF9C4 url('../../images/bluegel/icons/icon_warning.png') no-repeat 12px center; color: #000000;
+		border-color: #FFD29A;
+	}
+	div.flash-help
+	{
+		background: #ececff url('../../images/bluegel/icons/icon_help.png') no-repeat 12px center; color: #2B2B97;
+		border-color: #d0d0ff;
+	}
+	div.flash-confirm
+	{
+		background: #C9FFB7 url('../../images/bluegel/icons/icon_confirm.png') no-repeat 12px center; color: #406734;
+		border-color: #94E17B;
+	}
+		
+/* footer
+ * ***************************************************/
+ 
+ 	#footer
+ 	{
+ 		text-align: center;
+ 		padding: 5px 0 15px 0;
+ 		color: #999999;
+ 	}

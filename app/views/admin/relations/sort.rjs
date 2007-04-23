@@ -1,0 +1,13 @@
+obj = Sobject.find(params[:sobject_id])
+unless params[:sobject_id].nil? 
+  uniq_id = params[:uniq_id]
+  editor_id = params[:editor_id]
+  direction = params[:direction]
+  relations = obj.relations_as_from.find(:all,:order => 'position,category_id').sort
+  page.replace_html "relations_sorted_#{direction}#{params[:sub_id]}list",""
+  relations.each do |relation| 
+	page.insert_html :bottom, "relations_sorted_#{direction}#{params[:sub_id]}list", :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction} 
+  end
+  #page.visual_effect :highlight, "relations_#{direction}#{params[:sub_id]}sorted_list"
+  #page.sortable "relations_sorted_#{direction}#{params[:sub_id]}list"
+end

@@ -1,0 +1,25 @@
+Bagel
+=====
+
+Description goes here
+
+Installation Instructions
+=========================
+0/ Install gems listed in doc/REQUIREMENTS
+
+1/ create a new rails applications:
+
+rails my_new_app
+
+2/ Add required plugins:
+
+script/plugin install http://dev.rubyonrails.org/svn/plugins/exception_notification/
+script/plugin install http://opensvn.csie.org/rails_file_column/plugins/file_column/trunk
+script/plugin install http://svn.rails-engines.org/plugins/engines
+script/plugin install http://svn.techno-weenie.net/projects/plugins/attachment_fu/
+script/plugin install svn://projects.jkraemer.net/acts_as_ferret/tags/stable/acts_as_ferret
+
+3/ Add bagel plugin
+script/plugin install http://debian.dotproject.be/svn/bagel/trunk
+
+Add "bagel_application_setup" to ApplicationController

@@ -1,0 +1,45 @@
+<%
+# Parameters:
+# - tag : the Tag object
+#
+if tag.has_parent?
+  subtag_id = tag.id
+  subtag_name = tag.name
+  tag_id = tag.id
+  tag = tag.parent
+  tag = tag.parent if tag.has_parent?
+else
+  subtag_id = 0
+  subtag_name = ""
+  tag_id = tag.id
+end
+%>
+<div id="tag_string_<%= tag_id %>">
+	<% if subtag_name.size > 0 %>
+	  <%= truncate(subtag_name,10) %>
+	<% else %>
+	  <%= truncate(tag.name,10) %>
+	<% end %>
+	<% if tag.has_children? %>
+		<!-- start subtag code -->
+		<div class="smallPopup" style="display: none;">
+			<a href="#" class="close">Close</a>
+			<div class="subTag">
+				<h3>Select subtag for <%= tag.name %></h3>
+				<%
+				if tag.children.first.has_children?
+					options = content_tag("option","","value"=>"") + option_groups_from_collection_for_select(tag.children.sort_by{|c| c.name}, "children", "name", "id", "name", subtag_id)
+				else
+					options = content_tag("option","","value"=>"") + options_from_collection_for_select(tag.children, "id", "name", subtag_id)
+				end
+				%>
+				<%= content_tag("select", options, "name"=>"subtag["+tag.id.to_s+"]", "class" => "subtagSelect") %>
+				<div class="buttons">
+					<input type="button" class="save" value="Save" />&nbsp;
+					<input type="button" class="close" value="cancel" />
+				</div>
+			</div>
+		</div>
+		<!-- end subtag code -->
+	<% end %>
+</div>

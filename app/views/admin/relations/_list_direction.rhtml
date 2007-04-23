@@ -1,0 +1,69 @@
+<%
+# Parameters:
+# - item		 : the content object
+# - direction   : "in" or "out"
+# - (uniq_id)	 : the identifier that will make this relations list unique (in case of multiple instances per page) 
+# - (editor_id) : the DOM id of the tinymce instance (for inserting images)
+
+# Initialize optional parameters
+editor_id ||= ""
+uniq_id   ||= ""
+
+if direction == "in"
+  text_direction = "to"
+  relation_title =  "Has relations to"
+else
+  text_direction = "from"
+  relation_title =  "Has relations with"
+end
+%>
+
+<div id="relations_<%= direction %><%=uniq_id%>" style="display:inline;">
+	<div id="relations<%= direction %><%=uniq_id%>_list">
+		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">
+
+		<% if request.post? %>
+
+		  <% if params["relations"].nil_or_empty? || direction == "out" %>
+
+			  <li id='relations<%= direction %>_item_none'>There are no relations</li>
+
+		  <% else %>
+
+			<% relations = params["relations"] %>
+			<% relations.split(",").each do |element| to_sobject_id = element.split("-")[0]; category_id = element.split("-")[1] %>
+				<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> to_sobject_id, :category_id=> category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => "in"} %>
+			<% end %>
+
+		  <% end %>
+
+		<% else %>
+
+		  <% if direction == "in" %>
+			<% relations = item.sobject.relations_as_from.find(:all,:order => 'position,category_id') %>
+		  <% else %>
+			<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,category_id') %>
+		  <% end %>
+		
+		  <% if relations.empty? %>
+			<li id='relations<%= direction %>_item_none'>There are no relations</li>
+		  <% else %>
+			<% relations.each do |relation| %>
+			  <% if direction == "in" %>
+			  <%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction} %>
+			  <% else %>
+			  <%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.from_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction } %>
+			  <% end %>
+			<% end %>
+		  <% end %>
+
+		<% end %>
+		</ul>
+	</div>
+</div>
+
+<% if direction == "in" %>
+<%= sortable_element("relations_sorted_#{direction}#{uniq_id}list", :only => "draggable", :handle => "dragme", :onChange => "function(){$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}list\")}") %>
+<%= hidden_field_tag :relations %>
+<%= javascript_tag "$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}#{uniq_id}list\")" %>
+<% end %>

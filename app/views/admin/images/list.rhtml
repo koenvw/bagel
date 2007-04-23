@@ -1,0 +1,55 @@
+<div id="contentFrame">	
+	<div class="topButton">
+		<h1>Media Gallery</h1>	
+		<ul class="mainNav">
+			<li><%= link_to 'Add Image', { :controller => 'images', :action => 'edit' }, :class => "add-image" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<form id="filterform" method="post" action="">
+<div class="subContent">
+	<fieldset class="oneline">
+		<input style="width: 670px; float: left;" name="search_string" type="text" class="large_text_input" />
+		<a style="float: right;" class="filter" href="#" onclick="document.getElementById('filterform').submit(); return false;">filter</a>
+		<div class="clear"></div>
+	</fieldset>
+	<div class="bottom"></div>
+</div>
+</form>
+
+<div class="subContent">
+	<div id="imageGallery">
+	<% if @images.size > 0 %>
+			<% 
+				count = 0
+				for @image in @images
+                  if count == 4
+					count = 0
+			%>
+			<div class="clear"></div>
+			<%end %>
+			<div class="imgContainer">
+				<ul class="imgActions">
+					<li><%= link_to 'edit', { :action => 'edit', :id => @image }, :class => "edit", :title => "Edit image" %></li>
+					<li><%= link_to 'delete', { :action => 'destroy', :id => @image }, :class => "del", :title => "Delete image" , :confirm => 'Are you sure?', :method => :post %></li>
+				</ul>
+				<%= image_tag url_for_file_column('image', 'image',Setting.get("ImageSettings")[:default]), :alt=> @image.image_file %>
+				<h3><%= truncate(@image.image_file, 23,'...') %></h3>
+				<p><%= MIME::Types.type_for(@image.image) %> - <%= number_to_human_size(File.size(@image.image)) if File.exists?(@image.image) %></p>
+			</div>
+		<% count = count+1 %>
+		<% end %>
+		<div class="clear"></div>
+	</div>
+	<% else %>
+	<div style="margin: 0 0 0 0; text-align: center;">No images found</div>
+<% end %>
+	<div class="bottom"></div>
+</div>
+
+<% if @images.size > 0 %>
+  <div class="paging"><%= bagel_pagination_links @image_pages %></div>
+<% end %>
+<div class="clear"></div>

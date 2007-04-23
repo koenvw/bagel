@@ -1,0 +1,18 @@
+<h1>Editing <%= params[:tag_id].nil? ? "form".t : Category.find(params[:tag_id]).name.downcase %></h1>
+
+<div id="breadcrumb"><%= link_to "Forms".t, :controller => "form_definitions" %> > <%= link_to @form.form_definition.name, :controller => "forms", :action => "list", :id => @form.form_definition_id %> > <%= @form.name %> </div>
+<% form_tag :action => 'update', :id => @form do %>
+  <%= hidden_field_tag "book_id", params[:book_id] %>
+  <%= hidden_field_tag "tag_id", params[:tag_id] %>
+
+		  <!--[form:form]-->
+		  <%= error_messages_for 'form' %>
+		  <%= controller.render_tpl(@form.form_definition.template) %>
+		  <!--[eoform:form]-->
+		  <%= render :partial => "admin/sitems/list", :locals => { :item => @form } %>
+		  <%= render :partial => "admin/tags/list", :locals => { :item => @form } %>
+		  <%= render :partial => "admin/relations/list", :locals => { :item => @form, :direction => "in"  } %>
+  <%= submit_tag 'Save Changes'.t %>
+<% end %>
+or <%= link_to 'Back'.t, :controller => 'forms', :action => 'list', :id => @form.form_definition_id, :tag_id => params[:tag_id] %>
+

@@ -1,0 +1,26 @@
+<!-- begin popup for adding websites -->
+<div id="popups">
+  <div class="popup" id="add-websites-popup" style="">
+    
+    <h3>Add Website</h3>
+    <%= form_remote_tag(
+      :url => {:controller => 'sitems', :action => 'add', :id => obj.sobject.id },
+	  :loading => "Popup.loading('websites')",
+      :complete => "Popup.complete('websites')", 
+      :html => {:id => 'form-websites-add'}) %> 
+    <div>
+    <fieldset><legend>Websites</legend>
+      <% Website.find(:all, :order => "name").each do |category| %>
+      <%= tag("input", { "type" => "checkbox", "id" => "websites_"+category.id.to_s, "name" => "websites[]", "value" => category.id } )   %>
+      <label for="websites_<%= category.id %>"><%= category.name %></label><br/>
+      <% end %>      
+      <br><%= submit_tag "Add website", :id => 'websites_submit' %>  
+      <div id="busy" class="busy" style="display: none;">Processing...</div>
+    </fieldset>
+        
+    </div>
+    <p><%= link_to_function 'Close', "Element.hide('add-websites-popup')", :class => 'close-link' %></p>
+    <%= end_form_tag %>
+  </div>
+</div>
+<!-- end popup for adding tags -->

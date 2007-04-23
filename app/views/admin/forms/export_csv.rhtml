@@ -1,0 +1,4 @@
+<% @forms.first.data.each_key do |key| -%>"<%= key%>",<% end %>
+<% @forms.each do |f| -%>
+<% f.data.each_value do |val| %>"<%= val%>",<% end %>
+<% end-%>

@@ -1,0 +1,33 @@
+<h2>Editing role <%=h @role.name %></h2>
+
+<%= error_messages_for :role %>
+
+<% form_for(:role, @role, :url => { :action => :update } ) do |f| %>
+
+<dl>
+	<dt>Name</dt>
+	<dd><%= f.text_field :name %></dd>
+	
+	<dt>Permissions</dt>
+	<dd>
+		<ul>
+		<% AdminPermission.find(:all, :order => "name").each do |permission| %>
+			<li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
+		<% end %>
+		</ul>
+	</dd>
+	
+	<dt>Users</dt>
+	<dd>
+		<ul>
+		<% AdminUser.find(:all, :order => "firstname").each do |user| %>
+			<li><%= check_box_tag 'role[admin_user_ids][]', user.id, @role.admin_users.include?(user) %>
+			<%= link_to user.fullname, admin_user_url(:id => user, :action => "edit") %> (<%= user.username %>)</li>
+		<% end %>
+		</ul>
+	</dd>
+</dl>
+
+<%= submit_tag 'Edit role' %>
+
+<% end %>

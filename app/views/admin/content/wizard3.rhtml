@@ -1,0 +1,42 @@
+<%
+	type = ContentType.find(:first, :conditions => ["id=?",params[:type_id]])
+%>
+	<h1>Adding <%= type && type.name || "??" %></h1>
+
+	<div class="stepBar">
+		<ul class="stepList">
+			<li><%= link_to "Images", {:action => "wizard1", :type_id => params[:type_id]}, :class => "done" %></li>
+			<li><%= link_to "Gallery", {:action => "wizard2", :type_id => params[:type_id]}, :class => "done" %></li>
+			<li><%= link_to "Text", {:action => "wizard3", :type_id => params[:type_id]}, :class => "active" %></li>
+			<li><a class="normal" href="#">Tags</a></li>
+			<li><a class="normal" href="#">Relations</a></li>
+			<li><a class="end" href="#">Website</a></li>
+		</ul>
+	</div>
+	
+	<h2>Step 3: Adding the text</h2>
+	
+	<%= start_form_tag :action => 'wizard3', :id => @news, :type_id => params[:type_id] %>
+	
+	<%= hidden_field_tag "news[type_id]", @news.type_id || params[:type_id] %>
+	<div class="subContent">
+		<%= error_messages_for 'news' %>
+		<fieldset class="oneline">
+			<label for="news_title">Title</label>
+			<%= text_field 'news', 'title', :class => 'large_text_input' %>
+		</fieldset>
+		<div class="mceFrame">
+			<%= text_area  'news', 'body', :class => 'text_area_large' %><br/>
+		</div>
+		<div class="bottom"></div>
+	</div>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><a class="next-step-big" href="#" onclick="document.getElementsByTagName('form')[0].submit(); return false;">Next step</a></li>
+			<li><%= link_to 'Prev Step', { :action => 'wizard2', :type_id => params[:type_id] }, :class => "prev-step" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+	<%= end_form_tag %>
