@@ -22,7 +22,7 @@
 <%= stylesheet_link_tag "bluegel/overlay.css", :plugin => "bagel" %>
 
 <!-- bagel specific stylesheets -->
-<%= stylesheet_link_tag 'drag-drop-folder-tree' %>
+<%= stylesheet_link_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
 <%= stylesheet_link_tag 'calendar-system.css', :plugin => "bagel" %>
 
 <!-- do some magic (aligned to the left to preserve structure) -->
@@ -47,7 +47,7 @@
 <%= javascript_include_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
 <%= javascript_include_tag 'ajax', :plugin => "bagel" %>
 <% # js calendar %>
-<%= javascript_include_tag 'calendar', 'calendar-en', 'calendar-setup', :plugin => "bagel" %>	
+<%= javascript_include_tag 'calendar', 'calendar-en', 'calendar-setup', :plugin => "bagel" %>
 
 <% if @content_for_page_scripts -%>
 <script type="text/javascript">

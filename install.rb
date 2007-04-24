@@ -2,6 +2,13 @@
 # Insert line: ["require 'plugins/app_config/lib/configuration'","require 'memcache_util'","require 'mime/types'"]
 # before Initializer.run in conf/environment.rb file
 #
+#install.rb                                                                                                                                               
+#- evironment.rb                                                                                                                                          
+#- config/environments                                                                                                                                    
+#- application.rb                                                                                                                                         
+#- routes                                                                                                                                                 
+#- remove index.html                                                                                                                                      
+#- copy schema.rb ?    
 
 file = File.join(File.dirname(__FILE__), '../../../config/environment.rb')
 unless File.exists?(file)

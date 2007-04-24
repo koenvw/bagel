@@ -71,7 +71,7 @@ class Admin::HomeController < ApplicationController
   def webfolder
     # setup root_path
     # FIXME: this setting should be in environment.rb
-    root_path = RAILS_ROOT + "/public/filestorage/filestorage/"
+    root_path = RAILS_ROOT + "/public/filestorage/"
     FileUtils.mkdir root_path unless File.exists?(root_path)
     # exclude default dirs
     @dir_entries = Dir.entries(root_path).select { |entry| ![".","..","_imported",".DAV"].include?(entry) }

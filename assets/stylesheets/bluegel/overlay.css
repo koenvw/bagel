@@ -15,7 +15,7 @@
 	{
 		width: 450px;
 		height: 281px;
-		background: url('../images/overlay_big.png') no-repeat top left;
+		background: url('../../images/bluegel/overlay_big.png') no-repeat top left;
 		position: relative;
 		margin: 0 auto 0 auto;
 	}
@@ -23,7 +23,7 @@
 	{
 		width: 310px;
 		height: 125px;
-		background: url('../images/overlay_med.png') no-repeat top left;
+		background: url('../../images/bluegel/overlay_med.png') no-repeat top left;
 		margin: 0 auto 0 auto;
 		position: relative;
 	}
@@ -38,13 +38,13 @@
 		position: absolute;
 		top: 4px;
 		right: 11px;
-		background: #000 url('../images/icons/icon_close.png') no-repeat top left;
+		background: #000 url('../../images/bluegel/icons/icon_close.png') no-repeat top left;
 	}
 	div.bigPopup .spinner,
 	div.smallPopup .spinner
 	{
 		position: absolute;
-		background: url('../images/loader.gif') no-repeat top left;
+		background: url('../../images/bluegel/loader.gif') no-repeat top left;
 		width: 220px;
 		height: 19px;
 		left: 50%;
