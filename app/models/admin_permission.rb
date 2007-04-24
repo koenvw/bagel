@@ -43,6 +43,16 @@ class AdminPermission < ActiveRecord::Base
     Dir.glob(other_controllers_glob).each do |controller|
       require controller
     end
+    
+    
+    # should we check to see if this is defined? I.E. will this code ever run
+    # outside of the framework environment...?
+    controller_files = Dir[RAILS_ROOT + "/vendor/plugins/bagel/app/controllers/**/*_controller.rb"]
+    
+    # we need to load all the controllers...
+    controller_files.each do |file_name|
+      require file_name #if /_controller.rb$/ =~ file_name
+    end
      
   end
   

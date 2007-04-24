@@ -15,10 +15,18 @@ class String
     str = gsub(".","_").gsub(":","-").gsub("www_","")
     return str.gsub("fr_autovibes_be","autovibes_fr").gsub("fr_auto55_be","auto55_fr").gsub("auto55_com","auto55_be").gsub("fr_auto55_com","auto55_fr")
   end
+  #FIXME:
+  def t
+    to_s
+  end
 end
 class Time
+  def formatted
+    strftime("%d %b %Y").strip
+  end
   def format_out
-    localize("%d %b %Y")
+    $stderr.puts('DEPRECATION WARNING: format_out is deprecated. use formatted()')
+    formatted
   end
 end
 class Float
