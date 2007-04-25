@@ -186,12 +186,12 @@ class Admin::ContentController < ApplicationController
     news_id = get_from_session(:news_id)
     @news = News.find(news_id)
     if request.post?
-      @news.prepare_sitems(params[:sitems], params[:sitems_new])
+      @news.prepare_sitems(params[:sitems])
       @news.save
       gallery_id = get_from_session(:gallery_id)
       if Gallery.exists?(gallery_id)
         @gallery = Gallery.find(gallery_id)
-        @gallery.prepare_sitems(params[:sitems], params[:sitems_new])
+        @gallery.prepare_sitems(params[:sitems])
         @gallery.save
       end
       reset_session
