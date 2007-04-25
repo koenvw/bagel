@@ -1,0 +1,83 @@
+#!/bin/bash
+app_name=$1
+svn_url=$2
+if [ -z ${app_name} ] || [ -z ${svn_url} ]
+then
+  echo "$0 [app_name] [svn_url]"
+    exit 0
+fi
+
+app_root="${app_name}/trunk"
+mkdir -p "${app_root}"
+
+echo "Generating rails project: (${app_root})"
+rails ${app_root}
+
+echo "SVNinitial import: "
+svn import ${app_name} ${svn_url} -m "Initial Import"
+
+rm -rf ${app_root}
+
+echo "Checking out from svn: "
+
+svn checkout ${svn_url}
+cd ${app_root}
+echo "Removing all log files from SVN"
+svn remove log/*
+echo "commiting..."
+svn commit -m 'removing all log files from subversion'
+echo "Ignoring all log files under log dir"
+svn propset svn:ignore "*" log/
+echo "Updating and commiting..."
+svn update log/
+svn commit -m 'Ignoring all files in /log/'
+
+echo "Removing tmp directory from SVN"
+svn remove tmp/
+echo "commiting..."
+svn commit -m 'removing the temp directory from subversion'
+svn update
+
+echo "Ignoring tmp dir"
+svn propset svn:ignore "*" tmp/
+echo "Updating and commiting again...."
+svn update tmp/
+svn commit -m 'Ignore the whole tmp/ directory, might not work on subdirectories?'
+svn update
+
+echo "Ignoring assets under public"
+svn propset svn:ignore assets newsletters plugin_assets filestorage public/
+svn propset svn:ignore tmp index .
+echo "Commiting again...."
+svn commit -m 'Ignoring assets under public'
+svn update
+
+echo "Moving database.yml to database.example"
+svn move config/database.yml config/database.sample.yml
+echo "commiting..."
+svn commit -m 'Moving database.yml to database.sample.yml to provide a template for anyone who checks out the code'
+echo "Ignoring database.yml , updating and commiting..."
+svn propset svn:ignore "database.yml" config/
+svn update config/
+svn commit -m 'Ignoring database.yml'
+echo "Finished."
+
+# install required plugins for bagel
+script/plugin install http://dev.rubyonrails.org/svn/plugins/exception_notification/
+script/plugin install http://svn.rails-engines.org/plugins/engines
+script/plugin install http://svn.techno-weenie.net/projects/plugins/attachment_fu/
+script/plugin install svn://projects.jkraemer.net/acts_as_ferret/tags/stable/acts_as_ferret
+script/plugin install svn://rubyforge.org/var/svn/betternestedset/tags/stable/betternestedset
+script/plugin install http://opensvn.csie.org/rails_file_column/plugins/file_column/trunk
+# fix file_column plugin name
+mv vendor/plugins/trunk vendor/plugins/file_column
+
+# add plugins to svn
+svn status | grep "^\?" | awk "{print \$2}" | xargs svn add
+
+svn commit -m 'Adding required plugins for bagel'
+
+# add bagel plugin
+script/plugin install http://debian.dotprojects.be/svn/bagel/trunk -x
+
+svn up

@@ -1,27 +1,26 @@
 PLUGINS
 =======
 engines http://svn.rails-engines.org/plugins/engines (1.2.0, r593)
-globalize http://svn.globalize-rails.org/svn/globalize/branches/for-1.2/ (r88)
-tiny_mce  https://secure.near-time.com/svn/plugins/trunk/tiny_mce (r74)
 
-exception_notification http://dev.rubyonrails.org/svn/plugins/exception_notification/ (r36)
 file_column http://opensvn.csie.org/rails_file_column/plugins/file_column/trunk (r64)
-app_config http://svn.jarmark.org/rails/app_config (r3)
 attachment_fu http://svn.techno-weenie.net/projects/plugins/attachment_fu/ (r2815)
 acts_as_ferret svn://projects.jkraemer.net/acts_as_ferret/tags/stable/acts_as_ferret
+betternestedset svn://rubyforge.org/var/svn/betternestedset/tags/stable/betternestedset (r11?))
 
-userstamp http://www.delynnberry.com/svn/code/rails/plugins/userstamp (r12)
+(globalize http://svn.globalize-rails.org/svn/globalize/branches/for-1.2/ (r88))
 (help_engine svn://rubyforge.org//var/svn/helpengine (r18))
+(exception_notification http://dev.rubyonrails.org/svn/plugins/exception_notification/ (r36))
 
 
 GEMS
 =========
 gem install hpricot
-gem install htmlentities 
+gem install htmlentities
 gem install rmagick
 gem install memcache-client
 gem install mime-types
 gem install ferret
+gem install capistrano
 
 TEXT TOOLS
 =============

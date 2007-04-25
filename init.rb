@@ -46,5 +46,4 @@ TinyMCE::OptionValidator.load
 ActionController::Base.send(:include, TinyMCE)
 
 # Application
-require 'tiny_mce'
 ActionController::Base.send(:include, BagelApplication)

@@ -1,9 +1,9 @@
 <h1><%= @relation.new_record? ? "Creating" : "Editing" %> Relation</h1>
 
 <% form_tag({ :action => 'edit', :id => @relation }) do -%>
-	<%= error_messages_for 'relation' %>
 
-	<!--[form:relation]-->
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'relation' %>
 	<div class="subContent">
 		<fieldset class="oneline">
 			<label for="relation_name">Name</label>
@@ -15,12 +15,17 @@
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="relation_content_type_id">Type</label>
-            <%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %><br/>
+			<%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %><br/>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
-	<!--[eoform:relation]-->
 
-	<%= submit_tag 'Save Changes' %>
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
 <% end -%>
-or <%= link_to 'Back',:action => 'list' %>

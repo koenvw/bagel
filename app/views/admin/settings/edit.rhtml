@@ -1,8 +1,9 @@
 <h1><%= figure_out_action(@setting) %> setting</h1>
 
 <% form_tag :action => 'edit', :id => @setting do %>
-  <%= error_messages_for 'setting' %>
-	<!--[form:setting]-->
+
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'setting' %>
 	<div class="subContent">
 		<fieldset class="oneline">
 			<label for="setting_name">Name</label>
@@ -22,7 +23,13 @@
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
-	<!--[eoform:setting]-->
-	<%= submit_tag 'Save Changes' %>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
 <% end %>
-or <%= link_to 'Back', :action => 'list' %>

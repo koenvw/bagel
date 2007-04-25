@@ -1,8 +1,9 @@
-<h1>Editing generator</h1>
+<h1><%= figure_out_action(@generator) %> generator</h1>
 
 <% form_tag({:action => "edit", :id => @generator, :website_id => params[:website_id] }, :id => "generator-form" ) do %>
 
 	<%= error_messages_for 'generator' %>
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= hidden_field 'generator', 'template' %>
 	<div class="subContent">
 		<fieldset class="oneline">

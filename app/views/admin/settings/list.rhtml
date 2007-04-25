@@ -1,33 +1,34 @@
-<h1>Listing Settings</h1>
+<div class="topButton">
+	<h1>Configure Settings</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add setting', { :action => "edit" }, :class => "new", :title => "Add new setting" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
 
-<div class="button"><%= link_to "add setting", :action => 'edit' %></div>
-
-<%= Setting.get("watermark_image") %>
-
-<% if @settings.size > 0 %>
-
-<table>
-	<tr style="background: #ddd">
-		<th>Key</th>
-		<th>Value</th>
-		<th colspan="4">Actions</th>
-	</tr>
-<% for setting in @settings %>
-	<tr id="item_<%= setting.id %>">
-		<td><%= indent(setting, image_tag('pagetab.gif', :width => 27, :height => 10)) %><%= link_to setting.name, {:action => 'edit', :id => setting}, :id=> "cat_#{setting.id}" %></td>
-		<td><%= truncate setting.value %></td>
-		<td><%= link_to image_tag('newspaper_delete.png', :border=>0), { :action => 'destroy', :id => setting }, :confirm => 'Are you sure?', :method => :post %></td>
-	</tr>
-<% end %>
-</table>
-<%= sortable_element("sortlist", :url => { :action => "sort" }) %>
-
-<% else %>
-  <div class="item">
-	<span class="itemtitle">Create new settings</span>
-	<span class="itemproperty"></span>
-	<span class="itemproperty"></span>
-  </div>
-<% end %>
-
-<div class="button"><%= link_to "add setting", :action => 'edit' %></div>
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Key</td>
+			<td class="tabDesc">Value</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% for setting in @settings %>
+		<tr class="content">
+			<td><%= indent(setting, image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel")) %><%= link_to setting.name, {:action => 'edit', :id => setting}, :id=> "cat_#{setting.id}" %></td>
+            <td><%= truncate setting.value %></td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to "delete", { :action => 'destroy', :id => setting }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :action => 'edit', :id => setting }, :class => "edit", :title => "Edit Entry" %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% if @settings.size == 0 %>
+		<tr>
+			<td colspan="5">No items yet</td>
+		</tr>
+		<% end %>
+	</table>
+</div>

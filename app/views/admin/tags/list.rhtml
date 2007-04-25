@@ -1,7 +1,10 @@
-<h1>Listing Tags</h1>
-
-<%= breadcrumb(params[:id]) unless params[:id].nil?  %>
-<%# nested_set_full_outline(Category.find(2)) %>
+<div class="topButton">
+	<h1>Tags </h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add tag', { :action => "edit" }, :class => "new", :title => "Add new tag" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
 
 <div id="itemlist">
 <ul id="categories_tree" class="dhtmlgoodies_tree">
@@ -27,9 +30,6 @@ function save_categories()
 </script>
 <% form_tag({:action => 'save_nodes'}, {:id => "categories_save"}) do %>
   <%= hidden_field_tag 'saveString' %>
-  <input type="button" onclick="javascript:save_categories()" value="Save Changes">
+  <!--<input type="button" onclick="javascript:save_categories()" value="Save Changes"> -->
 <% end %>
 </div>
-<br />
-
-<%= link_to image_tag('newspaper_add.png', :border=>0) + ' New category', :action => 'edit' %>
