@@ -1,10 +1,5 @@
 <h1>Editing <%= "gallery".t %></h1>
 
-<%= render :partial => 'admin/tags/popup' %>
-<%= render :partial => 'admin/relations/popup', :locals => { :direction => "out" } %> 
-<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in" } %>
-<%= render :partial => 'admin/sitems/popup', :locals => { :obj => @gallery } %>
-
 <%= start_form_tag :action => 'edit', :id => @gallery %>
   <div id="tab-control">
     <div id="tabs" class="tabs">
@@ -17,12 +12,11 @@
 		<label class="nowidth" for="gallery_title">Title</label><br/>
 		<%= text_field 'gallery', 'title', :class => 'text_field_large' %><br/>
 		<!--[eoform:gallery]-->
-		<%= render :partial => "admin/tags/list", :locals => { :obj => @gallery } %>
-	    <%= render :partial => "admin/relations/list", :locals => { :obj => @gallery, :direction => "in"  } %>
-		<%= render :partial => "admin/relations/list", :locals => { :obj => @gallery, :direction => "out"  } %>
+		<%= render :partial => "admin/tags/list", :locals => { :item => @gallery } %>
+	    <%= render :partial => "admin/relations/list", :locals => { :item => @gallery  } %>
 	  </div>
 	  <div class="page" id="page-2">
-		<%= render :partial => "admin/sitems/list", :locals => { :obj => @gallery } %>
+		<%= render :partial => "admin/sitems/list", :locals => { :item => @gallery } %>
 	  </div>
 	</div>
   </div>

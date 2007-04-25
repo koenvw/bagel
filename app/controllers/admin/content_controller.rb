@@ -58,23 +58,24 @@ class Admin::ContentController < ApplicationController
   # FOTOSPECIAL
   def wizard2
     @images = get_images_from_session
-    if @images.size == 0
-        redirect_to :action => "wizard3", :type_id => params[:type_id] and return
+    if @images.empty?
+    #    redirect_to :action => "wizard3", :type_id => params[:type_id] and return
     end
   end
 
   # FOTOSPECIAL
   def wizard2_submit
-    #render :inline => "<%= debug params %>" and return
-
-    if params[:entries].nil?
+    if get_images_from_session.empty?
+      redirect_to :action => 'wizard3', :type_id => params[:type_id] and return
+    end
+    if params[:entries].nil? &&
       flash[:error] = "No images selected."
       redirect_to :action => 'wizard2', :type_id => params[:type_id] and return
     end
     #
     @images = get_images_from_session
     # create a gallery
-    Gallery.transaction do
+    Container.transaction do
       @gallery = Gallery.create :title => params[:title]
       if @gallery.valid?
         session[:wizard][:gallery_images] ||= []
@@ -84,7 +85,7 @@ class Admin::ContentController < ApplicationController
           @image = @images.select{|i| i.id.to_s == entry }.first
           ### and set the relation to the gallery
           picture_cat = Relation.find_or_create_by_name('Picture')
-          @gallery.sobject.create_in_relations_as_from :to => @image.sobject, :category => picture_cat
+          @gallery.sobject.create_in_relations_as_from :to => @image.sobject, :relation => picture_cat
           ###
           session[:wizard][:gallery_images] << @image.id
         end
@@ -117,7 +118,7 @@ class Admin::ContentController < ApplicationController
       params[:news]["body"] = body
 
       @news.attributes = params[:news]
-      @news.prepare_sitems(params[:sitems], params[:sitems_new])
+      #@news.prepare_sitems(params[:sitems])
 
       if @news.save
         # add contenttype tag
@@ -131,7 +132,7 @@ class Admin::ContentController < ApplicationController
         get_images_from_session.each do |@image|
           if session[:wizard][:gallery_images].nil? || (!session[:wizard][:gallery_images].nil? && session[:wizard][:gallery_images].select{|i| i == @image.id}.size == 0)
           ## no gallery or image is not in gallery
-          @news.sobject.create_in_relations_as_from :to => @image.sobject, :category => picture_cat
+          @news.sobject.create_in_relations_as_from :to => @image.sobject, :relation => picture_cat
           end
         end
 
@@ -139,7 +140,7 @@ class Admin::ContentController < ApplicationController
         unless session[:wizard][:gallery_id].nil?
           @gallery = Gallery.find(session[:wizard][:gallery_id])
           gallery_cat = Relation.find_or_create_by_name('Fotospecial')
-          @news.sobject.create_in_relations_as_from :to => @gallery.sobject, :category => gallery_cat
+          @news.sobject.create_in_relations_as_from :to => @gallery.sobject, :relation => gallery_cat
         end
 
         # unpublish

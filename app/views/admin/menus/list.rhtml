@@ -1,50 +1,32 @@
-
 <div class="topButton">
-<h1>Listing Menus</h1>
+	<h1>Configure Menu</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'New menu', { :action => 'edit' }, :class => "new", :title => "New menu" %></li>
+		<li><%= link_to 'Add menu', { :action => "edit" }, :class => "new", :title => "Add new menu" %></li>
 	</ul>
 </div>
 <div class="clear"></div>
 
-<style>
-  .subContentRightWhite{
-float:right;
-padding:10px 0pt 0pt;
-width:520px;
-  }
-</style>
-
 <div id="contentFrame">
-	<div id="leftRightContent">
-		<div class="subContentLeft">
-			<% form_tag :action => "list",:id => nil do %>
-			Parent <%= select_tag :parent_id, options_for_select(Menu.roots.collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), params[:parent_id]), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;" %><br/>
-			<% end %>
-			<div id="itemlist">
-			<ul id="categories_tree" class="dhtmlgoodies_tree">
-			<li id="node10000" noDrag="true" noSiblings="true"><a href="#">Menu Items</a>
-			<ul>
-			<% if !params[:parent_id].nil_or_empty? %>
-				<% @parent = Menu.find(params[:parent_id]) %>
-				<% @menus = @parent.all_children %>
-				<% @menus.each do |category| %>
-					<li id="node<%= category.id %>">
-					<%= link_to category.name, { :action => 'list', :id => category, :parent_id => params[:parent_id] }, :id => 'cat_' + category.id.to_s %>
-						<%= render_subtree(@menus, category.id) %>
-					</li>
-				<% end %>
-			<% end %>
-			</ul>
-		<div class="clear"></div>
-		<div class="bottom"></div>
-	</div>
-	<div class="subContentRightWhite">
-<% if !params[:id].nil? %>
-	<%= render :partial => "form" %>
-<% end %>
-
-	</div>
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Name</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% for menu in @menus %>
+		<tr class="content">
+			<td><%= indent(menu, image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel")) %><%= link_to menu.name, {:action => 'edit', :id => menu}  %></td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to "delete", { :action => 'destroy', :id => menu }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :action => 'edit', :id => menu }, :class => "edit", :title => "Edit Entry" %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% if @menus.size == 0 %>
+		<tr>
+			<td colspan="5">No items yet</td>
+		</tr>
+		<% end %>
+	</table>
 </div>
-
-

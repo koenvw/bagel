@@ -18,14 +18,14 @@
 	<%= start_form_tag({:action => 'wizard2_submit', :type_id => params[:type_id]},{:name => 'form1'}) %>
 
 	<div class="subContent">
-		<% if @images.size > 0 %>
 		<h3>1. Name your gallery</h3>
 		<fieldset class="oneline">
 			<label for="title">Title</label>
 			<%= text_field_tag 'title', '', :class => 'large_text_input' %>
 		</fieldset>	
 		<br /><br />
-		<h3>2. Select Images</h3>		
+		<h3>2. Select Images</h3>
+		<% if @images.size > 0 %>
 		FIXME: 
 		<input id="chkAll" type="checkbox" name="chkAll" onclick="javascript:SelectAllCheckboxes(this);" /><label for="chkAll"> select (all/none)</label>	
 		<div id="imageGallery">
@@ -53,7 +53,7 @@
 		</div>
 		<% else %>
 		<div style="margin: 0 0 0 0; text-align: center;">No images found</div>
-		<% end %>		
+		<% end %>
 		<div class="bottom"></div>
 	</div>
 
