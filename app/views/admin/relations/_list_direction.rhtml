@@ -24,38 +24,29 @@ end
 
 		<% if request.post? %>
 
-		  <% if params["relations"].nil_or_empty? || direction == "out" %>
-
-			  <li id='relations<%= direction %>_item_none'>There are no relations</li>
-
-		  <% else %>
-
+			<li id='relations<%= direction %>_item_none' style="display: <%= (params["relations"].nil_or_empty? || direction == "out") ? "block" : "none" %>;">There are no relations</li>
 			<% relations = params["relations"] %>
 			<% relations.split(",").each do |element| to_sobject_id = element.split("-")[0]; category_id = element.split("-")[1] %>
 				<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> to_sobject_id, :category_id=> category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => "in"} %>
 			<% end %>
 
-		  <% end %>
-
 		<% else %>
 
-		  <% if direction == "in" %>
-			<% relations = item.sobject.relations_as_from.find(:all,:order => 'position,category_id') %>
-		  <% else %>
-			<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,category_id') %>
-		  <% end %>
-		
-		  <% if relations.empty? %>
-			<li id='relations<%= direction %>_item_none'>There are no relations</li>
-		  <% else %>
-			<% relations.each do |relation| %>
-			  <% if direction == "in" %>
-			  <%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction} %>
-			  <% else %>
-			  <%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.from_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction } %>
-			  <% end %>
+			<% if direction == "in" %>
+				<% relations = item.sobject.relations_as_from.find(:all,:order => 'position,category_id') %>
+			<% else %>
+				<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,category_id') %>
 			<% end %>
-		  <% end %>
+
+			<li id='relations<%= direction %>_item_none' style="display: <%= (relations.empty?) ? "block" : "none" %>;">There are no relations</li>
+
+			<% relations.each do |relation| %>
+				<% if direction == "in" %>
+					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction} %>
+				<% else %>
+					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.from_sobject_id, :category_id=> relation.category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction } %>
+				<% end %>
+			<% end %>
 
 		<% end %>
 		</ul>

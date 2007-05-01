@@ -5,6 +5,10 @@ class Setting < ActiveRecord::Base
   validates_presence_of   :name
   validates_uniqueness_of :name, :scope => :parent_id
 
+  def <=>(other_category)
+    self.name.downcase <=> other_category.name.downcase
+  end
+
   def self.get_cached(name)
     if AppConfig[:perform_caching]
       # CACHE is defined in environments

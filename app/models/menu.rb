@@ -10,9 +10,9 @@ class Menu < ActiveRecord::Base
     end
   end
 
-  #TODO: UGLY!!
+  #FIXME: UGLY!!
   def link(site)
-    if AppConfig[:websites][site] == nil
+    if AppConfig[:websites].nil? || AppConfig[:websites][site] == nil
       website_id = Website.find_by_name(site)
     else
       website_id = AppConfig[:websites][site]
@@ -29,6 +29,7 @@ class Menu < ActiveRecord::Base
   end
 
   def self.list(param)
+    $stderr.puts('DEPRECATION WARNING: Menu.list is deprecated; please use Menu.find')
     find(:all)
   end
 

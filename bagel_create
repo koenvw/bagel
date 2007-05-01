@@ -11,7 +11,9 @@ app_root="${app_name}/trunk"
 mkdir -p "${app_root}"
 
 echo "Generating rails project: (${app_root})"
-rails ${app_root}
+rails ${app_name}
+mkdir ${app_root}
+mv ${app_name}/* ${app_root}
 
 echo "SVNinitial import: "
 svn import ${app_name} ${svn_url} -m "Initial Import"
@@ -46,14 +48,14 @@ svn commit -m 'Ignore the whole tmp/ directory, might not work on subdirectories
 svn update
 
 echo "Ignoring assets under public"
-svn propset svn:ignore assets newsletters plugin_assets filestorage public/
-svn propset svn:ignore tmp index .
+svn propset svn:ignore $'assets\nnewsletters\nplugin_assets\nfilestorage' public/
+svn propset svn:ignore $'tmp\nindex' .
 echo "Commiting again...."
 svn commit -m 'Ignoring assets under public'
 svn update
 
 echo "Moving database.yml to database.example"
-svn move config/database.yml config/database.sample.yml
+svn move config/database.yml config/database.yml.sample
 echo "commiting..."
 svn commit -m 'Moving database.yml to database.sample.yml to provide a template for anyone who checks out the code'
 echo "Ignoring database.yml , updating and commiting..."
@@ -80,4 +82,7 @@ svn commit -m 'Adding required plugins for bagel'
 # add bagel plugin
 script/plugin install http://debian.dotprojects.be/svn/bagel/trunk -x
 
+svn up
+
+svn commit -m 'Adding bagel'
 svn up

@@ -168,7 +168,7 @@ class Sobject < ActiveRecord::Base
     if options[:publish_till]
       publish_till_check = " AND sitems.publish_from < '#{options[:publish_till].to_time.localize("%Y-%m-%d %H:%I:%S")}'"
     elsif options[:status] != :all
-      publish_till_check = " AND (sitems.publish_till<now() OR sitems.publish_till IS NULL)"
+      publish_till_check = " AND (sitems.publish_till>now() OR sitems.publish_till IS NULL)"
     else
       publish_till_check = " AND (sitems.publish_till<'9999-01-01' OR sitems.publish_till IS NULL)"
     end

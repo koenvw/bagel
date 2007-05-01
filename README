@@ -22,4 +22,14 @@ script/plugin install svn://projects.jkraemer.net/acts_as_ferret/tags/stable/act
 3/ Add bagel plugin
 script/plugin install http://debian.dotproject.be/svn/bagel/trunk
 
-Add "bagel_application_setup" to ApplicationController
+
+#- evironment.rb
+#- config/environments
+#- application.rb
+#- routes
+#- remove index.html
+#- copy schema.rb ?
+
+rake db:schema:load
+rake bagel:db:load
+

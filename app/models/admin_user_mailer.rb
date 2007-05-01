@@ -1,4 +1,4 @@
-class AdminUserMailer < ActionMailer::Base
+class AdminUserMailer < ActionMailer::Base #:nodoc:
 
   # FIXME: Determine host based on request
   default_url_options[:host] = 'localhost:3000'

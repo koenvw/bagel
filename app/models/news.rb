@@ -5,10 +5,6 @@ class News < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :body
 
-   def id_url
-    "#{id}-#{title.downcase.gsub(/[^a-z1-9]+/i, '-')}"
-   end
-
   def prepare_sitem
     sitems.each do |sitem|
       sitem.name = title unless title.nil?

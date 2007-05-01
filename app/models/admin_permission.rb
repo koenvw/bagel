@@ -1,4 +1,4 @@
-class AdminPermission < ActiveRecord::Base
+class AdminPermission < ActiveRecord::Base #:nodoc:
   has_and_belongs_to_many :admin_roles
   validates_presence_of :name
   

@@ -17,6 +17,9 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Bagel'
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
+  rdoc.options << '--main' << 'README'
+  rdoc.rdoc_files.include('README', 'LICENSE')
   rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('app/models/*.rb')
+  rdoc.rdoc_files.include('app/controllers/site_controller.rb')
 end

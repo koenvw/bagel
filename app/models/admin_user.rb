@@ -1,4 +1,4 @@
-class AdminUser < ActiveRecord::Base
+class AdminUser < ActiveRecord::Base #:nodoc:
   has_and_belongs_to_many :admin_roles
   
   attr_protected :is_active

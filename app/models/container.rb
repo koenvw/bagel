@@ -1,6 +1,5 @@
 class Container < ActiveRecord::Base
   acts_as_content_type
-
   validates_presence_of :title
 
   def prepare_sitem

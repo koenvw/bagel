@@ -72,6 +72,10 @@ module ActsAsContentType
       end
     end
 
+    def id_url
+      "#{id}-#{title.downcase.gsub(/[^a-z1-9]+/i, '-')}"
+    end
+
     def publish_date(site_id)
       date = sitems.find_by_website_id(site_id).publish_from
       if date.nil?
@@ -167,7 +171,7 @@ module ActsAsContentType
     def type_id=(content_type_id)
       sobject.content_type_id = content_type_id
     end
-    
+
     def type_id
       sobject.content_type_id
     end
@@ -205,7 +209,7 @@ module ActsAsContentType
       current_relations = sobject.relations_as_from
       added_relations = []
       unless relations.nil?
-        elements = relations.split(",") 
+        elements = relations.split(",")
         elements.each do |element|
           to_sobject_id = element.split("-")[0]
           relation_id = element.split("-")[1]

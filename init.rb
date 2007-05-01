@@ -22,7 +22,7 @@ ActionController::Base.send(:include, Authorization)
 
 # userstamp
 require 'userstamp'
-ActionController::Base.send(:before_filter, Proc.new { |c| AdminUser.current_user = AdminUser.find(c.session[:admin_user]) unless c.session[:admin_user].nil? })
+ActionController::Base.send(:before_filter, Proc.new { |c| AdminUser.current_user = (c.session[:admin_user] ? AdminUser.find(c.session[:admin_user]) : nil) })
 ActiveRecord::Base.send(:include, ActiveRecord::Userstamp)
 ActiveRecord::Base.relates_to_user_in(:admin_users)
 

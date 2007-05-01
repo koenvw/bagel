@@ -1,2 +1,2 @@
-class DbFile < ActiveRecord::Base
+class DbFile < ActiveRecord::Base #:nodoc:
 end

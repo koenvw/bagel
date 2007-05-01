@@ -14,7 +14,7 @@
 <% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{category_id}" %>
 
 <li id="<%= li_id %>" class="draggable">
-  <span class="dragme"><%= image_tag "bluegel/icons/icon_draghandle.png", :plugin => "bagel" %></span> 
+  <span class="dragme"><%= image_tag "bluegel/icons/icon_draghandle.png", :plugin => "bagel" %></span>
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
 <% unless @sobject.content_type == "News" && @sobject.content.title == "" %> 
 

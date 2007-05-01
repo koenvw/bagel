@@ -1,4 +1,4 @@
-class Page < ActiveRecord::Base
+class Page < ActiveRecord::Base #:nodoc:
 
   acts_as_content_type
 

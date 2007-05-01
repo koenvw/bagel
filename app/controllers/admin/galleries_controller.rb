@@ -15,17 +15,15 @@ class Admin::GalleriesController < ApplicationController
     @gallery = Gallery.find(params[:id]) || Gallery.new
     if request.post?
       @gallery.attributes = params[:gallery]
-      @gallery.prepare_sitems(params[:sitems], params[:sitems_new])
-      if @gallery.save
-        @gallery.save_tags(params["tags"])
-        @gallery.save_relationships(params["relationsout_id"],params["relationsout_cat_id"],params["relsout_del_id"],params["relsout_del_cat_id"],true)
-        @gallery.save_relationships(params["relationsin_id"],params["relationsin_cat_id"],params["relsin_del_id"],params["relsin_del_cat_id"])
-        @gallery.set_updated_by(params)
-        flash[:notice] = 'Gallery was successfully updated.'
-        if params[:redirect]
-          redirect_to params[:redirect]+"?website_id=#{params[:website_id]}&search_string=#{params[:search_string]}&content_type=#{params[:content_type]}"
-        else
-          redirect_to :controller => "content", :action => 'list'
+      @gallery.prepare_sitems(params[:sitems])
+
+      Gallery.transaction do
+        if @gallery.save
+          @gallery.save_tags(params[:tags])
+          @gallery.save_relations(params[:relations])
+          @gallery.set_updated_by(params)
+          flash[:notice] = 'Gallery was successfully updated.'
+          redirect_to params[:referer] || {:controller => "content", :action => "list"}
         end
       end
     end
@@ -35,10 +33,7 @@ class Admin::GalleriesController < ApplicationController
     gallery=Gallery.find(params[:id])
     gallery.sobject.relations_as_from.destroy_all
     gallery.destroy
-    if params[:redirect]
-      redirect_to params[:redirect]+"?website_id=#{params[:website_id]}&search_string=#{params[:search_string]}&content_type=#{params[:content_type]}"
-    else
-      redirect_to :controller => "content", :action => 'list'
-    end
+    flash[:notice] = 'Item was successfully destroyed.'
+    redirect_to :back
   end
 end

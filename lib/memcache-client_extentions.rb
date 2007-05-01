@@ -1,7 +1,5 @@
 # stolen from plugin: http://blog.zvents.com/2006/11/1/rails-plugin-memcacheclient-extensions
-# samples:
-# <% cache("time",:expire => 1.minute) do %> <%= Time.now %> <% end %>
-# <% cache("cache_1m_time") do %> <%= Time.now.tomorrow %> <% end %>
+
 class MemCache
   @@server_stats = Hash.new
   cattr_accessor :server_stats
@@ -73,11 +71,13 @@ class MemCache
   end
 end
 
-# stolen from plugin http://agilewebdevelopment.com/plugins/memcache_fragments_with_time_expiry
-module ActionView
-  module Helpers
-    # See ActionController::Caching::Fragments for usage instructions.
+module ActionView #:nodoc:
+  module Helpers #:nodoc:
     module CacheHelper
+      # stolen from plugin http://agilewebdevelopment.com/plugins/memcache_fragments_with_time_expiry
+      # samples:
+      #   <% cache("time",:expire => 1.minute) do %> <%= Time.now %> <% end %>
+      #   <% cache("cache_1m_time") do %> <%= Time.now.tomorrow %> <% end %>
       def cache(name = {}, options=nil, &block)
         @controller.cache_erb_fragment(block, name, options)
       end
@@ -85,19 +85,21 @@ module ActionView
   end
 end
 
-module ActionController::Caching::Fragments
-  # modified so that adding "clear=1" to the querystring clears the cache
-  def cache_erb_fragment(block, name = {}, options = nil)
-    unless perform_caching then block.call; return end
+module ActionController::Caching #:nodoc:
+  module Fragments
+    # modified so that adding "clear=1" to the querystring clears the cache
+    def cache_erb_fragment(block, name = {}, options = nil)
+      unless perform_caching then block.call; return end
 
-    buffer = eval("_erbout", block.binding)
+      buffer = eval("_erbout", block.binding)
 
-    if params[:clear].nil? && cache = read_fragment(name, options)
-      buffer.concat(cache)
-    else
-      pos = buffer.length
-      block.call
-      write_fragment(name, buffer[pos..-1], options)
+      if params[:clear].nil? && cache = read_fragment(name, options)
+        buffer.concat(cache)
+      else
+        pos = buffer.length
+        block.call
+        write_fragment(name, buffer[pos..-1], options)
+      end
     end
   end
 end

@@ -50,6 +50,9 @@ class Array
       element.is_a?(Array) ? element.select {|el| el.nil? }.size == element.size : element.nil? 
     }.size > 0
   end
+  def nil_or_empty?
+    empty?
+  end
 end
 class NilClass
   def nil_or_empty?

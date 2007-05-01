@@ -2,13 +2,13 @@
 # Insert line: ["require 'plugins/app_config/lib/configuration'","require 'memcache_util'","require 'mime/types'"]
 # before Initializer.run in conf/environment.rb file
 #
-#install.rb                                                                                                                                               
-#- evironment.rb                                                                                                                                          
-#- config/environments                                                                                                                                    
-#- application.rb                                                                                                                                         
-#- routes                                                                                                                                                 
-#- remove index.html                                                                                                                                      
-#- copy schema.rb ?    
+#install.rb
+#- evironment.rb
+#- config/environments
+#- application.rb
+#- routes
+#- remove index.html
+#- copy schema.rb ?
 
 file = File.join(File.dirname(__FILE__), '../../../config/environment.rb')
 unless File.exists?(file)
@@ -54,7 +54,7 @@ END
 end
 
 # add requires
-["require 'plugins/app_config/lib/configuration'","require 'memcache_util'","require 'mime/types'"].each do |line|
+["require 'plugins/bagel/lib/configuration'","require 'memcache_util'","require 'mime/types'"].each do |line|
   insert_line(line, 'Rails::Initializer.run', file)
 end
 
@@ -65,7 +65,7 @@ config = <<EOC
   config.plugins = ["engines","betternestedset","exception_notification","bagel","*"]
 
   #Application Config
-  config.app_config.content_types = ["News","Page","Image","Form","FormDefinition","TestArticle","Video","Container","SiteUser","Link","Document","Generator"]
+  config.app_config.content_types = ["News","Image","Form","FormDefinition","Container","SiteUser","Document","Generator"]
   config.app_config.content_status = ["Draft","Reviewed","Published","Hidden"]
 
   # akismet key

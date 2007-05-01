@@ -483,7 +483,7 @@
 		background: #fff ;
 		padding-left:  5px;
 	}
-	.subContent .relationContent li.draggable span.dragme
+	span.dragme
 	{
 		cursor: pointer;
 	}

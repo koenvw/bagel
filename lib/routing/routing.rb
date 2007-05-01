@@ -1,12 +1,15 @@
 module Bagel #:nodoc:
-  # source: http://weblog.jamisbuck.org/2006/10/26/monkey-patching-rails-extending-routes-2
-  module Routing
+  module Routing #:nodoc:
 
-    module RouteExtensions #:nodoc:
-      def self.included(base)
+    module RouteExtensions 
+      def self.included(base) #:nodoc:
         base.alias_method_chain :recognition_conditions, :host
       end
 
+      # Source: http://weblog.jamisbuck.org/2006/10/26/monkey-patching-rails-extending-routes-2.
+      #
+      # Allows extra conditions in routes:  :host, :domain, :subdomain.
+      #   map.connect '/nieuws', :controller => 'site', :action => 'content', :type => 'generator', :id => 'auto55_be_list_nieuws', :site => 'auto55_be', :conditions => {:subdomain => 'www',:domain => 'auto55.be'}
       def recognition_conditions_with_host
         result = recognition_conditions_without_host
         result << "conditions[:host] === env[:host]" if conditions[:host]
