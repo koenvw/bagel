@@ -9,7 +9,7 @@
 <% for link in @links %>
    <div id="item">
     <span class="itemtitle"><%= link_to link.title, :controller => 'links', :action => 'edit', :id => link %></span>
-    <span class="itemproperty"><%= link.created_on.format_out %></span>
+    <span class="itemproperty"><%= link.created_on.formatted %></span>
     <span class="itemproperty"><%= link_to image_tag('link_edit', :border=>0) ,:controller => 'links', :action => 'edit', :id => link %></span>
     <span class="itemproperty"><%= link_to image_tag('link_delete', :border=>0), {:controller => 'links', :action => 'destroy', :id => link }, :confirm => 'Are you sure?', :method => :post %></span>
    </div>

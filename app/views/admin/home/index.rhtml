@@ -24,7 +24,7 @@
 			<tr class="content">
 				<td><%= link_to @sobject.content.title, :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
 				<td><%= @sobject.ctype_name %></td>
-				<td><%= @sobject.content.updated_on.format_out %></td>
+				<td><%= @sobject.content.updated_on.formatted %></td>
 				<td class="iconbox">
 					<span class="icon">
 						<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
@@ -52,7 +52,7 @@
 			<tr class="content">
 				<td><%= link_to @sobject.content.title, :controller => @sobject.content.class.to_s.tableize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
 				<td><%= @sobject.ctype_name %></td>
-				<td><%= @sobject.content.updated_on.format_out %></td>
+				<td><%= @sobject.content.updated_on.formatted %></td>
 				<td class="iconbox" style="width: 150px;">
 					<span class="icon">
 					<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>

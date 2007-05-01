@@ -8,7 +8,7 @@ class Category < ActiveRecord::Base
   end
 
   def <=>(other_category)
-    self.name <=> other_category.name
+    self.name.downcase <=> other_category.name.downcase
   end
 
   ### DEPRECATED ###

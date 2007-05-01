@@ -41,8 +41,8 @@ r_sub_type="" if r_sub_type.nil?
 		:position => :top
     %>
 </td>
-<td><%= @form.created_on.format_out %></td>
-<td><%= @form.updated_on.format_out %></td>
+<td><%= @form.created_on.formatted %></td>
+<td><%= @form.updated_on.formatted %></td>
 </tr>
 <% end %>
 </table>

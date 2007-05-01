@@ -38,6 +38,10 @@ module ActsAsEnhancedNestedSet
       moving_node.move_right
     end
 
+    def sort_all(sorted_list)
+      #FIXME:
+    end
+
   end
 
   module InstanceMethods
@@ -115,9 +119,7 @@ module ActsAsEnhancedNestedSet
       self.has_parent? ? self.siblings : (self.roots - [self])
     end
 
-    def <=>(other_category)
-      self.name.downcase <=> other_category.name.downcase
-    end
+    
 
     def sort_children
       return unless self.has_children?

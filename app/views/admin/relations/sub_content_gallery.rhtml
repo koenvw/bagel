@@ -30,8 +30,8 @@ r_type='gallery'
 		:position => :top
     %>
 </td>
-	<td><%= @gallery.created_on.format_out %></td>
-	<td><%= @gallery.updated_on.format_out %></td>
+	<td><%= @gallery.created_on.formatted %></td>
+	<td><%= @gallery.updated_on.formatted %></td>
 </tr>
 <% end %>
 </table>

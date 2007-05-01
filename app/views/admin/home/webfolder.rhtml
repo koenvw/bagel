@@ -36,7 +36,7 @@
 	<% end %>
 	</td>
 	</td>
-		<td><%= File.atime(entry).format_out %></td>
+		<td><%= File.atime(entry).formatted %></td>
 		<td class="iconbox">
 			<span class="icon">
 				<%= link_to "delete", "#", :class => "delete", :confirm => 'Are you sure?' %>

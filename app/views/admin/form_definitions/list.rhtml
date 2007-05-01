@@ -17,7 +17,7 @@
 		<% for form_definition in @form_definitions %>
 		<tr class="content">
 			<td><%= link_to form_definition.name, { :action => 'edit', :id => form_definition } %></td>
-			<td><%= form_definition.created_on.format_out %></td>
+			<td><%= form_definition.created_on.formatted %></td>
 			<td class="iconbox" style="width: 150px;">
 				<span class="icon">
 					<%= link_to "delete", { :action => 'destroy', :id => form_definition }, :class => "delete", :confirm => 'Are you sure?'.t, :method => :post %>

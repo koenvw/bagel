@@ -32,8 +32,8 @@ r_type='book'
 		:position => :top
     %>
 </td>
-	<td><%= @book.created_on.format_out %></td>
-	<td><%= @book.updated_on.format_out %></td>
+	<td><%= @book.created_on.formatted %></td>
+	<td><%= @book.updated_on.formatted %></td>
 </tr>
 <% end %>
 </table>
