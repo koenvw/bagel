@@ -23,7 +23,8 @@ module ApplicationHelper
 
   # <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
   def select_nested_set_tag(name, type, selected = 0)
-    select_tag name, options_for_select(nested_set_options_for_select(type) { |item| "#{'...' * item.level}#{item.name}" }.unshift(["","0"]), selected)
+    options = options_for_select(nested_set_options_for_select(type) { |item| "#{'...' * item.level}#{item.name}" }.unshift(["","0"]), selected)
+    select_tag name, options
   end
 
   def select_nested_set(object, method, type, options = {}, html_options = {})
@@ -140,7 +141,7 @@ module ApplicationHelper
     # Check permissions
     required_permissions = controller.permission_scheme[action] || []
     is_authorized = (required_permissions.select { |p| AdminUser.current_user.has_admin_permission?(p) }.size > 0)
-    
+   
     is_authorized ? url : nil
   end
 

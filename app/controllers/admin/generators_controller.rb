@@ -11,11 +11,9 @@ class Admin::GeneratorsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
   def list
-    unless params[:website_id].nil?
-      conditions = ["website_id = ?",params[:website_id]]
-    else
-      conditions = nil
-    end
+    conditions = "1=1"
+    conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].nil?
+    conditions << " AND generator_folder_id = #{params[:id]}" unless params[:id].nil?
     @generator_pages, @generators = paginate :generator, :per_page => 100, :order => "name asc", :conditions => conditions
     @websites = Website.find(:all)
   end

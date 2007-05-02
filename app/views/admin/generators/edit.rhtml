@@ -25,6 +25,17 @@
 			<label for="generator_name">ContentType</label>
 			<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %><br/>
 		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_folder_id">Folder</label>
+            <% options = "<option value=\"\"></option>" %>
+			<% Website.find(:all).each do |website| %>
+			  <% options << "<optgroup label=\"#{website.name}\">" %>
+			  <% elements = GeneratorFolder.find(:all, :conditions => ["website_id = ?",website.id]) %>
+			  <% options << options_for_select(elements.map {|item| ["#{'...' * item.level}#{item.name}",item.id]}, @generator.generator_folder_id) %>
+			  <% options << "</optgroup>" %>
+			<% end %>
+			<%= select_tag :generator_folder_id, options %>
+		</fieldset>
 		<div class="bottom"></div>
 	</div>
 

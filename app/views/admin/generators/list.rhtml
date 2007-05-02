@@ -1,8 +1,8 @@
-
 <div class="topButton">
-<h1>Listing generators</h1>
+<h1>Listing templates</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'New generator', { :action => 'edit', :website_id => params[:website_id] }, :class => "new", :title => "New generator" %></li>
+		<li><%= link_to 'New template', { :action => 'edit', :website_id => params[:website_id] }, :class => "new", :title => "New template" %></li>
+		<li><%= link_to 'List', { :controller => "generator_folders", :action => 'list' }, :class => "list", :title => "List folders"  %></li>
 	</ul>
 </div>
 <div class="clear"></div>
@@ -12,23 +12,48 @@ float:right;
 padding:10px 0pt 0pt;
 width:520px;
   }
+  .padstuff{
+padding:5px 10px 0pt;
+  }
 </style>
 
 <div id="contentFrame">
 <!-- Begin left/right container -->
 	<div id="leftRightContent">
-        <div class="subContentLeft">
-           dljfkds
-           fjs<br>
-           fjs<br>
-           fjs<br>
-           fjs<br>
-           fjs<br>
-           fjs<br>
-          <div class="clear"></div>
-          <div class="bottom"></div>
+		<div class="subContentLeft">
+			<div class="padstuff">
+				<% form_tag :action => "list",:id => nil do %>
+					Website <%= select_tag :website_id, options_for_select(Website.find(:all).collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), params[:website_id]), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;" %><br/>
+				<% end %>
+				<ul id="categories_tree" class="dhtmlgoodies_tree">
+					<li id="node10000" noDrag="true" noSiblings="true"><%= link_to "Folders", :action => "list", :id => nil, :website_id => params[:website_id] %>
+				<ul>
+				<% if !params[:website_id].nil_or_empty? %>
+					<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == params[:website_id] } %>
+						<% @folders.each do |folder| %>
+							<li id="node<%= folder.id %>" noDrag="true">
+								<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => params[:website_id] }, :id => 'cat_' + folder.id.to_s %>
+									<%= render_subtree(folder.all_children, folder.id) %>
+							</li>
+					<% end %>
+				<% end %>
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="bottom"></div>
 		</div>
 		<div class="subContentRightWhite">
+		  <%= 
+			unless params[:id].nil?
+			  nested_set_full_outline(GeneratorFolder.find(params[:id])) do |item, current|
+				if params[:id] == item.id.to_s
+				  item.name
+				else
+				  link_to item.name, :id => item.id, :website_id => params[:website_id]
+				end
+			  end
+			end
+		  %>
 			<table class="uniTable" style="width: 520px">
 				<tr class="heading">
 					<td class="tabDesc">Name</td>
@@ -55,6 +80,13 @@ width:520px;
 				</tr>
 				<% end %>
 			</table>
+			<% if @generators.size == 0 %>
+			  <% if params[:id].nil? %>
+				 No templates found.
+			  <% else %>
+				 No templates found in folder '<%= GeneratorFolder.find(params[:id]).name %>'
+			  <% end %>
+			<% end %>
 		</div>
 	</div>
 </div>
@@ -65,7 +97,7 @@ width:520px;
 		<% if @generator_pages.current.next %>
 			<li><%= link_to 'Next page', { :page => @generator_pages.current.next }, :class => "next" %></li>
 		<% end %>
-		<% if @generator_pages.current.previous %> 
+		<% if @generator_pages.current.previous %>
 			<li><%= link_to 'Prev page', { :page => @generator_pages.current.previous }, :class => "prev" %></li>
 		<% end %>
 		</ul>

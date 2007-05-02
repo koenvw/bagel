@@ -2,6 +2,7 @@ class Generator < ActiveRecord::Base
   acts_as_content_type
 
   belongs_to :website
+  belongs_to :generator_folder
   validates_presence_of :name
 
   def create_default_sitems
