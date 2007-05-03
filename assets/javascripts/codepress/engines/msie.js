@@ -23,7 +23,7 @@ CodePress = {
 		if(typeof(editor)=='undefined' && !arguments[0]) return;
 		chars = '|32|46|62|'; // charcodes that trigger syntax highlighting
 		cc = '\u2009'; // control char
-		editor = document.getElementsByTagName('body')[0];
+		editor = document.getElementsByTagName('pre')[0];
 		editor.contentEditable = 'true';
 		document.getElementsByTagName('body')[0].onfocus = function() {editor.focus();}
 		document.attachEvent('onkeydown', this.metaHandler);
@@ -139,7 +139,7 @@ CodePress = {
 	},
 	
 	readOnly : function() {
-		editor.contentEditable = (arguments[0]) ? 'true' : 'false';
+		editor.contentEditable = (arguments[0]) ? 'false' : 'true';
 	},
 	
 	complete : function(trigger) {

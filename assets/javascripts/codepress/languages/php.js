@@ -2,7 +2,8 @@
  * CodePress regular expressions for PHP syntax highlighting
  */
 
-Language.syntax = [ // PHP
+// PHP
+Language.syntax = [
 	{ input : /(&lt;[^!\?]*?&gt;)/g, output : '<b>$1</b>' }, // all tags
 	{ input : /(&lt;style.*?&gt;)(.*?)(&lt;\/style&gt;)/g, output : '<em>$1</em><em>$2</em><em>$3</em>' }, // style tags
 	{ input : /(&lt;script.*?&gt;)(.*?)(&lt;\/script&gt;)/g, output : '<ins>$1</ins><ins>$2</ins><ins>$3</ins>' }, // script tags
@@ -18,7 +19,6 @@ Language.syntax = [ // PHP
 	{ input : /(&lt;!--.*?--&gt.)/g, output : '<big>$1</big>' } // html comments
 ]
 
-// activated with tab
 Language.snippets = [
 	{ input : 'if', output : 'if($0){\n\t\n}' },
 	{ input : 'ifelse', output : 'if($0){\n\t\n}\nelse{\n\t\n}' },
@@ -42,9 +42,8 @@ Language.snippets = [
 	{ input : 'ret', output : 'return $0;' },
 	{ input : 'def', output : 'define(\'$0\',\'\');' },
 	{ input : '<?', output : 'php\n$0\n?>' }
-],
+]
 
-// only 1 character auto-complete
 Language.complete = [
 	{ input : '\'', output : '\'$0\'' },
 	{ input : '"', output : '"$0"' },
@@ -53,7 +52,6 @@ Language.complete = [
 	{ input : '{', output : '{\n\t$0\n}' }		
 ]
 
-// ctrl+shift+inputKey
 Language.shortcuts = [
 	{ input : '[space]', output : '&nbsp;' },
 	{ input : '[enter]', output : '<br />' } ,

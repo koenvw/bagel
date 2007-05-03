@@ -142,6 +142,7 @@
 			overflow: hidden;
 			text-decoration: none;
 			color: #fff;
+			font-size: 14px;
 		}
 		#header ul.mainMenu a:hover { background-position: -241px 0px; }
 		#header ul.mainMenu .active:hover { background-position: 0px 0px; }

@@ -2,21 +2,22 @@
  * CodePress regular expressions for CSS syntax highlighting
  */
 
-Language.syntax = [ // CSS
-	{ input : /(.*?){(.*?)}/g,output : '<b>$1</b>{<u>$2</u>}' },	// tags, ids, classes, values
-	{ input : /([\w-]*?):([^\/])/g,output : '<a>$1</a>:$2' },		// keys
-	{ input : /\((.*?)\)/g,output : '(<s>$1</s>)' }, 				// parameters
-	{ input : /\/\*(.*?)\*\//g,output : '<i>/*$1*/</i>'}			// comments
-];
+// CSS
+Language.syntax = [
+	{ input : /(.*?){(.*?)}/g,output : '<b>$1</b>{<u>$2</u>}' }, // tags, ids, classes, values
+	{ input : /([\w-]*?):([^\/])/g,output : '<a>$1</a>:$2' }, // keys
+	{ input : /\((.*?)\)/g,output : '(<s>$1</s>)' }, // parameters
+	{ input : /\/\*(.*?)\*\//g,output : '<i>/*$1*/</i>'} // comments
+]
 
-Language.snippets = [];
+Language.snippets = []
 
-Language.complete = [ // Auto complete only for 1 character
-	{input : '\'',output : '\'$0\'' },
-	{input : '"', output : '"$0"' },
-	{input : '(', output : '\($0\)' },
-	{input : '[', output : '\[$0\]' },
-	{input : '{', output : '{\n\t$0\n}' }		
-];
+Language.complete = [
+	{ input : '\'',output : '\'$0\'' },
+	{ input : '"', output : '"$0"' },
+	{ input : '(', output : '\($0\)' },
+	{ input : '[', output : '\[$0\]' },
+	{ input : '{', output : '{\n\t$0\n}' }		
+]
 
-Language.shortcuts = [];
+Language.shortcuts = []

@@ -57,7 +57,7 @@ svn update
 echo "Moving database.yml to database.example"
 svn move config/database.yml config/database.yml.sample
 echo "commiting..."
-svn commit -m 'Moving database.yml to database.sample.yml to provide a template for anyone who checks out the code'
+svn commit -m 'Moving database.yml to database.yml.sample to provide a template for anyone who checks out the code'
 echo "Ignoring database.yml , updating and commiting..."
 svn propset svn:ignore "database.yml" config/
 svn update config/
