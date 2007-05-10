@@ -1,0 +1,39 @@
+# Looks like this:
+# 
+#   7   10 11 
+#   |   
+# +-+-+ 
+# |   | 
+# 8   9 
+
+node_with_children:
+  id: 7
+  name: Websites
+  lft: 13
+  rgt: 18
+
+child_1:
+  id: 8
+  name: Child Zzz
+  parent_id: 7
+  lft: 14
+  rgt: 15
+
+child_2:
+  id: 9
+  name: Child Aaa
+  parent_id: 7
+  lft: 16
+  rgt: 17
+
+node_without_children:
+  id: 10
+  name: Node without children
+  lft: 19
+  rgt: 20
+
+node_without_parent:
+  id: 11
+  name: Node without parent
+  lft: 21
+  rgt: 22

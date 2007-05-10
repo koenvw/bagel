@@ -1,5 +1,3 @@
-require 'test_helper'
-
 class ActsAsContentTypeTest < Test::Unit::TestCase #:nodoc:
   fixtures :news
   fixtures :categories
@@ -27,10 +25,11 @@ class ActsAsContentTypeTest < Test::Unit::TestCase #:nodoc:
     @news.save_tags(tags_array)
     @news.reload
     assert_equal 2, @news.tags.size
+
     tags_array = "1,2"
     @news.save_tags(tags_array)
     @news.reload
     assert_equal 2, @news.tags.size
-    
+
   end
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+first:
+  id: 1
+  from_sobject_id: 1
+  to_sobject_id: 1
+  category_id: 1
+another:
+  id: 2
+  from_sobject_id: 2
+  to_sobject_id: 2
+  category_id: 2
