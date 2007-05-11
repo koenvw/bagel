@@ -1,3 +1,4 @@
+
 <div class="topButton">
 <h1>Listing templates</h1>
 	<ul class="mainNav">
@@ -7,19 +8,22 @@
 </div>
 <div class="clear"></div>
 <style>
-  .subContentRightWhite{
-float:right;
-padding:10px 0pt 0pt;
-width:520px;
-  }
-  .padstuff{
-padding:5px 10px 0pt;
-  }
+.subContentRightWhite
+{
+	float:right;
+	padding: 4px 0 0 0;
+	width:520px;
+}
+.padstuff{
+	padding:5px 10px 0pt;
+}
 </style>
 
 <div id="contentFrame">
 <!-- Begin left/right container -->
 	<div id="leftRightContent">
+	
+	
 		<div class="subContentLeft">
 			<div class="padstuff">
 				<% form_tag :action => "list",:id => nil do %>
@@ -42,19 +46,21 @@ padding:5px 10px 0pt;
 			<div class="clear"></div>
 			<div class="bottom"></div>
 		</div>
-		<div class="subContentRightWhite">
+		
+		
+		<div class="subContentRight">
 		  <%= 
 			unless params[:id].nil?
 			  nested_set_full_outline(GeneratorFolder.find(params[:id])) do |item, current|
 				if params[:id] == item.id.to_s
-				  item.name
+				  "<h2>#{item.name}</h2>"
 				else
 				  link_to item.name, :id => item.id, :website_id => params[:website_id]
 				end
 			  end
 			end
 		  %>
-			<table class="uniTable" style="width: 520px">
+			<table class="uniTable">
 				<tr class="heading">
 					<td class="tabDesc">Name</td>
 					<td class="colDesc">Description</td>
@@ -70,7 +76,7 @@ padding:5px 10px 0pt;
 							<span class="greyText">empty</span>
 						<% end %>
 					</td>
-					<td class="iconbox" style="width: 150px;">
+					<td class="iconbox"  style="width: 150px;">
 						<span class="icon">
 							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => params[:website_id] }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
 							<%= link_to "edit", { :action => 'edit', :id => generator, :website_id => params[:website_id] } , :class => "edit"  %>
@@ -79,14 +85,19 @@ padding:5px 10px 0pt;
 					</td>
 				</tr>
 				<% end %>
+				<% if @generators.size == 0 %>
+				<tr>
+					<td colspan="3">
+					<% if params[:id].nil? %>
+						No templates found.
+						<% else %>
+						No templates found in folder '<%= GeneratorFolder.find(params[:id]).name %>'
+					<% end %>
+					</td>
+				</tr>
+				<% end %>
 			</table>
-			<% if @generators.size == 0 %>
-			  <% if params[:id].nil? %>
-				 No templates found.
-			  <% else %>
-				 No templates found in folder '<%= GeneratorFolder.find(params[:id]).name %>'
-			  <% end %>
-			<% end %>
+			<div class="bottom"></div>
 		</div>
 	</div>
 </div>

@@ -142,7 +142,6 @@
 			overflow: hidden;
 			text-decoration: none;
 			color: #fff;
-			font-size: 14px;
 		}
 		#header ul.mainMenu a:hover { background-position: -241px 0px; }
 		#header ul.mainMenu .active:hover { background-position: 0px 0px; }
@@ -330,8 +329,8 @@
 	ul.mainNav li a.next:hover { background-position: -105px -172px; }
 	ul.mainNav li a.prev { background-position: -2px -207px; }
 	ul.mainNav li a.prev:hover { background-position: -105px -207px; }
-	ul.mainNav li a.new { width: 122px; background-position: -2px -458px; }
-	ul.mainNav li a.new:hover { background-position: -125px -458px; }
+	ul.mainNav li a.new { width: 122px; background-position: -2px -459px; }
+	ul.mainNav li a.new:hover { background-position: -125px -459px; }
 	ul.mainNav li a.back { background-position: -2px -606px; }
 	ul.mainNav li a.back:hover { background-position: -105px -606px; }
 	a.filter { margin-top: -5px; background-position: -2px -379px; }
@@ -481,21 +480,32 @@
 	}
 	.subContent .relationContent li.draggable
 	{
-		background: #fff ;
-		padding-left:  5px;
-	}
-	span.dragme
-	{
+		background: #fff url('../../images/bluegel/relation_handle.png') no-repeat center left;
+		border: none;
+		margin-bottom: 7px;
+		padding: 0 0 0 40px;
 		cursor: pointer;
+		height: 39px;
+		line-height: 39px;
+		overflow: hidden;
+	}
+	.subContent .relationContent li.noitem
+	{
+		border: none;
+		background: none;
+		color: #666;
+		padding: 0;
 	}
 	.subContent .relationContent li.draggable div.imgItem
 	{
-		height: 40px;
+		height: 29px;
+		margin-top: 5px;
 		padding-left: 80px;
+		line-height: 28px;
 		background-repeat: no-repeat;
 		background-position: left center;
+		ovarflow: hidden;
 	}
-	.subContent .relationContent li.draggable div.imgItem div { padding-top: 12px; }
 	.subContent .relationContent li span.icon a.edit,
 	.subContent .relationContent li span.icon a.delete
 	{
@@ -514,6 +524,7 @@
 	
 	/* Website view */
 	
+	.subContentRight table.uniTable,
 	#content .subContent table.uniTable
 	{
 		width: 775px;
@@ -527,12 +538,19 @@
 	#content .subContent table.uniTable img.date { cursor: pointer; }
 	#content .subContent table.uniTable tr.hidden td { background: #eeeeee; }
 	#content .subContent table.uniTable input.bigText { width: 450px; }
+
+	.subContentRight table.uniTable
+	{
+		width: 490px !important;
+		margin: 0 auto 0 auto !important;
+	}
+
 	/* Image Revisions */
 	
 	.subContent .imgPreview
 	{
 		position: absolute;
-		top: 10px;
+		top: 15px;
 		padding: 5px;
 		right: 32px;
 		border: 1px solid #ccc;
@@ -741,13 +759,40 @@
 		width: 760px;
 		background-color: #DADADA;
 	}
+	fieldset.oneline
+	{
+		display: block;
+		position: relative;
+		margin-bottom: 5px;
+		border-collapse: collapse;
+		padding: 11px;
+		width: 755px;
+	}
+	fieldset.oneline .posSelects,
+	fieldset.oneline .posRight
+	{
+		position: absolute;
+		right: 15px !important;
+		right: 5px;
+		top: 0 !important;
+		top: 11px;
+	}
+	fieldset.oneline .posSelects
+	{
+		right: 103px !important;
+		top: 3px !important;
+		top: 11px;
+		right: 95px;
+	}
+	fieldset.oneline .posSelects select { width: 100px; }
 	#dragdropContainer fieldset.oneline { margin-bottom: 10px; width: 788px; }
 	fieldset.oneline label
 	{
 		font-size: 14px;
 		padding-top: 2px;
 		float: left;
-		margin-right: 40px;
+		display: block;
+		width: 114px;
 	}
 	fieldset.oneline label.small { margin: 0 5px 0 5px; font-size: 11px; float: none; }
 	fieldset.oneline input.large_text_input_fullsize,
@@ -759,12 +804,11 @@
 		padding: 2px;
 		height: 20px;
 		width: 630px;
-		float: right;
 	}
 	fieldset.oneline select.largeSelect { width: 200px; }
 	.subContent .mceFrame 
 	{
-		margin: 15px 0 0 29px;
+		margin: 0 0 0 29px;
 		width: 772px;
 	}
 	.subContent .mceFrame .text_area_large { width: 770px; }

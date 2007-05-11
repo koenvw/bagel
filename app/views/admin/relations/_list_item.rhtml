@@ -14,15 +14,15 @@
 <% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{category_id}" %>
 
 <li id="<%= li_id %>" class="draggable">
-  <span class="dragme"><%= image_tag "bluegel/icons/icon_draghandle.png", :plugin => "bagel" %></span>
+
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
 <% unless @sobject.content_type == "News" && @sobject.content.title == "" %> 
 
 
 <% if direction == "in" %>
-  <% relation_name = "#{relation_category.name}: " %>
+  <% relation_name = "<strong>#{relation_category.name}:</strong> " %>
 <% elsif direction == "out" %>
-  <% relation_category.name_reverse.nil_or_empty? ? relation_name = "" : relation_name = "#{relation_category.name_reverse}: " %>
+  <% relation_category.name_reverse.nil_or_empty? ? relation_name = "" : relation_name = "<strong>#{relation_category.name_reverse}:</strong> " %>
 <% end %>
 
 <% case @sobject.content_type
@@ -30,7 +30,7 @@
     @image=@sobject.content -%>
 	
 	<div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
-		<div><%= relation_name + @image.image_file %></div>
+		<%= relation_name + @image.image_file %>
 	</div>
     
 <span class="icon">

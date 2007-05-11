@@ -1,4 +1,4 @@
-// script.aculo.us dragdrop.js v1.7.1_beta1, Mon Mar 12 14:40:50 +0100 2007
+// script.aculo.us dragdrop.js v1.7.1_beta2, Sat Apr 28 15:20:12 CEST 2007
 
 // Copyright (c) 2005-2007 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005-2007 Sammi Williams (http://www.oriontransfer.co.nz, sammi@oriontransfer.co.nz)

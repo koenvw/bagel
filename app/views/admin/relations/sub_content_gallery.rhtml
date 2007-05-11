@@ -25,8 +25,8 @@ r_type='gallery'
 <td class="firstRow">
    <%= link_to_remote truncate(@gallery.title, 40),
 		:url => "/admin/relations/add/#{@gallery.sobject.id}?cat_id=#{id}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
-		:loading => "Popup.loading('relations#{params[:direction]}#{params[:sub_id]}')",
-		:complete => "Popup.complete('relations#{params[:direction]}#{params[:sub_id]}')", 
+	   :loading => "Element.show('spinner_relations_search')",
+	   :complete => "Element.hide('spinner_relations_search'); relVisualAction();",
 		:position => :top
     %>
 </td>

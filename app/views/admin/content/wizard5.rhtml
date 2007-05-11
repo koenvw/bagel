@@ -18,7 +18,7 @@
 
 <%= start_form_tag :action => 'wizard5', :id => @news, :type_id => params[:type_id] %>
 
-<%= render :partial => "admin/relations/list", :locals => { :item => @news, :direction => "in", :startOpen => true  } %>
+<%= render :partial => "admin/relations/list", :locals => { :item => @news, :direction => "in", :startOpen => true, :hide_out => true } %>
 
 <div class="bottomButton">
 	<ul class="mainNav">

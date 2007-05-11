@@ -45,10 +45,12 @@
 		</td>
 	</tr>
 <% end %>
-</table>
 <% if @dir_entries.size == 0 %>
-  No files uploaded
+	<tr>
+		<td colspan="5">no files uploaded</td>
+	</tr>
 <% end %>
+</table>
 
 <%= render :partial => "admin/tags/list", :locals => { :item => Image.create, :startOpen => true } %>
 

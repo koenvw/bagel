@@ -12,18 +12,18 @@ uniq_id   ||= ""
 if direction == "in"
   text_direction = "to"
   relation_title =  "Has relations to"
+  noreltxt = "This item has no relations, would you like to <a class=\"subAddRelation\" href=\"#\">add</a> some?"
 else
   text_direction = "from"
   relation_title =  "Has relations with"
+  noreltxt = "There are no relations associated with this item."
 end
 %>
 
 <div id="relations_<%= direction %><%=uniq_id%>" style="display:inline;">
 	<div id="relations<%= direction %><%=uniq_id%>_list">
-		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">
-
+		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">			
 		<% if request.post? %>
-
 			<li id='relations<%= direction %>_item_none' style="display: <%= (params["relations"].nil_or_empty? || direction == "out") ? "block" : "none" %>;">There are no relations</li>
 			<% relations = params["relations"] %>
 			<% relations.split(",").each do |element| to_sobject_id = element.split("-")[0]; category_id = element.split("-")[1] %>
@@ -38,7 +38,7 @@ end
 				<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,category_id') %>
 			<% end %>
 
-			<li id='relations<%= direction %>_item_none' style="display: <%= (relations.empty?) ? "block" : "none" %>;">There are no relations</li>
+			<li class="noitem" id='relations<%= direction %>_item_none' style="display: <%= (relations.empty?) ? "block" : "none" %>;"><%= noreltxt %></li>
 
 			<% relations.each do |relation| %>
 				<% if direction == "in" %>

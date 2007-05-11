@@ -107,23 +107,36 @@
 		if(!$$('.relationManager')) return false;
 		$$('.relationManager').each(function(relationManager) { 
 			relationManager.getElementsByClassName('addRelation').each(function(a) { 
-				a.onclick = function() {
-					makeColapseMenusCheck(a.up('div',1).down('a.openClose'), true);
-					relContent = a.next('.bagelRelationContent');
-					relOverlay = new BagelOverlay();
-					relOverlay.setRestoreObj(relContent.up(0));
-					relOverlay.popup(relContent, 450, 281);
-					relContent.show();
-					relClosebuttons = relContent.getElementsByClassName('close');
-					for(c = 0; c < relClosebuttons.length; c++) {
-						relClosebuttons[c].onclick = function() { relOverlay.destroy(); return false; }
-					}
-					
-					// populate the link actions inside the popup					
-					return false;
-				}
+				Event.observe(a, 'click', function(e) {
+					bagel_addRelation_do(Event.element(e));
+					Event.stop(e);
+				}, false);
 			});
 		});
+		
+		// enable usage of random links (outsite the relationManager obj)
+		$$('a.subAddRelation').each(function(subrel) {
+			Event.observe(subrel, 'click', function(ev) {
+				$$('.relationManager a.addRelation').each(function(subrel2) {
+					bagel_addRelation_do(subrel2);
+				});
+				Event.stop(ev);
+			}, false);
+		});
+	}
+	
+	function bagel_addRelation_do(a)
+	{
+		makeColapseMenusCheck(a.up('div',1).down('a.openClose'), true);
+		relContent = a.next('.bagelRelationContent');
+		relOverlay = new BagelOverlay();
+		relOverlay.setRestoreObj(relContent.up(0));
+		relOverlay.popup(relContent, 450, 281);
+		relContent.show();
+		relClosebuttons = relContent.getElementsByClassName('close');
+		for(c = 0; c < relClosebuttons.length; c++) {
+			relClosebuttons[c].onclick = function() { relOverlay.destroy(); return false; }
+		}	
 	}
 	
 	function relVisualAction()
