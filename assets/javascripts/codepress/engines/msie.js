@@ -47,6 +47,7 @@ CodePress = {
 
 	metaHandler : function(evt) {
 		keyCode = evt.keyCode;
+		
 		if(keyCode==9 || evt.tabKey) { 
 			CodePress.snippets();
 		}
@@ -65,14 +66,21 @@ CodePress = {
 			CodePress.shortcuts(keyCode);
 			evt.returnValue = false;
 		}
-		else if(keyCode==86 && evt.ctrlKey)  { // paste
-			// TODO: pasted text should be parsed and highlighted
+		else if(keyCode==86 && evt.ctrlKey)  { // handle paste
+			window.clipboardData.setData('Text',window.clipboardData.getData('Text').replace(/\t/g,'\u2008'));
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('paste');},10);
+		}
+		else if(keyCode==67 && evt.ctrlKey)  { // handle cut
+			// window.clipboardData.setData('Text',x[0]);
+			// code = window.clipboardData.getData('Text');
 		}
 	},
 
 	// put cursor back to its original position after every parsing
+	
+	
 	findString : function() {
-	    range = self.document.body.createTextRange();
+		range = self.document.body.createTextRange();
 		if(range.findText(cc)){
 			range.select();
 			range.text = '';
@@ -100,6 +108,10 @@ CodePress = {
 	syntaxHighlight : function(flag) {
 		if(flag!='init') document.selection.createRange().text = cc;
 		o = editor.innerHTML;
+		if(flag=='paste') { // fix pasted text
+			o = o.replace(/<BR>/g,'\r\n'); 
+			o = o.replace(/\u2008/g,'\t');
+		}
 		o = o.replace(/<P>/g,'\n');
 		o = o.replace(/<\/P>/g,'\r');
 		o = o.replace(/<.*?>/g,'');
@@ -132,7 +144,7 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'</P><P>');
-				var pattern = new RegExp(trigger+cc);
+				var pattern = new RegExp(trigger+cc,"gi");
 				this.syntaxHighlight('snippets',pattern,content);
 			}
 		}
@@ -173,9 +185,9 @@ CodePress = {
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
 		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
-		words = words.replace(/[\s\r\);]/g,'\n').split('\n');
-		return words[words.length-1];
-	},
+		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
+		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
+	}, 
 
 	getRangeAndCaret : function() {	
 		var range = document.selection.createRange();

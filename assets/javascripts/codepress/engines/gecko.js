@@ -55,9 +55,13 @@ CodePress = {
 			(charCode==121||evt.shiftKey) ? CodePress.actions.redo() :  CodePress.actions.undo(); 
 			evt.preventDefault();
 		}
-		else if(keyCode==86 && evt.ctrlKey)  { // paste
-			// TODO: pasted text should be parsed and highlighted
+		else if(charCode==118 && evt.ctrlKey)  { // handle paste
+		 	top.setTimeout(function(){CodePress.syntaxHighlight('generic');},100);
 		}
+		else if(charCode==99 && evt.ctrlKey)  { // handle cut
+		 	//alert(window.getSelection().getRangeAt(0).toString().replace(/\t/g,'FFF'));
+		}
+
 	},
 
 	// put cursor back to its original position after every parsing
@@ -105,8 +109,9 @@ CodePress = {
 	
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
-		return words[words.length-1].replace(/_/g,'');
+		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
+		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
+		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
 	},
 	
 	snippets : function(evt) {
@@ -119,7 +124,7 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,'g');
+				var pattern = new RegExp(trigger+cc,'gi');
 				evt.preventDefault(); // prevent the tab key from being added
 				this.syntaxHighlight('snippets',pattern,content);
 			}

@@ -124,9 +124,10 @@ CodePress = {
 	
 	getLastWord : function() {
 		var rangeAndCaret = CodePress.getRangeAndCaret();
-		var words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]).split(/[\s\r\n\);]/);
-		return words[words.length-1].replace(/_/g,'');
-	},
+		words = rangeAndCaret[0].substring(rangeAndCaret[1]-40,rangeAndCaret[1]);
+		words = words.replace(/[\s\n\r\);\W]/g,'\n').split('\n');
+		return words[words.length-1].replace(/[\W]/gi,'').toLowerCase();
+	}, 
 	
 	snippets : function(evt) {
 		var snippets = Language.snippets;	
@@ -138,7 +139,7 @@ CodePress = {
 				if(content.indexOf('$0')<0) content += cc;
 				else content = content.replace(/\$0/,cc);
 				content = content.replace(/\n/g,'<br>');
-				var pattern = new RegExp(trigger+cc,'g');
+				var pattern = new RegExp(trigger+cc,'gi');
 				evt.preventDefault(); // prevent the tab key from being added
 				this.syntaxHighlight('snippets',pattern,content);
 			}

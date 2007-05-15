@@ -35,16 +35,22 @@ CodePress = function(obj) {
 		self.style.display = 'inline';
 	}
 	
-	self.edit = function(id,language) {
-		if(id) self.textarea.value = document.getElementById(id).value;
+	// obj can by a textarea id or a string (code)
+	self.edit = function(obj,language) {
+		if(obj) self.textarea.value = document.getElementById(obj) ? document.getElementById(obj).value : obj;
 		if(!self.textarea.disabled) return;
-		self.language = language ? language : self.options.replace(/ ?codepress ?| ?readonly-on ?| ?autocomplete-off ?| ?linenumbers-off ?/g,'');
-		if(!CodePress.languages[self.language]) self.language = 'generic';
+		self.language = language ? language : self.getLanguage();
 		self.src = CodePress.path+'codepress.html?language='+self.language+'&ts='+(new Date).getTime();
 		if(self.attachEvent) self.attachEvent('onload',self.initialize);
 		else self.addEventListener('load',self.initialize,false);
 	}
 
+	self.getLanguage = function() {
+		for (language in CodePress.languages) 
+			if(self.options.match('\\b'+language+'\\b')) 
+				return CodePress.languages[language] ? language : 'generic';
+	}
+	
 	self.setOptions = function() {
 		if(self.options.match('autocomplete-off')) self.toggleAutoComplete();
 		if(self.options.match('readonly-on')) self.toggleReadOnly();
@@ -95,6 +101,7 @@ CodePress = function(obj) {
 }
 
 CodePress.languages = {	
+	csharp : 'C#', 
 	css : 'CSS', 
 	generic : 'Generic',
 	html : 'HTML',
@@ -104,7 +111,8 @@ CodePress.languages = {
 	ruby : 'Ruby',	
 	php : 'PHP', 
 	text : 'Text', 
-	sql : 'SQL'
+	sql : 'SQL',
+	vbscript : 'VBScript'
 }
 
 
