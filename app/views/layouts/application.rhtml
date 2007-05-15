@@ -14,7 +14,7 @@
     created by dotProjects
 
 -->
-<title>Bagel Test Layout</title>
+<title>Bagel Admin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <!-- do some beauty -->
@@ -98,9 +98,10 @@
 			<!-- Sub Menu -->
 			<ul class="subMenu">
 			<% if website_active=="active" %>
-				<li><%= link_to_if_authorized 'Content', '/admin/content/list' %></li>
+				<li><%= link_to_if_authorized 'Manage', '/admin/content/list' %></li>
+				<li><%= link_to_if_authorized 'Publish', '/admin/content/wizard' %></li>
 				<li><%= link_to_if_authorized 'Media gallery', '/admin/images/list' %></li>
-				<li><%= link_to_if_authorized 'Menu', '/admin/menus/list' %></li>
+				<li><%= link_to_if_authorized 'Menu', '/admin/menus/list2' %></li>
 				<li><%= link_to_if_authorized 'Tags', '/admin/tags/list' %></li>
 			<% end %>
 			<% if webfolder_active=="active" %>

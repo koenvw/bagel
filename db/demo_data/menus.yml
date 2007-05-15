@@ -1,2 +1,37 @@
---- {}
-
+--- 
+menus_001: 
+  created_on: 2007-05-15 13:34:30
+  name: Website1
+  updated_on: 2007-05-15 13:34:30
+  lft: "1"
+  id: "8"
+  menus_count: 
+  rgt: "8"
+  parent_id: 
+menus_002: 
+  created_on: 2007-05-15 13:34:42
+  name: MenuItem1
+  updated_on: 2007-05-15 13:34:42
+  lft: "2"
+  id: "9"
+  menus_count: 
+  rgt: "5"
+  parent_id: "8"
+menus_003: 
+  created_on: 2007-05-15 13:34:52
+  name: MenuItem2
+  updated_on: 2007-05-15 13:34:52
+  lft: "6"
+  id: "10"
+  menus_count: 
+  rgt: "7"
+  parent_id: "8"
+menus_004: 
+  created_on: 2007-05-15 13:35:12
+  name: SubMenu1
+  updated_on: 2007-05-15 13:35:12
+  lft: "3"
+  id: "11"
+  menus_count: 
+  rgt: "4"
+  parent_id: "9"

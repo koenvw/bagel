@@ -1,2 +1,94 @@
---- {}
-
+--- 
+generators_001: 
+  generator_folder_id: 
+  created_on: 2007-05-15 13:33:15
+  content_type: ""
+  name: website1_content_layout
+  website_id: "2"
+  updated_on: 2007-05-15 13:33:15
+  template: |-
+    <html>
+    <head>
+    <title><%= content_title %></title>
+    </head>
+    <body>
+    
+    <h1>ContentLayout</h1>
+    
+    <%= controller.include_template("website1_menu") %>
+    
+    <hr>
+    <%= render :inline => controller.content_for_layout %>
+    <hr>
+    
+    <a href="/website1/index">back to homepage</a>
+    
+    </body>
+    </html>
+  id: "5"
+  description: ""
+  preview_url: 
+generators_002: 
+  generator_folder_id: 
+  created_on: 2007-05-15 13:33:35
+  content_type: ""
+  name: website1_index_layout
+  website_id: "2"
+  updated_on: 2007-05-15 13:33:35
+  template: |-
+    <html>
+    <body>
+    
+    <h1>IndexLayout</h1>
+    
+    <%= controller.include_template("website1_menu") %>
+    
+    <% items = find(:website_name => "website1",:content_types =>["news"],:limit=>20) %>
+    
+    <h2>Latest Headlines (<%= items.size %>)</h2>
+    
+    <% items.each do |sobject| %>
+    <% news = sobject.content %>
+    <a href="/website1/show/news/<%= news.id %>"><%= news.title %></a>
+    <%= news.intro %>
+    <hr>
+    <% end %>
+    
+    </body>
+    </html>
+  id: "6"
+  description: ""
+  preview_url: 
+generators_003: 
+  generator_folder_id: 
+  created_on: 2007-05-15 13:33:48
+  content_type: ""
+  name: website1_menu
+  website_id: "2"
+  updated_on: 2007-05-15 13:35:57
+  template: |-
+    <p>This is the menu for website1</p>
+    <% menus = find_menu("website1",8) %>
+    <% level = 1 %>
+    <% menus.each do |menu| %>
+    <% if menu.level == 1 %>
+    <li><a href="<%= menu.link("website1") %>"><%= menu.title %></a></li>
+    <% end %>
+    <% end %>
+  id: "7"
+  description: ""
+  preview_url: 
+generators_004: 
+  generator_folder_id: 
+  created_on: 2007-05-15 13:34:06
+  content_type: News
+  name: website1_news
+  website_id: "2"
+  updated_on: 2007-05-15 13:34:06
+  template: |-
+    <h2><%= @news.title %></h2><br/>
+    <i>This is a <%= content_type %>-item</i>
+    <%= @news.body %>
+  id: "8"
+  description: ""
+  preview_url: 

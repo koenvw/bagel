@@ -23,24 +23,14 @@ module ActsAsContentType
 
   module HelperFields
 
-    def template(site)
-      # find website
-      website_id = AppConfig[:websites][site]
-      if website_id.nil?
-        website = Website.find_by_name(site)
-        if website.nil?
-          return "website '#{site}' not found"
-        else
-          website_id = website.id
-        end
-      end
+    def template(website_id)
       # update click_count (.find + .increment is faster than .update_all
       sitem = sitems.find_by_website_id(website_id)
       sitem.increment!(:click_count) unless sitem.nil?
       # find generator
-      generator = Generator.find_by_website_id_and_content_type(website_id, self.to_s)
+      generator = Generator.find_by_website_id_and_content_type(website_id, self.class.to_s)
       if generator.nil?
-        "no generator found for this content_type with website '#{site}'"
+        "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
       else
         generator.template
       end
@@ -56,9 +46,9 @@ module ActsAsContentType
 
     def intro(words=0, maximum_characters=0)
       if respond_to?(:title) && respond_to?(:body)
-        if words == 0 and attributes['intro'].size == 0
+        if words == 0 and (attributes['intro'].nil? or attributes['intro'].size == 0)
           body.split[0..10].collect { |w| w + " " }.to_s
-        elsif attributes['intro'].size==0 or words != 0
+        elsif (attributes['intro'].nil? or attributes['intro'].size == 0) or words != 0
           str = title + body.split[0..words].collect { |w| w + " " }.to_s
           until str.size < maximum_characters
             words -= 1

@@ -1,2 +1,20 @@
---- {}
+--- 
+url_mappings_001: 
+  created_on: 2007-05-15 13:32:34
+  options: |
+    --- 
+    :site: website1
+    :type: generator
+    :controller: site
+    :action: content
+    :id: website1_list_nieuws
+    :conditions: 
+      :subdomain: www
+      :domain: website1.be
 
+  website_id: 
+  updated_on: 2007-05-15 13:32:34
+  content_type_id: 
+  id: "2"
+  position: "1"
+  path: /nieuws

@@ -18,7 +18,7 @@ width:520px;
         <div id="leftRightContent">
                 <div class="subContentLeft">
                         <% form_tag :action => "list",:id => nil do %>
-                        Parent <%= select_tag :website_id, options_for_select(Menu.roots.collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), params[:website_id]), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;" %><br/>
+                        Parent <%= select_tag :parent_id, options_for_select(Menu.roots.collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), params[:parent_id]), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;" %><br/>
                         <% end %>
                         <ul id="categories_tree" class="dhtmlgoodies_tree">
                         <li id="node10000" noDrag="true" noSiblings="true"><a href="#">Menu Items</a>

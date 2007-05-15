@@ -1,5 +1,5 @@
 class Admin::MenusController < ApplicationController
-  requires_authorization :actions => [:index, :list, :new, :edit, :destroy],
+  requires_authorization :actions => [:index, :list, :list2, :new, :edit, :destroy],
                          :permission => [:content_menu_management,:_content_management]
 
   def index
@@ -9,6 +9,10 @@ class Admin::MenusController < ApplicationController
 
   # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
+
+  def list2
+    list
+  end
 
   def list
     @menu_pages, @menus = paginate :menu, :per_page => 100, :order_by => 'lft ASC'
@@ -32,32 +36,33 @@ class Admin::MenusController < ApplicationController
       if @menu.save
         @menu.save_relations(params["relations"])
         @menu.to_child_of(params[:parent_id])
+        @menu.move_to_right_of(params[:move_below]) if !params[:move_below].nil? && params[:move_below]!="0"
+        @menu.move_to_left_of(params[:move_above]) if !params[:move_above].nil? && params[:move_above]!="0"
         flash[:notice] = 'Menu was successfully updated.'
-        redirect_to :action => 'list'
+        redirect_to :action => 'list2'
       end
     end
   end
 
   def destroy
     Menu.find(params[:id]).destroy
-    redirect_to :action => 'list'
+    redirect_to :action => 'list2'
   end
 
   #
   def move_up
-    Menu.move_up(params[:id])
-    redirect_to :action => 'list'
-  end
-  def move_down
-    Menu.move_down(params[:id])
+    m = Menu.find(params[:id])
+    m.move_up(params[:id])
     redirect_to :action => 'list'
   end
   def move_left
-    Menu.move_left(params[:id])
+    m = Menu.find(params[:id])
+    m.move_left
     redirect_to :action => 'list'
   end
   def move_right
-    Menu.move_right(params[:id])
+    m = Menu.find(params[:id])
+    m.move_right(params[:id])
     redirect_to :action => 'list'
   end
 

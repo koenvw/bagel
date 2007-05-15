@@ -36,11 +36,6 @@ class SiteController < ApplicationController
   end
 
   def index
-    # do we have a preview request ?
-    unless params[:generator].nil?
-      tpl = params[:generator][:template].sub(".css", ".nocss")
-      render :inline => tpl and return
-    end
     # find the appropiate generator
     gen = Generator.find_by_name_and_website_id(site+"_index_layout",site_id)
     if gen.nil?
@@ -65,7 +60,7 @@ class SiteController < ApplicationController
     # FIXME: rails 1.2 seperates route on dots so :id will never have an extension?
     params_id = File.basename(params[:id], File.extname(params[:id]))
 
-    #click_counts are updated in .template() (SitemModule)
+    #click_counts are updated in .template() (ActsAsContentType)
     case params[:type].downcase
     when 'page'
       @page = Page.find(:first,:include=>:sitems,:conditions => ['website_id=? AND name=?', site_id,params_id]) if params_id.to_i == 0 #FIXME: this will not work if site_id is bad
@@ -74,13 +69,13 @@ class SiteController < ApplicationController
         logger.warn "BAGEL::SiteController.index => Page '#{params_id}'not found"
         render_404 and return
       end
-      @content_for_layout = @page.template(site)
+      @content_for_layout = @page.template(site_id)
       @content_title = @page.title.rubify
 
     when 'news'
       @news = News.find(params_id)
       render_404 and return if @news.nil?
-      @content_for_layout = @news.template(site)
+      @content_for_layout = @news.template(site_id)
       @content_title = @news.title.rubify
 
     when 'form'
@@ -95,7 +90,7 @@ class SiteController < ApplicationController
       render_404 and return if @formdef.nil?
       str = ''
       str << "<%= start_form_tag :controller => 'site', :action => 'submit', :id => @formdef %>"
-      str << @formdef.template_form(site)
+      str << @formdef.template_form(site_id)
       str << "<%= end_form_tag %>"
       @content_for_layout = str
       @content_title = @formdef.name.rubify
@@ -112,27 +107,26 @@ class SiteController < ApplicationController
     when 'book'
       @book = Book.find(params_id)
       render_404 and return if @book.nil?
-      @content_for_layout = @book.template(site)
+      @content_for_layout = @book.template(site_id)
       @content_title = @book.title.rubify
 
     when 'test_article'
       @test_article= TestArticle.find(params_id)
       render_404 and return if @test_article.nil?
-      @content_for_layout = @test_article.template(site)
+      @content_for_layout = @test_article.template(site_id)
       @content_title = @test_article.title.rubify
 
     when 'gallery'
       @gallery= Gallery.find(params_id)
       render_404 and return if @gallery.nil?
-      @content_for_layout = @gallery.template(site)
+      @content_for_layout = @gallery.template(site_id)
       @content_title = @gallery.title.rubify
 
     when 'video'
       @video= Video.find(params_id)
       render_404 and return if @video.nil?
-      @content_for_layout = @video.template(site)
+      @content_for_layout = @video.template(site_id)
       #@content_title = @video.title.rubify
-
     else
       render :text => "no such contenttype", :status => "404" and return
     end
@@ -168,10 +162,9 @@ class SiteController < ApplicationController
       render :inline => @content_for_layout, :type => :html
     else
       # normal
-      gen = Generator.find_by_name_and_website_id_and_content_type(site + "_content_layout",site_id)
+      gen = Generator.find(:first, :conditions =>["name=? AND website_id=?",site + "_content_layout",site_id])
       if gen.nil?
-        logger.warn "BAGEL::SiteController.index => Generator '#{site+"_content_layout"}' not found"
-        render_404 and return
+        render :text => "BAGEL::SiteController.index => Generator '#{site+"_content_layout"}' not found" and return
       else
         render :inline => gen.template
       end
@@ -180,7 +173,12 @@ class SiteController < ApplicationController
 
   #template methods
   def render_content(cls)
-    render_to_string :inline => cls.template(site)
+    # FIXME: where is this used?
+    render_to_string :inline => cls.template(site_id)
+  end
+
+  def include_template(template_name)
+    render_generator(template_name)
   end
 
   def render_generator(generator)
@@ -200,14 +198,13 @@ class SiteController < ApplicationController
     end
     return str
   end
-
+  
   def link_to_content(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    #FIXME:
+    #FIXME: this is never used ?
     if options.has_key?(:sobject_id)
     end
     link_to(name, options = {}, html_options = nil, *parameters_for_method_reference)
   end
-
 
   #form handling
   def submit

@@ -12,18 +12,16 @@
 		</fieldset>
 		<div class="mceFrame">
 			<%= text_area_tag 'codepress1', @generator.template, :class => 'codepress ruby', :style => "width:773px;height:500px;" %><br/>
+            <a href="#" onclick="codepress1.toggleEditor();return false;">on/off</a>
 		</div>
 		<fieldset class="oneline">
 			<label for="generator_description">Description</label>
 			<%= text_field 'generator', 'description', :class => 'text_area_large' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
-			<label for="generator_website_id">Website</label>
+          Use this template for displaying:
+<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %>* on website:
 			<%= select 'generator', 'website_id', Website.find(:all,:order => "name").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
-		</fieldset>
-		<fieldset class="oneline">
-			<label for="generator_name">ContentType</label>
-			<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %><br/>
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="generator_folder_id">Folder</label>
@@ -35,7 +33,8 @@
 			  <% options << "</optgroup>" %>
 			<% end %>
 			<%= select_tag :generator_folder_id, options %>
-		</fieldset>
+          </fieldset>
+          * leave blank if not applies
 		<div class="bottom"></div>
 	</div>
 

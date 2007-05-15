@@ -1,7 +1,7 @@
 class Admin::FormsController < ApplicationController
   requires_authorization :actions => [:index, :list, :show, :clone_form, :edit, :destroy, :create, :update, :export_csv],
                          :permission => [:content_forms_management,:_content_management]
-  helper :date_picker
+  #helper :date_picker
   uses_tiny_mce tinymce_options
 
   before_filter :auto_complete_for_form
@@ -119,7 +119,7 @@ class Admin::FormsController < ApplicationController
 
   def render_tpl(tpl)
     # FIXME: this sub only works because we call render_tpl from the template
-    render_to_string :inline => tpl.sub(/<%=\s+submit_tag\s+'\w+'\s+%>/,"")
+    render_to_string :inline => tpl.sub(/<%=\s+submit_tag\s+('|")\w+('|")\s+%>/,"")
   end
 
 end

@@ -1,70 +1,68 @@
+<div class="topButton">
+	<h1>Welcome</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'List', { :controller => "content", :action => 'list' }, :class => "list", :title => "List content of your website"  %></li>
+		<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
 
-	
-	<div class="topButton">
-		<h1>Welcome</h1>
-		<ul class="mainNav">
-			<li><%= link_to 'List', { :controller => "content", :action => 'list' }, :class => "list", :title => "List content of your website"  %></li>
-			<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
-		</ul>
-	</div>
-	<div class="clear"></div>
-	
-	<div id="contentFrame">
-		
-		<!-- begin recent changes table -->
-		<table class="uniTable">
-			<tr class="heading">
-				<td class="tabDesc">Recent Changes</td>
-				<td class="colDesc">Type</td>
-				<td class="colDesc">Date</td>
-				<td class="colDesc">&nbsp;</td>
-			</tr>
-			<% @recent_items.each do |@sobject| %>
-			<% unless @sobject.content.nil? %>
-			<tr class="content">
-				<td><%= link_to @sobject.content.title, :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
-				<td><%= @sobject.ctype_name %></td>
-				<td><%= @sobject.content.updated_on.formatted %></td>
-				<td class="iconbox">
-					<span class="icon">
-						<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
-						<%= link_to "edit", { :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
-					</span>
-				</td>
-			</tr>
-			<% end %>
-			<% end %>
-			<tr>
-				<td class="more" colspan="4"><%= link_to 'Show me more', :controller => "content", :action => 'list' %></td>
-			</tr>
-		</table>
+<div id="contentFrame">
 
-		<!-- begin recent changes table -->
-		<table class="uniTable">
-			<tr class="heading">
-				<td class="tabDesc">Recent submissions</td>
-				<td class="colDesc">Type</td>
-				<td class="colDesc">Date</td>
-				<td class="colDesc">&nbsp;</td>
-			</tr>
-			<% @recent_forms.each do |@sobject| %>
-			<% unless @sobject.content.nil? %>
-			<tr class="content">
-				<td><%= link_to @sobject.content.title, :controller => @sobject.content.class.to_s.tableize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
-				<td><%= @sobject.ctype_name %></td>
-				<td><%= @sobject.content.updated_on.formatted %></td>
-				<td class="iconbox" style="width: 150px;">
-					<span class="icon">
+	<!-- begin recent changes table -->
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Recent Changes</td>
+			<td class="colDesc">Type</td>
+			<td class="colDesc">Date</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% @recent_items.each do |@sobject| %>
+		<% unless @sobject.content.nil? %>
+		<tr class="content">
+			<td><%= link_to @sobject.content.title, :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
+			<td><%= @sobject.ctype_name %></td>
+			<td><%= @sobject.content.updated_on.formatted %></td>
+			<td class="iconbox">
+				<span class="icon">
 					<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
-					<%= link_to "edit", { :controller => @sobject.content.class.to_s.tableize.downcase, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
-					</span>
-				</td>
-			</tr>
-			<% end %>
-			<% end %>
-			<tr>
-				<td class="more" colspan="4"><%= link_to 'Show me more', :controller => "content", :action => 'list' %></td>
-			</tr>
-		</table>		
-		
-	  </div>
+					<%= link_to "edit", { :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% end %>
+		<tr>
+			<td class="more" colspan="4"><%= link_to 'Show me more', :controller => "content", :action => 'list' %></td>
+		</tr>
+	</table>
+
+	<!-- begin recent changes table -->
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Recent submissions</td>
+			<td class="colDesc">Type</td>
+			<td class="colDesc">Date</td>
+			<td class="colDesc">&nbsp;</td>
+		</tr>
+		<% @recent_forms.each do |@sobject| %>
+		<% unless @sobject.content.nil? %>
+		<tr class="content">
+			<td><%= link_to @sobject.content.title, :controller => @sobject.content.class.to_s.tableize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
+			<td><%= @sobject.ctype_name %></td>
+			<td><%= @sobject.content.updated_on.formatted %></td>
+			<td class="iconbox" style="width: 150px;">
+				<span class="icon">
+				<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+				<%= link_to "edit", { :controller => @sobject.content.class.to_s.tableize.downcase, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
+				</span>
+			</td>
+		</tr>
+		<% end %>
+		<% end %>
+		<tr>
+			<td class="more" colspan="4"><%= link_to 'Show me more', :controller => "content", :action => 'list' %></td>
+		</tr>
+	</table>
+
+</div>

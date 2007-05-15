@@ -71,6 +71,7 @@ class Sobject < ActiveRecord::Base
 
   # class methods
   def self.list(site, content_types, tags, limit=5, offset=0, search_string="")
+    $stderr.puts('DEPRECATION WARNING: Sobject.list is deprecated; please use Sobject.find_with_parameters')
     tag_check = "AND (1=0"
     tags.each do |tag_name|
       tag = Tag.find_by_name(tag)
@@ -118,12 +119,18 @@ class Sobject < ActiveRecord::Base
       tag_check << " OR sobjects.content_type ='Book')"
     end
     # website_name
-    if options[:website_name]
+    if options[:website]
+      if options[:website].to_i == 0 # a string
+        website_check = " AND sitems.website_id=#{Website.find_by_name(options[:website]).id}"
+      else # a number
+        website_check = " AND sitems.website_id=#{options[:website]}"
+      end
+    elsif options[:website_name]
       website_check = " AND sitems.website_id=#{Website.find_by_name(options[:website_name]).id}"
     else
       # website_id
       if options[:website_id]
-        website_check = " AND sitems.website_id=#{options[:website_id]}"
+        website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.status='Published'" # FIXME: status conflicts with status below?
       else
         website_check = ""
       end
@@ -137,14 +144,10 @@ class Sobject < ActiveRecord::Base
     end
     # content_types
     if options[:content_types]
-      if options[:content_type].is_a?(Array)
+      if options[:content_types].is_a?(Array)
         # map elements to ids
         ctypes = options[:content_types].map do |ct|
-          if ct.to_i == 0
-            ContentType.find_by_name(ct).id
-          else
-            ct
-          end
+          (ct.to_i == 0) ? ContentType.find_by_name(ct).id : ct
         end
       else
         if options[:content_types].to_i == 0
@@ -152,7 +155,6 @@ class Sobject < ActiveRecord::Base
         else
           ctypes = [options[:content_types]]
         end
-
       end
       content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})"
     end
@@ -184,7 +186,6 @@ class Sobject < ActiveRecord::Base
     if options[:include]
       includes = [includes,options[:include]]
     end
-
 
     find(
       :all,

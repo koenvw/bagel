@@ -5,6 +5,14 @@
 			Name <%= text_field 'menu', 'name'  %>
 			&nbsp; Parent <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
 		</fieldset>
+        <% unless @menu.level == 0 or @menu.siblings.size == 0 %>
+		<fieldset class="oneline">
+            Move above <%= select_tag :move_above, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %> or
+		</fieldset>
+		<fieldset class="oneline">
+            Move below <%= select_tag :move_below, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %>
+		</fieldset>
+        <% end %>
 		<div class="bottom"></div>
 	</div>
 	

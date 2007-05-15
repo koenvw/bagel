@@ -6,6 +6,10 @@
 	<%= error_messages_for 'website' %>
 	<div class="subContent">
 		<fieldset class="oneline">
+			<label for="website_id">ID</label>
+			<%= @website.id || "not assigned yet" %><br />
+		</fieldset>
+		<fieldset class="oneline">
 			<label for="website_name">Name</label>
 			<%= text_field 'website', 'name' , :class => "large_text_input", :size => "30" %><br />
 		</fieldset>
