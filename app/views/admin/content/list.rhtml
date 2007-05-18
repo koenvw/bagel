@@ -31,13 +31,13 @@
 			</tr>
 			<% for @item in @items %>
 				<%
-					websites = @item.sitems.select {|s| s.status=="1"}.map {|s| s.website.name }.sort
-					website_out = []
-					for website_name in websites
-					  File.exists?(RAILS_ROOT + "/public/images/websites/#{website_name}.png") ?
-					  website_out << link_to(image_tag("/images/websites/#{website_name}.png"), {:controller => "/site", :action => "content", :type => @item.content.class.to_s.tableize.singularize, :site => website_name, :id => @item.content.id, :clear => 1}) :
-						#website_out << link_to(website_name, {:controller => "/site", :action => "content", :type => @item.content.class.to_s.tableize.singularize, :site => website_name, :id => @item.content.id, :clear => 1})
-					end
+					#websites = @item.sitems.select {|s| s.status=="1"}.map {|s| s.website.name }.sort
+					#website_out = []
+					#for website_name in websites
+					#  File.exists?(RAILS_ROOT + "/public/images/websites/#{website_name}.png") ?
+					#  website_out << link_to(image_tag("/images/websites/#{website_name}.png"), {:controller => "/site", :action => "content", :type => @item.content.class.to_s.tableize.singularize, :site => website_name, :id => @item.content.id, :clear => 1}) :
+					#	website_out << link_to(website_name, {:controller => "/site", :action => "content", :type => @item.content.class.to_s.tableize.singularize, :site => website_name, :id => @item.content.id, :clear => 1})
+					#end
 				%>
 				<% if @item.content.nil? %>
 				<!--<tr><td colspan="4">FIXME</td></tr>-->
@@ -46,11 +46,12 @@
 						<td><%= link_to @item.content.title, :controller => @item.content.class.to_s.tableize.downcase, :action => "edit", :id => @item.content.id, :tag_names => params[:tag_names] %> </td>
 						<td><%= @item.ctype_name %></td>
 						<td>
-						<% if website_out.size > 0 %>
-							<%= website_out.join(",") %></td>
-						<% else	%>
-							<span class="greyText">none</span>
-						<% end %>
+						<% #if website_out.size > 0 %>
+							<%#= website_out.join(",") %>
+						<% #else	%>
+							<span class="greyText">(FIXME) none</span>
+						<% #end %>
+						</td>
 						<td><%= @item.sitems.first.publish_date.formatted %></td>
 						<td class="iconbox">
 							<span class="icon">
