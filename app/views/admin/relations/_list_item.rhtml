@@ -13,7 +13,7 @@
 <% ajax ||= false %>
 <% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{category_id}" %>
 
-<li id="<%= li_id %>" class="draggable">
+<li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>">
 
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
 <% unless @sobject.content_type == "News" && @sobject.content.title == "" %> 

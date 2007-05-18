@@ -40,7 +40,8 @@ class SiteController < ApplicationController
     gen = Generator.find_by_name_and_website_id(site+"_index_layout",site_id)
     if gen.nil?
       logger.warn "BAGEL::SiteController.index => Generator '#{site+"_index_layout"}' not found"
-      render_404 and return
+      render :text => "#{site} #{site_id}"
+      #render_404 and return
     else
       render :inline => gen.template
     end

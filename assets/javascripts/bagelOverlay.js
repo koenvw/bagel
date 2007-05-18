@@ -48,10 +48,11 @@
 	var BagelOverlay = Class.create();
 	BagelOverlay.prototype = {
 		
-		initialize: function() {
+		initialize: function(nofade) {
 			// create document body object (for dimension, etc...)
 			this._docBody = document.getElementsByTagName("body")[0];
 			// create overlay
+			this._nofade = ( nofade == true ? true : false );
 			this._createOverlay();
 		},
 		
@@ -65,12 +66,13 @@
 		// @h (int) the height of the popup container (needed for positioning)
 		//
 		popup: function(content, w, h)	{
+		
 			// set width and height of popup
-			if(!w) this._popupWidt = 400;
+			if(!w) this._popupWidth = 400;
 			else this._popupWidth = w;
 			if(!h) this._popupHeight = 200;
 			else this._popupHeight = h;
-			
+				
 			this._content = (typeof content == "undefined" ? "no content set" : content);
 			this._createPopup(this._content);
 		},
@@ -123,7 +125,13 @@
 			this._docBody.appendChild(this._overlay);
 			
 			// fade to screen
-			new Effect.Appear(this._overlay, {from: 0.0, to: 0.6, duration: 0.2 });
+			if(this._nofade == false) {
+				new Effect.Appear(this._overlay, {from: 0.0, to: 0.6, duration: 0.2 });
+			}
+			else {
+				Element.setOpacity(this._overlay, 0.6);
+				this._overlay.show();
+			}
 		},
 		
 		//
@@ -155,7 +163,11 @@
 			}
 			
 			// fade to screen
-			new Effect.Appear(this._overlayPopup, {from: 0.0, to: 1.0, duration: 0.4, queue: 'end'});
+			if(this._nofade == false)
+				new Effect.Appear(this._overlayPopup, {from: 0.0, to: 1.0, duration: 0.4, queue: 'end'});
+			else 
+				this._overlayPopup.show();
+			
 		},
 		
 		//

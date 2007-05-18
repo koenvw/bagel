@@ -123,15 +123,16 @@
 			</ul>
 		</div>
 		<div id="content">
-			<% if !flash.empty? %>
+
 			<div id="flash-messages">
 				<% unless flash[:help].nil? %><div class="flash-help"><%= flash[:help] %></div><% end %>
 				<% unless flash[:notice].nil? %><div class="flash-notice"><%= flash[:notice] %></div><% end %>
 				<% unless flash[:warning].nil? %><div class="flash-warning"><%= flash[:warning] %></div><% end %>
 				<% unless flash[:confirm].nil? %><div class="flash-confirm"><%= flash[:confirm] %></div><% end %>
 				<% unless flash[:error].nil? %><div class="flash-error"><%= flash[:error] %></div><% end %>
+				<div class="flash-notice" style="display: none;" id="flashNotice"></div>
 			</div>
-			<% end %>
+
 			<!-- content for layout begin -->
 			<%= @content_for_layout %>
 			<!-- content for layout end -->

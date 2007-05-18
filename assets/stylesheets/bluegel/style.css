@@ -323,6 +323,8 @@
 	ul.mainNav li a.save-big:hover { background-position: -105px -568px; }
 	ul.mainNav li a.import-big { height: 40px; width: 102px; background-position: -2px -643px; }
 	ul.mainNav li a.import-big:hover { background-position: -105px -643px; }
+	ul.mainNav li a.folders { width: 98px; background-position: -2px -681px; }
+	ul.mainNav li a.folders:hover { background-position: -105px -681px; }	
 	ul.mainNav li a.add-image { width: 122px; background-position: -2px -309px; }
 	ul.mainNav li a.add-image:hover { background-position: -125px -309px; }
 	ul.mainNav li a.next { background-position: -2px -172px; }
@@ -486,9 +488,16 @@
 		padding: 0 0 0 40px;
 		cursor: pointer;
 		height: 39px;
-		line-height: 39px;
+		line-height: 40px;
 		overflow: hidden;
 	}
+	.subContent .relationContent li.out
+	{
+		background-position: -22px center;
+		padding: 0 0 0 15px;
+		cursor: default;
+	}
+	.subContent .relationContent li.out span.icon a.edit { right: 3px; }
 	.subContent .relationContent li.noitem
 	{
 		border: none;
@@ -584,6 +593,28 @@
 		margin-left: 3px;
 		float: left;		
 	}
+	#leftRightContent .subContentLeft div.folderTree
+	{
+		background-color: #fff;
+		border: 1px solid #ccc;
+		width: 253px;
+		margin: 8px 0 0 13px;
+		padding: 10px 13px 10px 6px;
+	}
+	#leftRightContent .subContentLeft div.folderTree ul
+	{
+		margin: 0 0 0 6px; padding: 0;
+		list-style-type: none;
+	}
+	#leftRightContent .subContentLeft div.folderTree ul li { display: inline; }
+	#leftRightContent .subContentLeft div.folderTree ul li a
+	{
+		display: block;
+		padding: 2px 0 2px 20px;
+		background: #fff url('../../images/bluegel/icons/icon_folder.png') no-repeat left center;
+	}
+	#leftRightContent .subContentLeft div.folderTree ul li a:hover { color: #000; }
+	#leftRightContent .subContentLeft div.folderTree ul ul { padding-left: 8px; border-left: 1px solid #ccc; }
 	#leftRightContent .subContentLeft .bottom
 	{ 
 		height: 12px;
@@ -618,6 +649,11 @@
 		color: #1A5BB2;
 		clear: right;
 	}
+	#leftRightContent h3.crumbs
+	{
+		margin-bottom: 8px;
+		padding-left: 3px;
+	}	
 	#leftRightContent p
 	{
 		margin: 5px 15px 3px 20px;
@@ -752,6 +788,8 @@
 		background-color: #fff;
 	}
 	.subContent .urlList a:hover { background-color: #eee; }
+	
+	div.oneline,
 	fieldset.textarea,
 	fieldset.oneline
 	{

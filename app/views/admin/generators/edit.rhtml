@@ -19,8 +19,8 @@
 			<%= text_field 'generator', 'description', :class => 'text_area_large' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
-          Use this template for displaying:
-<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %>* on website:
+          (Use this template for displaying:
+<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %>) on website:
 			<%= select 'generator', 'website_id', Website.find(:all,:order => "name").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
 		</fieldset>
 		<fieldset class="oneline">
@@ -34,7 +34,7 @@
 			<% end %>
 			<%= select_tag :generator_folder_id, options %>
           </fieldset>
-          * leave blank if not applies
+
 		<div class="bottom"></div>
 	</div>
 

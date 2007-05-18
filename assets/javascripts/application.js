@@ -2,6 +2,13 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+	/* simple function to send messages to the notice flashbox */
+	function flashNotice(msg)
+	{
+		$('flashNotice').innerHTML = msg;
+		new Effect.Appear($('flashNotice'));
+	}
+
 	Event.observe(window, 'load', categoriesTree, false);
 	function categoriesTree()
 	{
@@ -175,3 +182,32 @@
 			}
 		});
 	}
+	
+/** Save generator with ajax and put event listener (ctrl + s) on it **/
+
+	Event.observe(window, 'load', saveGenerator, false);
+	function saveGenerator()
+	{
+		if(!$("generator-form")) return false;
+		Event.observe(document, 'keypress', function(e) {
+			if(e.ctrlKey && (e.which == 115 || e.keyCode == 83)) {
+				if(typeof codepress1 != "undefined")
+					$('generator_template').value = codepress1.getCode();
+				else
+					return alert("Codepress object not defined"); false;
+				new Ajax.Request($("generator-form").getAttribute("action"), { 
+					method: "post",
+					parameters: $("generator-form").serialize(),
+					onCreate: function(l) { 
+						saveGen = new BagelOverlay(true);
+						saveGen.popup('<div class="savePopup"><h1>Saving Generator...</h1><div class="spinner"></div></div>', 310, 125);
+					},
+					onComplete: function(o) { 
+						saveGen.destroy();
+					}
+				});
+				Event.stop(e);
+			}
+		}, false);
+	}
+	

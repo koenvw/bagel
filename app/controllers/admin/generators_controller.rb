@@ -12,7 +12,7 @@ class Admin::GeneratorsController < ApplicationController
 
   def list
     conditions = "1=1"
-    conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].nil?
+    conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].nil_or_empty?
     conditions << " AND generator_folder_id = #{params[:id]}" unless params[:id].nil?
     @generator_pages, @generators = paginate :generator, :per_page => 100, :order => "name asc", :conditions => conditions
     @websites = Website.find(:all)
@@ -21,6 +21,7 @@ class Admin::GeneratorsController < ApplicationController
   def edit
     @generator = Generator.find_by_id(params[:id]) || Generator.new
     if request.post?
+      #render :inline => "<%= debug params %>" and return
       @generator.attributes = params[:generator]
       if @generator.save
         flash[:notice] ='Generator was successfully updated.'

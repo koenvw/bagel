@@ -19,6 +19,7 @@
 		position: relative;
 		margin: 0 auto 0 auto;
 	}
+	div.savePopup,
 	div.smallPopup
 	{
 		width: 310px;
@@ -40,6 +41,7 @@
 		right: 11px;
 		background: #000 url('../../images/bluegel/icons/icon_close.png') no-repeat top left;
 	}
+	div.savePopup .spinner,
 	div.bigPopup .spinner,
 	div.smallPopup .spinner
 	{
@@ -145,4 +147,12 @@
 		div.imageBlock a 
 		{
 			display: block;
+		}
+		div.savePopup h1
+		{
+			width: 300px;
+			text-align: center;
+			margin: 0 auto 0 auto;
+			padding-top: 30px;
+			font-size: 13px;
 		}
