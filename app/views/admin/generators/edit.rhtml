@@ -32,7 +32,7 @@
 			  <% options << options_for_select(elements.map {|item| ["#{'...' * item.level}#{item.name}",item.id]}, @generator.generator_folder_id) %>
 			  <% options << "</optgroup>" %>
 			<% end %>
-			<%= select_tag :generator_folder_id, options %>
+			<%= select_tag 'generator[generator_folder_id]', options %>
           </fieldset>
 
 		<div class="bottom"></div>

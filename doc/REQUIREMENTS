@@ -14,13 +14,13 @@ betternestedset svn://rubyforge.org/var/svn/betternestedset/tags/stable/betterne
 
 GEMS
 =========
-gem install hpricot
-gem install htmlentities
+?? gem install hpricot
+?? gem install htmlentities
 gem install rmagick
 gem install memcache-client
 gem install mime-types
 gem install ferret
-gem install capistrano
+?? gem install capistrano
 
 TEXT TOOLS
 =============

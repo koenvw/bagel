@@ -19,7 +19,6 @@
 				<label for="website_id"> Website</label> <%= select_tag :website_id, options_for_select(Website.find(:all).collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), params[:website_id]), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;", :style => "width: 130px;" %>
 			</fieldset>	
 			<% end %>
-			
 			<% if !params[:website_id].nil_or_empty? %>
 				<div class="folderTree">
 				<ul>

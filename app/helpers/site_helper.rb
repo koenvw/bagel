@@ -35,5 +35,43 @@ module SiteHelper
     )
     root.all_children(:exclude => items_not_published)
   end
+  
+  # Get menu as a tree hash (recursive method :/ )
+  def get_menu_tree(site, menu_id, linkTo = nil)
+    linkStr = ( linkTo.nil? ? site : linkTo )
+    menu_items = find_menu(site, menu_id)
+    tempArray = []
+    menu_items.each do |mitem|
+      if mitem.parent_id == menu_id
+        tempArray << get_menu_tree_hash(mitem, linkStr)
+      end
+    end
+    return tempArray
+  end
+  
+  # -- get menu children
+  private
+  def get_menu_tree_childs(parent, link)
+    if parent.has_children?
+      tempArray = []
+      parent.children.each do |child|
+        tempArray << get_menu_tree_hash(child, link)
+      end
+      return tempArray
+    end
+    return false
+  end
 
+  # -- hash structure
+  def get_menu_tree_hash(item, link)
+    myHash = {
+      :title => item.title,
+      :link => ( item.link(link).nil_or_empty? ? "#" : item.link(link) ),
+      :selected => ( "/"+ request.request_uri.split("/")[1] == item.link(link) ? true : false ),
+      :id => item.id,
+      :children => get_menu_tree_childs(item, link)
+    }
+    return myHash
+  end
+  
 end
