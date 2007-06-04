@@ -22,10 +22,10 @@ class Admin::GeneratorsController < ApplicationController
     @generator = Generator.find_by_id(params[:id]) || Generator.new
     if request.post?
       @generator.attributes = params[:generator]
-      #render :inline => "<%= debug @generator.attributes %>" and return
+      #render :inline => "<%= debug params %>" and return
       if @generator.save
         flash[:notice] ='Generator was successfully updated.'
-        redirect_to :action => 'list', :website_id => params[:website_id]
+        redirect_to :action => 'list', :id => params[:folder_id], :website_id => params[:website_id]
       end
     end
   end

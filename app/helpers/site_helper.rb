@@ -63,11 +63,23 @@ module SiteHelper
   end
 
   # -- hash structure
-  def get_menu_tree_hash(item, link)
+  def get_menu_tree_hash(item, link)  
+    # if item is selected (based on uri parsing)? 
+    selected = false
+    request.request_uri.split("/").each do |uitem| 
+      if !uitem.nil_or_empty? && !item.link(link).match("(http|ftp|https|)://.*")
+        item.link(link).split("/").each do |litem|
+          if uitem == litem
+            selected = true
+          end
+        end
+      end
+    end
+    #make the hash
     myHash = {
       :title => item.title,
       :link => ( item.link(link).nil_or_empty? ? "#" : item.link(link) ),
-      :selected => ( "/"+ request.request_uri.split("/")[1] == item.link(link) ? true : false ),
+      :selected => selected,
       :id => item.id,
       :children => get_menu_tree_childs(item, link)
     }

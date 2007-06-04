@@ -5,6 +5,7 @@
 	<%= error_messages_for 'generator' %>
 	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= hidden_field 'generator', 'template' %>
+	<%= hidden_field_tag 'folder_id', params[:folder_id] %>
 	<div class="subContent">
 		<fieldset class="oneline">
 			<label for="generator_name">Name</label>

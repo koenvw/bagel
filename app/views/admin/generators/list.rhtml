@@ -72,7 +72,7 @@
 					<td class="iconbox"  style="width: 150px;">
 						<span class="icon">
 							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => params[:website_id] }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
-							<%= link_to "edit", { :action => 'edit', :id => generator, :website_id => params[:website_id] } , :class => "edit"  %>
+							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => params[:id], :website_id => params[:website_id] } , :class => "edit"  %>
 							<%= link_to "view", "/#{generator.website.name}/show/generator/#{generator.name}.html", :class => "edit", :onclick => "return false;" unless generator.website.nil? %>
 						</span>
 					</td>
