@@ -64,7 +64,7 @@
 		<div id="header">
 			<!-- Toolbar (logout, view, help, ...) -->
 			<ul class="toolBar"> 
-				<li><%= link_to 'Help', 'http://wiki.bagel.be' %></li>
+				<li><%= link_to(image_tag("http://asset2.projectpath.com/images/helpbutton2.png"), 'http://wiki.bagel.be') %></li>
 				<li><%= link_to 'Settings', '/admin/me/edit' %></li>
 				<li><%= link_to 'Logout', logout_url %></li>
 			</ul>
@@ -103,6 +103,7 @@
 				<li><%= link_to_if_authorized 'Media gallery', '/admin/images/list' %></li>
 				<li><%= link_to_if_authorized 'Menu', '/admin/menus/list2' %></li>
 				<li><%= link_to_if_authorized 'Tags', '/admin/tags/list' %></li>
+				<li><%= link_to_if_authorized 'Shortcuts', '/admin/tools' %></li>
 			<% end %>
 			<% if webfolder_active=="active" %>
 			<!-- nothing here... (yet) -->
@@ -116,7 +117,6 @@
 				<li><%= link_to_if_authorized 'Relations', '/admin/relations' %></li>
 				<li><%= link_to_if_authorized 'Websites', '/admin/websites' %></li>
 				<li><%= link_to_if_authorized 'Aliases', '/admin/urlmappings' %></li>
-				<li><%= link_to_if_authorized 'Tools', '/admin/tools' %></li>
 				<li><%= link_to_if_authorized 'Users', admin_users_url %></li>
 				<li><%= link_to_if_authorized 'Roles', admin_roles_url %></li>
 			<% end %>

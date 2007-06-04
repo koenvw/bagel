@@ -27,7 +27,7 @@ class QueuedMail < ActiveRecord::Base
 
       # fill data
       data = {}
-      data[:static_url] = "newsletters/" + website_name + "/" + time.localize("%Y%m%d")
+      data[:static_url] = "newsletters/" + website_name + "/" + time.strftime("%Y%m%d")
       data[:date] = time.format_out
       data[:counter] = counter
       data[:updated_on] = updated_on
@@ -72,7 +72,7 @@ class QueuedMail < ActiveRecord::Base
       # update updated_on
       updated_on_setting = Setting.find_by_name("Newsletters").children.find_by_name(letter_name.to_s).children.find_by_name("updated_on")
       unless updated_on_setting.nil?
-        updated_on_setting.value = Time.now.localize("%Y-%m-%d %H:%I:%S")
+        updated_on_setting.value = Time.now.strftime("%Y-%m-%d %H:%I:%S")
         updated_on_setting.save
       end
     end

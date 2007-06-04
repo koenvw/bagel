@@ -29,7 +29,7 @@ class Form < ActiveRecord::Base
   end
   def check_data
     @data.each_key do |key|
-      raise Exception.new("illegal key: #{key}") if key != "name" && self.respond_to?(key)
+      raise Exception.new("illegal key: #{key}") if key.to_s != "name" && key.to_s != "type_id" && self.respond_to?(key)
     end
   end
 
@@ -52,6 +52,7 @@ class Form < ActiveRecord::Base
     if method_id.to_s.ends_with?("=")
       # an assignment, check if the field exists in the form definition
       field_name = method_id.to_s.chop.to_sym # remove "="
+      super if field_name == :name
       if !attributes["form_definition_id"].nil? and form_definition.template.scan(/:form, :#{field_name.to_s}/).size >0
         @data[field_name] = arguments.first
         check_data
@@ -60,6 +61,7 @@ class Form < ActiveRecord::Base
         super
       end
     elsif @data.has_key?(method_id)
+      super if method_id == :name
       # the requested method_id exists in our data field -> return the value of it
       @data[method_id]
     elsif !attributes["form_definition_id"].nil? and form_definition.template.scan(/:form, :#{method_id.to_s}/).size >0

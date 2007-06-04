@@ -46,7 +46,7 @@ class Admin::MenusController < ApplicationController
 
   def destroy
     Menu.find(params[:id]).destroy
-    redirect_to :action => 'list2'
+    redirect_to :back
   end
 
   #

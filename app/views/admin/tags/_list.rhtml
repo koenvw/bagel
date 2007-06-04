@@ -34,7 +34,7 @@ end
 				<h3>Create new tag</h3>
 				<label for="tagname">Name</label>
 				<%= text_field_tag "new_tag", "", :id =>"tag_new_tag", :class => "text" %>
-				<label for="subtag">for</label>
+				<label for="subtag">in</label>
 				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
 				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %> 
 			</div>

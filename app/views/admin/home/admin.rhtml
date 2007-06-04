@@ -58,12 +58,6 @@
 						<p>The html code for the frontend</p>
 					</div>
 					<% end %>
-					<% if AdminUser.current_user.has_admin_permission?(:admin_tools_management) %>
-					<div class="container loopme">
-						<h3><%= link_to "Tools", :controller => "tools" %></h3>
-						<p>Miscellaneous tools</p>
-					</div>
-					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_content_types_management) %>
 					<div class="container loopme">
 						<h3><%= link_to "Types", :controller => "content_types" %></h3>

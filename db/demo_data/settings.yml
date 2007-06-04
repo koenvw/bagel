@@ -5,10 +5,10 @@ settings_013:
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 16:30:36
-  lft: "24"
+  lft: "32"
   id: "18"
   value: /home/bull/Rails/Workspace/benzine/trunk/public/images/auto55/logo_a55be_wallpaper_big.png
-  rgt: "25"
+  rgt: "33"
   parent_id: "17"
 settings_002: 
   created_on: 2007-04-03 17:47:02
@@ -27,10 +27,10 @@ settings_014:
   settings_count: 
   value_type: string
   updated_on: 2007-04-12 19:06:10
-  lft: "19"
+  lft: "27"
   id: "20"
   value: 150x94
-  rgt: "20"
+  rgt: "28"
   parent_id: "12"
 settings_003: 
   created_on: 2007-04-04 10:09:39
@@ -43,6 +43,17 @@ settings_003:
   value: ""
   rgt: "11"
   parent_id: "5"
+settings_015: 
+  created_on: 2007-05-15 16:31:31
+  name: micro
+  settings_count: 
+  value_type: string
+  updated_on: 2007-05-15 16:31:31
+  lft: "14"
+  id: "25"
+  value: ""
+  rgt: "19"
+  parent_id: "5"
 settings_004: 
   created_on: 2007-04-04 10:09:50
   name: small
@@ -54,6 +65,17 @@ settings_004:
   value: ""
   rgt: "10"
   parent_id: "7"
+settings_016: 
+  created_on: 2007-05-15 16:34:19
+  name: crop
+  settings_count: 
+  value_type: string
+  updated_on: 2007-05-15 16:34:19
+  lft: "15"
+  id: "26"
+  value: "67:50"
+  rgt: "16"
+  parent_id: "25"
 settings_005: 
   created_on: 2007-04-04 10:10:04
   name: crop
@@ -65,6 +87,17 @@ settings_005:
   value: 150:94
   rgt: "7"
   parent_id: "8"
+settings_017: 
+  created_on: 2007-05-15 16:34:39
+  name: size
+  settings_count: 
+  value_type: string
+  updated_on: 2007-05-15 16:34:39
+  lft: "17"
+  id: "27"
+  value: 67x50
+  rgt: "18"
+  parent_id: "25"
 settings_006: 
   created_on: 2007-04-04 10:10:16
   name: size
@@ -76,16 +109,27 @@ settings_006:
   value: 150x94
   rgt: "9"
   parent_id: "8"
+settings_018: 
+  created_on: 2007-05-15 16:35:15
+  name: default2
+  settings_count: 
+  value_type: string
+  updated_on: 2007-05-15 16:35:15
+  lft: "20"
+  id: "28"
+  value: micro
+  rgt: "21"
+  parent_id: "5"
 settings_007: 
   created_on: 2007-04-09 15:31:06
   name: ImageSettingsNew
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 15:31:06
-  lft: "15"
+  lft: "23"
   id: "11"
   value: ""
-  rgt: "28"
+  rgt: "36"
   parent_id: 
 settings_008: 
   created_on: 2007-04-09 15:31:33
@@ -93,10 +137,10 @@ settings_008:
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 15:31:33
-  lft: "16"
+  lft: "24"
   id: "12"
   value: ""
-  rgt: "21"
+  rgt: "29"
   parent_id: "11"
 settings_009: 
   created_on: 2007-04-09 16:00:35
@@ -115,10 +159,10 @@ settings_010:
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 16:27:42
-  lft: "17"
+  lft: "25"
   id: "15"
   value: 900>
-  rgt: "18"
+  rgt: "26"
   parent_id: "12"
 settings_011: 
   created_on: 2007-04-09 16:29:24
@@ -126,10 +170,10 @@ settings_011:
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 16:29:24
-  lft: "22"
+  lft: "30"
   id: "16"
   value: ""
-  rgt: "27"
+  rgt: "35"
   parent_id: "11"
 settings_012: 
   created_on: 2007-04-09 16:29:47
@@ -137,10 +181,10 @@ settings_012:
   settings_count: 
   value_type: string
   updated_on: 2007-04-09 16:29:47
-  lft: "23"
+  lft: "31"
   id: "17"
   value: ""
-  rgt: "26"
+  rgt: "34"
   parent_id: "16"
 settings_001: 
   created_on: 2007-04-03 17:46:37
@@ -151,5 +195,5 @@ settings_001:
   lft: "1"
   id: "5"
   value: ""
-  rgt: "14"
+  rgt: "22"
   parent_id: 

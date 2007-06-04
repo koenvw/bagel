@@ -39,17 +39,16 @@
 					<% 
 						action = "edit"
 						param_id = nil
+						form_definition_id = nil
 						type = ctype.core_content_type
 						ctrl = type.tableize.downcase 
-						if type == "form"
-							action = "show"
-							#FIXME:
-							#param_id = ctype.extra_info.split(";")[1]
+						if type == "Form"
+							form_definition_id = ctype.extra_info
 						end
-						link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id }
+                        link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
 					%>
 					<div class="container loopme">
-						<h3><%= link_to ctype.name, link_hash %></h3>
+                      <h3><%= link_to ctype.name, link_hash %></h3>
 						<p>
 							<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
 							<%= link_to "#{ctype.name}", link_hash , :class => "addGr" %>

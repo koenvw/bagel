@@ -44,6 +44,9 @@ admin_permissions_017:
 admin_permissions_006: 
   name: content_images_management
   id: "43"
+admin_permissions_029: 
+  name: admin_folder_management
+  id: "95"
 admin_permissions_018: 
   name: content_site_users_management
   id: "56"

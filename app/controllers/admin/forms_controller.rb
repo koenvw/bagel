@@ -37,18 +37,9 @@ class Admin::FormsController < ApplicationController
     end
   end
 
-  def show
-    @formdef = FormDefinition.find(params[:id])
-    session[:form_definition_id] = params[:id] # for autocomplete
-    str = '<div id="breadcrumb"><%= link_to "Forms", :controller => "form_definitions" %> > <%= link_to @formdef.name, :controller => "forms", :action => "list", :id => @formdef %> > new form </div>'
-    str << "<%= start_form_tag :action => 'create', :id => @formdef %>"
-    str << @formdef.template
-    str << "<%= end_form_tag %>"
-    render :inline => str, :layout => true
-  end
-
   def edit
-    @form = Form.find(params[:id])
+    @form = Form.find_by_id(params[:id]) || Form.new
+    @form.form_definition_id ||= params[:form_definition_id]
     session[:form_definition_id] = @form.form_definition_id # for autocomplete
   end
 
@@ -63,50 +54,26 @@ class Admin::FormsController < ApplicationController
     render :inline => str, :layout => true
   end
 
-  def create
-    @formdef = FormDefinition.find(params[:id])
-    @form = Form.new
-    @form.form_definition_id = @formdef.id
-    @form.name = params[:form][:name]
-    @form.data = params[:form]
-    @form.form = @formdef.template
-    if @form.save
-      flash[:notice] = 'Form was successfully created.'
-      unless @formdef.redirect_to == ""
-        redirect_to @formdef.redirect_to
-      else
-        redirect_to :action => 'list', :id => params[:id]
-      end
-    end
-  end
-
   def update
-    @form = Form.find(params[:id])
+    @form = Form.find_by_id(params[:id]) || Form.new
     @form.name = params[:form][:name]
     @form.data = params[:form]
+    @form.type_id = params[:form][:type_id]
+    @form.form_definition_id = params[:form_definition_id]
     @form.prepare_sitems(params[:sitems])
     if @form.save
       @form.save_tags(params[:tags])
-      @form.save_tags(params[:relations])
+      @form.save_relations(params[:relations])
       @form.set_updated_by(params)
       flash[:notice] = 'Form was successfully updated.'
-      if params[:redirect]
-        redirect_to params[:redirect]+"?website_id=#{params[:website_id]}&search_string=#{params[:search_string]}&content_type=#{params[:content_type]}"
-      else
-        redirect_to :action => 'list', :id => @form.form_definition_id
-      end
+      redirect_to params[:referer] || {:controller => "content", :action => "list"}
     end
   end
 
   def destroy
     f = Form.find(params[:id])
-    form_def_id = f.form_definition_id
     f.destroy
-    if params[:redirect]
-      redirect_to params[:redirect]+"?website_id=#{params[:website_id]}&search_string=#{params[:search_string]}&content_type=#{params[:content_type]}"
-    else
-      redirect_to :action => 'list', :id => form_def_id
-    end
+    redirect_to :back
   end
 
   def export_csv
