@@ -116,7 +116,8 @@
 			margin-left: 8px;
 		}
 		#header ul.toolBar li a:hover {  background-position: -77px 0; }
-		
+		#header ul.toolBar li a.help { background-position: -153px 0; color: #fff; }
+		#header ul.toolBar li a.help:hover { background-position: -230px 0; }
 		/* Main menu (big tabs) */
 		
 		#header ul.mainMenu
@@ -293,6 +294,7 @@
  	a.filter,
  	a.addGr,
  	a.addGrLight,
+ 	a.sortGrLight,
 	ul.mainNav li a
 	{
 		background: url('../../images/bluegel/buttonmap.png') no-repeat;
@@ -341,6 +343,8 @@
 	a.addGr:hover { background-position: -83px -500px; }
 	a.addGrLight { width: 60px; height: 27px; background-position: -2px -534px; }
 	a.addGrLight:hover { background-position: -83px -534px; }
+	a.sortGrLight { width: 60px; height: 27px; background-position: -2px -718px; }
+	a.sortGrLight:hover { background-position: -83px -718px; }
 		/* positioning containers */
 		
 		.topButton
@@ -417,7 +421,7 @@
 		width: 835px;
 	}
 	.subContent a.addGrLight {  position: absolute; right: 12px; top: 13px;  }
-	.subContent div.collapsed {  }
+	.subContent a.sortGrLight {  position: absolute; right: 76px; top: 13px;  }
 
 	/* Taglisting system */
 		
@@ -626,7 +630,8 @@
 		background: #eeeeee url('../../images/bluegel/rounded_split_top.png') no-repeat top right;
 		width: 520px;
 		padding: 10px 0 0 0;
-		float: right	
+		float: right;
+		margin-bottom: 10px;
 	}
 	#leftRightContent .subContentRight .bottom
 	{
@@ -806,6 +811,7 @@
 		padding: 11px;
 		width: 755px;
 	}
+	fieldset.smaller { width: 450px; }
 	fieldset.oneline .posSelects,
 	fieldset.oneline .posRight
 	{

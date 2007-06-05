@@ -142,22 +142,32 @@
 		relContent.show();
 		relClosebuttons = relContent.getElementsByClassName('close');
 		for(c = 0; c < relClosebuttons.length; c++) {
-			relClosebuttons[c].onclick = function() { relOverlay.destroy(); return false; }
+			relClosebuttons[c].onclick = function() { 
+				$$('.relationBox option')[0].selected = true;
+				relOverlay.destroy();
+				return false;
+			}
 		}	
 	}
 	
+	Event.observe(window, 'load', relVisualAction, false);
 	function relVisualAction()
 	{
 		// check relation list and apply some stuff to it
 		if(!$$('.relationManager')) return false;
 		var lists = $$('ul#relations_sorted_inlist li');	
-		if(lists.length > '1') lists[0].hide();
-		else lists[0].show(); 
+		if(lists.length > '1') {
+			lists[0].hide();
+			new Effect.Appear('sortRelations', {duration: '1'});
+		}
 			
 		$$('ul#relations_sorted_inlist li a[class="delete"]').each(function(delbut) { 
 			Event.observe(delbut, 'click', function() {
 				var lists = $$('ul#relations_sorted_inlist li');
-				(lists.length == '1' ? lists[0].show() : '');
+				if(lists.length == '1') {
+					lists[0].show();
+					$('sortRelations').hide();
+				}
 			}, false);
 		});
 		
@@ -165,6 +175,10 @@
 		if(typeof relOverlay == "object") {	
 			relOverlay.destroy();
 		}
+		
+		// reset relations field
+		if($$('.relationBox option')[0])
+			$$('.relationBox option')[0].selected = true;
 	}
 	
 /** Image revisions */

@@ -64,7 +64,7 @@
 		<div id="header">
 			<!-- Toolbar (logout, view, help, ...) -->
 			<ul class="toolBar"> 
-				<li><%= link_to(image_tag("http://asset2.projectpath.com/images/helpbutton2.png"), 'http://wiki.bagel.be') %></li>
+				<li><%= link_to('Help', 'http://wiki.bagel.be/', :class => "help") %></li>
 				<li><%= link_to 'Settings', '/admin/me/edit' %></li>
 				<li><%= link_to 'Logout', logout_url %></li>
 			</ul>

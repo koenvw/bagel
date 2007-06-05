@@ -14,12 +14,24 @@
    id="svg1874"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/josbeir/WEBDEV/bagel_gfx/sources/svg"
+   sodipodi:docbase="/home/josbeir/Development/current_projects/idf_bagel/vendor/plugins/bagel/doc/svg"
    sodipodi:docname="pdfgen.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="true">
   <defs
      id="defs1876">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient6515">
+      <stop
+         style="stop-color:#ff8600;stop-opacity:1;"
+         offset="0"
+         id="stop6517" />
+      <stop
+         style="stop-color:#713b00;stop-opacity:0"
+         offset="1"
+         id="stop6519" />
+    </linearGradient>
     <linearGradient
        id="linearGradient3007">
       <stop
@@ -234,6 +246,16 @@
          stdDeviation="1.9400511"
          id="feGaussianBlur3626" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient6515"
+       id="linearGradient6521"
+       x1="680"
+       y1="305.1326"
+       x2="680"
+       y2="293.42819"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-6,-25)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -242,14 +264,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="469.5477"
-     inkscape:cy="354.38654"
-     inkscape:current-layer="layer1"
+     inkscape:zoom="2"
+     inkscape:cx="760.90445"
+     inkscape:cy="365.97814"
+     inkscape:current-layer="layer3"
      inkscape:document-units="px"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1280"
+     inkscape:window-width="1270"
      inkscape:window-height="725"
      inkscape:window-x="0"
      inkscape:window-y="25" />
@@ -360,6 +382,22 @@
          y="304.78189">bagel<tspan
    style="font-size:39.05829239px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;font-family:LondonTwo"
    id="tspan2226" /></tspan></text>
+    <path
+       style="opacity:1;fill:#ffa000;fill-opacity:1;stroke:none;display:inline"
+       d="M 720.89225,256.75927 L 720.89225,267.20965 C 720.89225,271.64165 723.56825,275.20965 726.89225,275.20965 L 786.82802,275.20965 C 790.15202,275.20965 792.82802,271.64165 792.82802,267.20965 L 792.82802,256.75927 L 720.89225,256.75927 z "
+       id="path5524"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/josbeir/Desktop/Projects/current/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/toolbar_tabs.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="opacity:1;fill:#ff8600;fill-opacity:1;stroke:none;display:inline"
+       d="M 644.17199,256.79035 L 644.17199,267.24073 C 644.17199,271.67273 646.84799,275.24073 650.17199,275.24073 L 710.10776,275.24073 C 713.43176,275.24073 716.10776,271.67273 716.10776,267.24073 L 716.10776,256.79035 L 644.17199,256.79035 z "
+       id="path5526"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/josbeir/Desktop/Projects/current/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/toolbar_tabs.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -412,18 +450,18 @@
     </g>
     <path
        style="opacity:1;fill:#8691c0;fill-opacity:1;stroke:none;display:inline"
-       d="M 723.81537,256.74561 L 723.81537,267.19599 C 723.81537,271.62799 726.49137,275.19599 729.81537,275.19599 L 789.75114,275.19599 C 793.07514,275.19599 795.75114,271.62799 795.75114,267.19599 L 795.75114,256.74561 L 723.81537,256.74561 z "
+       d="M 567.81537,256.74561 L 567.81537,267.19599 C 567.81537,271.62799 570.49137,275.19599 573.81537,275.19599 L 633.75114,275.19599 C 637.07514,275.19599 639.75114,271.62799 639.75114,267.19599 L 639.75114,256.74561 L 567.81537,256.74561 z "
        id="rect1914"
        sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/josbeir/Desktop/WEBDEV/bagel_gfx/images/toolbar_tabs.png"
+       inkscape:export-filename="/home/josbeir/Desktop/Projects/current/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/toolbar_tabs.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="opacity:1;fill:#6a79b7;fill-opacity:1;stroke:none;display:inline"
-       d="M 647.09511,256.77669 L 647.09511,267.22707 C 647.09511,271.65907 649.77111,275.22707 653.09511,275.22707 L 713.03088,275.22707 C 716.35488,275.22707 719.03088,271.65907 719.03088,267.22707 L 719.03088,256.77669 L 647.09511,256.77669 z "
+       d="M 491.09511,256.77669 L 491.09511,267.22707 C 491.09511,271.65907 493.77111,275.22707 497.09511,275.22707 L 557.03088,275.22707 C 560.35488,275.22707 563.03088,271.65907 563.03088,267.22707 L 563.03088,256.77669 L 491.09511,256.77669 z "
        id="path2806"
        sodipodi:nodetypes="ccccccc"
-       inkscape:export-filename="/home/josbeir/Desktop/WEBDEV/bagel_gfx/images/toolbar_tabs.png"
+       inkscape:export-filename="/home/josbeir/Desktop/Projects/current/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/toolbar_tabs.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
