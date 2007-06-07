@@ -6,4 +6,14 @@ class Event < ActiveRecord::Base
       sitem.name = title unless title.nil?
     end
   end
+
+  #FIXME: change the database table
+  def updated_on
+    updated_at
+  end
+
+  #FIXME: change the database table
+  def created_on
+    created_at
+  end
 end

@@ -53,7 +53,7 @@ class Form < ActiveRecord::Base
       # an assignment, check if the field exists in the form definition
       field_name = method_id.to_s.chop.to_sym # remove "="
       super if field_name == :name
-      if !attributes["form_definition_id"].nil? and form_definition.template.scan(/:form, :#{field_name.to_s}/).size >0
+      if !attributes["form_definition_id"].nil? and form_definition.template.scan(/:#{field_name.to_s}/).size >0
         @data[field_name] = arguments.first
         check_data
       else
@@ -64,7 +64,7 @@ class Form < ActiveRecord::Base
       super if method_id == :name
       # the requested method_id exists in our data field -> return the value of it
       @data[method_id]
-    elsif !attributes["form_definition_id"].nil? and form_definition.template.scan(/:form, :#{method_id.to_s}/).size >0
+    elsif !attributes["form_definition_id"].nil? and form_definition.template.scan(/:#{method_id.to_s}/).size >0
         # in case new fields were added to the formdef -> just return nil
         nil
     else

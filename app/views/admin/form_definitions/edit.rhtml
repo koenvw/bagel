@@ -11,7 +11,7 @@
 			<%= text_field 'form_definition', 'name' , :class => "large_text_input", :size => "30" %>
 		</fieldset>
 		<div class="mceFrame">
-			<%= text_area_tag 'codepress1', @form_definition.template, :class => 'codepress html', :style => "width:773px;height:200px;" %><br/>
+			<%= text_area_tag 'codepress1', @form_definition.template, :class => 'codepress html', :style => "width:773px;height:500px;" %><br/>
 		</div>
 		<fieldset class="oneline">
 			<label for="form_definition_redirect_to">Redirect to</label>
@@ -19,7 +19,7 @@
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="form_definition_action">Action</label>
-			<%= text_field 'form_definition', 'action' %>
+			<%= select 'form_definition', 'action', AppConfig[:form_actions], :include_blank => true  %>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
