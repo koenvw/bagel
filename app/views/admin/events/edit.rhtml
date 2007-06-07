@@ -1,0 +1,38 @@
+<h1><%= figure_out_action(@event) %> <%= figure_out_content_type_name(@event) %></h1>
+
+<% form_tag :action => 'edit', :id => @event do %>
+
+	<%= hidden_field_tag "event[type_id]", @event.type_id || params[:type_id] %>
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'event' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="event_title">Title</label>
+			<%= text_field 'event', 'title' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="event_title">Start</label>
+			<%= calendar_field_tag "event[event_start]", @event.event_start, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="event_title">End</label>
+			<%= calendar_field_tag "event[event_stop]", @event.event_stop, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+		</fieldset>
+		<div class="mceFrame">
+		  <%= text_area  'event', 'body', :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
+		</div>
+		<div class="bottom"></div>
+	</div>
+	<%= render :partial => "admin/sitems/list", :locals => { :item => @event } %>
+	<%= render :partial => "admin/tags/list", :locals => { :item => @event } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @event } %>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end %>

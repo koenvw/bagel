@@ -79,7 +79,7 @@
 								when "webfolder": webfolder_active = "active"
 								when "admin"	: admin_active = "active"
 							end
-						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController"
+						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController", "Admin::EventsController"
 							website_active = "active"
 						when "Admin::ImagesController"
 							case params[:action]
