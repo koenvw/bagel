@@ -10,36 +10,38 @@ give me direction!
 <% else %>
 <!-- begin popup for adding relations -->
 <div class="relationManager">
-		<h3 class="forClose">Relations</h3>
-		<a id="sortRelations" class="addGrLight sortGrLight" style="display: none;" href="#">Sort</a>
-		<a class="addGrLight addRelation" href="#">Add</a>
-		<div class="bagelRelationContent bigPopup" style="display: none;">
-			<div class="relation">
-				<h3>Add Relation</h3>
-				<a class="close" href="#">Close</a>
-				<div class="relationBox">
-					<fieldset>
-		  				<label>Relation type</label>
-						<%= select "relations#{direction}#{uniq_id}",
-							"category_id",
-							Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] },
-							:include_blank => true,
-							:selected => nil 
-						%>
-						<div class="clear"></div>
-					</fieldset>
-					<div class="spinner" id="spinner" style="display: none;"></div>
-					<%= observe_field "relations#{direction}#{uniq_id}_category_id",
-						:update => "relations#{direction}#{uniq_id}_content",
-						:on => "focus",
-						:url => {:controller => "relations", :action => "popup_content", :sub_id => uniq_id, :direction => direction},
-						:with => "'rel_id=' + escape(value)",
-						:loading => "Element.show('spinner')",
-			 			:complete => "Element.hide('spinner')"
-					%>
-					<div id="relations<%= direction %><%= uniq_id %>_content"></div>
-				</div>
+	<h3 class="forClose">Relations</h3>
+	<a id="sortRelations" class="addGrLight sortGrLight" style="display: none;" href="#">Sort</a>
+	<a class="addGrLight addRelation" href="#">Add</a>
+	<!-- add "create button here -->
+	<div class="bagelRelationContent bigPopup" style="display: none;">
+		<div class="relation">
+		<h3>Add Relation</h3>
+		<a class="close" href="#">Close</a>
+		<div class="relationBox">
+			<fieldset>
+				<label>Relation type</label>
+				<%= select "relations#{direction}#{uniq_id}",
+					"category_id",
+					Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] },
+					:include_blank => true,
+					:selected => nil
+				%>
+				<div class="clear"></div>
+			</fieldset>
+			<div class="spinner" id="spinner" style="display: none;"></div>
+			<%= observe_field "relations#{direction}#{uniq_id}_category_id",
+				:update => "relations#{direction}#{uniq_id}_content",
+				:on => "focus",
+				:url => {:controller => "relations", :action => "popup_add", :sub_id => uniq_id, :direction => direction},
+				:with => "'rel_id=' + escape(value)",
+				:loading => "Element.show('spinner')",
+				:complete => "Element.hide('spinner')"
+			%>
+			<div id="relations<%= direction %><%= uniq_id %>_content"></div>
 			</div>
+		</div>
+		<!-- add "create popup here, link to popup_content -->
 		<div class="clear"></div>
 	</div>
 </div>
