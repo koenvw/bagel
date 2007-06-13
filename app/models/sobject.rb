@@ -110,16 +110,19 @@ class Sobject < ActiveRecord::Base
   end
 
   def self.find_with_parameters(options = {})
-    # website_name, website_id, content_types, tag_names, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,order="sitems.publish_from DESC",status="Published"
+    # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,includes=nil,order="sitems.publish_from DESC",status="Published"
     # tags
-    unless options[:tag_names].nil?
-      tag_check = "AND (1=0"
-      options[:tag_names].each do |tag|
-        tag_check << " OR cached_category_ids LIKE '%;#{Tag.find_by_name(tag).id};%' "
+    # FIXME: this used to be :tag_names
+    unless options[:tags].nil?
+      # map elements to ids
+      tags = options[:tags].to_a.map do |tag|
+        (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
       end
-      #FIXME: these are exceptions because they don't have a tag (better exclude tags than include them ??)
-      tag_check << " OR sobjects.content_type ='TestArticle'"
-      tag_check << " OR sobjects.content_type ='Book')"
+      tag_check = "AND (1=0"
+      tags.each do |tag_id|
+        tag_check << " OR cached_category_ids LIKE '%;#{tag_id};%' "
+      end
+      tag_check << ")"
     end
     # website_name
     if options[:website]
@@ -134,30 +137,25 @@ class Sobject < ActiveRecord::Base
       # website_id
       if options[:website_id]
         website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.status='Published'" # FIXME: status conflicts with status below?
-      else
-        website_check = ""
       end
+    end
+    # published by
+    if options[:published_by]
+      users = options[:published_by].to_a.map do |user|
+        (user.to_i == 0) ? AdminUser.find_by_username(user).id : user.to_i
+      end
+      published_by_check = " AND sobjects.updated_by IN (#{users.join(",")})"
     end
     # search_string
     # FIXME: sql injection!!
-    if options[:search_string] and options[:search_string].size > 0
+    unless options[:search_string].nil_or_empty?
       search_check = "AND (sitems.name LIKE '%#{options[:search_string]}%')"
-    else
-      search_check = ""
     end
     # content_types
     if options[:content_types]
-      if options[:content_types].is_a?(Array)
-        # map elements to ids
-        ctypes = options[:content_types].map do |ct|
-          (ct.to_i == 0) ? ContentType.find_by_name(ct).id : ct
-        end
-      else
-        if options[:content_types].to_i == 0
-          ctypes = [ContentType.find_by_name(options[:content_types]).id]
-        else
-          ctypes = [options[:content_types]]
-        end
+      # map elements to ids
+      ctypes = options[:content_types].to_a.map do |ct|
+        (ct.to_i == 0) ? ContentType.find_by_name(ct).id : ct
       end
       content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})"
     end
@@ -185,6 +183,17 @@ class Sobject < ActiveRecord::Base
     else
       status_check = " AND sitems.status='Published' AND sitems.publish_from<now()" # also check publish_from, we don't want future items if not :all
     end
+    # workflow
+    if options[:workflow]
+      workflow_check = ""; workflows = []
+      options[:workflow].to_a.each do |step_id|
+        # FIXME: not efficient with many step_ids
+        ws_step = WorkflowStep.find(step_id)
+        workflow_check << " AND sobjects.content_type_id IN (#{ws_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
+        workflow_check << " AND NOT EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step_id})"
+      end
+    end
+    # includes
     includes = :sitems
     if options[:include]
       includes = [includes,options[:include]]
@@ -200,6 +209,8 @@ class Sobject < ActiveRecord::Base
         #{content_type_check}
         #{publish_from_check}
         #{publish_till_check}
+        #{published_by_check}
+        #{workflow_check}
         #{options[:conditions]}
       ",
       :include => includes,

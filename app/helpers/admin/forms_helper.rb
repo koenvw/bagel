@@ -24,11 +24,11 @@ module Admin::FormsHelper
     out << '</div>'
   end
 
-  def bagel_select_country(method, options = {}, html_options = {})
-    choices = []
+  def bagel_country_select(method, priority_countries = nil, options = {}, html_options = {})
+    options[:include_blank] = true
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
-    out << select(:form, method, choices, options, html_options)
+    out << country_select(:form, method, priority_countries, options, html_options)
     out << '</fieldset>'
   end
 

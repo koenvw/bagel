@@ -23,7 +23,7 @@ module ApplicationHelper
 
   # <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
   def select_nested_set_tag(name, type, selected = 0)
-    options = options_for_select(nested_set_options_for_select(type) { |item| "#{'...' * item.level}#{item.name}" }.unshift(["","0"]), selected)
+    options = options_for_select(nested_set_options_for_select(type) { |item| "#{'...' * item.level}#{item.name}" }.unshift(["",""]), selected)
     select_tag name, options
   end
 

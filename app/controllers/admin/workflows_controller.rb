@@ -18,6 +18,7 @@ class Admin::WorkflowsController < ApplicationController
   def edit
     @workflow = Workflow.find_by_id(params[:id]) || Workflow.new
     if request.post?
+      params[:workflow][:content_type_ids] ||= []
       @workflow.attributes = params[:workflow]
       if @workflow.save
         flash[:notice] ='Workflow was successfully updated.'

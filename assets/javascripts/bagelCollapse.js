@@ -23,14 +23,14 @@
 		clickelement = e.next('.collapsed');
 		if(clickelement.visible() && onlyOpen != true) {
 			(typeof clickelement.previous('input#relationDisplayState') == "object" ? $('relationDisplayState').value = 0 : "");
-			(typeof clickelement.previous('input#websiteDisplayState') == "object" ? $('websiteDisplayState').value = 0 : "");			
+			(typeof clickelement.previous('input#websiteDisplayState') == "object" ? $('websiteDisplayState').value = 0 : "");
 			(typeof clickelement.previous('input#tagDisplayState') == "object" ? $('tagDisplayState').value = 0 : "");
 			e.removeClassName("closed"); 
 			e.next('.collapsed').hide();
 		}
 		else {
 			(typeof clickelement.previous('input#relationDisplayState') == "object" ? $('relationDisplayState').value = 1 : "");
-			(typeof clickelement.previous('input#websiteDisplayState') == "object" ? $('websiteDisplayState').value = 1 : "");			
+			(typeof clickelement.previous('input#websiteDisplayState') == "object" ? $('websiteDisplayState').value = 1 : "");
 			(typeof clickelement.previous('input#tagDisplayState') == "object" ? $('tagDisplayState').value = 1 : "");
 			e.addClassName("closed");
 			e.next('.collapsed').show();

@@ -12,8 +12,10 @@ class Admin::ContentController < ApplicationController
 
     @item_pages, @items = paginate_collection Sobject.find_with_parameters(:status => :all,
                                                                            :content_types => params[:type_id],
-                                                                           :tag_names => params[:tag_names],
+                                                                           :tags => params[:tag_id],
                                                                            :website_id => params[:website_id],
+                                                                           :published_by => params[:user_id],
+                                                                           :workflow => params[:step_id],
                                                                            :limit=> 1000,
                                                                            :order => "sitems.publish_date DESC, sobjects.id DESC",
                                                                            :include => includes,

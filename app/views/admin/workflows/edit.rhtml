@@ -17,7 +17,8 @@
 			<label for="workflow_content_types">Content types</label>
 			<ul>
 			<% ContentType.find(:all, :order => "name").each do |type| %>
-				<li><%= check_box_tag 'workflow[content_type_ids][]', type.id, type.workflow_id == @workflow.id %><%= type.name %></li>
+            <% options = {:disabled => true} if type.workflow && type.workflow_id != @workflow.id %>
+            <li><%= check_box_tag 'workflow[content_type_ids][]', type.id, (type.workflow && type.workflow_id == @workflow.id), options || {} %><%= type.name %> <%= "(#{type.workflow.name})" if type.workflow && type.workflow_id != @workflow.id  %></li>
 			<% end %>
 			</ul>
 		</fieldset>
