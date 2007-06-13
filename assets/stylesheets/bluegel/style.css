@@ -295,6 +295,7 @@
  	a.addGr,
  	a.addGrLight,
  	a.sortGrLight,
+ 	a.createGrLight,
 	ul.mainNav li a
 	{
 		background: url('../../images/bluegel/buttonmap.png') no-repeat;
@@ -345,6 +346,8 @@
 	a.addGrLight:hover { background-position: -83px -534px; }
 	a.sortGrLight { width: 60px; height: 27px; background-position: -2px -718px; }
 	a.sortGrLight:hover { background-position: -83px -718px; }
+	a.createGrLight { width: 97px; height: 27px; background-position: -2px -751px; }
+	a.createGrLight:hover { background-position: -98px -751px; }
 		/* positioning containers */
 		
 		.topButton
@@ -421,8 +424,8 @@
 		width: 835px;
 	}
 	.subContent a.addGrLight {  position: absolute; right: 12px; top: 13px;  }
-	.subContent a.sortGrLight {  position: absolute; right: 76px; top: 13px;  }
-
+	.subContent a.sortGrLight {  position: absolute; right: 179px; top: 13px;  }
+	.subContent a.createGrLight {  position: absolute; right: 76px; top: 12px;  }
 	/* Taglisting system */
 		
 		#dragdropContainer { margin: 0 15px 0 15px; }
