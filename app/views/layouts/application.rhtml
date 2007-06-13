@@ -80,7 +80,7 @@
 								when "webfolder": webfolder_active = "active"
 								when "admin"	: admin_active = "active"
 							end
-						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController", "Admin::EventsController"
+						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController", "Admin::EventsController","Admin::ToolsController"
 							website_active = "active"
 						when "Admin::ImagesController"
 							case params[:action]
@@ -88,7 +88,7 @@
 							else
 								website_active = "active"
 							end
-						when "Admin::SettingsController","Admin::AdminUsersController","Admin::AdminRolesController","Admin::GeneratorsController","Admin::GeneratorFilesController","Admin::FormDefinitionsController","Admin::ContentTypesController","Admin::RelationsController","Admin::WebsitesController","Admin::UrlmappingsController","Admin::ToolsController","Admin::GeneratorFoldersController"
+						when "Admin::SettingsController","Admin::AdminUsersController","Admin::AdminRolesController","Admin::GeneratorsController","Admin::GeneratorFilesController","Admin::FormDefinitionsController","Admin::ContentTypesController","Admin::RelationsController","Admin::WebsitesController","Admin::UrlmappingsController","Admin::GeneratorFoldersController","Admin::WorkflowsController","Admin::WorkflowStepsController"
 							admin_active = "active"
 					end
 				%>
@@ -120,6 +120,7 @@
 				<li><%= link_to_if_authorized 'Aliases', '/admin/urlmappings' %></li>
 				<li><%= link_to_if_authorized 'Users', admin_users_url %></li>
 				<li><%= link_to_if_authorized 'Roles', admin_roles_url %></li>
+				<li><%= link_to_if_authorized 'Workflow', '/admin/workflows' %></li>
 			<% end %>
 			</ul>
 		</div>

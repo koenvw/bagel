@@ -11,6 +11,7 @@
 		<%= controller.render_tpl(@form.form_definition.template) %>
 		<div class="bottom"></div>
 	</div>
+	<%= render :partial => "admin/workflows/list", :locals => { :item => @form } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @form } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @form } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @form, :direction => "in"  } %>

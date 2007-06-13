@@ -1,33 +1,40 @@
-<h2>Editing role <%=h @role.name %></h2>
+<h1>Editing role <%=h @role.name %></h1>
 
 <%= error_messages_for :role %>
 
 <% form_for(:role, @role, :url => { :action => :update } ) do |f| %>
 
-<dl>
-	<dt>Name</dt>
-	<dd><%= f.text_field :name %></dd>
-	
-	<dt>Permissions</dt>
-	<dd>
-		<ul>
-		<% AdminPermission.find(:all, :order => "name").each do |permission| %>
-			<li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
-		<% end %>
-		</ul>
-	</dd>
-	
-	<dt>Users</dt>
-	<dd>
-		<ul>
-		<% AdminUser.find(:all, :order => "firstname").each do |user| %>
-			<li><%= check_box_tag 'role[admin_user_ids][]', user.id, @role.admin_users.include?(user) %>
-			<%= link_to user.fullname, admin_user_url(:id => user, :action => "edit") %> (<%= user.username %>)</li>
-		<% end %>
-		</ul>
-	</dd>
-</dl>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="">Name</label>
+			<%= f.text_field 'name' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="">Is Admin Role?</label>
+			<%= f.check_box 'is_admin' %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="">Permissions</label>
+			<% AdminPermission.find(:all, :order => "name").each do |permission| %>
+				<li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
+			<% end %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="">Users</label>
+			<% AdminUser.find(:all, :order => "firstname").each do |user| %>
+				<li><%= check_box_tag 'role[admin_user_ids][]', user.id, @role.admin_users.include?(user) %>
+				<%= link_to user.fullname, admin_user_url(:id => user, :action => "edit") %> (<%= user.username %>)</li>
+			<% end %>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
 
-<%= submit_tag 'Edit role' %>
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
 
 <% end %>

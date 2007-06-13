@@ -62,6 +62,7 @@ class Admin::FormsController < ApplicationController
     @form.form_definition_id = params[:form_definition_id]
     @form.prepare_sitems(params[:sitems])
     if @form.save
+      @form.save_workflow(params[:workflow_steps])
       @form.save_tags(params[:tags])
       @form.save_relations(params[:relations])
       @form.set_updated_by(params)

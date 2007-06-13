@@ -117,7 +117,8 @@ module ActsAsContentType
   module HelperMethods
 
     def add_sitem(website_id)
-      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :status => "1"
+      # build a sitems, default status to NOT published
+      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :status => "0"
     end
 
     def add_sitem_unless(website)
@@ -159,6 +160,7 @@ module ActsAsContentType
     end
 
     def type_id=(content_type_id)
+      #FIXME this does not work if sobject is not assigned yer (Item.create :type_id => , ...)
       sobject.content_type_id = content_type_id
     end
 
@@ -214,6 +216,18 @@ module ActsAsContentType
 
     def add_relation_unless(to_sobject_id,relation_id)
       Relationship.find_or_create_by_from_sobject_id_and_to_sobject_id_and_category_id(sobject.id,to_sobject_id,relation_id)
+    end
+
+    def save_workflow(step_ids)
+      return if step_ids.nil?
+      step_ids.each do |step_id|
+        wf_step = WorkflowStep.find(step_id)
+        if wf_step.is_final?
+          # FIXME: how do we know on which website to publish ???
+          sitems.each do |sitem| sitem.status = "Published"; sitem.save end
+        end
+        WorkflowAction.create :sobject_id => sobject.id, :admin_user_id => AdminUser.current_user.id, :workflow_step_id => step_id
+      end
     end
 
     def save_relationships(relations_id,relations_cat_id,delete_id,delete_cat_id,reverse_relations=false)
@@ -311,6 +325,8 @@ module ActsAsContentType
 
     def after_save
       sitems.each { |sitem| sitem.sobject_id = sobject.id; sitem.save! } if self.respond_to?("sitems")
+      # FIXME: has_one relationships should automatically be saved ?
+      sobject.save
     end
 
   end

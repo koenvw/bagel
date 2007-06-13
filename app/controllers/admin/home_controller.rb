@@ -64,8 +64,7 @@ class Admin::HomeController < ApplicationController
   def index
     #FIXME: how to exclude certains content types / tags
     tag_id = 0
-    @recent_items = Sobject.find(:all,:conditions=>"sobjects.content_type<>'form' AND sobjects.content_type<>'siteuser' AND sobjects.cached_category_ids NOT LIKE '%;#{tag_id};%'",:limit=> 10,:order=>"sitems.updated_on DESC",:include => :sitems )
-    @recent_forms = Sobject.find(:all,:conditions=>"sobjects.content_type='form'",:limit=> 10,:order=>"sitems.created_on DESC", :include => :sitems )
+    @recent_items = Sobject.find(:all,:conditions=>"sobjects.cached_category_ids NOT LIKE '%;#{tag_id};%'",:limit=> 10,:order=>"sitems.updated_on DESC",:include => :sitems )
   end
 
   def webfolder

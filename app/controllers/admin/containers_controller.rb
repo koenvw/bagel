@@ -18,6 +18,7 @@ class Admin::ContainersController < ApplicationController
       @container.prepare_sitems(params[:sitems])
       Container.transaction do
         if @container.save
+          @container.save_workflow(params[:workflow_steps])
           @container.save_tags(params[:tags])
           @container.save_relations(params[:relations])
           @container.set_updated_by(params)

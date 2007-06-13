@@ -38,6 +38,7 @@ class Admin::ImagesController < ApplicationController
       @image.prepare_sitems(params[:sitems])
       @image.title = @image.image_file if @image.title.nil_or_empty?
       if @image.save
+        @image.save_workflow(params[:workflow_steps])
         @image.save_tags(params[:tags])
         @image.save_relations(params[:relations])
         @image.set_updated_by(params)

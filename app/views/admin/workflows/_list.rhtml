@@ -1,0 +1,37 @@
+<%
+# Parameters:
+# - item		 : the content object
+# - start_open   : default relationpopup open
+# - hide_out	 : display outging relations ?
+%>
+<% if item.ctype && item.ctype.workflow_id %>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<h3 class="forClose">Workflow</h3><%=  %>
+	<%= hidden_field_tag :workflowDisplayState, params[:workflowDisplayState] %>
+	<div class="relationContent collapsed" style="display: <%= (startOpen ||= false) || params[:workflowDisplayState] == "1" ? "block" : "none" %>;">
+	  <div>
+		<%
+		steps_taken = item.sobject.workflow_steps
+		item.ctype.workflow.workflow_steps.sort.each do |@wf_step|
+			checked = steps_taken.include?(@wf_step)
+			# disable checkboxes unless current user has the same role as the workflow step (and is not an Admin)
+			options = {}
+			# always disable if checked
+			if checked
+				options = {:disabled => true}
+			elsif !AdminUser.current_user.admin_roles.include?(@wf_step.admin_role)
+				if !AdminUser.current_user.is_admin?
+					options = {:disabled => true}
+				end
+			end
+			current_action = item.sobject.workflow_actions.select { |action| action.workflow_step == @wf_step}
+			%>
+			<%= check_box_tag "workflow_steps[]", @wf_step.id, checked, options || {}  %><%= @wf_step.name %>
+			<%= "(#{current_action.first.admin_user.fullname})" unless current_action.nil_or_empty? %><br/>
+		<% end %>
+		</div>
+	</div>
+	<div class="bottom"></div>
+</div>
+<% end %>

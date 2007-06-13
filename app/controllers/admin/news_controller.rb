@@ -16,11 +16,11 @@ class Admin::NewsController < ApplicationController
     if request.post?
       # FIXME: this is project specific -> put in before filter ?
       # some magic voodoo for converting breaklines to paragraphs
-      body = params[:news]["body"]
-      body.gsub!("<br /><br />","<br />")
-      body.gsub!("<br />","</p><p>")
-      body = "<p>#{body}" unless body[0..2] == "<p>"
-      params[:news]["body"] = body
+      #body = params[:news]["body"]
+      #ody.gsub!("<br /><br />","<br />")
+      #ody.gsub!("<br />","</p><p>")
+      #ody = "<p>#{body}" unless body[0..2] == "<p>"
+      #params[:news]["body"] = body
 
       @news.attributes = params[:news]
       @news.prepare_sitems(params[:sitems])
@@ -30,6 +30,7 @@ class Admin::NewsController < ApplicationController
           @news.save_tags(params[:tags])
           @news.save_relations(params[:relations])
           @news.set_updated_by(params)
+          @news.save_workflow(params[:workflow_steps])
           flash[:notice] = 'Newsitem was successfully updated.'
           if params[:book_id] == ""
             redirect_to params[:referer] || {:controller => "content", :action => "list"}

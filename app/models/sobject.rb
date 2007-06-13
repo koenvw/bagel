@@ -19,6 +19,9 @@ class Sobject < ActiveRecord::Base
                           :join_table => "categories_sobjects", :association_foreign_key => "category_id"
                           #FIXME: rename category_sobjects to tags_sobjects
   has_many :sitems
+  #workflow
+  has_many :workflow_actions
+  has_many :workflow_steps, :through => :workflow_actions
   #relationships
   has_many :relations_as_from, :foreign_key => 'from_sobject_id', :class_name => 'Relationship', :dependent => :delete_all
   has_many :relations_as_to, :foreign_key => 'to_sobject_id', :class_name => 'Relationship', :dependent => :delete_all

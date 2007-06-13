@@ -12,6 +12,7 @@
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
+	<%= render :partial => "admin/workflows/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @container, :startOpen => "true" } %>

@@ -19,6 +19,7 @@ class Admin::DocumentsController < ApplicationController
       @document.title = @document.filename if @document.title.nil_or_empty?
       Document.transaction do
         if @document.save
+          @document.save_workflow(params[:workflow_steps])
           @document.save_tags(params["tags"])
           @document.save_relations(params["relations"])
           @document.set_updated_by(params)

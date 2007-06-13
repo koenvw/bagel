@@ -7,6 +7,7 @@
 	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= error_messages_for 'news' %>
 	<%= render :partial => "form" %>
+	<%= render :partial => "admin/workflows/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @news } %>

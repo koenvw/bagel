@@ -1,0 +1,35 @@
+<h1><%= @workflow.new_record? ? "Creating" : "Editing" %> Workflow</h1>
+
+<% form_tag({ :action => 'edit', :id => @workflow }) do -%>
+
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'workflow' %>
+	<div class="subContent">
+		<fieldset class="oneline">
+			<label for="workflow_name">Name</label>
+			<%= text_field 'workflow', 'name' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="workflow_description">Description</label>
+			<%= text_area 'workflow', 'description' , :class => "large_text_input", :size => "30" %>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="workflow_content_types">Content types</label>
+			<ul>
+			<% ContentType.find(:all, :order => "name").each do |type| %>
+				<li><%= check_box_tag 'workflow[content_type_ids][]', type.id, type.workflow_id == @workflow.id %><%= type.name %></li>
+			<% end %>
+			</ul>
+		</fieldset>
+		<div class="bottom"></div>
+	</div>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end -%>

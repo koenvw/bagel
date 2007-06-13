@@ -34,9 +34,10 @@
 		<div class="bottom"></div>
 	</div>
 
+	<%= render :partial => 'admin/workflows/list', :locals => { :item => @image } %>
 	<%= render :partial => 'admin/sitems/list', :locals => { :item => @image } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @image } %>
-	<%= render :partial => "admin/relations/list", :locals => { :item => @image } %>	
+	<%= render :partial => "admin/relations/list", :locals => { :item => @image } %>
 
 	<% unless @image.new_record? %>
 	<div class="subContent">

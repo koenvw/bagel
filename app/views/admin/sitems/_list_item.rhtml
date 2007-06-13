@@ -15,10 +15,18 @@ end
 <!--[form:sitem]-->
 <tr class="content">
 	<td style="width: 20px;">
+		<%
+		# if we are using workflow only admins can change the status
+		if sitem.content && sitem.content.ctype && sitem.content.ctype.workflow_id
+			disabled = true unless AdminUser.current_user.is_admin?
+		else
+			disabled = false
+		end
+		%>
 		<% if sitem.status == "1" %>
-			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1, :checked => (sitem.status == "1" ? "checked" : "checked" ) } %>
+			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1, :checked => (sitem.status == "1" ? "checked" : "checked" ), :disabled => disabled } %>
 		<% else %>
-			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1 } %>
+			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][status]", :value=> 1, :disabled => disabled } %>
 		<% end %>
 	</td>
 	<td class="descr">
