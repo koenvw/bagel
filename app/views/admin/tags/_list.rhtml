@@ -42,8 +42,8 @@ end
 	</div>
 	<!-- end Add tag -->
 	
-	<%= hidden_field_tag :websiteDisplayState, params[:websiteDisplayState] %>
-	<div id="dragdropContainer" class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
+	<%= hidden_field_tag :tagDisplayState, params[:tagDisplayState] %>
+	<div id="dragdropContainer" class="collapsed" style="display: <%= (startOpen ||= false) || params[:tagDisplayState] == "1" ? "block" : "none" %>;">
 		<%= hidden_field_tag :tags %>
 		<!-- Drop tags here -->
 		<div id="tagList" class="taglistLeft">

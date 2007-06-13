@@ -87,7 +87,7 @@
 				if(optsNew[n].selected) {
 					// an item was selected we update the "container"-tag with the name and id
 					if(optsNew[n].innerHTML != "")
-						lastElement.update(optsNew[n].innerHTML.truncate(9));
+						lastElement.update(optsNew[n].innerHTML.truncate(13,".."));
 						
 					lastElement.id = "string_" + optsNew[n].value;
 				}

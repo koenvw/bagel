@@ -124,7 +124,7 @@ module ActionView::Helpers::CalendarHelper
 
     field_options = html_options.dup
     add_defaults(field_options,
-      :value => date && date.strftime(calendar_options[:ifFormat]),
+      :value => date && date.to_time.strftime(calendar_options[:ifFormat]),
       :size => 12
     )
     rename_option(field_options, :field_title, :title)
@@ -176,7 +176,7 @@ END
 
     field_options = html_options.dup
     add_defaults(field_options,
-      :value => date && date.strftime(calendar_options[:ifFormat]),
+      :value => date && date.to_time.strftime(calendar_options[:ifFormat]),
       :size => 12
     )
     rename_option(field_options, :field_title, :title)

@@ -6,8 +6,8 @@
 <div class="subContent">
 	<a href="#" class="openClose">Open</a>
 	<h3 class="forClose">Websites</h3>
-	<%= hidden_field_tag :tagDisplayState, params[:tagDisplayState] %>
-	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:tagDisplayState] == "1" ? "block" : "none" %>;">
+	<%= hidden_field_tag :websiteDisplayState, params[:websiteDisplayState] %>
+	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
 		<table class="uniTable">
 			<tr class="heading">
 				<td>&nbsp;</td>

@@ -18,10 +18,12 @@ class Admin::TagsController < ApplicationController
 
   def edit
     @tag = Tag.find_by_id(params[:id]) || Tag.new
+    # Default to active
+    @tag.active = true if @tag.new_record?
     if request.post?
       @tag.attributes = params[:tag]
       if @tag.save
-        @tag.to_child_of(params[:parent_id])
+        @tag.to_child_of(params[:parent_id]) unless @tag.parent_id == params[:parent_id]
         flash[:notice] = 'Tag was successfully updated.'
         redirect_to :action => 'list'
       end

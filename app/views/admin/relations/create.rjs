@@ -1,0 +1,35 @@
+type_id = params[:type_id]
+ctype = ContentType.find(type_id.to_i)
+case ctype.core_content_type
+when "News"
+  i = News.new
+  i.type_id = type_id
+  i.attributes = params[:news]
+
+when "Form"
+  i = Form.new
+  i.type_id = type_id
+  i.form_definition_id = ctype.extra_info
+  i.name = params[:form][:name]
+  i.data = params[:form]
+end
+if i.save
+  direction = "in"
+  uniq_id = ""
+  uniq2_id = ""
+    page.insert_html :bottom,
+                     "relations_sorted_#{direction}#{params[:sub_id]}list",
+                     :partial => "admin/relations/list_item", 
+                     :locals => { :to_sobject_id=> i.sobject.id, :category_id=> params[:cat_id], :editor_id => uniq_id, :uniq_id => params[:sub_id], :uniq2_id => uniq2_id, :direction => direction, :ajax=>true }
+    # higlight the partial that was added
+    page.visual_effect :pulsate, "relations_item_#{direction}#{uniq2_id}_#{i.sobject.id}-#{params[:cat_id]}", :duration => 1, :pulses => 5
+    # FIXME: isn't there a helper for this ?
+    page << "Sortable.create(\"relations_sorted_inlist\", {handle:'dragme', onChange:function(){$('relations').value = Sortable.sequence(\"relations_sorted_inlist\")}, onUpdate:function(){new Ajax.Request('', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"relations_sorted_inlist\")})}, only:'draggable'})"
+    # update hidden form field
+    page << "$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}list\")"
+else
+  i.errors.full_messages.each do |msg|
+    page.alert(msg)
+  end
+end
+

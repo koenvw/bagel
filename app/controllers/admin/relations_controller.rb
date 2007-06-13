@@ -2,6 +2,7 @@ class Admin::RelationsController < ApplicationController
   requires_authorization :actions => [:index, :list, :edit, :destroy],
                          :permission => [:admin_relations_management,:_admin_management]
   layout "application", :only => [:index,:list,:edit,:destroy]
+  helper "admin/forms"
   
   uses_tiny_mce tinymce_options
   

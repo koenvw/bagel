@@ -20,6 +20,7 @@ module BagelApplication
 
     def tinymce_options
       {:options => {:theme => 'advanced',
+                    :editor_deselector => "mceNoEditor",
                     :browsers => %w{msie gecko},
                     :convert_urls => false,
                     :theme_advanced_toolbar_location => "top",

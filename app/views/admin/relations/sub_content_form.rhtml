@@ -1,5 +1,5 @@
 <%
-params[:sub_id]=params[:sub_id].to_s 
+params[:sub_id]=params[:sub_id].to_s
 r_sub_type ||= params[:r_sub_type] # in case r_sub_type comes from paging
     
 if params["search"].nil?
@@ -10,7 +10,7 @@ end
 r_type='form'
 
 unless r_sub_type.nil?
-  form_definition_id = FormDefinition.find_by_name(r_sub_type).id
+  form_definition_id = r_sub_type
   conditions = ["name LIKE ? AND form_definition_id = ?", "%" + searchphrase + "%",form_definition_id]
 else
   conditions = ["name LIKE ?", "%" + searchphrase + "%"]

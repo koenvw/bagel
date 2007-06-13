@@ -1,12 +1,9 @@
 <%
 if params['rel_id'].to_i > 0
-	r_type = Relation.find(params['rel_id'].to_i).content_type.core_content_type.downcase
-	
-	if r_type.match(";")
-		r_type, r_sub_type = r_type.split(';') 
-	else
-		r_sub_type = nil
-	end
+    relation = Relation.find(params['rel_id'].to_i)
+    content_type = relation.content_type
+	r_type = content_type.core_content_type.downcase
+	r_sub_type = (content_type.extra_info.size == 0) ? nil : content_type.extra_info
 %>
 	<fieldset class="search">
 		<label for="relations">Search:</label>

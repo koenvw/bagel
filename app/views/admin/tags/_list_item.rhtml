@@ -16,9 +16,9 @@ end
 %>
 <div id="tag_string_<%= tag_id %>">
 	<% if subtag_name.size > 0 %>
-	  <%= truncate(subtag_name,10) %>
+	  <%= truncate(subtag_name,13,"..") %>
 	<% else %>
-	  <%= truncate(tag.name,10) %>
+	  <%= truncate(tag.name,13,"..") %>
 	<% end %>
 	<% if tag.has_children? %>
 		<!-- start subtag code -->

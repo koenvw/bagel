@@ -29,14 +29,14 @@ give me direction!
 				%>
 				<div class="clear"></div>
 			</fieldset>
-			<div class="spinner" id="spinner" style="display: none;"></div>
+			<div class="spinner" id="spinner_add" style="display: none;"></div>
 			<%= observe_field "relations#{direction}#{uniq_id}_category_id",
 				:update => "relations#{direction}#{uniq_id}_content",
 				:on => "focus",
 				:url => {:controller => "relations", :action => "popup_add", :sub_id => uniq_id, :direction => direction},
 				:with => "'rel_id=' + escape(value)",
-				:loading => "Element.show('spinner')",
-				:complete => "Element.hide('spinner')"
+				:loading => "Element.show('spinner_add')",
+				:complete => "Element.hide('spinner_add')"
 			%>
 			<div id="relations<%= direction %><%= uniq_id %>_content"></div>
 			</div>

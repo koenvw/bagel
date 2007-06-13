@@ -6,16 +6,7 @@
 	<%= hidden_field_tag "news[type_id]", @news.type_id || params[:type_id] %>
 	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= error_messages_for 'news' %>
-	<div class="subContent">
-		<fieldset class="oneline">
-			<label for="news_title">Title</label>
-			<%= text_field 'news', 'title' , :class => "large_text_input", :size => "30" %>
-		</fieldset>
-		<div class="mceFrame">
-		  <%= text_area  'news', 'body', :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
-		</div>
-		<div class="bottom"></div>
-	</div>
+	<%= render :partial => "form" %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @news } %>

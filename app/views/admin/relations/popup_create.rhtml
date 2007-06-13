@@ -1,7 +1,31 @@
+<% direction = ""; uniq_id = "" %>
 <div class="bagelRelationContent bigPopup">
 	<div class="relation">
-		<a class="close" onclick="relCrOverlay.destroy(); return false;" href="#">Close</a>
-		<h3>Create Relation</h3>
-			
+	<h3>Create Relation</h3>
+	<a class="close" onclick="relCrOverlay.destroy(); return false;" href="#">Close</a>
+	<div class="relationBox">
+		<fieldset>
+			<label>Content type</label>
+			<%= select "relations#{direction}#{uniq_id}",
+				"category_id",
+				Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] },
+				:include_blank => true,
+				:selected => nil
+			%>
+			<div class="clear"></div>
+		</fieldset>
+		<div class="spinner" id="spinner_create" style="display: none;"></div>
+		<%= observe_field "relations#{direction}#{uniq_id}_category_id",
+			:update => "relations#{direction}#{uniq_id}_content",
+			:on => "focus",
+			:url => {:controller => "relations", :action => "popup_create2", :sub_id => uniq_id, :direction => direction},
+			:with => "'rel_id=' + escape(value)",
+			:loading => "Element.show('spinner_create')",
+			:complete => "Element.hide('spinner_create')"
+		%>
+		<div id="relations<%= direction %><%= uniq_id %>_content"></div>
+		</div>
 	</div>
+	<!-- add "create popup here, link to popup_content -->
+	<div class="clear"></div>
 </div>
