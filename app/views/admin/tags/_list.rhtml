@@ -47,14 +47,14 @@ end
 		<%= hidden_field_tag :tags %>
 		<!-- Drop tags here -->
 		<div id="tagList" class="taglistLeft">
-			<% (Tag.roots - item.tags - posted_tags - parent_tags).each do |tag| %>
+			<% (Tag.roots - item.tags - posted_tags).each do |tag| %>
 				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
 			<% end %>
 		</div>
 		<!-- Drop tags here -->
 		<div id="droplist" class="taglistRight">
 			<% (posted_tags.size > 0 ? posted_tags : item.tags).each do |tag| %>
-				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
+				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag, :disable_sub, true } %>
 			<% end %>
 		</div>
 		<div class="clear"></div>

@@ -13,19 +13,21 @@ else
   subtag_name = ""
   tag_id = tag.id
 end
+
+	disable_sub ||= false
 %>
-<div id="tag_string_<%= tag_id %>">
+<div class="<%= (subtag_name.size > 0 ? "isSubTag" : "") %>" id="tag_string_<%= tag_id %>">
 	<% if subtag_name.size > 0 %>
-	  <%= truncate(subtag_name,13,"..") %>
+	  <span class="tagName"><%= truncate(subtag_name,13,"..") %></span>
 	<% else %>
-	  <%= truncate(tag.name,13,"..") %>
+	  <span class="tagName"><%= truncate(tag.name,13,"..") %></span>
 	<% end %>
-	<% if tag.has_children? %>
+	<% if tag.has_children? && !disable_sub %>
 		<!-- start subtag code -->
 		<div class="smallPopup" style="display: none;">
 			<a href="#" class="close">Close</a>
 			<div class="subTag">
-				<h3>Select subtag for <%= tag.name %></h3>
+				<h3>Select subtag for <span class="rootTagName"><%= tag.name %></span></h3>
 				<%
 				if tag.children.first.has_children?
 					options = content_tag("option","","value"=>"") + option_groups_from_collection_for_select(tag.children.sort_by{|c| c.name}, "children", "name", "id", "name", subtag_id)
