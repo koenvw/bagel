@@ -20,7 +20,7 @@ class CreateWorkflow < ActiveRecord::Migration
       t.column :created_at, :datetime
     end
     # Create workflow_actions table
-    create_table :sobjects_workflow_steps do |t|
+    create_table :workflow_actions do |t|
       t.column :sobject_id,        :integer, :null => false
       t.column :workflow_step_id,  :integer, :null => false
       t.column :checked,           :boolean
@@ -35,6 +35,7 @@ class CreateWorkflow < ActiveRecord::Migration
   def self.down
     drop_table :workflows
     drop_table :workflow_steps
+    drop_table :workflow_actions
     remove_column :content_types, :workflow_id
   end
 end
