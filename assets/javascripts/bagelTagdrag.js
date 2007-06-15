@@ -102,7 +102,8 @@
 					var dontCreate;
 					if(optsNew[n].innerHTML != "") {
 						$$('.isSubTag').each(function(tags) { 
-							if(tags.getAttribute('id') == "string_" + optsNew[n].value) {
+							if(tags.getAttribute('id') == "tag_string_" + optsNew[n].value) {
+								alert('This tag is allready selected.');
 								dontCreate = true;
 							}
 						});
@@ -113,7 +114,7 @@
 							$(tagDesc).update(optsNew[n].innerHTML.truncate(13,".."));
 							newElement.appendChild(tagDesc);
 							$('droplist').appendChild(newElement);
-							newElement.setAttribute("id", "string_" + optsNew[n].value);
+							newElement.setAttribute("id", "tag_string_" + optsNew[n].value);
 						}
 					}
 				}
