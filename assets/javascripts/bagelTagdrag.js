@@ -4,15 +4,21 @@
  *
  */
 
-	Event.observe(window, 'load', bagelTag_tag_init, false);
+	Event.observe(window, 'load', bagel_tagDrag, false);
 	
 	// create the sortables and initialize some stuff
 	var lastElement;
-	function bagelTag_tag_init() {		
+	var newElement;
+	function bagel_tagDrag(reinit) {
 		if(!$('dragdropContainer')) return false;
 		if(!$('tagList')) return false;
 		if(!$('droplist')) return false;
-
+		
+		if(reinit == true) {
+			Sortable.destroy('tagList');
+			Sortable.destroy('droplist');	
+		}
+		
 		Sortable.create($('tagList'), { 
 			dropOnEmpty: true,
 			constraint: false,
@@ -31,51 +37,34 @@
 				lastElement = element;
 			},
 			onUpdate: function(event) {
-				bagelTag_subTagSerialize();
-				bagelTag_popupSubTag();
-				bagelTag_check_if_exists();
+				bagel_removeSubTag();
+				bagel_subTagSerialize();
+				bagel_popupSubTag();
 			}
 		});
 
-		bagelTag_subTagSerialize(); // initialize hidden field tags (when editing)
+		bagel_subTagSerialize(); // initialize hidden field tags (when editing)
 		
-		// check if tag has subtag and out style on it
+		// check if tag has subtag add
 		$$('div.smallPopup').each(function(p) { 
 			p.up('div').addClassName('hasSubTag');
 		});
+		
 	}
 	
-	function bagelTag_check_if_exists() {
-		if(lastElement.up('div').getAttribute('id') == "tagList") {
-			if(lastElement.hasClassName('isSubTag')) {
-				lastElement.remove();
-			}
+	function bagel_removeSubTag() {
+		if(lastElement.up('div').getAttribute('id') == "tagList" && lastElement.hasClassName("isSubTag")) {
+			new Effect.Fade(lastElement, { duration: 0.5, afterFinish: function() { lastElement.remove(); } });
 		}
-	}
-	
-	// clone the lastElement and place it back in the tagList
-	function bagelTag_cloneElement(restore) {
-		clonedElement = Object.clone(lastElement);
-		if(restore == true) {
-			new Insertion.Bottom('tagList', '<div>'+ clonedElement.innerHTML +'</div>');
-			bagelTag_reInitialize_sortables();
-		}
-		return clonedElement;
-	}
-	
-	// destroy all sortables and recall the main init function
-	function bagelTag_reInitialize_sortables() {
-		Sortable.destroy('tagList');
-		Sortable.destroy('droplist');
-		bagelTag_tag_init();
 	}
 
 	// popup the subtag window
-	function bagelTag_popupSubTag(myLastElement) {
+	function bagel_popupSubTag(myLastElement) {
 		if(typeof myLastElement == "object") lastElement = myLastElement;
 		if(!lastElement || typeof lastElement != "object") return false;
 		var subTagElement = lastElement.getElementsByClassName('smallPopup')[0];
-		if(typeof subTagElement == "object" && lastElement.up('div').getAttribute('id') == "droplist") {	
+		if(typeof subTagElement == "object" && lastElement.up('div').getAttribute('id') == "droplist") {
+			
 			myOverlay = new BagelOverlay();
 			myOverlay.setRestoreObj(lastElement);
 			myOverlay.popup(subTagElement, 400, 125);
@@ -86,8 +75,7 @@
 			for(c = 0; c < closebuttons.length; c++) {
 				closebuttons[c].onclick = function() {
 					myOverlay.destroy();
-					bagelTag_cloneElement(true);
-					lastElement.remove();
+					$('tagList').insertBefore(lastElement, $('tagList').firstDescendant());
 					return false;
 				}
 			}
@@ -95,41 +83,45 @@
 			// save action
 			$$('input.save').each(function(sb) { 
 				sb.onclick = function() {
-					bagelTag_subTagSerialize(this);
+					bagel_subTagSerialize(this);
 					myOverlay.destroy();
-					// check if value isn't empty.. restore on true
-					var options = lastElement.getElementsByTagName('option');
-					for(i = 0; i < options.length; i++) {
-						if(options[i].selected) {
-							if(options[i].innerHTML == "") {
-								lastElement.remove();
-							}
-						}
-					}
-					bagelTag_cloneElement(true);
-					// allright.. now convert it to a single element
-					lastElement.getElementsByClassName('smallPopup')[0].remove();
-					lastElement.removeClassName('hasSubTag');
-					lastElement.addClassName('isSubTag');
-					return false;
 				}
 			});
 		}
 	}
 	
 	// create serialize string
-	function bagelTag_subTagSerialize(object) {
+	function bagel_subTagSerialize(object) {
 		// get current option
 		if(typeof object == "object") {
 			optsNew = object.up('.subTag').down('.subtagSelect').getElementsByTagName('option');
 			for(n = 0; n < optsNew.length; n++) {
 				if(optsNew[n].selected) {
-					// an item was selected we update the "container"-tag with the name and id
-					if(optsNew[n].innerHTML != "")
-						lastElement.update('<span class="tagName">'+ optsNew[n].innerHTML.truncate(13,"..") +'</span>');
-					lastElement.id = "string_" + optsNew[n].value;
+					// an item was selected, create a new element and populate it with the
+					// proper information
+					var dontCreate;
+					if(optsNew[n].innerHTML != "") {
+						$$('.isSubTag').each(function(tags) { 
+							if(tags.getAttribute('id') == "string_" + optsNew[n].value) {
+								dontCreate = true;
+							}
+						});
+						if(!dontCreate) {
+							var newElement = document.createElement('div');
+							var tagDesc = document.createElement('span');
+							$(newElement).addClassName('isSubTag');
+							$(tagDesc).update(optsNew[n].innerHTML.truncate(13,".."));
+							newElement.appendChild(tagDesc);
+							$('droplist').appendChild(newElement);
+							newElement.setAttribute("id", "string_" + optsNew[n].value);
+						}
+					}
 				}
 			}
+			// and now revert the original (root) element back!
+			$('tagList').insertBefore(lastElement, $('tagList').firstDescendant());
+			// reinitialize the draggables
+			bagel_tagDrag(true);
 		}
 		
 		// set hidden field
@@ -140,8 +132,8 @@
 	}
 	
 	// create new tag
-	Event.observe(window, 'load', bagelTag_newTag, false);
-	function bagelTag_newTag() {
+	Event.observe(window, 'load', bagel_newTag, false);
+	function bagel_newTag() {
 		if(typeof $$('a.addTag')[0] == "object") {
 			Event.observe($$('a.addTag')[0], 'click', function(event) {
 				element = Event.element(event);
@@ -159,7 +151,7 @@
 				new Ajax.Request('/admin/tags/add_tag', {
 					parameters: { new_tag: $F('tag_new_tag'), child_of: $F('tag_child_of') },
 					onComplete: function(t) {
-						bagelTag_reInitialize_sortables();					
+						bagel_tagDrag(); 					
 						addTagOverlay.destroy();
 					}
 				});
