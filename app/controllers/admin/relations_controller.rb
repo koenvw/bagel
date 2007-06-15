@@ -25,6 +25,7 @@ class Admin::RelationsController < ApplicationController
   def edit
     @relation = Relation.find_by_id(params[:id]) || Relation.new
     if request.post?
+      params[:relation][:content_type_ids] ||= []
       @relation.attributes = params[:relation]
       if @relation.save
         flash[:notice] ='relation was successfully updated.'

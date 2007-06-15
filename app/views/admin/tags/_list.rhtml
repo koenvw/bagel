@@ -3,6 +3,7 @@
 # - item : the content object
 # - start_open   : default relationpopup open
 #
+content_type_id = (item.ctype && item.ctype.id) || params[:type_id]
 posted_tags = []
 parent_tags = []
 if request.post?
@@ -36,7 +37,7 @@ end
 				<%= text_field_tag "new_tag", "", :id =>"tag_new_tag", :class => "text" %>
 				<label for="subtag">in</label>
 				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
-				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %> 
+				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %>
 			</div>
 		</div>
 	</div>
@@ -48,7 +49,9 @@ end
 		<!-- Drop tags here -->
 		<div id="tagList" class="taglistLeft">
 			<% (Tag.roots - item.tags - posted_tags).each do |tag| %>
-				<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
+				<% if (content_type_id && tag.content_type_ids && tag.content_type_ids.include?(content_type_id.to_s)) || content_type_id.nil? %>
+					<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
+				<% end %>
 			<% end %>
 		</div>
 		<!-- Drop tags here -->

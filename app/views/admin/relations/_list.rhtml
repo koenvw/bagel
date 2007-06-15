@@ -6,7 +6,7 @@
 %>
 <div class="subContent">
 	<a href="#" class="openClose">Open</a>
-	<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in" } %>
+	<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in", :item => item } %>
 	<%= hidden_field_tag :relationDisplayState, params[:relationDisplayState] %>
 	<div class="relationContent collapsed" style="display: <%= (startOpen ||= false) || params[:relationDisplayState] == "1" ? "block" : "none" %>;">
 		<div>

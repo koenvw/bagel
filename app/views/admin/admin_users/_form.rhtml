@@ -1,0 +1,52 @@
+
+<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+<%= error_messages_for :admin_user %>
+<div class="subContent">
+    <fieldset class="oneline">
+        <label for="admin_user_username">Username</label>
+        <%= f.text_field :username, :class => "large_text_input", :size => "30" %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_firstname">First name</label>
+        <%= f.text_field :firstname %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_lastname">Last name</label>
+        <%= f.text_field :lastname %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_email">E-mail address</label>
+        <%= f.text_field :email_address %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_password">Password</label>
+        <%= password_field_tag :password %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_is_active">Is Active?</label>
+        <%= f.check_box :is_active %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_language">Language</label>
+        <% languages = [ ['English (US)', 'en-US'], ['Dutch (Belgian)', 'nl-BE'], ['French', 'fr-FR'] ] %>
+        <%= f.select :language_code, languages, :include_blank => true %>
+    </fieldset>
+    <fieldset class="oneline">
+        <label for="admin_user_username">Username</label>
+        <ul>
+        <% AdminRole.find(:all).each do |role| %>
+            <li><%= check_box_tag 'admin_user[admin_role_ids][]', role.id, @admin_user.admin_roles.include?(role) %>
+            <%= link_to role.name, admin_role_url(:id => role, :action => 'edit') %></li>
+        <% end %>
+        </ul>
+    </fieldset>
+    <div class="bottom"></div>
+</div>
+
+<div class="bottomButton">
+    <ul class="mainNav">
+        <li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+        <li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+    </ul>
+</div>
+<div class="clear"></div>

@@ -4,37 +4,6 @@
 
 <% form_for(:role, @role, :url => { :action => :update } ) do |f| %>
 
-	<div class="subContent">
-		<fieldset class="oneline">
-			<label for="">Name</label>
-			<%= f.text_field 'name' , :class => "large_text_input", :size => "30" %>
-		</fieldset>
-		<fieldset class="oneline">
-			<label for="">Is Admin Role?</label>
-			<%= f.check_box 'is_admin' %>
-		</fieldset>
-		<fieldset class="oneline">
-			<label for="">Permissions</label>
-			<% AdminPermission.find(:all, :order => "name").each do |permission| %>
-				<li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
-			<% end %>
-		</fieldset>
-		<fieldset class="oneline">
-			<label for="">Users</label>
-			<% AdminUser.find(:all, :order => "firstname").each do |user| %>
-				<li><%= check_box_tag 'role[admin_user_ids][]', user.id, @role.admin_users.include?(user) %>
-				<%= link_to user.fullname, admin_user_url(:id => user, :action => "edit") %> (<%= user.username %>)</li>
-			<% end %>
-		</fieldset>
-		<div class="bottom"></div>
-	</div>
-
-	<div class="bottomButton">
-		<ul class="mainNav">
-			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
-			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
-		</ul>
-	</div>
-	<div class="clear"></div>
+    <%= render :partial => "form", :locals => {:f=>f} %>
 
 <% end %>

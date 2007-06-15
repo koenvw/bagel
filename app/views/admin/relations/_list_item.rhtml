@@ -1,8 +1,8 @@
 <%
 # Parameters
-# - to_sobject_id : the target for the relation 
+# - to_sobject_id : the target for the relation
 # - category_id   : the category for the relation
-# - uniq_id       : the identifier that will make this relations list unique (in case of multiple instances per page) 
+# - uniq_id       : the identifier that will make this relations list unique (in case of multiple instances per page)
 # - editor_id     : the DOM id of the tinymce instance (for inserting images)
 # - direction     : "in" or "out"
 %>
@@ -16,7 +16,7 @@
 <li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>">
 
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
-<% unless @sobject.content_type == "News" && @sobject.content.title == "" %> 
+<% unless @sobject.content_type == "News" && @sobject.content.title == "" %>
 
 
 <% if direction == "in" %>
@@ -32,7 +32,7 @@
 	<div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
 		<%= relation_name + @image.image_file %>
 	</div>
-    
+   
 <span class="icon">
 <%= link_to "Edit" ,"/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 <% when 'News','Page','Book','Gallery'
@@ -49,7 +49,7 @@
 <% else
 
   @item=@sobject.content -%>
-  <%= "#{relation_name} @item.title}" %>
+  <%= "#{relation_name} #{@item.title}" %>
   <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.tableize.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 
 

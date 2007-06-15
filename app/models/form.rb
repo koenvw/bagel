@@ -97,7 +97,7 @@ class Form < ActiveRecord::Base
       condition_check = ""
       options[:conditions].each do |name,value|
         condition_check << "AND (data RLIKE ? )"
-        conditions << "\n#{name}: \"*#{value}\"*\n"
+        conditions << "\n:#{name}: *#{value}*"
       end
     end
     # tags

@@ -21,6 +21,16 @@
 			<label for="tag_parent">Is Active?</label>
 			<%= check_box 'tag', 'active' %><br/>
 		</fieldset>
+		<% if @tag.level == 0 %>
+		<fieldset class="oneline">
+			<label for="tag_applies_to">Applies to</label>
+			<ul>
+				<% ContentType.find(:all, :order => "name").each do |type| %>
+				<li><%= check_box_tag 'tag[content_type_ids][]', type.id, @tag.content_types && @tag.content_types.include?(type) %><%= type.name %></li>
+				<% end %>
+			</ul>
+		</fieldset>
+        <% end %>
 		<div class="bottom"></div>
 	</div>
 

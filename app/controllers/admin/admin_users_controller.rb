@@ -5,7 +5,7 @@ class Admin::AdminUsersController < ApplicationController
                          :permission => [:admin_users_management,:_admin_management]
 
   def index
-    @admin_users = AdminUser.find(:all)
+    @admin_users = AdminUser.find(:all, :order => "username")
   end
 
   def show

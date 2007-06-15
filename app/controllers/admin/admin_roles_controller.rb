@@ -3,7 +3,7 @@ class Admin::AdminRolesController < ApplicationController
                          :permission => [:admin_roles_management,:_admin_management]
 
   def index
-    @roles = AdminRole.find(:all)
+    @roles = AdminRole.find(:all, :order=>"name")
   end
 
   def show

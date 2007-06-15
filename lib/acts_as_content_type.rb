@@ -145,22 +145,22 @@ module ActsAsContentType
       sobject.cached_category_ids = ""
       unless tags.nil?
         tags = tags.split(",") if tags.is_a?(String)
-        tags.each do |tag_id|
+        tags.uniq.each do |tag_id|
           sobject.tags<< Tag.find(tag_id)
         end
       end
     end
 
     def add_tag_unless(tag)
-      sobject.tags << tag unless sobject.tags.exists?(tag.id)
+      sobject.tags << tag unless tag.nil? || sobject.tags.exists?(tag.id)
     end
 
     def remove_tag_unless(tag)
-      sobject.tags.delete(tag) if sobject.tags.exists?(tag.id)
+      sobject.tags.delete(tag) if !tag.nil? && sobject.tags.exists?(tag.id)
     end
 
     def type_id=(content_type_id)
-      #FIXME this does not work if sobject is not assigned yer (Item.create :type_id => , ...)
+      #FIXME this does not work if sobject is not assigned yet (Item.create :type_id => , ...)
       sobject.content_type_id = content_type_id
     end
 
@@ -326,7 +326,7 @@ module ActsAsContentType
     def after_save
       sitems.each { |sitem| sitem.sobject_id = sobject.id; sitem.save! } if self.respond_to?("sitems")
       # FIXME: has_one relationships should automatically be saved ?
-      sobject.save
+      sobject.save if valid?
     end
 
   end

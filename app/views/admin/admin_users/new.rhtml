@@ -4,36 +4,6 @@
 
 <% form_for(:admin_user, @admin_user, :url => { :action => :create } ) do |f| %>
 
-<dl>
-	<dt>Username</dt>
-	<dd><%= f.text_field :username %></dd>
-	
-	<dt>First name</dt>
-	<dd><%= f.text_field :firstname %></dd>
-	
-	<dt>Last name</dt>
-	<dd><%= f.text_field :lastname %></dd>
-	
-	<dt>E-mail address</dt>
-	<dd><%= f.text_field :email_address %></dd>
-	
-	<dt>Password</dt>
-	<dd><%= password_field_tag :password %></dd>
-	
-	<dt>Is Active?</dt>
-	<dd><%= f.check_box :is_active %></dd>
-	
-	<dt>Roles</dt>
-	<dd>
-		<ul>
-<% AdminRole.find(:all).each do |role| %>
-			<li><%= check_box_tag 'user[admin_role_ids][]', role.id, @admin_user.admin_roles.include?(role) %><%= role.name %></li>
-<% end %>
-		</ul>
-	</dd>
-</dl>
-
-<%= submit_tag 'Create user' %>
-or <%= link_to 'Back', admin_users_url %>
+    <%= render :partial => "form", :locals => {:f=>f} %>
 
 <% end %>

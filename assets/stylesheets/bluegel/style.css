@@ -864,7 +864,7 @@
 	
 	/* form field  (input, ...) with errors */
 	.fieldWithErrors { display: inline; }
-	.fieldWithErrors input.large_text_input { border: 1px solid red; background-color: #FFD9DB; }
+	.fieldWithErrors input { border: 1px solid red; background-color: #FFD9DB; }
 
 	.errorExplanation
 	{

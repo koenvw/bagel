@@ -68,6 +68,8 @@ class Admin::FormsController < ApplicationController
       @form.set_updated_by(params)
       flash[:notice] = 'Form was successfully updated.'
       redirect_to params[:referer] || {:controller => "content", :action => "list"}
+    else
+      render :action => "edit"
     end
   end
 

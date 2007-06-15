@@ -9,13 +9,21 @@
 			<label for="relation_name">Name</label>
 			<%= text_field 'relation', 'name' , :class => "large_text_input", :size => "30" %>
 		</fieldset>
-		<fieldset class="oneline">
+		<!--<fieldset class="oneline">
 			<label for="relation_name">Name Reverse</label>
 			<%= text_field 'relation', 'name_reverse' , :class => "large_text_input", :size => "30" %>
+		  </fieldset>-->
+		<fieldset class="oneline">
+			<label for="relation_content_type_id">To</label>
+			<%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %><br/>
 		</fieldset>
 		<fieldset class="oneline">
-			<label for="relation_content_type_id">Type</label>
-			<%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %><br/>
+			<label for="relation_content_type_id">From</label>
+			<ul>
+				<% ContentType.find(:all, :order => "name").each do |type| %>
+				<li><%= check_box_tag 'relation[content_type_ids][]', type.id, @relation.content_types.include?(type) %><%= type.name %></li>
+				<% end %>
+			</ul>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>

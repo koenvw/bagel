@@ -2,8 +2,10 @@
 # Parameters:
 # - (uniq_id) : the identifier that will make this relations popup unique (in case of multiple instances per page) 
 # - direction : "in" or "out"
+# - item      : the content object
 #
 uniq_id ||= ""
+content_type_id = (item.ctype) ? item.ctype.id : params[:type_id]
 %>
 <% if direction.nil? %>
 give me direction!
@@ -23,7 +25,7 @@ give me direction!
 				<label>Relation type</label>
 				<%= select "relations#{direction}#{uniq_id}",
 					"category_id",
-					Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] },
+                    Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] },
 					:include_blank => true,
 					:selected => nil
 				%>

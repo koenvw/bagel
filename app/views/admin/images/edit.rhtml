@@ -34,18 +34,15 @@
 		<div class="bottom"></div>
 	</div>
 
-	<%= render :partial => 'admin/workflows/list', :locals => { :item => @image } %>
-	<%= render :partial => 'admin/sitems/list', :locals => { :item => @image } %>
-	<%= render :partial => "admin/tags/list", :locals => { :item => @image } %>
-	<%= render :partial => "admin/relations/list", :locals => { :item => @image } %>
 
 	<% unless @image.new_record? %>
 	<div class="subContent">
-		<a href="#" class="openClose">Open</a>
+		<a href="#" class="openClose closed">Open</a>
 		<h3 class="forClose">Image versions</h3>
-		<div class="collapsed" style="display: none;">
+		<div class="collapsed" style="display: block;">
 			<fieldset class="oneline" style="padding-top: 0;">
 				<ul class="imageRevisions">
+					<li><%= link_to("original", url_for_file_column('image', 'image')) %></li>
 					<% for image_version in @image_versions %>
 					<li><%= link_to(image_version, url_for_file_column('image', 'image', image_version)) %></li>
 					<% end %>
@@ -56,6 +53,11 @@
 		<div class="bottom"></div>
 	</div>
 	<% end %>
+
+	<%= render :partial => 'admin/workflows/list', :locals => { :item => @image } %>
+	<%= render :partial => 'admin/sitems/list', :locals => { :item => @image } %>
+	<%= render :partial => "admin/tags/list", :locals => { :item => @image } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @image } %>
 
 	<div class="bottomButton">
 		<ul class="mainNav">
