@@ -11,7 +11,7 @@ else
   # FIXME: create_sorted!!
   page.insert_html :bottom, "droplist",
                    :partial => "admin/tags/list_item", 
-                   :locals => { :tag, tag }
+                   :locals => { :tag, tag, :disable_sub, true }
   #page.alert("Tag added") 
 end
 # reset form values

@@ -520,7 +520,7 @@
 		line-height: 28px;
 		background-repeat: no-repeat;
 		background-position: left center;
-		ovarflow: hidden;
+		overflow: hidden;
 	}
 	.subContent .relationContent li span.icon a.edit,
 	.subContent .relationContent li span.icon a.delete

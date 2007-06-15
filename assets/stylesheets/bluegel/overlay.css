@@ -75,7 +75,7 @@
 		div.smallPopup .subTag select { width: 285px; }
 		div.smallPopup .subTag .buttons { margin-top: 10px; }
 		
-		div.smallPopup .newTagFrame h3 { padding 0; margin: 0 0 4px 0; }
+		div.smallPopup .newTagFrame h3 { padding: 0; margin: 0 0 4px 0; }
 		div.smallPopup .newTagFrame label { display: block; }
 		div.smallPopup .newTagFrame input.text { width: 280px; }
 		div.smallPopup .newTagFrame select { width: 190px; }
@@ -99,7 +99,7 @@
 		div.bigPopup .relation fieldset select { float: right; width: 270px; }
 		div.bigPopup .relation .relContent
 		{ 
-			overlow: auto;
+			overflow: auto;
 			overflow-x: hidden;
 			width: 420px;
 			margin: 3px auto 0 auto;

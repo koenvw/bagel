@@ -27,7 +27,7 @@
 			tag: 'div'
 		});
 		Sortable.create($('droplist'), { 
-			dropOnEmpty:true,
+			dropOnEmpty: true,
 			constraint: false,
 			containment: ['tagList','droplist'],
 			ghosting: true,
@@ -108,13 +108,13 @@
 							}
 						});
 						if(!dontCreate) {
-							var newElement = document.createElement('div');
-							var tagDesc = document.createElement('span');
-							$(newElement).addClassName('isSubTag');
-							$(tagDesc).update(optsNew[n].innerHTML.truncate(13,".."));
+							var newElement = new Element('div', { 
+								'class': 'isSubTag',
+								id: 'tag_string_' + optsNew[n].value
+							});
+							var tagDesc = new Element('span').update(optsNew[n].innerHTML.truncate(13,".."));
 							newElement.appendChild(tagDesc);
 							$('droplist').appendChild(newElement);
-							newElement.setAttribute("id", "tag_string_" + optsNew[n].value);
 						}
 					}
 				}
@@ -149,10 +149,11 @@
 			}, false);
 			Event.observe($$('.addTagField a.close')[0], 'click', function(e) { addTagOverlay.destroy(); Event.stop(e); }, false);
 			Event.observe($('tag_add_submit'), 'click', function(e) {
+
 				new Ajax.Request('/admin/tags/add_tag', {
 					parameters: { new_tag: $F('tag_new_tag'), child_of: $F('tag_child_of') },
 					onComplete: function(t) {
-						bagel_tagDrag(); 					
+						bagel_tagDrag(true); 					
 						addTagOverlay.destroy();
 					}
 				});
