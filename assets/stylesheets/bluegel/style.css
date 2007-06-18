@@ -572,22 +572,18 @@
 		background: #fff;
 	}
 	
-	.subContent ul.imageRevisions
+	.subContent ul.imageRevisions { margin: 10px auto 0 auto; }
+	
+	
+	/* workflowsetps */
+	
+	ul.workflowSteps
 	{
+		margin: 5px 0 5px 0; padding: 0;
 		list-style-type: none;
-		padding: 8px 0 0 0;
-		margin: 0;
 	}
-	.subContent ul.imageRevisions li { display: inline; }
-	.subContent ul.imageRevisions a
-	{
-		float: left;
-		padding: 4px;
-		border: 1px solid #ccc;
-		background: #fff;
-		margin: 0 2px 0 2px;
-	}
-	.subContent ul.imageRevisions a:hover { background: #ECECEC; }
+	ul.workflowSteps li { border: none; margin: 0; padding: 0 0 0 10px; }
+	ul.workflowSteps li input { margin-left: 6px; }
 	
 	/* Left and right containers (one small, one big */
 	
@@ -834,11 +830,12 @@
 	#dragdropContainer fieldset.oneline { margin-bottom: 10px; width: 788px; }
 	fieldset.oneline label
 	{
-		font-size: 14px;
+		font-size: 12px;
 		padding-top: 2px;
 		float: left;
 		display: block;
 		width: 114px;
+		font-weight: bold;
 	}
 	fieldset.oneline label.small { margin: 0 5px 0 5px; font-size: 11px; float: none; }
 	fieldset.oneline input.large_text_input_fullsize,
@@ -852,13 +849,34 @@
 		width: 630px;
 	}
 	fieldset.oneline select.largeSelect { width: 200px; }
+
+	
 	.subContent .mceFrame 
 	{
 		margin: 0 0 0 29px;
 		width: 772px;
 	}
 	.subContent .mceFrame .text_area_large { width: 770px; }
-
+	fieldset.oneline ul
+	{
+		width: 98%;
+		margin: 0 auto 0 auto;
+		margin-top: 30px;
+		display: block;
+		list-style-type: none;
+		padding: 0;
+		background: #fff;
+		border: 1px solid #ccc;
+	}
+	fieldset.oneline ul li
+	{
+		white-space: nowrap;
+		border: 1px solid #F1F1F1;
+		border-bottom: none;
+		padding: 2px 0  2px 4px;
+	}
+	fieldset.oneline ul li input { margin-right: 15px;  }
+	
 /* Notice and error styles */
 	
 	/* form field  (input, ...) with errors */

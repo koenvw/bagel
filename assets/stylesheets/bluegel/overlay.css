@@ -126,6 +126,7 @@
 		}
 		div.megaPopup .relationContent .subContent div.mceFrame { padding: 0; margin: 0; }
 		div.megaPopup .relationContent .subContent .large_text_input { width: 560px; }
+		div.megaPopup .relationContent .text_area_large,
 		div.megaPopup .relationContent .subContent .text_area_large
 		{
 			width: 772px;
@@ -135,12 +136,20 @@
 			border: 1px solid #ccc;
 			margin: 5px 0 5px 0;
 			overflow: auto;
-			overflow-y scroll;
+			overflow-y: scroll;
 			margin: 5px auto 5px auto;
 		}
 		div.megaPopup .subContent .bottom { display: none; }
-		div.megaPopup .relationContent .subContent fieldset.oneline { width: 765px; margin: 0 auto 0 auto; padding: 5px; }
-		
+		div.megaPopup .relationContent fieldset.oneline
+		{
+			width: 765px;
+			margin: 0 auto 0 auto;
+			padding: 5px;
+			border: 1px solid #ccc;
+			background-color: #F3F3F3;
+			margin-bottom: 5px; 
+		}
+	
 		
 		div.megaPopup .relation h3,
 		div.bigPopup .relation h3 { padding: 0; margin: 0 0 18px 0; }

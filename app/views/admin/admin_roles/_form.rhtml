@@ -9,16 +9,20 @@
     </fieldset>
     <fieldset class="oneline">
         <label for="">Permissions</label>
+         <ul>
         <% AdminPermission.find(:all, :order => "name").each do |permission| %>
             <li><%= check_box_tag 'role[admin_permission_ids][]', permission.id, @role.admin_permissions.include?(permission) %><%= permission.name %></li>
         <% end %>
+        </ul>
     </fieldset>
     <fieldset class="oneline">
         <label for="">Users</label>
+        <ul>
         <% AdminUser.find(:all, :order => "firstname").each do |user| %>
             <li><%= check_box_tag 'role[admin_user_ids][]', user.id, @role.admin_users.include?(user) %>
             <%= link_to user.fullname, admin_user_url(:id => user, :action => "edit") %> (<%= user.username %>)</li>
         <% end %>
+        </ul>
     </fieldset>
     <div class="bottom"></div>
 </div>

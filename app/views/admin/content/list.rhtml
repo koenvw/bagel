@@ -8,25 +8,28 @@
 	<%  form_tag({:action => "list"}, {:method => 'get', :class => "filter", :name => "select_rec" }) do %>
 	<div class="subContent">
 		<fieldset class="oneline">
-			<input style="width: 450px;" name="search_string" type="text" class="large_text_input" value="<%= params["search_string"]%>"/>
-			<div class="posSelects">
-				<%= select_tag 'type_id', options_for_select(@content_types.map{|c| [c.name,c.id.to_s]}.sort.insert(0,["Type",""]), params[:type_id]), { :onChange=>"document.select_rec.submit()", :style => "" } %>
-				<%= select_tag 'website_id', options_for_select(@websites.map {|el| [el.name,el.id.to_s]}.insert(0,["Website",""]), params[:website_id]), { :onChange=>"document.select_rec.submit()", :style => "" } if @websites.size > 1 %>
-			</div>
+			<input style="width: 670px;" name="search_string" type="text" class="large_text_input" value="<%= params["search_string"]%>"/>
 			<a class="posRight filter" href="#" onclick="this.up('form').submit(); return false;">filter</a>
-			<div style="text-align: right;"><a href="#" onclick="$('advancedSearch').toggle();$('searchDisplayState').value = !$('searchDisplayState').value; return false;"><em>Advanced</em></a></div>
-            <%= hidden_field_tag :searchDisplayState, params[:searchDisplayState] %>
-			<div id="advancedSearch" style="display: <%= params[:searchDisplayState] == "false" ? "block" : "none" %>;">
-				Tag <%= select_nested_set_tag :tag_id, Tag, params[:tag_id].to_i %>
-				User <%= select_tag :user_id, options_for_select(AdminUser.find(:all).map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id] }.insert(0,["",""]), params[:user_id].to_i) %>
-                <%
-                  workflows = Workflow.find(:all)
-                  if workflows.size > 0
-                %>
-                    Step <%= select_tag :step_id, '<option value=""></option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i) %>
-                <% end %>
-                  
-			</div>
+		</fieldset>
+		<fieldset class="oneline" style="white-space: nowrap; overflow: hidden;">
+			<%
+				if @websites.size > 1 
+					selectWidth = "148px;"
+				else
+					selectWidth = "185px;"
+				end
+			%>
+			<% # FIXME: first tags should be description %>
+			<%= select_tag 'type_id', options_for_select(@content_types.map{|c| [c.name,c.id.to_s]}.sort.insert(0,["Type",""]), params[:type_id]), { :onChange=>"document.select_rec.submit()", :style => "width: #{selectWidth}" } %>
+			<%= select_tag 'website_id', options_for_select(@websites.map {|el| [el.name,el.id.to_s]}.insert(0,["Website",""]), params[:website_id]), { :onChange=>"document.select_rec.submit()", :style => "width: #{selectWidth}" } if @websites.size > 1 %>
+			<%= select_nested_set_tag :tag_id, Tag, params[:tag_id].to_i, { :style => "width: #{selectWidth}" } %>
+			<%= select_tag :user_id, options_for_select(AdminUser.find(:all).map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id] }.insert(0,["",""]), params[:user_id].to_i), { :style => "width: #{selectWidth}" } %>
+			<%
+				workflows = Workflow.find(:all)
+				if workflows.size > 0
+			%>
+			<%= select_tag :step_id, '<option value=""></option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i), { :style => "width: #{selectWidth}" } %>
+            <% end %>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
