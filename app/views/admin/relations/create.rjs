@@ -1,5 +1,6 @@
 type_id = params[:type_id]
 ctype = ContentType.find(type_id.to_i)
+# FIXME: this is duplicated from the controllers
 case ctype.core_content_type
 when "News"
   i = News.new

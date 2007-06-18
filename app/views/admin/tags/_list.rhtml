@@ -1,9 +1,26 @@
 <%
 # Parameters:
 # - item : the content object
-# - start_open   : default relationpopup open
+# - startOpen   : default relationpopup open
+# - showAdd   : show the "add" button
 #
-content_type_id = (item.ctype && item.ctype.id) || params[:type_id]
+
+# show add defaults to true
+showAdd=true if showAdd.nil?
+
+# figure out content type ...
+content_type = item.ctype
+if content_type.nil?
+  # our content item does not have a content type ...
+  if ContentType.exists?(params[:type_id])
+    # check the params
+    content_type = ContentType.find(params[:type_id])
+  end
+end
+# last resort, default to new content type
+content_type ||= ContentType.new
+
+# tags handling
 posted_tags = []
 parent_tags = []
 if request.post?
@@ -27,6 +44,7 @@ end
 	<h3 class="forClose">Tags</h3>
 	
 	<!-- Add tag -->
+	<% if (showAdd) %>
 	<a class="addGrLight addTag" href="#">Add</a>
 	<div class="addTagField" style="display: none;">
 		<div class="smallPopup">
@@ -36,11 +54,13 @@ end
 				<label for="tagname">Name</label>
 				<%= text_field_tag "new_tag", "", :id =>"tag_new_tag", :class => "text" %>
 				<label for="subtag">in</label>
-				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
+				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots.reject{|tag| !tag.content_types.include?(content_type)}, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
+				<%= hidden_field_tag "content_type_id", content_type.id %>
 				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %>
 			</div>
 		</div>
 	</div>
+	<% end %>
 	<!-- end Add tag -->
 	
 	<%= hidden_field_tag :tagDisplayState, params[:tagDisplayState] %>
@@ -49,7 +69,7 @@ end
 		<!-- Drop tags here -->
 		<div id="tagList" class="taglistLeft">
 			<% (Tag.roots - item.tags - posted_tags).each do |tag| %>
-				<% if (content_type_id && tag.content_type_ids && tag.content_type_ids.include?(content_type_id.to_s)) || content_type_id.nil? %>
+				<% if tag.content_types.include?(content_type) %>
 					<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
 				<% end %>
 			<% end %>

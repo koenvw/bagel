@@ -3,10 +3,11 @@
 # - item		 : the content object
 # - start_open   : default relationpopup open
 # - hide_out     : display outging relations ?
+content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
 %>
 <div class="subContent">
 	<a href="#" class="openClose">Open</a>
-	<%= render :partial => 'admin/relations/popup', :locals => { :direction => "in", :item => item } %>
+    <%= render :partial => 'admin/relations/popup', :locals => { :direction => "in", :item => item, :content_type_id => content_type_id } %>
 	<%= hidden_field_tag :relationDisplayState, params[:relationDisplayState] %>
 	<div class="relationContent collapsed" style="display: <%= (startOpen ||= false) || params[:relationDisplayState] == "1" ? "block" : "none" %>;">
 		<div>

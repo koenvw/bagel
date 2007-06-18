@@ -1,0 +1,23 @@
+<%
+	unless @image.new_record?
+		onelineStyle = "margin: 0 0 0 28px; width: 580px;"
+		inpStyle = "width: 455px;"
+%>
+	<div class="imgPreview">
+		<%= image_tag(url_for_file_column('image', 'image', 'small')) %>
+	</div>
+<% 
+	end
+%>
+<fieldset class="oneline" style="<%= onelineStyle %>">
+	<label for="image_title">Title</label>
+	<%= text_field :image, :title, :class => "large_text_input", :style => inpStyle %>
+</fieldset>
+<br />
+<fieldset class="oneline" style="<%= onelineStyle %>">
+	<label for="image_image">Image</label>
+	<%= file_column_field 'image', 'image' %>
+</fieldset>
+<div class="mceFrame">
+	<%= text_area  :image, :description, :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
+</div>

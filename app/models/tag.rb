@@ -11,8 +11,9 @@ class Tag < ActiveRecord::Base
 
   def content_types
     return [] if content_type_ids.nil?
-    type_ids = [content_type_ids].join(",")
-    ContentType.find(:all,:conditions => ["id IN (#{type_ids})"])
+    # convert to array (.to_a is deprecated in this situation ?)
+    type_ids = [content_type_ids].flatten
+    ContentType.find(:all,:conditions => ["id IN (#{type_ids.join(",")})"])
   end
 
 

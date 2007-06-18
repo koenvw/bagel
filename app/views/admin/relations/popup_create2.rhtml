@@ -6,7 +6,7 @@ if params['rel_id'].to_i > 0
 	r_sub_type = (content_type.extra_info.size == 0) ? nil : content_type.extra_info
 %>
 	<div class="spinner" id="spinner_relations_search" style="display: none;"></div>
-	<% form_remote_tag :url =>  url_for(:controller => "relations", :action => "create", :rel_id => params[:rel_id]),
+	<% form_remote_tag :url =>  url_for(:controller => "relations", :action => "create", :rel_id => params[:rel_id]), :multipart => true,
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();" do -%>
 
@@ -16,6 +16,9 @@ if params['rel_id'].to_i > 0
 		when "news" %>
 		<% @news = News.new; @news.type_id = content_type.id %>
 		<%= render :file => "/admin/news/_form" %>
+	<% when "images" %>
+		<% @image = Image.new; @image.type_id = content_type.id %>
+		<%= render :file => "/admin/images/_form" %>
 	<% when "forms"
 		fd = FormDefinition.find(content_type.extra_info) %>
 		<% @form = Form.new;  @form.type_id = content_type.id; @form.form_definition_id = content_type.extra_info.to_i %>

@@ -148,9 +148,9 @@
 			Event.observe($('tag_add_submit'), 'click', function(e) {
 
 				new Ajax.Request('/admin/tags/add_tag', {
-					parameters: { new_tag: $F('tag_new_tag'), child_of: $F('tag_child_of') },
+					parameters: { new_tag: $F('tag_new_tag'), child_of: $F('tag_child_of'), content_type_id: $F('content_type_id') },
 					onComplete: function(t) {
-						bagel_tagDrag(true); 					
+						bagel_tagDrag(true);
 						addTagOverlay.destroy();
 					}
 				});

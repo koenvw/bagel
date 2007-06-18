@@ -1,11 +1,11 @@
 <%
 # Parameters:
-# - (uniq_id) : the identifier that will make this relations popup unique (in case of multiple instances per page) 
+# - (uniq_id) : the identifier that will make this relations popup unique (in case of multiple instances per page)
 # - direction : "in" or "out"
 # - item      : the content object
+# - content_type_id      : the content_type_id
 #
 uniq_id ||= ""
-content_type_id = (item.ctype) ? item.ctype.id : params[:type_id]
 %>
 <% if direction.nil? %>
 give me direction!
@@ -19,7 +19,7 @@ give me direction!
 		<div class="relation">
 		<h3>
 				Add Relation or
-				<a class="createGrLight createRelation" href="<%= url_for( { :controller => "relations", :action => "popup_create" } ) %>">Create</a>
+				<a class="createGrLight createRelation" href="<%= url_for( { :controller => "relations", :action => "popup_create", :type_id => content_type_id } ) %>">Create</a>
 		</h3>
 		<a class="close" href="#">Close</a>
 		<div class="relationBox">

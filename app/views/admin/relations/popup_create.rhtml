@@ -1,4 +1,5 @@
 <% direction = ""; uniq_id = "" %>
+<% content_type_id = params[:type_id] || 0 %>
 <div class="bagelRelationContent megaPopup">
 	<div class="relation">
 	<h3>Create Relation</h3>
@@ -8,7 +9,7 @@
 			<label>Content type</label>
 			<%= select "relations#{direction}#{uniq_id}",
 				"category_id",
-				Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] },
+                Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] },
 				:include_blank => true,
 				:selected => nil
 			%>
