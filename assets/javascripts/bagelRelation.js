@@ -83,9 +83,14 @@
 			Event.observe(button,'click', function(ev) {
 				Event.stop(ev);
 				new Ajax.Request(button.getAttribute("href"), {
+					onLoading: function() {
+						if(typeof relOverlay == "object") {
+							relOverlay.destroy();
+						}
+					},
 					onComplete: function(content) {
-						relCrOverlay = new BagelOverlay();
-						relCrOverlay.popup(content.responseText, 450, 281);
+						relCrOverlay = new BagelOverlay(true);
+						relCrOverlay.popup(content.responseText, 830, 480);
 					}
 				});
 			}, false);

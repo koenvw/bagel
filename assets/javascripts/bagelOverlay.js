@@ -90,9 +90,13 @@
 					this._getRestoreElement().appendChild(this._content);
 				}
 			}
-			new Effect.Fade(this._overlay, {duration: 0.2, afterFinish: function(obj) { 
-				Element.remove(obj.element);
-			}});
+			if(!this._nofade) {
+				new Effect.Fade(this._overlay, {duration: 0.2, afterFinish: function(obj) { 
+					Element.remove(obj.element);
+				}});
+			}
+			else
+				Element.remove(this._overlay);
 		},
 
 		//

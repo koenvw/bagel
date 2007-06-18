@@ -1,5 +1,5 @@
 <% direction = ""; uniq_id = "" %>
-<div class="bagelRelationContent bigPopup">
+<div class="bagelRelationContent megaPopup">
 	<div class="relation">
 	<h3>Create Relation</h3>
 	<a class="close" onclick="relCrOverlay.destroy(); return false;" href="#">Close</a>
@@ -23,7 +23,7 @@
 			:loading => "Element.show('spinner_create')",
 			:complete => "Element.hide('spinner_create')"
 		%>
-		<div id="relations<%= direction %><%= uniq_id %>_content"></div>
+		<div class="relationContent" id="relations<%= direction %><%= uniq_id %>_content"></div>
 		</div>
 	</div>
 	<!-- add "create popup here, link to popup_content -->

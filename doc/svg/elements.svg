@@ -17,7 +17,7 @@
    sodipodi:docname="elements.svg"
    sodipodi:docbase="/home/josbeir/Development/current_projects/idf_bagel/vendor/plugins/bagel/doc/svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:modified="TRUE">
   <defs
      id="defs4">
     <linearGradient
@@ -659,8 +659,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.70710678"
-     inkscape:cx="96.106616"
-     inkscape:cy="1222.601"
+     inkscape:cx="-651.90689"
+     inkscape:cy="29.413556"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showguides="true"
@@ -884,25 +884,25 @@
     <rect
        style="opacity:1;fill:#505050;fill-opacity:1;stroke:none;stroke-width:1.89999998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect10005"
-       width="434.49316"
-       height="270.48004"
-       x="-765.63617"
-       y="917.57751"
-       ry="8.3725901"
-       rx="8.5891047"
-       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/overflow_big.png"
+       width="801.48547"
+       height="433.13202"
+       x="-1074.6459"
+       y="873.76721"
+       ry="13.407411"
+       rx="15.843846"
+       inkscape:export-filename="/home/josbeir/Development/current_projects/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/overflow_mega_big.png"
        inkscape:export-xdpi="92.650002"
        inkscape:export-ydpi="92.650002" />
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.89999998;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect3923"
-       width="434.49316"
-       height="270.48004"
-       x="-768.14301"
-       y="915.17535"
-       ry="8.3725901"
-       rx="8.5891047"
-       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/overflow_big.png"
+       width="801.48547"
+       height="433.13202"
+       x="-1079.27"
+       y="869.92053"
+       ry="13.407411"
+       rx="15.843846"
+       inkscape:export-filename="/home/josbeir/Development/current_projects/idf_bagel/vendor/plugins/bagel/assets/images/bluegel/overflow_mega_big.png"
        inkscape:export-xdpi="92.650002"
        inkscape:export-ydpi="92.650002" />
     <rect

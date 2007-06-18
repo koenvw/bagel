@@ -11,6 +11,15 @@
 		
 	/* some styling for small popup box */
 	
+	div.megaPopup
+	{
+		width: 830px;
+		height: 480px;
+		background: url('../../images/bluegel/overflow_mega_big.png') no-repeat top left;
+		position: relative;
+		margin: 0 auto 0 auto;
+	}
+	
 	div.bigPopup
 	{
 		width: 450px;
@@ -28,6 +37,7 @@
 		margin: 0 auto 0 auto;
 		position: relative;
 	}
+	div.megaPopup a.close,
 	div.bigPopup a.close,
 	div.smallPopup a.close
 	{
@@ -41,6 +51,14 @@
 		right: 11px;
 		background: #000 url('../../images/bluegel/icons/icon_close.png') no-repeat top left;
 	}
+	div.bigPopup a.createGrLight
+	{
+		position: absolute;
+		top: 12px;
+		left: 120px;
+		top: 6px;
+	}
+	div.megaPopup .spinner,
 	div.savePopup .spinner,
 	div.bigPopup .spinner,
 	div.smallPopup .spinner
@@ -53,6 +71,7 @@
 		top: 50%;
 		margin: 5px 0 0 -110px;
 	}
+	div.megaPopup .headerinf,
 	div.bigPopup .headerinf,
 	div.smallPopup .headerinf
 	{
@@ -81,15 +100,55 @@
 		div.smallPopup .newTagFrame select { width: 190px; }
 		div.smallPopup .newTagFrame input.button { width: 88px; }
 		
+		div.megaPopup .relation,
 		div.bigPopup .relation
 		{
 			width: 420px;
 			margin: 0 auto 0 auto;
 			padding: 11px 0 0 0;
 		}
+		
+		div.megaPopup .relation { width: 800px; }
+		div.megaPopup .relationContent
+		{
+			width: 800px;
+			overflow: hidden;
+			overflow-y: auto;
+			height: 340px;
+			margin-top: 20px;
+		}
+		div.megaPopup .relationContent .subContent
+		{
+			margin: 0 auto 0 auto;
+			padding: 0;
+			background: none;
+			width: 777px;
+		}
+		div.megaPopup .relationContent .subContent div.mceFrame { padding: 0; margin: 0; }
+		div.megaPopup .relationContent .subContent .large_text_input { width: 560px; }
+		div.megaPopup .relationContent .subContent .text_area_large
+		{
+			width: 772px;
+			height: 250px;
+			margin: 0;
+			padding: 0;
+			border: 1px solid #ccc;
+			margin: 5px 0 5px 0;
+			overflow: auto;
+			overflow-y scroll;
+			margin: 5px auto 5px auto;
+		}
+		div.megaPopup .subContent .bottom { display: none; }
+		div.megaPopup .relationContent .subContent fieldset.oneline { width: 765px; margin: 0 auto 0 auto; padding: 5px; }
+		
+		
+		div.megaPopup .relation h3,
 		div.bigPopup .relation h3 { padding: 0; margin: 0 0 18px 0; }
+		div.megaPopup .relation label,
 		div.bigPopup .relation label { float: left; padding-top: 3px; margin-right: 65px; }
+		div.megaPopup .relation fieldset,
 		div.bigPopup .relation fieldset { background-color: #DADADA; margin-bottom: 8px; padding: 5px; }
+		div.megaPopup .relation fieldset.search
 		div.bigPopup .relation fieldset.search
 		{ 
 			border-bottom: 1px solid #DADADA;
@@ -97,6 +156,7 @@
 		}
 		div.bigPopup .relation fieldset.search input { float: right; width: 266px; }
 		div.bigPopup .relation fieldset select { float: right; width: 270px; }
+		div.megaPopup .relation fieldset select  { width: 640px; }
 		div.bigPopup .relation .relContent
 		{ 
 			overflow: auto;

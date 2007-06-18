@@ -4839,9 +4839,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7071068"
-     inkscape:cx="410.52268"
-     inkscape:cy="626.299"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="246.51224"
+     inkscape:cy="99.754016"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      inkscape:window-width="1280"
@@ -6641,10 +6641,6 @@
          y="0"
          x="0" />
     </g>
-    <path
-       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-width:0.22400001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline"
-       d="M 53.562,796.64344 C 118.87953,796.64344 184.19707,796.64344 249.5146,796.64344 C 249.5146,807.65468 249.5146,818.66591 249.5146,829.67713 C 184.19707,829.67713 118.87953,829.67713 53.562,829.67713 C 53.562,818.66591 53.562,807.65468 53.562,796.64344 z "
-       id="path6913" />
     <rect
        style="opacity:0.747;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;display:inline;filter:url(#filter3624)"
        id="rect6762"

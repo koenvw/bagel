@@ -424,8 +424,7 @@
 		width: 835px;
 	}
 	.subContent a.addGrLight {  position: absolute; right: 12px; top: 13px;  }
-	.subContent a.sortGrLight {  position: absolute; right: 179px; top: 13px;  }
-	.subContent a.createGrLight {  position: absolute; right: 76px; top: 12px;  }
+	.subContent a.sortGrLight {  position: absolute; right: 76px; top: 13px;  }
 	/* Taglisting system */
 		
 		#dragdropContainer { margin: 0 15px 0 15px; }

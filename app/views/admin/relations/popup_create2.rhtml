@@ -23,7 +23,7 @@ if params['rel_id'].to_i > 0
 	<% else %>
 		unsupported content type
 	<% end %>
-	<%= submit_tag :save %>
+	<%= submit_tag :save, { :onclick => "relCrOverlay.destroy();" } %>
 	<% end %>
 
 <% end %>

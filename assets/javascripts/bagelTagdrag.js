@@ -108,11 +108,8 @@
 							}
 						});
 						if(!dontCreate) {
-							var newElement = new Element('div', { 
-								'class': 'isSubTag',
-								id: 'tag_string_' + optsNew[n].value
-							});
-							var tagDesc = new Element('span').update(optsNew[n].innerHTML.truncate(13,".."));
+							var tagDesc = new Element('span', { 'class': 'tagName' }).update(optsNew[n].innerHTML.truncate(13,".."));
+							var newElement = new Element('div', { 'class': 'isSubTag', id: 'tag_string_' + optsNew[n].value	});
 							newElement.appendChild(tagDesc);
 							$('droplist').appendChild(newElement);
 						}
