@@ -572,7 +572,7 @@
 		background: #fff;
 	}
 	
-	.subContent ul.imageRevisions { margin: 10px auto 0 auto; }
+	.subContent ul.imageRevisions { margin: 0 auto 0 auto; }
 	
 	
 	/* workflowsetps */
@@ -810,23 +810,15 @@
 		width: 755px;
 	}
 	fieldset.smaller { width: 450px; }
-	fieldset.oneline .posSelects,
+	
+	fieldset.oneline .filterfield { position: relative; width: 755px; margin: 0 auto 0 auto; }
 	fieldset.oneline .posRight
 	{
 		position: absolute;
-		right: 15px !important;
-		right: 5px;
-		top: 0 !important;
-		top: 11px;
+		right: -5px;
+		top: 0px;
 	}
-	fieldset.oneline .posSelects
-	{
-		right: 103px !important;
-		top: 3px !important;
-		top: 11px;
-		right: 95px;
-	}
-	fieldset.oneline .posSelects select { width: 100px; }
+
 	#dragdropContainer fieldset.oneline { margin-bottom: 10px; width: 788px; }
 	fieldset.oneline label
 	{
