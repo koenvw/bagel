@@ -22,13 +22,16 @@
 			<% # FIXME: first tags should be description %>
 			<%= select_tag 'type_id', options_for_select(@content_types.map{|c| [c.name,c.id.to_s]}.sort.insert(0,["Type",""]), params[:type_id]), { :onChange=>"document.select_rec.submit()", :style => "width: #{selectWidth}" } %>
 			<%= select_tag 'website_id', options_for_select(@websites.map {|el| [el.name,el.id.to_s]}.insert(0,["Website",""]), params[:website_id]), { :onChange=>"document.select_rec.submit()", :style => "width: #{selectWidth}" } if @websites.size > 1 %>
-			<%= select_nested_set_tag :tag_id, Tag, params[:tag_id].to_i, { :style => "width: #{selectWidth}" } %>
-			<%= select_tag :user_id, options_for_select(AdminUser.find(:all).map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id] }.insert(0,["",""]), params[:user_id].to_i), { :style => "width: #{selectWidth}" } %>
+			<%= select_nested_set_tag :tag_id, Tag, params[:tag_id].to_i, { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
+            <%= select_tag :user_id, options_for_select(AdminUser.find(:all,:order=>"username").map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id] }.insert(0,["User",""]), params[:user_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
 			<%
 				workflows = Workflow.find(:all)
-				if workflows.size > 0
+				if workflows.size > 1
 			%>
-			<%= select_tag :step_id, '<option value=""></option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i), { :style => "width: #{selectWidth}" } %>
+			<%= select_tag :step_id, '<option value="">Status</option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
+            <% elsif workflows.size > 0 %>
+              <%= select_tag :step_id, '<option value="">Status</option>' + options_from_collection_for_select(workflows.first.workflow_steps, "id", "name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
+
             <% end %>
 		</fieldset>
 		<div class="bottom"></div>

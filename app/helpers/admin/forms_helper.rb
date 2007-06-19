@@ -7,6 +7,13 @@ module Admin::FormsHelper
     out << '</fieldset>'
   end
 
+  def bagel_auto_complete_field(method, options = {}, completion_options = {})
+    out = '<fieldset class="oneline">'
+    out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
+    out << text_field_with_auto_complete(:form, method, options, completion_options)
+    out << '</fieldset>'
+  end
+
   def bagel_text_area(method, options = {})
     options[:class] = "mceNoEditor"
     options[:rows] = 5

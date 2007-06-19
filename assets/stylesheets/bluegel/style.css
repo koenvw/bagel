@@ -76,7 +76,7 @@
 	
 /* MAIN CONTAINER
  * ***************************************************/
-     
+	 
 	#mainContainer
 	{
 		width: 900px;
@@ -171,8 +171,8 @@
 			top: 100px;
 			float: left;
 			margin: 0;
-		    border-right: 1px solid #A9C1E3;
-		    padding: 0 11px 0 11px;
+			border-right: 1px solid #A9C1E3;
+			padding: 0 11px 0 11px;
 		}
 		#header ul.subMenu li a:hover { color: #000; }
 
@@ -706,7 +706,7 @@
 	 * If you wish to expand the bar don't forget to change de width of the the .stepBar class
 	 * 
 	 * Note: - if the end is active use .active-end
-	 *       - if you wish to use the buttons as links remove the cursor property :-)
+	 *	   - if you wish to use the buttons as links remove the cursor property :-)
 	 *
 	 */ 
 	 
@@ -951,7 +951,11 @@
 		background: #C9FFB7 url('../../images/bluegel/icons/icon_confirm.png') no-repeat 12px center; color: #406734;
 		border-color: #94E17B;
 	}
-		
+	div.auto_complete
+	{
+		z-index: 999;
+	}
+
 /* footer
  * ***************************************************/
  

@@ -24,14 +24,15 @@ class Admin::FormsController < ApplicationController
     return if session[:form_definition_id].nil?
     return unless FormDefinition.exists?(session[:form_definition_id])
     @formdef = FormDefinition.find(session[:form_definition_id])
-    @formdef.template.scan(/text_field_with_auto_complete :form, :[a-z_]*/).each do |m|
+    @formdef.template.scan(/bagel_auto_complete_field :[a-z_]*/).each do |m|
       object = 'form'
-      method = m.split(',')[1].strip.gsub(':','')
+      method = m.split(' ')[1].strip.gsub(':','')
       logger.debug "defining: auto_complete_for_#{object}_#{method}"
       self.class.send(:define_method, "auto_complete_for_#{object}_#{method}".to_sym) do
         @entries = []
-        Form.find(:all).each {|form| @entries << form.data if form.data.has_key?(method) }
-        @entries.delete_if {|val| not val[method].include?(params[object][method])}
+        @formdef.forms.each {|form|  @entries << form.attributes["data"] }
+        #@entries.delete_if {|val| not val[method].include?(params[object][method])}
+        #render :inline => "<ul style=\"z-index: 666;\"><% @entries.each do |entry|%><li><%= entry[\"production\"] %></li><% end %></ul>"
         render :inline => "<%= auto_complete_result @entries, '#{method}', '#{params[object][method]}' %>"
       end
     end
