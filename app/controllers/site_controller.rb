@@ -178,11 +178,11 @@ class SiteController < ApplicationController
     render_to_string :inline => cls.template(site_id)
   end
 
-  def include_template(template_name)
-    render_generator(template_name)
+  def include_template(template_name, locals = {})
+    render_generator(template_name, locals)
   end
 
-  def render_generator(generator)
+  def render_generator(generator, locals = {})
     if AppConfig[:perform_caching]
       gen = Cache.get(generator)
       if gen.nil?
@@ -195,7 +195,7 @@ class SiteController < ApplicationController
     if gen.nil?
       str = "can not find generator '#{generator}'"
     else
-      str = render_to_string :inline => gen.template
+      str = render_to_string :inline => gen.template, :locals => locals
     end
     return str
   end
