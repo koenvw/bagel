@@ -24,6 +24,10 @@ module SiteHelper
     controller.domain
   end
 
+  def is_front?
+
+  end
+
   def find_menu(site,menu_id)
     root = Menu.find(menu_id)
     items_not_published = Menu.find(:all,:conditions=>"

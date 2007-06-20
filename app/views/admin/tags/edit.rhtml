@@ -21,7 +21,7 @@
 			<label for="tag_parent">Is Active?</label>
 			<%= check_box 'tag', 'active' %><br/>
 		</fieldset>
-		<% if @tag.level == 0 %>
+		<% if @tag.level == 0 && !@tag.new_record? %>
 		<fieldset class="oneline">
 			<label for="tag_applies_to">Applies to</label>
 			<ul>

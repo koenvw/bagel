@@ -110,7 +110,8 @@ class Sobject < ActiveRecord::Base
   end
 
   def self.find_with_parameters(options = {})
-    # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,includes=nil,order="sitems.publish_from DESC",status="Published"
+    # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,include=nil,order="sitems.publish_from DESC",status="Published"
+    options.assert_valid_keys [:tags,:website,:website_name,:website_id,:published_by,:search_string,:content_types,:publish_from,:publish_till,:status,:workflow,:conditions,:include,:order,:limit]
     # tags
     # FIXME: this used to be :tag_names
     unless options[:tags].nil?

@@ -22,4 +22,9 @@ class Generator < ActiveRecord::Base
   def title
     name
   end
+
+  def dependencies
+    template.scan(/controller.include_template\("(\w+)"\)/).flatten
+  end
+
 end

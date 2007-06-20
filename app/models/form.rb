@@ -73,7 +73,11 @@ class Form < ActiveRecord::Base
     end
   end
 
-  
+  # we must also check the internal data
+  alias_method :orig_respond_to?, :respond_to?
+  def respond_to?(method_id,include_private=false)
+    orig_respond_to?(method_id,include_private) || (initialize_data && @data.has_key?(method_id))
+  end
 
   # just to make ourselves consistent with the other ContentTypes
   def title

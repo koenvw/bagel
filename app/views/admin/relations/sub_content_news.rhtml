@@ -1,16 +1,20 @@
 <%
 params[:sub_id]=params[:sub_id].to_s
 r_sub_type ||= params[:r_sub_type] # in case r_sub_type comes from paging
+r_type_id ||= params[:r_type_id] # in case r_sub_type comes from paging
     
 if params["search"].nil?
   searchphrase = ""
 else
   searchphrase=params["search"]
 end
-unless r_sub_type.nil?
+if !r_sub_type.nil?
   category_id = Tag.find_by_name(r_sub_type).id
   conditions = ["title LIKE ? AND title <>'' AND category_id = ?", "%" + searchphrase + "%",category_id]
   joins = "INNER JOIN categories_sobjects CA ON CA.category_id = #{category_id} AND sobjects.id = CA.sobject_id"
+elsif !r_type_id.nil?
+  conditions = ["sobjects.content_type_id = ?",r_type_id]
+  joins = ""
 else
   conditions = ["title LIKE ? AND title <>''", "%" + searchphrase + "%"]
   joins = ""
@@ -26,7 +30,7 @@ r_sub_type="" if r_sub_type.nil?
 
 %>
 
-<div class="headerinf">results2: <%= @news_pages.item_count %> - page <%= @news_pages.current.number %>/<%= @news_pages.length %></div>
+<div class="headerinf">results: <%= @news_pages.item_count %> - page <%= @news_pages.current.number %>/<%= @news_pages.length %></div>
 
 <table>
 <tr class="header">

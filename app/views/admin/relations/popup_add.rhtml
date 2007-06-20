@@ -1,8 +1,9 @@
 <%
 if params['rel_id'].to_i > 0
-    relation = Relation.find(params['rel_id'].to_i)
-    content_type = relation.content_type
+	relation = Relation.find(params['rel_id'].to_i)
+	content_type = relation.content_type
 	r_type = content_type.core_content_type.downcase
+	r_type_id = content_type.id
 	r_sub_type = (content_type.extra_info.size == 0) ? nil : content_type.extra_info
 %>
 	<fieldset class="search">
@@ -10,17 +11,16 @@ if params['rel_id'].to_i > 0
 		<input id="sub_search<%=params[:sub_id]%>" name="sub_search<%=params[:sub_id]%>" type="text" value="">
 	</fieldset>
 	<div class="spinner" id="spinner_relations_search" style="display: none;"></div>
-	<%= observe_field "sub_search#{params[:sub_id]}",  :frequency => 0.5, 
+	<%= observe_field "sub_search#{params[:sub_id]}",  :frequency => 0.5,
 		:update => "relations#{params[:sub_id]}_sub_content",
-        :url => {:controller => "relations", :action => "sub_content_#{r_type}", :id => params['rel_id'], :sub_id => params[:sub_id], :r_sub_type => r_sub_type, :rel_id => params[:rel_id], :direction => params[:direction]},
+		:url => {:controller => "relations", :action => "sub_content_#{r_type}", :id => params['rel_id'], :sub_id => params[:sub_id], :r_type_id => r_type_id, :r_sub_type => r_sub_type, :rel_id => params[:rel_id], :direction => params[:direction]},
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search')",
 		:with => "'search=' + escape(value)"
 	%>
 	<div class="relContent" id="relations<%=params[:sub_id]%>_sub_content">
-    	<!--<%= r_type.t %>-->
-		<%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{:id=>params['rel_id'], :r_sub_type=>r_sub_type} %>
+	  <%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{:id=>params['rel_id'], :r_type_id => r_type_id, :r_sub_type=>r_sub_type} %>
 	</div>
 <% else %>
-    select a category!
+	select a category!
 <% end %>

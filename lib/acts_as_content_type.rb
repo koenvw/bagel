@@ -63,7 +63,7 @@ module ActsAsContentType
     end
 
     def id_url
-      "#{id}-#{title.downcase.gsub(/[^a-z1-9]+/i, '-')}"
+      "#{id}-#{title.downcase.gsub(/[^a-z0-9]+/i, '-')}"
     end
 
     def publish_date(site_id)
@@ -117,7 +117,7 @@ module ActsAsContentType
   module HelperMethods
 
     def add_sitem(website_id)
-      # build a sitems, default status to NOT published
+      # build a sitem, default status to NOT published
       sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :status => "0"
     end
 

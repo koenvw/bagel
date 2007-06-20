@@ -8,4 +8,12 @@ class Container < ActiveRecord::Base
     end
   end
 
+  # FIXME: rename column
+  def body
+    description
+  end
+  def body=(text)
+    description = text
+  end
+
 end
