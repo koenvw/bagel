@@ -26,10 +26,11 @@ class Form < ActiveRecord::Base
         @data = {}
       end
     end
+    @data
   end
   def check_data
     @data.each_key do |key|
-      raise Exception.new("illegal key: #{key}") if key.to_s != "name" && key.to_s != "type_id" && self.respond_to?(key)
+      raise Exception.new("illegal key: #{key}") if key.to_s != "name" && key.to_s != "type_id" && self.orig_respond_to?(key)
     end
   end
 

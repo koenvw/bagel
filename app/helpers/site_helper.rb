@@ -20,8 +20,11 @@ module SiteHelper
     controller.site_id
   end
 
-  def domain
-    controller.domain
+  def current_domain
+    controller.current_domain
+  end
+  def current_url
+    controller.current_url
   end
 
   def is_front?

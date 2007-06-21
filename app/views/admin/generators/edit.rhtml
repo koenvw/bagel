@@ -51,4 +51,5 @@
 
 <% # do not use rails javascript helper the ?timestamp will fck things up %>
 <script src="/plugin_assets/bagel/javascripts/codepress/codepress.js" type="text/javascript"></script>
+<%= javascript_tag "Event.observe(window, 'load', function(){codepress1.toggleAutoComplete();} , false);" %>
 

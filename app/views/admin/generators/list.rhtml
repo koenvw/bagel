@@ -27,17 +27,17 @@
 			<% end %>
 			<div class="folderTree">
 			<ul>
-			<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == websiteId } %>
-			<% if !@folders.nil_or_empty? %>
-			<% @folders.each do |folder| %>
-				<li>
-					<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => websiteId }, :id => 'cat_' + folder.id.to_s %>
-						<%= render_subtree(folder.all_children, folder.id) %>
-				</li>
-			<% end %>
-			<% else %>
-			There are no folders for this website. Do you want to <%= link_to 'create', { :controller => "generator_folders", :action => 'edit', :website_id => websiteId }, :class => "folders", :title => "Folders"  %> some?
-			<% end %>
+				<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == websiteId } %>
+				<% if !@folders.nil_or_empty? %>
+				<% @folders.each do |folder| %>
+					<li>
+						<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => websiteId }, :id => 'cat_' + folder.id.to_s %>
+							<%= render_subtree(folder.all_children, folder.id) %>
+					</li>
+				<% end %>
+				<% else %>
+				There are no folders for this website. Do you want to <%= link_to 'create', { :controller => "generator_folders", :action => 'edit', :website_id => websiteId }, :class => "folders", :title => "Folders"  %> some?
+				<% end %>
 			</ul>
 			</div>
 			<div class="clear"></div>
@@ -59,6 +59,7 @@
 		<div class="subContentRight">
 			<% unless params[:id].nil? %>
 			<h3 class="crumbs">
+            <%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;
 			<%=
 				nested_set_full_outline(GeneratorFolder.find(params[:id]), :separator => " &raquo; ") do |item, current|
 					if params[:id] == item.id.to_s

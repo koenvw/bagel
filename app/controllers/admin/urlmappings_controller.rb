@@ -30,4 +30,14 @@ class Admin::UrlmappingsController < ApplicationController
     redirect_to :action => 'list'
   end
 
+  def sort
+    mappings = UrlMapping.find(:all,:order => "path")
+    mappings.each_with_index do |mapping,i|
+      mapping.position = i
+      mapping.save
+    end
+    flash[:notice] ='UrlMappings were sorted successfully.'
+    redirect_to :action => 'list'
+  end
+
 end

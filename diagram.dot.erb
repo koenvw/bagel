@@ -1,4 +1,5 @@
 digraph G {
+  rankdir=LR;
   <% Generator.find(:all).each do |generator| %>
     <% if generator.dependencies.size > 0 %>
       <% generator.dependencies.each do |dep_gen| %>
