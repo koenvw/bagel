@@ -13,20 +13,21 @@
 		</fieldset>
 		<div class="mceFrame">
 			<%= text_area_tag 'codepress1', @generator.template, :class => 'codepress ruby', :style => "width:773px;height:500px;" %><br/>
-            <a href="#" onclick="codepress1.toggleEditor();return false;">on/off</a>
+			<a href="#" onclick="codepress1.toggleEditor();return false;">on/off</a>
 		</div>
 		<fieldset class="oneline">
 			<label for="generator_description">Description</label>
 			<%= text_field 'generator', 'description', :class => 'text_area_large' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
-          (Use this template for displaying:
-<%= select 'generator', 'content_type', AppConfig[:content_types].sort, :include_blank => true  %>) on website:
+			(Use this template for displaying:
+			<%= select 'generator', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %> or
+            <%= select 'generator', 'core_content_type', AppConfig[:content_types].sort, :include_blank => true  %>) on website:
 			<%= select 'generator', 'website_id', Website.find(:all,:order => "name").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="generator_folder_id">Folder</label>
-            <% options = "<option value=\"\"></option>" %>
+			<% options = "<option value=\"\"></option>" %>
 			<% Website.find(:all).each do |website| %>
 			  <% options << "<optgroup label=\"#{website.name}\">" %>
 			  <% elements = GeneratorFolder.find(:all, :conditions => ["website_id = ?",website.id]) %>
@@ -34,7 +35,7 @@
 			  <% options << "</optgroup>" %>
 			<% end %>
 			<%= select_tag 'generator[generator_folder_id]', options %>
-          </fieldset>
+		  </fieldset>
 
 		<div class="bottom"></div>
 	</div>

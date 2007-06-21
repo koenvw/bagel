@@ -27,8 +27,10 @@ module ActsAsContentType
       # update click_count (.find + .increment is faster than .update_all
       sitem = sitems.find_by_website_id(website_id)
       sitem.increment!(:click_count) unless sitem.nil?
-      # find generator
-      generator = Generator.find_by_website_id_and_content_type(website_id, self.class.to_s)
+      # find generator by content_type
+      generator = Generator.find_by_website_id_and_content_type_id(website_id, self.ctype.id)
+      # find generator by core_content_type
+      generator = Generator.find_by_website_id_and_core_content_type(website_id, self.class.to_s) if generator.nil?
       if generator.nil?
         "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
       else

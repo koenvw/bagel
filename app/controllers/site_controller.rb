@@ -82,7 +82,7 @@ class SiteController < ApplicationController
     when 'form'
       @form = Form.find(params_id)
       render_404 and return if @form.nil?
-      @content_for_layout = @form.form_definition.template_view(site)
+      @content_for_layout = @form.template(site_id)
       @content_title = @form.name.rubify
 
     when 'form_definition'
