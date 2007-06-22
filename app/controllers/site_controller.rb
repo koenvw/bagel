@@ -149,6 +149,10 @@ class SiteController < ApplicationController
     elsif !params[:generator].nil?
       # preview
       render :inline => params[:generator][:template]
+    elsif params[:format] == "html"
+      # HTML
+      response.headers["Content-Type"] = "text/html"
+      render :inline => @content_for_layout, :type => :html
     elsif params[:format] == "xml"
       # XML
       response.headers["Content-Type"] = "text/xml"
@@ -157,10 +161,10 @@ class SiteController < ApplicationController
       # CSS
       response.headers["Content-Type"] = "text/css"
       render :inline => @content_for_layout, :type => :css
-    elsif params[:format] == "html"
-      # HTML
-      response.headers["Content-Type"] = "text/html"
-      render :inline => @content_for_layout, :type => :html
+    elsif params[:format] == "js"
+      # JS
+      response.headers["Content-Type"] = "application/x-javascript"
+      render :inline => @content_for_layout, :type => :js
     else
       # normal
       gen = Generator.find(:first, :conditions =>["name=? AND website_id=?",site + "_content_layout",site_id])
