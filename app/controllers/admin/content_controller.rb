@@ -21,6 +21,7 @@ class Admin::ContentController < ApplicationController
                                                                            :include => includes,
                                                                            :conditions => conditions,
                                                                            :search_string => params[:search_string]),
+
                                              :page => params[:page],
                                              :per_page => 25
     # FIXME: the condition is necessary because generator is not a real content type

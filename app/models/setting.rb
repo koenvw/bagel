@@ -36,15 +36,35 @@ class Setting < ActiveRecord::Base
         self.get(child.id, hash[child.name.to_sym] = {})
       else
         # value otherwise
-        if child.value_type == "symbol"
-          type = "sym"
+        case child.value_type
+        when "string"
+          method = "to_s"
+        when "integer"
+          method = "to_i"
+        when "float"
+        when "boolean"
+          method = "to_bool"
+        when "symbol"
+          method = "to_sym"
+        when "date"
+          method = "to_time"
+        when "array"
+          method = "split"
+          param = ","
         else
-          type = child.value_type.first
+          method = "to_s"
         end
+        param ||= nil
 
-        hash[child.name.to_sym] = child.value.respond_to?("to_#{type}") ?
-                                  child.value.send("to_#{type}") :
-                                  child.value.to_s
+        hash[child.name.to_sym] = if child.value.respond_to?(method)
+          if param
+            child.value.send(method,param)
+          else
+            child.value.send(method)
+          end
+        else
+          child.value.to_s
+        end
       end
     end
 

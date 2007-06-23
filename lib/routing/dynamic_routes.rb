@@ -24,7 +24,9 @@ module ActionController #:nodoc:
           result = route.recognize(path, environment) and add_route_with_a_vengeance(route) and return result
         end 
         # nothing found, bail out...
-        raise RoutingError, "no route found to match #{path.inspect} with #{environment.inspect}"
+        # FIXME: why does exception_notification plugin send an error mail on all 404's? (everything that is not a controller/action)
+        # tempfix -> raise ActiveRecord::RecordNotFound
+        raise ActiveRecord::RecordNotFound, "no route found to match #{path.inspect} with #{environment.inspect}"
       end
       # add a route to the list in last-but-one position
       # we assume that the last route is the default one (:controller/:action/:id)

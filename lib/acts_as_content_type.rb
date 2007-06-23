@@ -87,17 +87,20 @@ module ActsAsContentType
       result
     end
 
-    def relation(name)
+    def relation(name, options = {})
       # look up relation
       relation = Relation.find_by_name(name, :include => :content_type)
       return if relation.nil?
+      # see if we want the relation in the reverse direction (from/to) #FIXME: shouldn't we use the reverse_name for the relation?
+      from_sobject_id = options[:reverse] == true ? "to_sobject_id" : "from_sobject_id"
+      to_sobject_id = options[:reverse] == true ? "from_sobject_id" : "to_sobject_id"
       # look up first relationship for this relation
-      relationship = Relationship.find(:first, :conditions => ["from_sobject_id = ? AND category_id = ?",self.sobject.id,relation.id], :limit=>1, :order => "position ASC")
+      relationship = Relationship.find(:first, :conditions => ["#{from_sobject_id} = ? AND category_id = ?",self.sobject.id,relation.id], :limit=>1, :order => "position ASC")
       unless relationship.nil?
         # by using "type" we can save ourselves 1 extra query (sobject will be joined with the contentype directly)
         # FIXME: this requires extra_info to be filled -> BROKEN NOW!!
         type = relation.content_type.core_content_type.downcase.to_sym
-        s = Sobject.find(relationship.to_sobject_id, :include => type)
+        s = Sobject.find(relationship.send(to_sobject_id), :include => type)
         s.send(type)
       end
     end
@@ -110,8 +113,13 @@ module ActsAsContentType
       relations.map { |relation| relation.to.content }
     end
 
-    def tags
-      sobject.tags
+    def tags(parent_name = nil)
+      if parent_name
+        parent_tag = Tag.find_by_name(parent_name)
+        sobject.tags.find(:first,:conditions => ["parent_id=?",parent_tag.id]) if parent_tag
+      else
+        sobject.tags
+      end
     end
 
   end

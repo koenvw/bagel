@@ -123,11 +123,24 @@ class SiteController < ApplicationController
       @content_for_layout = @gallery.template(site_id)
       @content_title = @gallery.title.rubify
 
+    when 'container'
+      @container= Container.find(params_id)
+      render_404 and return if @container.nil?
+      @content_for_layout = @container.template(site_id)
+      @content_title = @container.title.rubify
+
     when 'video'
       @video= Video.find(params_id)
       render_404 and return if @video.nil?
       @content_for_layout = @video.template(site_id)
       #@content_title = @video.title.rubify
+
+    when 'event'
+      @event= Event.find(params_id)
+      render_404 and return if @event.nil?
+      @content_for_layout = @event.template(site_id)
+      @content_title = @event.title.rubify
+
     else
       render :text => "no such contenttype", :status => "404" and return
     end

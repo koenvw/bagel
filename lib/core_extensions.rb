@@ -19,6 +19,10 @@ class String
   def t
     to_s
   end
+  def to_bool
+    return true if to_s.downcase == "true"
+    return false if to_s.downcase == "false"
+  end
 end
 class Time
   def formatted
