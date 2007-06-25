@@ -71,19 +71,19 @@ class SiteController < ApplicationController
         render_404 and return
       end
       @content_for_layout = @page.template(site_id)
-      @content_title = @page.title.rubify
+      @content_title = @page.title
 
     when 'news'
       @news = News.find(params_id)
       render_404 and return if @news.nil?
       @content_for_layout = @news.template(site_id)
-      @content_title = @news.title.rubify
+      @content_title = @news.title
 
     when 'form'
       @form = Form.find(params_id)
       render_404 and return if @form.nil?
       @content_for_layout = @form.template(site_id)
-      @content_title = @form.name.rubify
+      @content_title = @form.name
 
     when 'form_definition'
       @formdef = FormDefinition.find_by_name(params_id) if params_id.to_i == 0
@@ -94,7 +94,7 @@ class SiteController < ApplicationController
       str << @formdef.template_form(site_id)
       str << "<%= end_form_tag %>"
       @content_for_layout = str
-      @content_title = @formdef.name.rubify
+      @content_title = @formdef.name
 
     when 'generator'
       @generator = Generator.find_by_name(params_id)
@@ -103,43 +103,43 @@ class SiteController < ApplicationController
         render_404 and return
       end
       @content_for_layout =  @generator.template
-      @content_title = @generator.name.rubify
+      @content_title = ""
 
     when 'book'
       @book = Book.find(params_id)
       render_404 and return if @book.nil?
       @content_for_layout = @book.template(site_id)
-      @content_title = @book.title.rubify
+      @content_title = @book.title
 
     when 'test_article'
       @test_article= TestArticle.find(params_id)
       render_404 and return if @test_article.nil?
       @content_for_layout = @test_article.template(site_id)
-      @content_title = @test_article.title.rubify
+      @content_title = @test_article.title
 
     when 'gallery'
       @gallery= Gallery.find(params_id)
       render_404 and return if @gallery.nil?
       @content_for_layout = @gallery.template(site_id)
-      @content_title = @gallery.title.rubify
+      @content_title = @gallery.title
 
     when 'container'
       @container= Container.find(params_id)
       render_404 and return if @container.nil?
       @content_for_layout = @container.template(site_id)
-      @content_title = @container.title.rubify
+      @content_title = @container.title
 
     when 'video'
       @video= Video.find(params_id)
       render_404 and return if @video.nil?
       @content_for_layout = @video.template(site_id)
-      #@content_title = @video.title.rubify
+      #@content_title = @video.title
 
     when 'event'
       @event= Event.find(params_id)
       render_404 and return if @event.nil?
       @content_for_layout = @event.template(site_id)
-      @content_title = @event.title.rubify
+      @content_title = @event.title
 
     else
       render :text => "no such contenttype", :status => "404" and return
