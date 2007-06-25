@@ -17,7 +17,7 @@ else
 end
 r_sub_type="" if r_sub_type.nil?
 
-@forms_pages, @forms = controller.paginate :form, :per_page => 10, :conditions => conditions, :order_by => "updated_on DESC,name"
+@forms_pages, @forms = controller.paginate :form, :per_page => 5, :conditions => conditions, :order_by => "updated_on DESC,name"
 
 %>
 <div class="headerinf">results: <%= @forms_pages.item_count %> - page <%= @forms_pages.current.number %>/<%= @forms_pages.length %></div>
@@ -34,7 +34,7 @@ r_sub_type="" if r_sub_type.nil?
 %>
 <tr>
 <td class="firstRow">
-   <%= link_to_remote @form.name,
+   <%= link_to_remote truncate(h(@form.name)),
 		:url => "/admin/relations/add/#{@form.sobject.id}?cat_id=#{id}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
