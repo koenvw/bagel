@@ -1,7 +1,7 @@
 class Sobject < ActiveRecord::Base
   belongs_to :content, :polymorphic => true
   #FIXME: need to add new content_types here
-  # also ... where is this used ?
+  # also ... where is this used ? -> is used when you want to include these tables in find_with_parameters
   belongs_to :book, :foreign_key => "content_id"
   belongs_to :container, :foreign_key => "content_id"
   belongs_to :form, :foreign_key => "content_id"
@@ -12,6 +12,7 @@ class Sobject < ActiveRecord::Base
   belongs_to :menu, :foreign_key => "content_id"
   belongs_to :news, :foreign_key => "content_id"
   belongs_to :page, :foreign_key => "content_id"
+  belongs_to :form, :foreign_key => "content_id"
   # content_type
   belongs_to :ctype, :foreign_key => "content_type_id", :class_name => "ContentType"
   # "tags"

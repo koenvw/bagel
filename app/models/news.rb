@@ -1,6 +1,6 @@
 class News < ActiveRecord::Base
   acts_as_content_type
-  acts_as_ferret :fields => [ :title, :body ], :remote => AppConfig[:use_ferret_server]
+  acts_as_ferret :fields => [ :title, :body ], :remote => AppConfig[:use_ferret_server] if AppConfig[:use_ferret]
 
   validates_presence_of :title
   validates_presence_of :body

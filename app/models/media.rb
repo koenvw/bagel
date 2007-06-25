@@ -4,6 +4,6 @@ class Media < ActiveRecord::Base
   # eg. EXIF info for images, text-extraction for documents
   acts_as_ferret :fields => [ :title, :description, :content ],
                  :remote => AppConfig[:use_ferret_server],
-                 :store_class_name => true
+                 :store_class_name => true if AppConfig[:use_ferret]
 
 end
