@@ -13,6 +13,7 @@ class Admin::NewsController < ApplicationController
 
   def edit
     @news = News.find_by_id(params[:id]) || News.new
+    @news.type_id ||= params[:type_id]
     if request.post?
       # FIXME: this is project specific -> put in before filter ?
       # some magic voodoo for converting breaklines to paragraphs

@@ -41,6 +41,7 @@ class Admin::FormsController < ApplicationController
   def edit
     @form = Form.find_by_id(params[:id]) || Form.new
     @form.form_definition_id ||= params[:form_definition_id]
+    @form.type_id ||= params[:type_id]
     session[:form_definition_id] = @form.form_definition_id # for autocomplete
   end
 

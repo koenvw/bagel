@@ -13,6 +13,7 @@ class Admin::DocumentsController < ApplicationController
 
   def edit
     @document = Document.find_by_id(params[:id]) || Document.new
+    @document.type_id ||= params[:type_id]
     if request.post?
       @document.attributes = params[:document]
       @document.prepare_sitems(params[:sitems])

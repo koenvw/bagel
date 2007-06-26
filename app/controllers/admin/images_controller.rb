@@ -30,6 +30,7 @@ class Admin::ImagesController < ApplicationController
 
   def edit
     @image = Image.find_by_id(params[:id]) || Image.new
+    @image.type_id ||= params[:type_id]
     @image_versions = []
     versions = Setting.get("versions")
     @image_versions = versions.collect{|k,v| k.to_s}  if versions

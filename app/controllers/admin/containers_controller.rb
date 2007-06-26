@@ -13,6 +13,7 @@ class Admin::ContainersController < ApplicationController
 
   def edit
     @container = Container.find_by_id(params[:id]) || Container.new
+    @container.type_id ||= params[:type_id]
     if request.post?
       @container.attributes = params[:container]
       @container.prepare_sitems(params[:sitems])
