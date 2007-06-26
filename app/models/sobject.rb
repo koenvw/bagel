@@ -112,23 +112,29 @@ class Sobject < ActiveRecord::Base
 
   def self.find_with_parameters(options = {})
     # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,include=nil,order="sitems.publish_from DESC",status="Published"
-    options.assert_valid_keys [:tags,:website,:website_name,:website_id,:published_by,:search_string,:content_types,:publish_from,:publish_till,:status,:workflow,:conditions,:include,:order,:limit,:invert]
+    options.assert_valid_keys [:tags,:website,:website_name,:website_id,:published_by,:search_string,:content_types,:publish_from,:publish_till,:status,:workflow,:conditions,:include,:order,:limit,:tags_inverted]
     # tags
-    # FIXME: this used to be :tag_names
     unless options[:tags].nil?
       # map elements to ids
       tags = options[:tags].to_a.map do |tag|
         (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
       end
-      (options[:invert] && options[:invert].include?(:tags)) ?
-        tag_check = "AND (1=1":
-        tag_check = "AND (1=0"
+      tag_check = "AND (1=0"
       tags.each do |tag_id|
-        (options[:invert] && options[:invert].include?(:tags)) ?
-        tag_check << " AND cached_category_ids NOT LIKE '%;#{tag_id};%' " :
         tag_check << " OR cached_category_ids LIKE '%;#{tag_id};%' "
       end
       tag_check << ")"
+    end
+    unless options[:tags_inverted].nil?
+      # map elements to ids
+      tags = options[:tags_inverted].to_a.map do |tag|
+        (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
+      end
+      tag_inverted_check = "AND (1=1"
+      tags.each do |tag_id|
+        tag_inverted_check << " AND cached_category_ids NOT LIKE '%;#{tag_id};%' "
+      end
+      tag_inverted_check << ")"
     end
     # website_name
     if options[:website]
@@ -211,6 +217,7 @@ class Sobject < ActiveRecord::Base
         #{status_check}
         #{website_check}
         #{tag_check}
+        #{tag_inverted_check}
         #{search_check}
         #{content_type_check}
         #{publish_from_check}
