@@ -32,8 +32,8 @@ class Admin::ContentController < ApplicationController
 
   def wizard
     # lookup content types
-    @content_types = ContentType.find(:all, :conditions => "extra_info!='hide'", :order => "name")
-    @wizard_content_types = ContentType.find(:all, :conditions => "core_content_type='News'", :order => "name")
+    @content_types = ContentType.find(:all, :conditions => "extra_info!='hide'", :order => "name") # FIXME: hide via checkbox, not via extra info ?
+    #@wizard_content_types = ContentType.find(:all, :conditions => "core_content_type='News'", :order => "name")
     reset_session
   end
 

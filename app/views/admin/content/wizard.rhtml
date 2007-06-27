@@ -20,22 +20,7 @@
 	
 		<!-- Begin left/right container -->
 		<div id="leftRightContent">
-			<div class="subContentLeft">
-				<h2>Wizards</h2>
-				<% @wizard_content_types.each do |ctype| %>
-					<div class="loopme">
-						<h3><%= link_to ctype.name, { :action => 'wizard1', :type_id => ctype.id } %></h3>
-						<p>
-						<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
-							<%= link_to "#{ctype.name}", { :action => 'wizard1', :type_id => ctype.id }, :class => "addGr" %>
-						</p>
-					</div>
-				<% end %>	
-				<div class="clear"></div>
-				<div class="bottom"></div>
-			</div>
-			
-			<div class="subContentRight">
+			<div class="subContent">
 				<h2>Content</h2>
 				<% @content_types.each do |ctype| %>
 					<% 
@@ -43,14 +28,18 @@
 						param_id = nil
 						form_definition_id = nil
 						type = ctype.core_content_type
-						ctrl = type.tableize.downcase 
+						ctrl = type.tableize.downcase
 						if type == "Form"
 							form_definition_id = ctype.extra_info
 						end
-                        link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
+						if AppConfig[:wizard_for] && AppConfig[:wizard_for].include?(ctype.name)
+                          link_hash = {:controller => "content", :action => "wizard_#{ctype.name.rubify}", :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
+						else
+						  link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
+						end
 					%>
 					<div class="container loopme">
-                      <h3><%= link_to ctype.name, link_hash %></h3>
+					  <h3><%= link_to ctype.name, link_hash %></h3>
 						<p>
 							<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
 							<%= link_to "#{ctype.name}", link_hash , :class => "addGr" %>

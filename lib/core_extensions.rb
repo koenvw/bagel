@@ -16,9 +16,9 @@ class String
     return str.gsub("fr_autovibes_be","autovibes_fr").gsub("fr_auto55_be","auto55_fr").gsub("auto55_com","auto55_be").gsub("fr_auto55_com","auto55_fr")
   end
   #FIXME:
-  def t
-    to_s
-  end
+  #def t
+  #  to_s
+  #end
   def to_bool
     return true if to_s.downcase == "true"
     return false if to_s.downcase == "false"

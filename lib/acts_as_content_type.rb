@@ -69,12 +69,17 @@ module ActsAsContentType
     end
 
     def publish_date(site_id)
+      #FIXME: also support website_name
       date = sitems.find_by_website_id(site_id).publish_from
       if date.nil?
         created_on
       else
         date
       end
+    end
+
+    def published_by
+      sobject.updated_by.fullname if sobject.updated_by
     end
 
     def is_published?(site_id)
@@ -105,11 +110,17 @@ module ActsAsContentType
       end
     end
 
-   def relations(name)
-      # look up relation
-      relation = Relation.find_by_name(name)
-      return if self.sobject.nil? or relation.nil?
-      relations = Relationship.find(:all, :conditions => ["category_id =? AND from_sobject_id = ?",relation.id,self.sobject.id], :order=>"relationships.position", :include => [:to])
+    def relations(name = nil)
+      return if self.sobject.nil?
+      if name
+        # look up relation
+        relation = Relation.find_by_name(name)
+        return if relation.nil?
+        relations = Relationship.find(:all, :conditions => ["category_id =? AND from_sobject_id = ?",relation.id,self.sobject.id], :order=>"relationships.position", :include => [:to])
+      else
+        # all relations
+        relations = Relationship.find(:all, :conditions => ["from_sobject_id = ?",self.sobject.id], :order=>"relationships.position", :include => [:to])
+      end
       relations.map { |relation| relation.to.content }
     end
 
