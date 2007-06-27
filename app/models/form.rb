@@ -44,6 +44,9 @@ class Form < ActiveRecord::Base
   def before_save
     check_data
     write_attribute(:data, @data)
+    # FIXME: acts_as_content_type also does a before_safe
+    prepare_sitem # just to make ourselves consistent
+    prepare_sobject
   end
 
   def method_missing(method_id, *arguments)
