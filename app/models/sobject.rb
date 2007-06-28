@@ -13,6 +13,7 @@ class Sobject < ActiveRecord::Base
   belongs_to :news, :foreign_key => "content_id"
   belongs_to :page, :foreign_key => "content_id"
   belongs_to :form, :foreign_key => "content_id"
+  belongs_to :event, :foreign_key => "content_id"
   # content_type
   belongs_to :ctype, :foreign_key => "content_type_id", :class_name => "ContentType"
   # "tags"
