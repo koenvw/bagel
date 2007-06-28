@@ -47,16 +47,6 @@
 	<!-- Begin templates -->
 		
 		<div class="subContentRight">
-			<fieldset class="oneline smaller" style="margin: 2px auto 0 auto;">
-				<div class="filterfield" style="width: 460px;">
-					<input type="text" style="width: 370px;" value="" class="large_text_input" disabled="disabled" />
-					<a id="filterContentBtn" class="posRight filter" href="#" onclick="return false;">filter</a>
-				</div>
-			</fieldset>
-			<div class="bottom"></div>
-		</div>
-		
-		<div class="subContentRight">
 			<% unless params[:id].nil? %>
 			<h3 class="crumbs">
             <%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;

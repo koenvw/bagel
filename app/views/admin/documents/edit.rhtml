@@ -30,7 +30,7 @@
 	<%= render :partial => "admin/relations/list", :locals => { :item => @document } %>
 	<div class="bottomButton">
 		<ul class="mainNav">
-			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "this.up('form').submit(); return false;" %></li>
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>
 			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
 		</ul>
 	</div>
