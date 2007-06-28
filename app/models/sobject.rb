@@ -173,7 +173,7 @@ class Sobject < ActiveRecord::Base
     end
     # publish_from
     if options[:publish_from]
-      publish_from_check = " AND sitems.publish_from > '#{options[:publish_from].to_time.strftime("%Y-%m-%d %H:%I:%S")}'"
+      publish_from_check = " AND sitems.publish_from >= '#{options[:publish_from].to_time.strftime("%Y-%m-%d %H:%I:%S")}'"
     elsif options[:status] != :all
       publish_from_check = " AND sitems.publish_from<now()"
     else
@@ -181,7 +181,7 @@ class Sobject < ActiveRecord::Base
     end
     # publish_till
     if options[:publish_till]
-      publish_till_check = " AND sitems.publish_from < '#{options[:publish_till].to_time.strftime("%Y-%m-%d %H:%I:%S")}'"
+      publish_till_check = " AND sitems.publish_from <= '#{options[:publish_till].to_time.strftime("%Y-%m-%d %H:%I:%S")}'"
     elsif options[:status] != :all
       publish_till_check = " AND (sitems.publish_till>now() OR sitems.publish_till IS NULL)"
     else
