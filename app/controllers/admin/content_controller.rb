@@ -15,7 +15,7 @@ class Admin::ContentController < ApplicationController
                                                                            :tags => params[:tag_id],
                                                                            :website_id => params[:website_id],
                                                                            :published_by => params[:user_id],
-                                                                           :workflow => params[:step_id],
+                                                                           :current_workflow => params[:step_id],
                                                                            :limit=> 1000,
                                                                            :order => "sitems.publish_date DESC, sobjects.id DESC",
                                                                            :include => includes,

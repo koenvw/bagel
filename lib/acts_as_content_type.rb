@@ -199,8 +199,15 @@ module ActsAsContentType
         # we use .select b/c find_by_website_id does not work for new records
         wsitems = sitems.select {|v| v.website_id == new_sitem[:website_id].to_i }
         wsitem = wsitems.first
-        # workaround for checkboxes that do not return value when not set
-        new_sitem[:status] = "0" unless new_sitem.has_key?(:status)
+        # if we are using workflow only admins can change the status
+        if ctype.workflow
+          if AdminUser.current_user.is_admin?
+            # workaround for checkboxes that do not return value when not set
+            new_sitem[:status] = "0" unless new_sitem.has_key?(:status)
+          end
+        else
+          # no status change
+        end
         merged_attributes = wsitem.attributes.merge(new_sitem)
         wsitem.attributes = merged_attributes
       end

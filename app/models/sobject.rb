@@ -113,7 +113,7 @@ class Sobject < ActiveRecord::Base
 
   def self.find_with_parameters(options = {})
     # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,include=nil,order="sitems.publish_from DESC",status="Published"
-    options.assert_valid_keys [:tags,:website,:website_name,:website_id,:published_by,:search_string,:content_types,:publish_from,:publish_till,:status,:workflow,:conditions,:include,:order,:limit,:tags_inverted]
+    options.assert_valid_keys [:tags,:website,:website_name,:website_id,:published_by,:search_string,:content_types,:publish_from,:publish_till,:status,:current_workflow,:has_workflow,:conditions,:include,:order,:limit,:tags_inverted]
     # tags
     unless options[:tags].nil?
       # map elements to ids
@@ -160,9 +160,8 @@ class Sobject < ActiveRecord::Base
       published_by_check = " AND sobjects.updated_by IN (#{users.join(",")})"
     end
     # search_string
-    # FIXME: sql injection!!
     unless options[:search_string].nil_or_empty?
-      search_check = "AND (sitems.name LIKE '%#{options[:search_string]}%')"
+      search_check = "AND (sitems.name LIKE '%#{ActiveRecord::Base.connection.quote_string(options[:search_string])}%')"
     end
     # content_types
     if options[:content_types]
@@ -197,13 +196,25 @@ class Sobject < ActiveRecord::Base
       status_check = " AND sitems.status='Published' AND sitems.publish_from<now()" # also check publish_from, we don't want future items if not :all
     end
     # workflow
-    if options[:workflow]
+    if options[:has_workflow]
       workflow_check = ""; workflows = []
-      options[:workflow].to_a.each do |step_id|
+      workflow_check << " AND sobjects.content_type_id IN (#{wf_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
+      options[:has_workflow].to_a.each do |step_id|
         # FIXME: not efficient with many step_ids
-        ws_step = WorkflowStep.find(step_id)
-        workflow_check << " AND sobjects.content_type_id IN (#{ws_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
-        workflow_check << " AND NOT EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step_id})"
+        wf_step = WorkflowStep.find(step_id)
+        workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step_id})"
+      end
+    end
+    if options[:current_workflow]
+      workflow_check = ""; workflows = []
+      current_step = WorkflowStep.find(options[:current_workflow])
+      workflow_check << " AND sobjects.content_type_id IN (#{current_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
+      current_step.workflow.workflow_steps.each do |step|
+        if step.id > current_step.id
+          workflow_check << " AND NOT EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
+        else
+          workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
+        end
       end
     end
     # includes
