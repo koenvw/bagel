@@ -210,10 +210,12 @@ class Sobject < ActiveRecord::Base
       current_step = WorkflowStep.find(options[:current_workflow])
       workflow_check << " AND sobjects.content_type_id IN (#{current_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
       current_step.workflow.workflow_steps.each do |step|
-        if step.id > current_step.id
-          workflow_check << " AND NOT EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
-        else
-          workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
+        if current_step.optional? || !step.optional? # skip optional steps unless the request step is optional # FIXME: this only works when optional steps come first?
+          if step.position > current_step.position
+            workflow_check << " AND NOT EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
+          else
+            workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step.id})"
+          end
         end
       end
     end
