@@ -27,7 +27,7 @@
 		</table>
 		<fieldset class="oneline" style="margin-bottom: 10px;">
 			<label for="updated_by">Published by</label>
-			<%= select "sobject", "updated_by", AdminUser.find(:all).map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id.to_s] }, {:selected => sobject[:updated_by].to_s, :include_blank => true}, :class => "largeSelect" %>
+            <%= select "sobject", "updated_by", AdminUser.find(:all, :order => "username").map { |user| ["#{user.username} (#{user.firstname.first}#{user.lastname.first})", user.id.to_s] }, {:selected => sobject[:updated_by].to_s, :include_blank => true}, :class => "largeSelect" %>
 		</fieldset>
 	</div>
 	<div class="bottom"></div>

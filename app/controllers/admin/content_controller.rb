@@ -8,7 +8,12 @@ class Admin::ContentController < ApplicationController
   end
 
   def list
-    includes = nil; conditions = nil;
+    includes = nil; conditions = nil; publish_from = nil; publish_till = nil
+    publish_date = params[:publish_date]
+    if publish_date
+      publish_from = params[:publish_date].to_time.at_beginning_of_day
+      publish_till = params[:publish_date].to_time.tomorrow.at_beginning_of_day
+    end
 
     @item_pages, @items = paginate_collection Sobject.find_with_parameters(:status => :all,
                                                                            :content_types => params[:type_id],
@@ -16,6 +21,8 @@ class Admin::ContentController < ApplicationController
                                                                            :website_id => params[:website_id],
                                                                            :published_by => params[:user_id],
                                                                            :current_workflow => params[:step_id],
+                                                                           :publish_from => publish_from,
+                                                                           :publish_till => publish_till,
                                                                            :limit=> 1000,
                                                                            :order => "sitems.publish_date DESC, sobjects.id DESC",
                                                                            :include => includes,
