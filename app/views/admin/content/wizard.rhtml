@@ -7,7 +7,7 @@
 	<div class="clear"></div>
 
 	<div id="contentFrame">
-	
+	<!--
 	<div class="subContent">
 		<fieldset class="oneline">
 			<div class="filterfield">
@@ -17,7 +17,7 @@
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
-	
+	-->
 		<!-- Begin left/right container -->
 		<div id="leftRightContent">
 			<div class="subContent">
@@ -38,12 +38,12 @@
 						  link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
 						end
 					%>
-					<div class="container loopme">
+					<div class="container">
 					  <h3><%= link_to ctype.name, link_hash %></h3>
 						<p>
 							<%= ctype.description.nil_or_empty? ? "Configure this description <a href=/admin/content_types>here</a>..." : ctype.description %>
-							<%= link_to "#{ctype.name}", link_hash , :class => "addGr" %>
 						</p>
+						<div class="addbutton"><%= link_to "#{ctype.name}", link_hash , :class => "addGr" %></div>
 					</div>
 				<% end %>	
 				<div class="clear"></div>

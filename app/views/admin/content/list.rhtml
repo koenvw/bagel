@@ -15,10 +15,10 @@
 		</fieldset>
 		<fieldset class="oneline" style="white-space: nowrap; overflow: hidden;">
 			<%
-				if @websites.size > 1
-					selectWidth = "122px;"
-				else
+				if @websites.size > 1 
 					selectWidth = "148px;"
+				else
+					selectWidth = "185px;"
 				end
 			%>
 			<% # FIXME: first tags should be description %>
@@ -45,7 +45,7 @@
 		<table class="uniTable">
 			<tr class="heading">
 				<td class="tabDesc">Title</td>
-				<td class="colDesc">Type</td>
+				<td style="width: 120px;" class="colDesc">Type</td>
 				<% if @websites.size > 1 %><td class="colDesc">Websites</td><% end %>
 				<td class="colDesc">Date</td>
 				<td class="colDesc">&nbsp;</td>
