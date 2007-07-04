@@ -657,6 +657,7 @@
 		margin-bottom: 8px;
 		padding-left: 3px;
 	}
+	#leftRightContent .containersm div.addbutton,
 	#leftRightContent .container div.addbutton,
 	#leftRightContent p
 	{
@@ -671,18 +672,28 @@
 		display: block;
 		margin: 0 0 0 194px;
 	}
+	#leftRightContent .containersm,
 	#leftRightContent .container
 	{
 		float: left;
 		width: 274px;
 		margin-bottom: 5px;
-	}	
+	}
+	#leftRightContent .containersm { width: 258px; }
 	#leftRightContent .container a.addGr { position: absolute; right: 5px; top: 0; }
+	#leftRightContent .containersm p,
 	#leftRightContent .container p
 	{ 
 		margin: 5px 10px 0 20px;
 		height: 42px;
 		overflow: hidden;
+	}
+	#leftRightContent .containersm p
+	{
+		min-height: 50px;
+		height: auto;
+		height: 50px;
+		
 	}
 	#leftRightContent .container h3 { padding: 0 0 0 20px; margin: 0; }
 	#leftRightContent .container div.addbutton 
