@@ -18,7 +18,7 @@
 				if @websites.size > 1 
 					selectWidth = "148px;"
 				else
-					selectWidth = "185px;"
+					selectWidth = "155px;"
 				end
 			%>
 			<% # FIXME: first tags should be description %>
@@ -35,7 +35,7 @@
 			  <%= select_tag :step_id, '<option value="">Status</option>' + options_from_collection_for_select(workflows.first.workflow_steps, "id", "name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
 
 			<% end %>
-			<%#= calendar_field_tag "publish_date", params[:publish_date], true, true, { :class => "date"  }, {:showOthers => true, :showsTime => false} %>
+			<%= calendar_field_tag "publish_date", params[:publish_date], true, true, { :class => "date"  }, {:showOthers => true, :showsTime => false} %>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>
