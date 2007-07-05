@@ -18,7 +18,7 @@
 				<h2>Options</h2>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_url_mappings_management) %>
 					<div class="containersm">
-						<h3><%= link_to "Aliases", :controller => "url_mappings" %></h3>
+						<h3><%= link_to "Aliases", admin_urlmappings_url %></h3>
 						<p>Use this for url rewriting</p>
 					</div>
 					<% end %>

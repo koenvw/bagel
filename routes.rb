@@ -24,6 +24,10 @@ with_options :controller => 'admin/admin_roles' do |m|
   m.admin_roles '/admin/roles/:action'
 end
 
+with_options :controller => 'admin/urlmappings' do |m|
+  m.admin_urlmappings '/admin/urlmappings'
+end
+
 # ANY DOMAIN
 connect '/:site/index',                   :controller => 'site', :action => 'index'
 connect '/:site/show/:type/:id',          :controller => 'site', :action => 'content'
