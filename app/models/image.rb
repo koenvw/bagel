@@ -107,6 +107,7 @@ class Image < ActiveRecord::Base
   end
 
   def self.find_all_by_tag(tag_name)
+    $stderr.puts('DEPRECATION WARNING: Image.find_all_by_tag is deprecated; please use Sobject.find_with_parameters')
     Sobject.find(:all, :include => :categories, :conditions => ["categories.name=?",tag_name]).map { |sobject| sobject.content }
   end
 

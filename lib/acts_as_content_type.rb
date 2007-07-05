@@ -93,6 +93,7 @@ module ActsAsContentType
     end
 
     def relation(name, options = {})
+      options.assert_valid_keys [:reverse]
       # look up relation
       relation = Relation.find_by_name(name, :include => :content_type)
       return if relation.nil?
@@ -103,8 +104,12 @@ module ActsAsContentType
       relationship = Relationship.find(:first, :conditions => ["#{from_sobject_id} = ? AND category_id = ?",self.sobject.id,relation.id], :limit=>1, :order => "position ASC")
       unless relationship.nil?
         # by using "type" we can save ourselves 1 extra query (sobject will be joined with the contentype directly)
-        # FIXME: this requires extra_info to be filled -> BROKEN NOW!!
-        type = relation.content_type.core_content_type.downcase.to_sym
+        # FIXME: we do extra queries to find out the content type.
+        if options[:reverse] == true
+          type = relationship.from.content_type.downcase.to_sym
+        else
+          type = relationship.to.content_type.downcase.to_sym
+        end
         s = Sobject.find(relationship.send(to_sobject_id), :include => type)
         s.send(type)
       end
