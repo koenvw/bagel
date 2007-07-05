@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1) do
+ActiveRecord::Schema.define(:version => 0) do
 
   create_table "admin_permissions", :force => true do |t|
     t.column "name", :string
@@ -14,7 +14,8 @@ ActiveRecord::Schema.define(:version => 1) do
   end
 
   create_table "admin_roles", :force => true do |t|
-    t.column "name", :string
+    t.column "name",     :string
+    t.column "is_admin", :boolean
   end
 
   create_table "admin_roles_admin_users", :id => false, :force => true do |t|
@@ -81,10 +82,26 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "extra_info",        :string,   :default => "", :null => false
     t.column "created_on",        :datetime
     t.column "updated_on",        :datetime
+    t.column "workflow_id",       :integer
+  end
+
+  create_table "content_types_relations", :id => false, :force => true do |t|
+    t.column "content_type_id", :integer, :null => false
+    t.column "relation_id",     :integer, :null => false
   end
 
   create_table "db_files", :force => true do |t|
     t.column "data", :binary
+  end
+
+  create_table "events", :force => true do |t|
+    t.column "title",       :string
+    t.column "event_start", :datetime
+    t.column "event_stop",  :datetime
+    t.column "intro",       :text
+    t.column "body",        :text
+    t.column "updated_at",  :datetime
+    t.column "created_at",  :datetime
   end
 
   create_table "form_definitions", :force => true do |t|
@@ -120,22 +137,84 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "file_path",    :string
   end
 
+  create_table "generator_folders", :force => true do |t|
+    t.column "name",       :string
+    t.column "website_id", :integer
+    t.column "parent_id",  :integer
+    t.column "lft",        :integer
+    t.column "rgt",        :integer
+    t.column "updated_at", :datetime
+    t.column "created_at", :datetime
+  end
+
   create_table "generators", :force => true do |t|
-    t.column "name",         :string
-    t.column "template",     :text
-    t.column "website_id",   :integer
-    t.column "content_type", :string
-    t.column "preview_url",  :string
-    t.column "created_on",   :datetime
-    t.column "updated_on",   :datetime
-    t.column "description",  :text
+    t.column "name",                :string
+    t.column "template",            :text
+    t.column "website_id",          :integer
+    t.column "core_content_type",   :string
+    t.column "preview_url",         :string
+    t.column "created_on",          :datetime
+    t.column "updated_on",          :datetime
+    t.column "description",         :text
+    t.column "generator_folder_id", :integer
+    t.column "content_type_id",     :integer
   end
 
   add_index "generators", ["name"], :name => "index_generators_on_name"
   add_index "generators", ["website_id"], :name => "index_generators_on_website_id"
-  add_index "generators", ["content_type"], :name => "index_generators_on_content_type"
+  add_index "generators", ["core_content_type"], :name => "index_generators_on_content_type"
 
- 
+  create_table "globalize_countries", :force => true do |t|
+    t.column "code",                   :string, :limit => 2
+    t.column "english_name",           :string
+    t.column "date_format",            :string
+    t.column "currency_format",        :string
+    t.column "currency_code",          :string, :limit => 3
+    t.column "thousands_sep",          :string, :limit => 2
+    t.column "decimal_sep",            :string, :limit => 2
+    t.column "currency_decimal_sep",   :string, :limit => 2
+    t.column "number_grouping_scheme", :string
+  end
+
+  add_index "globalize_countries", ["code"], :name => "index_globalize_countries_on_code"
+
+  create_table "globalize_languages", :force => true do |t|
+    t.column "iso_639_1",             :string,  :limit => 2
+    t.column "iso_639_2",             :string,  :limit => 3
+    t.column "iso_639_3",             :string,  :limit => 3
+    t.column "rfc_3066",              :string
+    t.column "english_name",          :string
+    t.column "english_name_locale",   :string
+    t.column "english_name_modifier", :string
+    t.column "native_name",           :string
+    t.column "native_name_locale",    :string
+    t.column "native_name_modifier",  :string
+    t.column "macro_language",        :boolean
+    t.column "direction",             :string
+    t.column "pluralization",         :string
+    t.column "scope",                 :string,  :limit => 1
+  end
+
+  add_index "globalize_languages", ["iso_639_1"], :name => "index_globalize_languages_on_iso_639_1"
+  add_index "globalize_languages", ["iso_639_2"], :name => "index_globalize_languages_on_iso_639_2"
+  add_index "globalize_languages", ["iso_639_3"], :name => "index_globalize_languages_on_iso_639_3"
+  add_index "globalize_languages", ["rfc_3066"], :name => "index_globalize_languages_on_rfc_3066"
+
+  create_table "globalize_translations", :force => true do |t|
+    t.column "type",                :string
+    t.column "tr_key",              :string
+    t.column "table_name",          :string
+    t.column "item_id",             :integer
+    t.column "facet",               :string
+    t.column "language_id",         :integer
+    t.column "pluralization_index", :integer
+    t.column "text",                :text
+    t.column "namespace",           :string
+  end
+
+  add_index "globalize_translations", ["tr_key", "language_id"], :name => "index_globalize_translations_on_tr_key_and_language_id"
+  add_index "globalize_translations", ["table_name", "item_id", "language_id"], :name => "globalize_translations_table_name_and_item_and_language"
+
   create_table "images", :force => true do |t|
     t.column "image",       :string
     t.column "created_on",  :datetime
@@ -314,14 +393,15 @@ ActiveRecord::Schema.define(:version => 1) do
   add_index "sobjects", ["cached_category_ids"], :name => "index_sobjects_on_cached_category_ids"
 
   create_table "tags", :force => true do |t|
-    t.column "name",       :string
-    t.column "extra_info", :string
-    t.column "parent_id",  :integer
-    t.column "active",     :boolean,  :null => false
-    t.column "lft",        :integer
-    t.column "rgt",        :integer
-    t.column "created_on", :datetime
-    t.column "updated_on", :datetime
+    t.column "name",             :string
+    t.column "extra_info",       :string
+    t.column "parent_id",        :integer
+    t.column "active",           :boolean,  :null => false
+    t.column "lft",              :integer
+    t.column "rgt",              :integer
+    t.column "created_on",       :datetime
+    t.column "updated_on",       :datetime
+    t.column "content_type_ids", :text
   end
 
   create_table "url_mappings", :force => true do |t|
@@ -339,6 +419,34 @@ ActiveRecord::Schema.define(:version => 1) do
     t.column "domain",     :string
     t.column "created_on", :datetime
     t.column "updated_on", :datetime
+  end
+
+  create_table "workflow_actions", :force => true do |t|
+    t.column "sobject_id",       :integer,  :null => false
+    t.column "workflow_step_id", :integer,  :null => false
+    t.column "checked",          :boolean
+    t.column "admin_user_id",    :integer,  :null => false
+    t.column "updated_at",       :datetime
+    t.column "created_at",       :datetime
+  end
+
+  create_table "workflow_steps", :force => true do |t|
+    t.column "name",          :string
+    t.column "description",   :text
+    t.column "admin_role_id", :integer
+    t.column "is_final",      :boolean
+    t.column "position",      :integer
+    t.column "workflow_id",   :integer
+    t.column "updated_at",    :datetime
+    t.column "created_at",    :datetime
+    t.column "optional",      :boolean
+  end
+
+  create_table "workflows", :force => true do |t|
+    t.column "name",        :string
+    t.column "description", :text
+    t.column "updated_at",  :datetime
+    t.column "created_at",  :datetime
   end
 
 end

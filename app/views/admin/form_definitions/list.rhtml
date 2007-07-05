@@ -1,5 +1,5 @@
 <div class="topButton">
-	<h1><%= "Listing Forms".t %></h1>
+	<h1><%= "Listing Forms" %></h1>
 	<ul class="mainNav">
 		<li><%= link_to 'New form definition', { :action => 'edit' }, :class => "new", :title => "New form definition" %></li>
 	</ul>
@@ -9,7 +9,7 @@
 <div id="contentFrame">
 	<table class="uniTable">
 		<tr class="heading">
-			<td class="tabDesc"><%= "Name".t %></td>
+			<td class="tabDesc"><%= "Name" %></td>
 			<td class="colDesc">&nbsp;</td>
 		</tr>
 		<% if @form_definitions.size > 0 %>
@@ -18,7 +18,7 @@
 			<td><%= link_to form_definition.name, { :action => 'edit', :id => form_definition } %></td>
 			<td class="iconbox" style="width: 150px;">
 				<span class="icon">
-					<%= link_to "delete", { :action => 'destroy', :id => form_definition }, :class => "delete", :confirm => 'Are you sure?'.t, :method => :post %>
+					<%= link_to "delete", { :action => 'destroy', :id => form_definition }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
 					<%= link_to "edit", { :action => 'edit', :id => form_definition }, :class => "edit" %>
 					<%= link_to "list", { :controller => "forms", :action => 'list', :id => form_definition }, :class => "edit" %>
 				</span>
@@ -27,7 +27,7 @@
 		<% end %>
 		<% else %>
 		<tr>
-			<td colspan="3"><%= "Create new form definitions".t %></td>
+			<td colspan="3"><%= "Create new form definitions" %></td>
 		</tr>
 		<% end %>
 	</table>
@@ -40,7 +40,7 @@
 			<li><%= link_to 'Next page', { :page => @form_definition_pages.current.next }, :class => "next" %></li>
 		<% end %>
 		<% if @generator_files_pages.current.previous %> 
-			<li><%= link_to 'Prev page'.t, { :page => @form_definition_pages.current.previous }, :class => "prev" %></li>
+			<li><%= link_to 'Prev page', { :page => @form_definition_pages.current.previous }, :class => "prev" %></li>
 		<% end %>
 		</ul>
 	</div>

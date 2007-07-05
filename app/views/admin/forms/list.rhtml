@@ -31,11 +31,11 @@
 		<% end %>
 		<% if @forms.empty? %>
 		<tr>
-			<td colspan="3"><%= "Create new forms".t %></td>
+			<td colspan="3"><%= "Create new forms" %></td>
 		</tr>
 		<% end %>
 	</table>
 </div>
 
-<%= link_to 'Previous page'.t, { :page => @form_pages.current.previous } if @form_pages.current.previous %>
-<%= link_to 'Next page'.t, { :page => @form_pages.current.next } if @form_pages.current.next %> 
+<%= link_to 'Previous page', { :page => @form_pages.current.previous } if @form_pages.current.previous %>
+<%= link_to 'Next page', { :page => @form_pages.current.next } if @form_pages.current.next %> 
