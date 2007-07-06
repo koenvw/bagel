@@ -281,6 +281,9 @@
 		overflow: hidden;
 	}
 	#imageGallery ul.imgActions li a.del { background-position: -18px 0; }	
+	#imageGallery ul.imgActions li a.zoom { width: 19px; background-position: -38px 0; }
+	#imageGallery ul.imgActions li a.buy { width: 19px; background-position: -57px 0; }
+	#imageGallery ul.imgActions li a.center { margin-left: 9px; }
 	
 	/* action buttons (add,edit,...) */
 	

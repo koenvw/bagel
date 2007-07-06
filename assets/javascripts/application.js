@@ -108,8 +108,8 @@
 	Event.observe(window, 'load', getImageRevisions, false);
 	function getImageRevisions()
 	{
-		if(!$$('ul.imageRevisions')) return false;
-		$$('ul.imageRevisions li a').each(function(imgsrc) { 
+		if(!$$('ul.imageRevisions') || !$$('div.imgContainer')) return false;
+		$$('ul.imageRevisions li a, div.imgContainer a.showpic').each(function(imgsrc) { 
 			imgsrc.onclick = function() {
 				imgCode = '<div class="imageBlock"><img src="'+ imgsrc +'" /><a href="#" onclick="imgOverlay.destroy(); return false;">close</a></div>';
 				imgOverlay = new BagelOverlay();
