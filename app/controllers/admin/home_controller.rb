@@ -82,7 +82,7 @@ class Admin::HomeController < ApplicationController
   end
 
   private
-  
+
   def handle_login
     # Require username and password
     if params[:admin_user][:username].blank? or params[:admin_user][:password].blank?
@@ -103,10 +103,14 @@ class Admin::HomeController < ApplicationController
     session[:admin_user] = user.id
 
     # Redirect to requested page
-    requested_page = session[:requested_page] || { :controller => '/admin' }
+    if user.has_admin_permission?(:_main_menu_content)
+        requested_page = session[:requested_page] || { :controller => '/admin' }
+    else
+      requested_page = { :controller => '/admin', :action => 'me' }
+    end
     redirect_to requested_page
   end
-  
+
   def handle_login_reset_password
     # Require username
     if params[:admin_user][:username].blank?
