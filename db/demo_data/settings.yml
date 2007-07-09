@@ -131,6 +131,17 @@ settings_007:
   value: ""
   rgt: "36"
   parent_id: 
+settings_019: 
+  created_on: 2007-07-09 12:37:47
+  name: address
+  settings_count: 
+  value_type: string
+  updated_on: 2007-07-09 12:37:47
+  lft: "38"
+  id: "29"
+  value: example_email_address@dotprojects.be
+  rgt: "39"
+  parent_id: "30"
 settings_008: 
   created_on: 2007-04-09 15:31:33
   name: versions
@@ -142,6 +153,17 @@ settings_008:
   value: ""
   rgt: "29"
   parent_id: "11"
+settings_020: 
+  created_on: 2007-07-09 12:54:38
+  name: EmailSettings
+  settings_count: 
+  value_type: string
+  updated_on: 2007-07-09 12:54:38
+  lft: "37"
+  id: "30"
+  value: ""
+  rgt: "40"
+  parent_id: 
 settings_009: 
   created_on: 2007-04-09 16:00:35
   name: watermark_image

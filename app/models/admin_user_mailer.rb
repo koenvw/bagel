@@ -7,18 +7,16 @@ class AdminUserMailer < ActionMailer::Base #:nodoc:
     @subject    = 'Resetting your Bagel password'
     @body       = { :admin_user => a_admin_user }
     @recipients = a_admin_user.email_address
-    # FIXME: Store sender e-mail address somewhere globally
-    @from       = 'bagel@dotprojects.be'
+    @from       = Setting.get('EmailSettings')[:address] || 'noemail@example.com'
     @sent_on    = Time.now
   end
-  
+
   def email_change_confirmation(a_admin_user)
     @subject    = 'Confirming your Bagel e-mail address change'
     @body       = { :admin_user => a_admin_user }
     @recipients = a_admin_user.email_address_unconfirmed
-    # FIXME: Store sender e-mail address somewhere globally
-    @from       = 'bagel@dotprojects.be'
+    @from       = Setting.get('EmailSettings')[:address] || 'noemail@example.com'
     @sent_on    = Time.now
   end
-  
+
 end
