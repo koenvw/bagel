@@ -24,6 +24,7 @@ class Admin::ImagesController < ApplicationController
     end
     if params[:search_string]
        condition_string+=" AND images.title LIKE '%#{params[:search_string].gsub("'","''")}%'"
+       condition_string+=" AND images.image LIKE '%#{params[:search_string].gsub("'","''")}%'"
     end
     @image_pages, @images = paginate :image, :per_page => 20, :order => "images.updated_on DESC", :include => :sobject, :conditions => condition_string
   end
