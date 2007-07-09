@@ -29,46 +29,50 @@ class Setting < ActiveRecord::Base
     root = Setting.find(name_or_id) if name_or_id.to_i != 0
     return nil if root.nil?
 
-    # for each child our setting has...
-    Setting.find(root.id).children.each do |child|
-      if child.has_children?
-        # recurse if our child has children
-        self.get(child.id, hash[child.name.to_sym] = {})
-      else
-        # value otherwise
-        case child.value_type
-        when "string"
-          method = "to_s"
-        when "integer"
-          method = "to_i"
-        when "float"
-        when "boolean"
-          method = "to_bool"
-        when "symbol"
-          method = "to_sym"
-        when "date"
-          method = "to_time"
-        when "array"
-          method = "split"
-          param = ","
+    if root.children.empty?
+      root
+    else
+      # for each child our setting has...
+      root.children.each do |child|
+        if child.has_children?
+          # recurse if our child has children
+          self.get(child.id, hash[child.name.to_sym] = {})
         else
-          method = "to_s"
-        end
-        param ||= nil
-
-        hash[child.name.to_sym] = if child.value.respond_to?(method)
-          if param
-            child.value.send(method,param)
+          # value otherwise
+          case child.value_type
+          when "string"
+            method = "to_s"
+          when "integer"
+            method = "to_i"
+          when "float"
+          when "boolean"
+            method = "to_bool"
+          when "symbol"
+            method = "to_sym"
+          when "date"
+            method = "to_time"
+          when "array"
+            method = "split"
+            param = ","
           else
-            child.value.send(method)
+            method = "to_s"
           end
-        else
-          child.value.to_s
+          param ||= nil
+
+          if child.value.respond_to?(method)
+            if param
+              hash[child.name.to_sym] = child.value.send(method, param)
+            else
+              hash[child.name.to_sym] = child.value.send(method)
+            end
+          else
+            hash[child.name.to_sym] = child.value.to_s
+          end
         end
       end
-    end
 
-    hash
+      hash
+    end
   end
 
 end
