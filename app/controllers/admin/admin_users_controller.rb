@@ -22,6 +22,13 @@ class Admin::AdminUsersController < ApplicationController
 
   def create
     @admin_user = AdminUser.new(params[:admin_user])
+    
+    # Set password
+    if params[:password].blank?
+      flash[:warning] = 'This user needs a passsword!'
+      render :action => 'new'
+      return
+    end
     @admin_user.password = params[:password]
 
     if @admin_user.save
