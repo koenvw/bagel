@@ -1,6 +1,5 @@
 <h1><%= figure_out_action(@form) %> <%= figure_out_content_type_name(@form) || "form" %></h1>
 
-<!--<div id="breadcrumb"><%= link_to "Forms".t, :controller => "form_definitions" %> > <%= link_to @form.form_definition.name, :controller => "forms", :action => "list", :id => @form.form_definition_id %> > <%= @form.name %> </div>-->
 <% form_tag :action => 'update', :id => @form do %>
 
 	<%= hidden_field_tag "form[type_id]", @form.type_id || params[:type_id] %>
