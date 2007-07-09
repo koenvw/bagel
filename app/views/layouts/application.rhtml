@@ -66,62 +66,24 @@
 			<!-- Toolbar (logout, view, help, ...) -->
 			<ul class="toolBar"> 
 				<li><%= link_to('Help', 'http://wiki.bagel.be/', :class => "help") %></li>
-				<li><%= link_to 'Settings', '/admin/me/edit' %></li>
+				<li><%= link_to 'Account', '/admin/me/edit' %></li>
 				<li><%= link_to 'Logout', logout_url %></li>
 			</ul>
 			<!-- Main Menu -->
 			<ul class="mainMenu">
-				<%
-					website_active = ""; webfolder_active = ""; admin_active = "";
-					case controller.class.to_s
-						when "Admin::HomeController"
-							case params[:action]
-								when "index"	: website_active = "active"
-								when "webfolder": webfolder_active = "active"
-								when "admin"	: admin_active = "active"
-							end
-						when "Admin::FormsController","Admin::ContentController","Admin::NewsController","Admin::PagesController","Admin::MenusController","Admin::TagsController","Admin::DocumentsController","Admin::ContainersController","Admin::SiteUsersController", "Admin::EventsController","Admin::ToolsController"
-							website_active = "active"
-						when "Admin::ImagesController"
-							case params[:action]
-								when "import" : webfolder_active = "active"
-							else
-								website_active = "active"
-							end
-						when "Admin::SettingsController","Admin::AdminUsersController","Admin::AdminRolesController","Admin::GeneratorsController","Admin::GeneratorFilesController","Admin::FormDefinitionsController","Admin::ContentTypesController","Admin::RelationsController","Admin::WebsitesController","Admin::UrlmappingsController","Admin::GeneratorFoldersController","Admin::WorkflowsController","Admin::WorkflowStepsController"
-							admin_active = "active"
-					end
-				%>
-				<li><%= link_to_if_authorized "Website", {:controller => "/admin/home", :action => "index"}, :class => website_active %></li>
-				<li><%= link_to_if_authorized "Webfolder", {:controller => "/admin/home", :action => "webfolder"}, :class => webfolder_active %></li>
-				<li><%= link_to_if_authorized "Admin", {:controller => "/admin/home", :action => "admin"}, :class => admin_active %></li>
+<%# To edit the menu, look into vendor/plugins/bagel/admin_menu.yml %>
+<% active_menu_item = nil %>
+<% AppConfig[:admin_menu].each do |menu_item| %>
+				<% is_active = menu_item_is_active?(menu_item, request.env) %>
+				<% active_menu_item = menu_item if is_active %>
+				<li><%= link_to_if_authorized menu_item['title'], menu_item['url'], :class => (is_active ? 'active' : '') %></li>
+<% end %>
 			</ul>
 			<!-- Sub Menu -->
 			<ul class="subMenu">
-			<% if website_active=="active" %>
-				<li><%= link_to_if_authorized 'Manage', '/admin/content/list' %></li>
-				<li><%= link_to_if_authorized 'Publish', '/admin/content/wizard' %></li>
-				<li><%= link_to_if_authorized 'Media gallery', '/admin/images/list' %></li>
-				<li><%= link_to_if_authorized 'Menu', '/admin/menus/list2' %></li>
-				<li><%= link_to_if_authorized 'Tags', '/admin/tags/list' %></li>
-				<li><%= link_to_if_authorized 'Shortcuts', '/admin/tools' %></li>
-			<% end %>
-			<% if webfolder_active=="active" %>
-			<!-- nothing here... (yet) -->
-			<% end %>
-			<% if admin_active=="active" %>
-				<li><%= link_to_if_authorized 'Settings', '/admin/settings' %></li>
-				<li><%= link_to_if_authorized 'Templates', '/admin/generators' %></li>
-				<li><%= link_to_if_authorized 'Files', '/admin/generator_files' %></li>  
-				<li><%= link_to_if_authorized 'Forms', '/admin/form_definitions' %></li>
-				<li><%= link_to_if_authorized 'Types', '/admin/content_types' %></li>
-				<li><%= link_to_if_authorized 'Relations', '/admin/relations' %></li>
-				<li><%= link_to_if_authorized 'Websites', '/admin/websites' %></li>
-				<li><%= link_to_if_authorized 'Aliases', admin_urlmappings_url %></li>
-				<li><%= link_to_if_authorized 'Users', admin_users_url %></li>
-				<li><%= link_to_if_authorized 'Roles', admin_roles_url %></li>
-				<li><%= link_to_if_authorized 'Workflow', '/admin/workflows' %></li>
-			<% end %>
+<% menu_item_children(active_menu_item).each do |child| %>
+				<li><%= link_to_if_authorized child['title'], child['url'] %></li>
+<% end %>
 			</ul>
 		</div>
 		<div id="content">

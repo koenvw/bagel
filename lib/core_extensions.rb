@@ -23,6 +23,9 @@ class String
     return true if to_s.downcase == "true"
     return false if to_s.downcase == "false"
   end
+  def begins_with?(other)
+    self[0..other.length-1] == other
+  end	
 end
 class Time
   def formatted

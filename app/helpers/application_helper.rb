@@ -150,7 +150,20 @@ module ApplicationHelper
     url.nil? ? '' : link_to(name, options, html_options, *parameters_for_method_reference)
   end
 
-  protected
+  def menu_item_is_active?(menu_item, request_env)
+    # Check element itself
+    return true if menu_item['url'] == request.env['REQUEST_URI']
+
+    # Check child elements
+    return (((menu_item['children'] || []) + (menu_item['hidden_children'] || [])).select { |i| request.env['REQUEST_URI'].begins_with?(i['url']) }.length != 0)
+  end
+
+  def menu_item_children(menu_item)
+    puts debug menu_item
+    ((menu_item.nil? ? [] : menu_item['children']) || [])
+  end
+
+protected
 
   def check_comment_for_spam(author, text)
     @akismet = Akismet.new(AppConfig[:askismet_url], AppConfig[:askismet_url]) # blog url: e.g. http://sas.sparklingstudios.com
