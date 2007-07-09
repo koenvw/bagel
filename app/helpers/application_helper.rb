@@ -159,7 +159,6 @@ module ApplicationHelper
   end
 
   def menu_item_children(menu_item)
-    puts debug menu_item
     ((menu_item.nil? ? [] : menu_item['children']) || [])
   end
 
