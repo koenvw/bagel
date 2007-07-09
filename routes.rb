@@ -1,12 +1,12 @@
 # ROOT
 connect '', :controller => 'site', :action => 'root'
+connect 'admin', :controller => 'admin/home', :action => 'redirect_to_home'
 
 # ADMIN
 with_options :controller => 'admin/home' do |m|
   m.login          '/admin/login',                    :action => 'login'
   m.logout         '/admin/logout',                   :action => 'logout'
   m.reset_password '/admin/reset_password/:username', :action => 'reset_password', :username => nil
-  m.admin          '/admin'
 end
 
 with_options :controller => 'admin/me' do |m|
