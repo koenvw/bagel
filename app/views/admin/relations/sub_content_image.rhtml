@@ -9,7 +9,7 @@ unless r_sub_type.nil?
   conditions = ["image LIKE ? AND category_id = ?", "%" + searchphrase + "%",category_id]
   joins = "INNER JOIN categories_sobjects CA ON CA.category_id = #{category_id} AND sobjects.id = CA.sobject_id"
 else
-  conditions = ["image LIKE ? ", "%" + searchphrase + "%"]
+  conditions = ["image LIKE ? OR title LIKE ?", "%" + searchphrase + "%","%" + searchphrase + "%"]
   joins = ""
 end
 r_sub_type="" if r_sub_type.nil?
