@@ -22,7 +22,7 @@ class AdminUserMailerTest < Test::Unit::TestCase
     @expected.body    = read_fixture('password_reset')
     @expected.date    = Time.now
 
-    assert_equal @expected.encoded, AdminUserMailer.create_password_reset(admin_users(:admin)).encoded
+    assert_equal @expected.encoded, AdminUserMailer.create_password_reset(admin_users(:admin), 'bagel.be').encoded
   end
 
   private

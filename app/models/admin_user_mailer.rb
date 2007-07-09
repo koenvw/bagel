@@ -1,9 +1,8 @@
 class AdminUserMailer < ActionMailer::Base #:nodoc:
 
-  # FIXME: Determine host based on request
-  default_url_options[:host] = 'localhost:3000'
-
-  def password_reset(a_admin_user)
+  def password_reset(a_admin_user, host)
+    default_url_options[:host] = host
+    
     @subject    = 'Resetting your Bagel password'
     @body       = { :admin_user => a_admin_user }
     @recipients = a_admin_user.email_address
@@ -11,7 +10,9 @@ class AdminUserMailer < ActionMailer::Base #:nodoc:
     @sent_on    = Time.now
   end
 
-  def email_change_confirmation(a_admin_user)
+  def email_change_confirmation(a_admin_user, host)
+    default_url_options[:host] = host
+    
     @subject    = 'Confirming your Bagel e-mail address change'
     @body       = { :admin_user => a_admin_user }
     @recipients = a_admin_user.email_address_unconfirmed

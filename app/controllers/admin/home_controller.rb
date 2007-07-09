@@ -133,7 +133,7 @@ class Admin::HomeController < ApplicationController
     user.save
 
     # Send mail
-    AdminUserMailer.deliver_password_reset(user)
+    AdminUserMailer.deliver_password_reset(user, request.env['SERVER_NAME'])
 
     flash[:notice] = 'Password reset instructions has been sent.'
     render :layout => false

@@ -36,7 +36,7 @@ class Admin::MeController < ApplicationController
         # Send confirmation mail
         @admin_user.email_address_unconfirmed = params[:email_address]
         @admin_user.save
-        AdminUserMailer.deliver_email_change_confirmation(@admin_user)
+        AdminUserMailer.deliver_email_change_confirmation(@admin_user, request.env['SERVER_NAME'])
 
         flash[:notice] = 'Your settings have been updated successfully, and an e-mail address change confirmation mail has been sent.'
       else
