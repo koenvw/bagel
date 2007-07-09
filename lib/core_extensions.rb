@@ -49,6 +49,7 @@ class Float
     (self * 10**x).floor.to_f / 10**x
   end
 end
+
 class Array
   # checks every element for nil.
   # if an element is an array, it is only considered nil if all elements are nil
@@ -57,10 +58,29 @@ class Array
       element.is_a?(Array) ? element.select {|el| el.nil? }.size == element.size : element.nil? 
     }.size > 0
   end
+
   def nil_or_empty?
     empty?
   end
+
+  def each_with_level # used in combination with convert_to_tree helper
+    each { |tuple| yield(tuple[:item], tuple[:level]) }
+  end
+
+  def to_tree
+    hash = {} # id => level
+    res  = [] # item => level
+
+    each do |item|
+      level = hash.has_key?(item.parent_id) ? hash[item.parent_id] + 1 : 0
+      hash[item.id] = level
+      res << { :item => item, :level =>level }
+    end
+
+    res
+  end
 end
+
 class NilClass
   def nil_or_empty?
     true

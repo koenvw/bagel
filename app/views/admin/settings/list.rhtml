@@ -13,9 +13,9 @@
 			<td class="tabDesc">Value</td>
 			<td class="colDesc">&nbsp;</td>
 		</tr>
-		<% for setting in @settings %>
+<% @settings.to_tree.each_with_level do |setting, level| %>
 		<tr class="content">
-			<td><%= indent(setting, image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel")) %><%= link_to setting.name, {:action => 'edit', :id => setting}, :id=> "cat_#{setting.id}" %></td>
+			<td><%= image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel") * level %><%= link_to setting.name, {:action => 'edit', :id => setting}, :id=> "cat_#{setting.id}" %></td>
             <td><%= truncate setting.value %></td>
 			<td class="iconbox">
 				<span class="icon">
@@ -24,11 +24,11 @@
 				</span>
 			</td>
 		</tr>
-		<% end %>
-		<% if @settings.size == 0 %>
+<% end %>
+<% if @settings.size == 0 %>
 		<tr>
 			<td colspan="5">No items yet</td>
 		</tr>
-		<% end %>
+<% end %>
 	</table>
 </div>

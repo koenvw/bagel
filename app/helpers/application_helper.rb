@@ -58,11 +58,6 @@ module ApplicationHelper
     indent_str * item.level
   end
 
-  def ident(item, ident)
-    $stderr.puts 'DEPRECATION WARNING: ident() is deprecated; use indent() instead.'
-    indent(item, ident)
-  end
-
   def bagel_pagination_links(paginator)
     params.delete(:controller) # links to /admin/admin otherwise ?
     params.delete(:page) #

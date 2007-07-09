@@ -12,9 +12,9 @@
 			<td class="tabDesc">Name</td>
 			<td class="colDesc">&nbsp;</td>
 		</tr>
-		<% for menu in @menus %>
+<% @menus.to_tree.each_with_level do |menu, level| %>
 		<tr class="content">
-			<td><%= indent(menu, image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel")) %><%= link_to menu.name, {:action => 'edit', :id => menu}, :id=> "cat_#{menu.id}" %></td>
+			<td><%= image_tag('pagetab.gif', :width => 27, :height => 10, :plugin => "bagel") * level %><%= link_to menu.name, {:action => 'edit', :id => menu}, :id=> "cat_#{menu.id}" %></td>
 			<td class="iconbox">
 				<span class="icon">
 					<%= link_to "delete", { :action => 'destroy', :id => menu }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
@@ -22,12 +22,12 @@
 				</span>
 			</td>
 		</tr>
-		<% end %>
-		<% if @menus.size == 0 %>
+<% end %>
+<% if @menus.size == 0 %>
 		<tr>
 			<td colspan="5">No items yet</td>
 		</tr>
-		<% end %>
+<% end %>
 	</table>
 </div>
 
