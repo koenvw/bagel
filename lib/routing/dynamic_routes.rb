@@ -15,7 +15,7 @@ module ActionController #:nodoc:
         end
         # this is ours. check for dynamic routes
         # FIXME: is UrlMapping.find(:all) cached ? if not, non-existing route will result in db-queries?!
-        UrlMapping.find(:all).each do |urlmap|
+        UrlMapping.find(:all, :order => "position").each do |urlmap|
           # construct a Route object for our urlmapping
           route = ActionController::Routing::Routes.builder.build(urlmap.path,YAML.load(urlmap.options))
           # if the route is recognized we add it to our internal routes list and return the result
