@@ -131,7 +131,8 @@ module ApplicationHelper
     controller_name, action = hash[:controller], hash[:action].to_sym
 
     # Get controller
-    controller = eval(File.split(controller_name).collect{ |s| s.camelize }.join('::') + 'Controller')
+    # CHANGED getting ".::SiteController" should no longer be possible... hopefully
+    controller = eval(File.split(controller_name).collect { |s| s == '.' ? 'admin' : s }.collect{ |s| s.camelize }.join('::') + 'Controller')
 
     # Check permissions
     required_permissions = controller.permission_scheme[action] || []
