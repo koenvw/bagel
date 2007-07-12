@@ -16,8 +16,18 @@ end
 <tr class="content">
 	<td style="width: 20px;">
 		<%
+        # find out our workflow id
+        if sitem.content && sitem.content.ctype
+          # not a new record, we can query the ctype through sitem.content
+          workflow_id = sitem.content.ctype.workflow_id
+        elsif params[:type_id]
+          # new record, get ctype from params
+          workflow_id = ContentType.find(params[:type_id])
+        else
+          workflow_id  = false
+        end
 		# if we are using workflow only admins can change the status
-		if sitem.content && sitem.content.ctype && sitem.content.ctype.workflow_id
+		if workflow_id
 			disabled = true unless AdminUser.current_user.is_admin?
 		else
 			disabled = false
