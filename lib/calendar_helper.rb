@@ -123,8 +123,9 @@ module ActionView::Helpers::CalendarHelper
     add_defaults(calendar_options, :ifFormat => '%Y/%m/%d %H:%M:%S')
 
     field_options = html_options.dup
+    date_converted = date.to_time.strftime(calendar_options[:ifFormat]) rescue ""
     add_defaults(field_options,
-      :value => (date && date != "" && date.to_time.strftime(calendar_options[:ifFormat])) || "" ,
+      :value => (date && date != "" && date_converted) || "",
       :size => 12
     )
     rename_option(field_options, :field_title, :title)
