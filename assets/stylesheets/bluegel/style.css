@@ -266,10 +266,11 @@
 		position: absolute;
 		top: 18px;
 		left: 9px;
-		background: url('../../images/bluegel/gallery_iconbg.gif') no-repeat;
+		background: url('../../images/bluegel/gallery_iconbg.gif') no-repeat -1px 0;
 		width: 70px;
 		height: 28px;
 	}
+	#imageGallery ul.smallActions { padding-left: 4px; background-position: -25px 0; }
 	#imageGallery ul.imgActions li { display: inline; }
 	#imageGallery ul.imgActions li a
 	{
@@ -284,8 +285,8 @@
 	#imageGallery ul.imgActions li a.del { background-position: -18px 0; }	
 	#imageGallery ul.imgActions li a.zoom { width: 19px; background-position: -38px 0; }
 	#imageGallery ul.imgActions li a.buy { width: 19px; background-position: -57px 0; }
+	#imageGallery ul.imgActions li a.download { width: 19px; background-position: -77px 0; }
 	#imageGallery ul.imgActions li a.center { margin-left: 9px; }
-	
 	/* action buttons (add,edit,...) */
 	
   	ul.mainNav
