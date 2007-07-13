@@ -4,6 +4,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << text_field(:form, method, options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end
     out << '</fieldset>'
   end
 
@@ -11,6 +14,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << text_field_with_auto_complete(:form, method, options, completion_options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end    
     out << '</fieldset>'
   end
 
@@ -21,6 +27,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << text_area(:form, method, options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end    
     out << '</fieldset>'
   end
 
@@ -36,6 +45,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << country_select(:form, method, priority_countries, options, html_options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end    
     out << '</fieldset>'
   end
 
@@ -49,6 +61,9 @@ module Admin::FormsHelper
     out << hidden_field(:form, :latitude)
     out << hidden_field(:form, :longitude)
     out << '<div id="map" style="width: 425px; height: 300px; float: right;"></div>'
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end    
     out << '</fieldset>'
   end
 
@@ -58,6 +73,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << select(:form, method, choices, options, html_options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end     
     out << '</fieldset>'
   end
 
@@ -65,6 +83,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << calendar_field_tag("form[#{method}]", @form.send(method), { :class => "date" }, {:showOthers => true, :showsTime => true})
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end     
     out << '</fieldset>'
   end
 
@@ -72,6 +93,9 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << select(:form, method, ["no","yes"], options, html_options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end    
     out << '</fieldset>'
   end
 

@@ -1,3 +1,4 @@
+
 /* ***************************************************
  * Default Bagel style
  * ## Bluegel
@@ -839,6 +840,14 @@
 		padding: 11px;
 		width: 755px;
 	}
+	fieldset.oneline p.help
+	{
+		color: #333;
+		margin: 10px 0 0 130px;
+		padding: 4px 3px 4px 28px;
+		border: 1px solid #ADADAD;
+		background: #BDBDBD url('../../images/bluegel/icons/icon_help_small.png') no-repeat 4px 3px;
+	}
 	fieldset.smaller { width: 450px; }
 	
 	fieldset.oneline .filterfield { position: relative; width: 755px; margin: 0 auto 0 auto; }
@@ -856,7 +865,7 @@
 		padding-top: 2px;
 		float: left;
 		display: block;
-		width: 114px;
+		width: 130px;
 		font-weight: bold;
 	}
 	fieldset.oneline label.small { margin: 0 5px 0 5px; font-size: 11px; float: none; }
@@ -868,11 +877,10 @@
 		border: 1px solid #ccc;
 		padding: 2px;
 		height: 20px;
-		width: 630px;
+		width: 610px;
 	}
 	fieldset.oneline select.largeSelect { width: 200px; }
 
-	
 	.subContent .mceFrame 
 	{
 		margin: 0 0 0 29px;
