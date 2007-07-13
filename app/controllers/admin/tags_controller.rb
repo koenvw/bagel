@@ -1,6 +1,6 @@
 class Admin::TagsController < ApplicationController
   requires_authorization :actions => [:index, :list, :edit, :destroy],
-                         :permission => [:content_tags_management,:_content_management]
+                         :permission => [:content_tags_management]
 
   def index
     list

@@ -6,7 +6,9 @@
 #
 
 # show add defaults to true
-showAdd=true if showAdd.nil?
+showAdd = true if showAdd.nil?
+# unless user does not have permissions
+showAdd = false unless AdminUser.current_user.admin_permissions.include?(:content_tags_management) or AdminUser.current_user.is_admin?
 
 # figure out content type ...
 content_type = item.ctype

@@ -7,7 +7,7 @@ else
   searchphrase=params["search"]
 end
 @containers_pages, @containers = controller.paginate :containers,:per_page=>10,:conditions => ["title LIKE ?", "%" + searchphrase + "%"],:order_by => "updated_on DESC,title"
-r_type='gallery'
+r_type='container'
 %>
 <div class="headerinf">results: <%= @containers_pages.item_count %> - page <%= @containers_pages.current.number %>/<%= @containers_pages.length %></div>
 
