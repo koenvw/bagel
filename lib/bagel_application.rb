@@ -63,7 +63,7 @@ module BagelApplication
     def site
       if params[:site].nil?
         # routing is virtual
-        current_domain.domainify
+        AppConfig[:domain_map].nil? ? current_domain.domainify : AppConfig[:domain_map][current_domain.domainify]
       else
         # follow the site that the route gave us
         params[:site]
