@@ -82,7 +82,8 @@ class Admin::HomeController < ApplicationController
 
   def webfolder
     # Find root path
-    root_path = RAILS_ROOT + Setting.get_cached('WebFolderSettings')[:root_path] || '/public/filestorage/'
+    webfolder_settings = Setting.get_cached('WebFolderSettings')
+    root_path = RAILS_ROOT + ((webfolder_settings && webfolder_settings[:root_path]) || '/public/filestorage/')
     FileUtils.mkdir root_path unless File.exists?(root_path)
 
     # Find all entries in the web folder
