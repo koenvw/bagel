@@ -75,4 +75,14 @@ class Setting < ActiveRecord::Base
     end
   end
 
+  # Convenience methods
+
+  def self.image_thumbnails
+    Setting.get("ImageSettings")[:versions].inject({}) { |memo, (k,v)| memo[k] = v[:size] ; memo }
+  end
+
+  def self.image_processor
+    (Setting.get("ImageSettings")[:processor] || :rmagick).to_sym
+  end
+
 end

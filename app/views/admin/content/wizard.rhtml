@@ -30,12 +30,13 @@
 						type = ctype.core_content_type
 						ctrl = type.tableize.downcase
 						if type == "Form"
-							form_definition_id = ctype.extra_info
+						  form_definition_id = ctype.extra_info
 						end
 						if AppConfig[:wizard_for] && AppConfig[:wizard_for].include?(ctype.name)
                           link_hash = {:controller => "content", :action => "wizard_#{ctype.name.rubify}", :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
 						else
-						  link_hash = {:controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
+						  type_hash = ( MediaItem::ALLOWED_CLASS_NAMES.include?(ctype.extra_info) ? { :type => ctype.extra_info } : {} )
+						  link_hash = { :controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }.merge(type_hash)
 						end
 					%>
 					<div class="container">

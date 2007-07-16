@@ -20,13 +20,13 @@
 		<% @recent_items.each do |@sobject| %>
 		<% unless @sobject.content.nil? %>
 		<tr class="content">
-			<td><%= link_to @sobject.content.title, :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id %></td>
+			<td><%= link_to @sobject.content.title, :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %></td>
 			<td><%= @sobject.ctype_name %></td>
 			<td><%= @sobject.content.updated_on.formatted %></td>
 			<td class="iconbox">
 				<span class="icon">
-					<%= link_to "delete", { :controller => @sobject.content_type.pluralize.downcase, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
-					<%= link_to "edit", { :controller => @sobject.content_type.pluralize.downcase, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
+					<%= link_to "delete", { :controller => @sobject.controller_name, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", { :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
 				</span>
 			</td>
 		</tr>

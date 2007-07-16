@@ -1,4 +1,5 @@
 --- 
 admin_roles_001: 
   name: content editor
+  is_admin: 
   id: "2"

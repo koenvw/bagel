@@ -1,0 +1,13 @@
+--- 
+content_types_relations_004: 
+  content_type_id: "4"
+  relation_id: "6"
+content_types_relations_001: 
+  content_type_id: "12"
+  relation_id: "5"
+content_types_relations_002: 
+  content_type_id: "11"
+  relation_id: "5"
+content_types_relations_003: 
+  content_type_id: "13"
+  relation_id: "5"

@@ -4,7 +4,11 @@ class Generator < ActiveRecord::Base
   belongs_to :website
   belongs_to :generator_folder
   belongs_to :content_type
-  validates_presence_of :name
+
+  validates_presence_of  :name
+  # TODO readd validations
+# validates_presence_of  :templating_engine
+# validates_inclusion_of :templating_engine, :in => [ 'erb', 'liquid' ]
 
   def create_default_sitems
     # do nothing ..HA

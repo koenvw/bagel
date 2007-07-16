@@ -8,49 +8,44 @@
 		<td class="headDesc">Filename</td>
 		<td class="headDesc" style="text-align: center; width: 50px;">Type</td>
 		<td class="headDesc" style="width: 100px;">Date</td>
-		<td class="headDesc" style="width: 100px;">&nbsp;</td>
 	</tr>
 <% @dir_entries.each do |entry| %>
 	<% uniq_id = generate_id %>
 	<tr class="content">
-	<td>
-	<% if File.directory?(entry) %>
-		<% count_files=Dir.entries(entry).length-2 %>
-		<%= tag("input", { "type" => "checkbox", "id" => "folders_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
-	<% else %>
-		<%= tag("input", { "type" => "checkbox", "id" => "files_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
-	<% end %>
-	</td>
-	<td>
-	<% if File.directory?(entry) %>
-		<%= File.basename(entry) + "(" + count_files.to_s + ")" %>
-	<% else %>
-		<%= File.basename(entry) %>
-	<% end %>
-	</td>
-	<td style="text-align: center;">
-	<% if File.directory?(entry) %>
-		<%= image_tag "folder" %>
-	<% else %>
-		<%= image_tag "image" %>
-	<% end %>
-	</td>
-	</td>
-		<td><%= File.atime(entry).formatted %></td>
-		<td class="iconbox">
-			<span class="icon">
-				<%= link_to "delete", "#", :class => "delete", :confirm => 'Are you sure?' %>
-				<%= link_to "edit", "#", :class =>"edit", :title => "Edit" %>
-			</span>
+		<td>
+		<% if File.directory?(entry) %>
+			<% count_files=Dir.entries(entry).length-2 %>
+			<%= tag("input", { "type" => "checkbox", "id" => "folders_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
+		<% else %>
+			<%= tag("input", { "type" => "checkbox", "id" => "files_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
+		<% end %>
 		</td>
+		<td>
+		<% if File.directory?(entry) %>
+			<%= File.basename(entry) + "(" + count_files.to_s + ")" %>
+		<% else %>
+			<%= File.basename(entry) %>
+		<% end %>
+		</td>
+		<td style="text-align: center;">
+		<%# TO DO re-add images, and make a distinction between images, documents, audio and video %>
+		<% if File.directory?(entry) %>
+			directory<%#= image_tag "folder" %>
+		<% else %>
+			file<%#= image_tag "image" %>
+		<% end %>
+		</td>
+		<td><%= File.atime(entry).formatted %></td>
 	</tr>
 <% end %>
 <% if @dir_entries.size == 0 %>
 	<tr>
-		<td colspan="5">no files uploaded</td>
+		<td colspan="4">no files uploaded</td>
 	</tr>
 <% end %>
 </table>
+
+<p>Import files with content type <%= select_tag 'file_content_type', @content_types %><br/>Import folders with relation <%= select_tag 'folder_relation', @relations %></p>
 
 <%= render :partial => "admin/tags/list", :locals => { :item => Image.create, :startOpen => true, :showAdd => false } %>
 

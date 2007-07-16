@@ -22,7 +22,7 @@ class Admin::HomeController < ApplicationController
 
   def logout
     session[:admin_user] = nil
-    redirect_to "/"
+    redirect_to :controller => 'admin/home', :action => 'login'
   end
 
   def reset_password
@@ -81,17 +81,28 @@ class Admin::HomeController < ApplicationController
   end
 
   def webfolder
-    # setup root_path
-    # FIXME: this setting should be in environment.rb
-    root_path = RAILS_ROOT + "/public/filestorage/"
+    # Find root path
+    root_path = RAILS_ROOT + Setting.get_cached('WebFolderSettings')[:root_path] || '/public/filestorage/'
     FileUtils.mkdir root_path unless File.exists?(root_path)
-    # exclude default dirs
-    @dir_entries = Dir.entries(root_path).select { |entry| ![".","..","_imported",".DAV"].include?(entry) }
-    # append root_path to entries
+
+    # Find all entries in the web folder
+    @dir_entries = Dir.entries(root_path)
+    @dir_entries.reject!  { |entry| entry.begins_with?('.') or entry == '_imported' }
     @dir_entries.collect! { |entry| root_path + entry }
+
+    # Find all possible content types
+    @content_types_arr = ContentType.find_all_by_core_content_type('MediaItem')
+    @content_types = @content_types_arr.map { |i| "<option value=\"#{i.id}\">#{i.name}</option>" }.join
+
+    # Find all possible relationships (from MediaItem to Container)
+    @relations_arr = Relation.find(:all)
+    @relations_arr.reject! { |r| r.content_types.select { |c| c.core_content_type == 'MediaItem' }.empty? }
+    @relations_arr.reject! { |r| r.content_type.core_content_type != 'Container' }
+    @relations = @relations_arr.map { |i| "<option value=\"#{i.id}\">#{i.name}</option>" }.join
   end
 
-  private
+private
+
   def handle_login
     # Require username and password
     if params[:admin_user][:username].blank? or params[:admin_user][:password].blank?

@@ -158,6 +158,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "description",         :text
     t.column "generator_folder_id", :integer
     t.column "content_type_id",     :integer
+    t.column "templating_engine",   :string
   end
 
   add_index "generators", ["name"], :name => "index_generators_on_name"
@@ -216,11 +217,20 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "globalize_translations", ["table_name", "item_id", "language_id"], :name => "globalize_translations_table_name_and_item_and_language"
 
   create_table "images", :force => true do |t|
-    t.column "image",       :string
-    t.column "created_on",  :datetime
-    t.column "updated_on",  :datetime
-    t.column "title",       :string,   :default => ""
-    t.column "description", :text
+    t.column "image",         :string
+    t.column "created_on",    :datetime
+    t.column "updated_on",    :datetime
+    t.column "title",         :string,   :default => ""
+    t.column "description",   :text
+    t.column "size",          :integer
+    t.column "content_type",  :string
+    t.column "filename",      :string
+    t.column "height",        :integer
+    t.column "width",         :integer
+    t.column "parent_id",     :integer
+    t.column "thumbnail",     :string
+    t.column "db_file_id",    :integer
+    t.column "data",          :binary
   end
 
   create_table "links", :force => true do |t|
@@ -256,7 +266,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "updated_on",   :datetime
   end
 
-  create_table "medias", :force => true do |t|
+  create_table "media_items", :force => true do |t|
     t.column "title",        :string
     t.column "description",  :string
     t.column "content",      :text

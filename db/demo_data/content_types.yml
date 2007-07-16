@@ -7,6 +7,7 @@ content_types_007:
   id: "9"
   description: ""
   extra_info: ""
+  workflow_id: 
 content_types_008: 
   created_on: 2007-04-18 19:00:13
   core_content_type: Generator
@@ -15,6 +16,34 @@ content_types_008:
   id: "10"
   description: ""
   extra_info: hide
+  workflow_id: 
+content_types_009: 
+  created_on: 2007-07-11 14:30:10
+  core_content_type: MediaItem
+  name: Picture (Database File)
+  updated_on: 2007-07-11 15:53:24
+  id: "11"
+  description: ""
+  extra_info: PictureDbFile
+  workflow_id: 
+content_types_010: 
+  created_on: 2007-07-11 14:30:19
+  core_content_type: MediaItem
+  name: Picture (S3)
+  updated_on: 2007-07-11 15:52:35
+  id: "12"
+  description: ""
+  extra_info: PictureS3
+  workflow_id: 
+content_types_011: 
+  created_on: 2007-07-11 14:30:29
+  core_content_type: MediaItem
+  name: Picture (File System)
+  updated_on: 2007-07-11 15:53:04
+  id: "13"
+  description: ""
+  extra_info: PictureFileSystem
+  workflow_id: 
 content_types_001: 
   created_on: 2007-04-05 19:56:29
   core_content_type: News
@@ -26,6 +55,7 @@ content_types_001:
     fdkjsf
     s
   extra_info: ""
+  workflow_id: 
 content_types_002: 
   created_on: 2007-04-06 10:56:36
   core_content_type: Image
@@ -34,6 +64,7 @@ content_types_002:
   id: "2"
   description: ""
   extra_info: ""
+  workflow_id: 
 content_types_003: 
   created_on: 2007-04-09 13:57:08
   core_content_type: News
@@ -44,6 +75,7 @@ content_types_003:
     blah blah
     blah blah
   extra_info: ""
+  workflow_id: 
 content_types_004: 
   created_on: 2007-04-09 14:09:58
   core_content_type: Container
@@ -52,6 +84,7 @@ content_types_004:
   id: "4"
   description: ""
   extra_info: ""
+  workflow_id: 
 content_types_005: 
   created_on: 2007-04-09 14:18:58
   core_content_type: Form
@@ -60,6 +93,7 @@ content_types_005:
   id: "6"
   description: ""
   extra_info: "26"
+  workflow_id: 
 content_types_006: 
   created_on: 2007-04-18 18:32:45
   core_content_type: Document
@@ -68,3 +102,4 @@ content_types_006:
   id: "8"
   description: ""
   extra_info: ""
+  workflow_id: 

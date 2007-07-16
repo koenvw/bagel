@@ -1,55 +1,47 @@
-class Document < Media
+class Document < MediaItem
   acts_as_content_type
-  has_attachment :storage => :db_file, :content_type => ["application/msword","application/pdf"]
+  has_attachment :storage       => :db_file,
+                 :content_type  => ["application/msword","application/pdf"]
   validates_as_attachment
   validates_presence_of :title
 
-  # Callback before a thumbnail is saved.  Use this to pass any necessary extra attributes that may be required.
-  before_thumbnail_saved do |record, thumbnail|
-    #  ...
-  end
+  FILTERS = {
+    'application/pdf'     => 'pdf_filter',
+    'application/msword'  => 'msword_filter'
+  }
 
-  # Callback after an image has been resized.
-  after_resize do |record, img|
-    #  ...
-  end
-
-  # Callback after an attachment has been saved either to the file system or the DB.
-  # Only called if the file has been changed, not necessarily if the record is updated.
   after_attachment_saved do |record|
-    # creating working directory
+    # Extract text
+    record.extract_text
+  end
+
+  def full_filename(thumbnail=nil)
+    'file://' + public_filename(thumbnail)
+  end
+
+  def public_filename(thumbnail=nil)
+    '/media_item_from_db?id=' + id.to_s
+  end
+
+  def extract_text
+    # Create temporary working directory directory
     FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', 'documents'))
-    #
-    case record.content_type
-      when "application/pdf"
-        convert_script = File.join(RAILS_ROOT, 'script', 'convert2text', 'pdf_filter')
-        temp_file_in = record.create_temp_file.path
-        temp_file_out = File.join(RAILS_ROOT, 'tmp', 'documents',"#{record.id}.txt")
-        if system "#{convert_script} #{temp_file_in} #{temp_file_out}"
-          buffer = ""
-          File.open(temp_file_out).each { |line| buffer << line }
-          record.content = buffer
-          File.unlink(temp_file_out)
-        else
-          record.content = "NO CONTENT"
-        end
-        record.save
 
-      when "application/msword"
-        convert_script = File.join(RAILS_ROOT, 'script', 'convert2text', 'msword_filter')
-        temp_file_in = record.create_temp_file.path
-        temp_file_out = File.join(RAILS_ROOT, 'tmp', 'documents',"#{record.id}.txt")
-        if system "#{convert_script} #{temp_file_in} #{temp_file_out}"
-          buffer = ""
-          File.open(temp_file_out).each { |line| buffer << line }
-          record.content = buffer
-          File.unlink(temp_file_out)
-        else
-          record.content = "#{convert_script} #{temp_file_in} #{temp_file_out}"
-        end
-        record.save
+    # Find path to convert script
+    convert_script = File.join(RAILS_ROOT, 'script', FILTERS[record.content_type])
 
+    # Get paths to temp in/out file
+    temp_file_in = record.create_temp_file.path
+    temp_file_out = File.join(RAILS_ROOT, 'tmp', 'documents',"#{record.id}.txt")
+
+    # Convert
+    if system "#{convert_script} #{temp_file_in} #{temp_file_out}"
+      record.content = File.read(temp_file_out)
+      File.unlink(temp_file_out)
+    else
+      record.content = "NO CONTENT"
     end
+    record.save
   end
 
 end

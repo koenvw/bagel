@@ -15,8 +15,12 @@
 		</fieldset>
 		<% unless @document.new_record? %>
 		<fieldset class="oneline">
+			<label for="document_title">Download</label>
+			<%= link_to 'Download this document', @document.public_filename %>
+		</fieldset>
+		<fieldset class="oneline">
 			<label for="document_title">Text extraction</label>
-			<%= @document.content_type %>:<%=  (@document.content == "NO CONTENT" || @document.content.nil_or_empty?) ? "not ok. unsupported file." : "ok" %>
+			<%= @document.content_type %>: <%= (@document.content == "NO CONTENT" || @document.content.nil_or_empty?) ? "not ok. unsupported file." : "ok" %>
 		</fieldset>
 		<% end %>
 		<div class="mceFrame">

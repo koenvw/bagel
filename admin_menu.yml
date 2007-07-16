@@ -7,6 +7,8 @@
       url:    "/admin/content/wizard"
     - title:  "Media gallery"
       url:    "/admin/images"
+    - title:  "Media gallery 2.0"
+      url:    "/admin/media_items"
     - title:  "Menu"
       url:    "/admin/menus"
     - title:  "Tags"

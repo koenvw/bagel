@@ -5,6 +5,7 @@ tags_001:
   updated_on: 2007-04-05 20:20:23
   lft: "1"
   id: "1"
+  content_type_ids: 
   extra_info: hihi
   rgt: "4"
   parent_id: 
@@ -15,6 +16,7 @@ tags_002:
   updated_on: 2007-04-05 21:27:10
   lft: "5"
   id: "2"
+  content_type_ids: 
   extra_info: ""
   rgt: "6"
   parent_id: 
@@ -25,6 +27,7 @@ tags_003:
   updated_on: 2007-04-05 21:27:22
   lft: "2"
   id: "3"
+  content_type_ids: 
   extra_info: ""
   rgt: "3"
   parent_id: "1"
@@ -35,6 +38,7 @@ tags_004:
   updated_on: 2007-04-09 11:20:37
   lft: "7"
   id: "4"
+  content_type_ids: 
   extra_info: ""
   rgt: "14"
   parent_id: 
@@ -45,6 +49,7 @@ tags_005:
   updated_on: 2007-04-09 11:20:47
   lft: "8"
   id: "5"
+  content_type_ids: 
   extra_info: ""
   rgt: "11"
   parent_id: "4"
@@ -55,6 +60,7 @@ tags_006:
   updated_on: 2007-04-09 11:20:55
   lft: "12"
   id: "6"
+  content_type_ids: 
   extra_info: ""
   rgt: "13"
   parent_id: "4"
@@ -65,6 +71,7 @@ tags_007:
   updated_on: 2007-04-09 11:21:03
   lft: "9"
   id: "7"
+  content_type_ids: 
   extra_info: ""
   rgt: "10"
   parent_id: "5"

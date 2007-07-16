@@ -1,0 +1,59 @@
+<div id="contentFrame">	
+	<div class="topButton">
+		<h1>Media Gallery</h1>	
+		<ul class="mainNav">
+			<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+</div>
+
+<form id="filterform" method="post" action="">
+<div class="subContent">
+	<fieldset class="oneline">
+		<div class="filterfield">
+			<input style="width: 670px;" name="search_string" type="text" class="large_text_input" value="<%=h params[:search_string] %>"/>
+			<a class="posRight filter" href="#" onclick="document.getElementById('filterform').submit(); return false;">filter</a>
+		</div>
+	</fieldset>
+	<div class="bottom"></div>
+</div>
+</form>
+
+<div class="subContent">
+<% if @media_items.size > 0 %>
+	<div id="imageGallery">
+			<% 
+				count = 0
+				for @media_item in @media_items
+                  if count == 4
+					count = 0
+			%>
+			<div class="clear"></div>
+			<%end %>
+			<div class="imgContainer">
+				<ul class="imgActions">
+					<li><%= link_to 'edit', { :action => 'edit', :id => @media_item }, :class => "edit", :title => "Edit image" %></li>
+					<li><%= link_to 'delete', { :action => 'destroy', :id => @media_item }, :class => "del", :title => "Delete image" , :confirm => 'Are you sure?', :method => :post %></li>
+				</ul>
+				<img src="<%=h @media_item.default_thumbnail_public_filename %>" />
+				<h3><%= truncate(@media_item.title, 23, '&hellip;') %></h3>
+				<p><%= @media_item.mime_type %> - <%= number_to_human_size(@media_item.size) %></p>
+			</div>
+		<% count = count+1 %>
+		<% end %>
+		<div class="clear"></div>
+	</div>
+<% if @media_items_count != @media_items_filtered_count %>
+	<div style="margin: 0 0 0 0; text-align: center;">Displaying <%= @media_items_filtered_count %> out of <%= @media_items_count %> media items.</div>
+<% end %>
+	<% else %>
+	<div style="margin: 0 0 0 0; text-align: center;">No media items found</div>
+<% end %>
+	<div class="bottom"></div>
+</div>
+
+<% if @media_items.size > 0 %>
+  <div class="paging"><%= bagel_pagination_links @media_item_pages %></div>
+<% end %>
+<div class="clear"></div>

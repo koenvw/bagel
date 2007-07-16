@@ -47,6 +47,23 @@ class SiteController < ApplicationController
     end
   end
 
+  def media_item_from_db
+    # Figure out disposition
+    disposition = (params[:disposition] || 'inline')
+
+    # Find image
+    if params[:thumbnail].blank?
+      media_item = MediaItem.find(params[:id])
+    else
+      media_item = MediaItem.find_by_parent_id_and_thumbnail(params[:id], params[:thumbnail])
+    end
+
+    # Find data for image
+    media_item_data = DbFile.find(media_item.db_file_id).data
+
+    # Send image data
+    send_data(media_item_data, :type => media_item.content_type, :disposition => disposition)
+  end
 
   def content
 
@@ -477,7 +494,8 @@ class SiteController < ApplicationController
     render :text => "garbage collected"
   end
 
-  private
+private
+  
   def add_referrer_to_url(url)
     current_url = request.env['PATH_INFO']
     url_split = url.split("?")

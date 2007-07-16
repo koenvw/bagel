@@ -74,6 +74,11 @@ class Sobject < ActiveRecord::Base
     tags
   end
 
+  # Returns the name of the controller responsible for managing this sobject
+  def controller_name
+    ( MediaItem::ALLOWED_CLASS_NAMES.include?(self.content_type) ? 'media_item' : self.content_type ).tableize.downcase
+  end
+
   # class methods
   def self.list(site, content_types, tags, limit=5, offset=0, search_string="")
     $stderr.puts('DEPRECATION WARNING: Sobject.list is deprecated; please use Sobject.find_with_parameters')

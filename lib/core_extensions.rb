@@ -1,5 +1,6 @@
 class String
   def nil_or_empty?
+    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
     empty?
   end
   def clean
@@ -60,6 +61,7 @@ class Array
   end
 
   def nil_or_empty?
+    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
     empty?
   end
 
@@ -83,6 +85,7 @@ end
 
 class NilClass
   def nil_or_empty?
+    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
     true
   end
 end

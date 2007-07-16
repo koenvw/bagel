@@ -1,12 +1,19 @@
 namespace :bagel do
 
+  desc 'Update all pictures according to ImageSettings'
+  task :update_pictures => :environment do
+    Picture.find(:all, :conditions => 'parent_id IS NULL').each do |picture|
+      picture.update_thumbnails
+    end
+  end
+
   namespace :db do
-    
+
     desc 'Puts all permissions used in all controllers into the database and removes unused permission from the database'
     task :sync_permissions => :environment do
       AdminPermission.sync_permissions
     end
-    
+
     desc 'Dump all data in the current database to yaml files under db/demo_data'
     task :dump => :environment do
       sql = "SELECT * FROM %s"

@@ -1,6 +1,9 @@
 # ROOT
-connect '', :controller => 'site', :action => 'root'
+connect '',      :controller => 'site',       :action => 'root'
 connect 'admin', :controller => 'admin/home', :action => 'redirect_to_home'
+
+# SPECIAL CASES
+connect '/media_item_from_db', :controller => 'site', :action => 'media_item_from_db'
 
 # ADMIN
 with_options :controller => 'admin/home' do |m|

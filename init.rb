@@ -36,6 +36,11 @@ require 'memcache-client_extentions'
 require 'acts_as_enhanced_nested_set'
 ActiveRecord::Base.send(:include, ActsAsEnhancedNestedSet)
 
+# ActsAsPicture and FileCompat
+require 'acts_as_picture'
+require 'file_compat'
+ActiveRecord::Base.send(:include, ActsAsPicture)
+
 # CalendarHelper
 require 'calendar_helper'
 ActionView::Base.send(:include, ActionView::Helpers::CalendarHelper)

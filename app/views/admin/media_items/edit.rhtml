@@ -1,0 +1,72 @@
+<h1><%= figure_out_action(@media_item) %> <%= figure_out_content_type_name(@media_item) %></h1>
+
+<% form_tag({ :action => "edit", :id => @media_item }, { :multipart => true }) do %>
+	<%= hidden_field_tag "media_item[type_id]", @media_item.type_id || params[:type_id] %>
+	<%= hidden_field_tag "type", @media_item[:type] || params[:type] %>
+	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
+	<%= error_messages_for 'media_item' %>
+
+	<div class="subContent">
+<%
+	unless @media_item.new_record?
+		onelineStyle = "margin: 0 0 0 28px; width: 580px;"
+		inpStyle = "width: 455px;"
+%>
+	<div class="imgPreview">
+		<img src="<%=h @media_item.default_thumbnail_public_filename %>" />
+	</div>
+<%
+	end
+%>
+
+<fieldset class="oneline" style="<%= onelineStyle %>">
+	<label for="media_item_title">Title</label>
+	<%= text_field :media_item, :title, :class => "large_text_input", :style => inpStyle %>
+</fieldset>
+
+<br />
+
+<fieldset class="oneline" style="<%= onelineStyle %>">
+	<label for="media_item_uploaded_data">Image</label>
+	<%= file_field :media_item, :uploaded_data %>
+</fieldset>
+
+<div class="mceFrame" style="margin-top: 15px;">
+	<%= text_area  :media_item, :description, :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
+</div>
+		<div class="bottom"></div>
+	</div>
+
+<% unless @media_item.new_record? %>
+	<div class="subContent">
+		<a href="#" class="openClose closed">Open</a>
+		<h3 class="forClose">Image versions</h3>
+		<div class="collapsed" style="display: block;">
+			<fieldset class="oneline" style="margin-top: 8px; padding-top: 10px;">
+				<ul class="imageRevisions">
+					<li><%= link_to("original", @media_item.public_filename) %></li>
+<% @media_item_versions.each do |version| %>
+					<li><%= link_to(version, @media_item.public_filename(version.to_sym)) %></li>
+<% end %>
+				</ul>
+				<div class="clear"></div>
+			</fieldset>
+		</div>
+		<div class="bottom"></div>
+	</div>
+<% end %>
+
+	<%= render :partial => 'admin/workflows/list', :locals => { :item => @media_item } %>
+	<%= render :partial => 'admin/sitems/list', :locals => { :item => @media_item } %>
+	<%= render :partial => "admin/tags/list", :locals => { :item => @media_item } %>
+	<%= render :partial => "admin/relations/list", :locals => { :item => @media_item } %>
+
+	<div class="bottomButton">
+		<ul class="mainNav">
+			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+
+<% end %>

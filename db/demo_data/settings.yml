@@ -1,80 +1,80 @@
 --- 
 settings_013: 
-  created_on: 2007-04-09 16:30:36
-  name: add_watermark_to_upper_right
+  created_on: 2007-07-11 14:28:13
+  name: crop
   settings_count: 
   value_type: string
-  updated_on: 2007-04-09 16:30:36
-  lft: "32"
-  id: "18"
-  value: /home/bull/Rails/Workspace/benzine/trunk/public/images/auto55/logo_a55be_wallpaper_big.png
-  rgt: "33"
-  parent_id: "17"
+  updated_on: 2007-07-11 14:28:13
+  lft: "20"
+  id: "33"
+  value: "100:30"
+  rgt: "21"
+  parent_id: "31"
 settings_002: 
   created_on: 2007-04-03 17:47:02
   name: default
   settings_count: 
   value_type: string
   updated_on: 2007-04-03 17:47:02
-  lft: "2"
+  lft: "28"
   id: "6"
-  value: small
-  rgt: "3"
+  value: cropped_and_watermarked
+  rgt: "29"
   parent_id: "5"
 settings_014: 
-  created_on: 2007-04-12 19:06:10
-  name: small
+  created_on: 2007-07-11 14:28:33
+  name: watermark_image
   settings_count: 
   value_type: string
-  updated_on: 2007-04-12 19:06:10
-  lft: "27"
-  id: "20"
-  value: 150x94
-  rgt: "28"
-  parent_id: "12"
+  updated_on: 2007-07-11 14:28:33
+  lft: "22"
+  id: "34"
+  value: /Users/ddfreyne/Desktop/sample_images/mask.gif
+  rgt: "23"
+  parent_id: "31"
 settings_003: 
   created_on: 2007-04-04 10:09:39
   name: versions
   settings_count: 
   value_type: string
   updated_on: 2007-04-04 10:09:39
-  lft: "4"
+  lft: "2"
   id: "7"
   value: ""
-  rgt: "11"
+  rgt: "27"
   parent_id: "5"
 settings_015: 
-  created_on: 2007-05-15 16:31:31
-  name: micro
+  created_on: 2007-07-11 14:28:44
+  name: watermark_position
   settings_count: 
   value_type: string
-  updated_on: 2007-05-15 16:31:31
-  lft: "14"
-  id: "25"
-  value: ""
-  rgt: "19"
-  parent_id: "5"
+  updated_on: 2007-07-11 14:28:44
+  lft: "24"
+  id: "35"
+  value: top_left
+  rgt: "25"
+  parent_id: "31"
 settings_004: 
   created_on: 2007-04-04 10:09:50
-  name: small
+  name: cropped
   settings_count: 
   value_type: string
   updated_on: 2007-04-04 10:09:50
-  lft: "5"
+  lft: "11"
   id: "8"
   value: ""
-  rgt: "10"
+  rgt: "16"
   parent_id: "7"
 settings_016: 
-  created_on: 2007-05-15 16:34:19
-  name: crop
+  created_on: 2007-07-11 14:29:02
+  name: watermark_image
   settings_count: 
   value_type: string
-  updated_on: 2007-05-15 16:34:19
-  lft: "15"
-  id: "26"
-  value: "67:50"
-  rgt: "16"
+  updated_on: 2007-07-11 14:29:02
+  lft: "6"
+  id: "36"
+  value: /Users/ddfreyne/Desktop/sample_images/mask.gif
+  rgt: "7"
   parent_id: "25"
 settings_005: 
   created_on: 2007-04-04 10:10:04
@@ -82,21 +82,21 @@ settings_005:
   settings_count: 
   value_type: string
   updated_on: 2007-04-04 10:10:04
-  lft: "6"
+  lft: "14"
   id: "9"
-  value: 150:94
-  rgt: "7"
+  value: "50:50"
+  rgt: "15"
   parent_id: "8"
 settings_017: 
-  created_on: 2007-05-15 16:34:39
-  name: size
+  created_on: 2007-07-11 14:29:15
+  name: watermark_position
   settings_count: 
   value_type: string
-  updated_on: 2007-05-15 16:34:39
-  lft: "17"
-  id: "27"
-  value: 67x50
-  rgt: "18"
+  updated_on: 2007-07-11 14:29:15
+  lft: "8"
+  id: "37"
+  value: top_left
+  rgt: "9"
   parent_id: "25"
 settings_006: 
   created_on: 2007-04-04 10:10:16
@@ -104,110 +104,99 @@ settings_006:
   settings_count: 
   value_type: string
   updated_on: 2007-04-04 10:10:16
-  lft: "8"
+  lft: "12"
   id: "10"
-  value: 150x94
-  rgt: "9"
+  value: 300x300
+  rgt: "13"
   parent_id: "8"
 settings_018: 
-  created_on: 2007-05-15 16:35:15
+  created_on: 2007-07-11 14:35:03
+  name: processor
+  settings_count: 
+  value_type: string
+  updated_on: 2007-07-11 14:35:03
+  lft: "30"
+  id: "38"
+  value: rmagick
+  rgt: "31"
+  parent_id: "5"
+settings_007: 
+  created_on: 2007-05-15 16:31:31
+  name: watermarked
+  settings_count: 
+  value_type: string
+  updated_on: 2007-05-15 16:31:31
+  lft: "3"
+  id: "25"
+  value: ""
+  rgt: "10"
+  parent_id: "7"
+settings_019: 
+  created_on: 2007-07-12 11:05:51
   name: default2
   settings_count: 
   value_type: string
-  updated_on: 2007-05-15 16:35:15
-  lft: "20"
-  id: "28"
-  value: micro
-  rgt: "21"
+  updated_on: 2007-07-12 11:05:51
+  lft: "32"
+  id: "39"
+  value: cropped
+  rgt: "33"
   parent_id: "5"
-settings_007: 
-  created_on: 2007-04-09 15:31:06
-  name: ImageSettingsNew
+settings_008: 
+  created_on: 2007-05-15 16:34:39
+  name: size
   settings_count: 
   value_type: string
-  updated_on: 2007-04-09 15:31:06
-  lft: "23"
-  id: "11"
-  value: ""
-  rgt: "36"
-  parent_id: 
-settings_019: 
+  updated_on: 2007-05-15 16:34:39
+  lft: "4"
+  id: "27"
+  value: 500x500
+  rgt: "5"
+  parent_id: "25"
+settings_009: 
   created_on: 2007-07-09 12:37:47
   name: address
   settings_count: 
   value_type: string
   updated_on: 2007-07-09 12:37:47
-  lft: "38"
+  lft: "36"
   id: "29"
   value: example_email_address@dotprojects.be
-  rgt: "39"
+  rgt: "37"
   parent_id: "30"
-settings_008: 
-  created_on: 2007-04-09 15:31:33
-  name: versions
-  settings_count: 
-  value_type: string
-  updated_on: 2007-04-09 15:31:33
-  lft: "24"
-  id: "12"
-  value: ""
-  rgt: "29"
-  parent_id: "11"
-settings_020: 
+settings_010: 
   created_on: 2007-07-09 12:54:38
   name: EmailSettings
   settings_count: 
   value_type: string
   updated_on: 2007-07-09 12:54:38
-  lft: "37"
+  lft: "35"
   id: "30"
   value: ""
-  rgt: "40"
+  rgt: "38"
   parent_id: 
-settings_009: 
-  created_on: 2007-04-09 16:00:35
-  name: watermark_image
-  settings_count: 
-  value_type: string
-  updated_on: 2007-04-09 16:00:35
-  lft: "12"
-  id: "14"
-  value: /home/bull/Rails/Workspace/benzine/trunk/public/images/auto55/logo_a55be_wallpaper_big.png
-  rgt: "13"
-  parent_id: "5"
-settings_010: 
-  created_on: 2007-04-09 16:27:42
-  name: normal
-  settings_count: 
-  value_type: string
-  updated_on: 2007-04-09 16:27:42
-  lft: "25"
-  id: "15"
-  value: 900>
-  rgt: "26"
-  parent_id: "12"
 settings_011: 
-  created_on: 2007-04-09 16:29:24
-  name: transformations
+  created_on: 2007-07-11 14:26:50
+  name: cropped_and_watermarked
   settings_count: 
   value_type: string
-  updated_on: 2007-04-09 16:29:24
-  lft: "30"
-  id: "16"
+  updated_on: 2007-07-11 14:26:50
+  lft: "17"
+  id: "31"
   value: ""
-  rgt: "35"
-  parent_id: "11"
+  rgt: "26"
+  parent_id: "7"
 settings_012: 
-  created_on: 2007-04-09 16:29:47
-  name: normal
+  created_on: 2007-07-11 14:27:09
+  name: size
   settings_count: 
   value_type: string
-  updated_on: 2007-04-09 16:29:47
-  lft: "31"
-  id: "17"
-  value: ""
-  rgt: "34"
-  parent_id: "16"
+  updated_on: 2007-07-11 14:27:09
+  lft: "18"
+  id: "32"
+  value: 500x500
+  rgt: "19"
+  parent_id: "31"
 settings_001: 
   created_on: 2007-04-03 17:46:37
   name: ImageSettings
@@ -217,5 +206,5 @@ settings_001:
   lft: "1"
   id: "5"
   value: ""
-  rgt: "22"
+  rgt: "34"
   parent_id: 
