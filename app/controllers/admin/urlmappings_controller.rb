@@ -14,11 +14,17 @@ class Admin::UrlmappingsController < ApplicationController
     @urlmappings_pages, @urlmappings = paginate :url_mapping, :per_page => 100, :order => "position"
   end
 
+  def reload
+    ::ActionController::Routing::Routes.reload
+  end
+
   def edit
     @urlmapping = UrlMapping.find_by_id(params[:id]) || UrlMapping.new
     if request.post?
       @urlmapping.attributes = params[:urlmapping]
       if @urlmapping.save
+        # FIXME: reload will only work for this mongrel instance.
+        ::ActionController::Routing::Routes.reload
         flash[:notice] ='UrlMapping was successfully updated.'
         redirect_to :action => 'list'
       end

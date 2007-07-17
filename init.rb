@@ -11,10 +11,11 @@ ActionController::Base.send(:include, BagelApplication)
 
 # patches for routing
 require 'routing/routing'
-#require 'action_controller/routing'
+require 'routing/routing_from_bagel'
+require 'routing/dynamic_routes'
 ActionController::Routing::RouteSet.send(:include, Bagel::Routing::RouteSetExtensions)
 ActionController::Routing::Route.send(:include, Bagel::Routing::RouteExtensions)
-require 'routing/dynamic_routes'
+ActionController::Routing::RouteSet::Mapper.send(:include, Bagel::Routing::FromBagel)
 
 # Authorization
 require 'authorization.rb'

@@ -1,3 +1,7 @@
+# FIXME: this code has issues with route positions (does not respect priorities, http://wiki.bagel.be/trac/ticket/24)
+# It is deprecated by routing_from_bagel.rb, which loads routes on server start
+# We still leave this code in here in case we work with multiple mongrels
+# ActionController::Routing::Routes.reload in /app/controllers/admin/urlmappings_controller.rb only reloads 1 mongrel
 module ActionController #:nodoc:
   module Routing #:nodoc:
     class RouteSet
