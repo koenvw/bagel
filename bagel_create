@@ -66,13 +66,14 @@ echo "Finished."
 
 # install required plugins for bagel
 script/plugin install http://dev.rubyonrails.org/svn/plugins/exception_notification/
-script/plugin install http://svn.rails-engines.org/engines/branches/rb_1.2/
+script/plugin install http://svn.rails-engines.org/engines/branches/rb_1.2/ 
 script/plugin install http://svn.techno-weenie.net/projects/plugins/attachment_fu/
 script/plugin install svn://projects.jkraemer.net/acts_as_ferret/tags/stable/acts_as_ferret
 script/plugin install svn://rubyforge.org/var/svn/betternestedset/tags/stable/betternestedset
 script/plugin install http://opensvn.csie.org/rails_file_column/plugins/file_column/trunk
-# fix file_column plugin name
+# fix some plugin names
 mv vendor/plugins/trunk vendor/plugins/file_column
+mv vendor/plugins/rb_1.2 vendor/plugins/engines
 
 # add plugins to svn
 svn status | grep "^\?" | awk "{print \$2}" | xargs svn add
