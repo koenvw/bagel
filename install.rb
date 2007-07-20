@@ -54,7 +54,7 @@ END
 end
 
 # add requires
-["require 'plugins/bagel/lib/configuration'","require 'memcache_util'","require 'mime/types'"].each do |line|
+["require 'plugins/bagel/lib/configuration'","require 'vendor/plugins/bagel/admin_menu' ","require 'memcache_util'","require 'mime/types'","require 'htmlentities'","require 'net/ftp'"].each do |line|
   insert_line(line, 'Rails::Initializer.run', file)
 end
 
@@ -67,10 +67,21 @@ config = <<EOC
   #Application Config
   config.app_config.content_types = ["News","Image","Form","FormDefinition","Container","SiteUser","Document","Generator"]
   config.app_config.content_status = ["Draft","Reviewed","Published","Hidden"]
+  config.app_config.form_actions = ["store_as_site_user","remove_as_site_user"] 
 
   # akismet key
-  config.app_config.akismet_key = "a64cd5218a01"
-  config.app_config.akismet_url = "http://www.auto55.be"
+  config.app_config.akismet_key = ""
+  config.app_config.akismet_url = ""
+  
+  # Domains
+  config.app_config.domain_map = {} # domainify_name => name in bagel(websites)
+  config.app_config.websites = {} # website_name(bagel) => website_id
+
+  # wizards
+  config.app_config.wizard_for = [] # array of content type names
+
+  # admin menu
+  config.app_config.admin_menu = admin_menu 
 
   # email validation
   config.app_config.email_expression = /^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6}$/i

@@ -36,10 +36,10 @@
 <% if @form_definition_pages.current.next || @form_definition_pages.current.previous %>
 	<div class="bottomButton">
 		<ul class="mainNav">
-		<% if @generator_files_pages.current.next %>
+		<% if @form_definition_pages.current.next %>
 			<li><%= link_to 'Next page', { :page => @form_definition_pages.current.next }, :class => "next" %></li>
 		<% end %>
-		<% if @generator_files_pages.current.previous %> 
+		<% if @form_definition_pages.current.previous %> 
 			<li><%= link_to 'Prev page', { :page => @form_definition_pages.current.previous }, :class => "prev" %></li>
 		<% end %>
 		</ul>

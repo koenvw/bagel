@@ -11,7 +11,7 @@ class Admin::FormDefinitionsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
   def list
-    @form_definition_pages, @form_definitions = paginate :form_definition, :per_page => 20, :order => "name ASC"
+    @form_definition_pages, @form_definitions = paginate :form_definition, :per_page => 9999, :order => "name ASC"
   end
 
   def edit
