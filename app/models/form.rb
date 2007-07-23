@@ -89,6 +89,7 @@ class Form < ActiveRecord::Base
   end
 
   def self.find_with_parameters(options = {})
+    options.assert_valid_keys [:type,:conditions,:tag_names,:search_string,:limit,:offset,:order]
     cstr = ""; conditions = []
     # type
     if options[:type]
@@ -105,7 +106,7 @@ class Form < ActiveRecord::Base
       condition_check = ""
       options[:conditions].each do |name,value|
         condition_check << "AND (data RLIKE ? )"
-        conditions << "\n:#{name}: *#{value}*"
+        conditions << "\n#{name}: [\"]?#{value}[\"]?"
       end
     end
     # tags
