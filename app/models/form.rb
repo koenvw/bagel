@@ -28,10 +28,17 @@ class Form < ActiveRecord::Base
     end
     @data
   end
+
   def check_data
     @data.each_key do |key|
       raise Exception.new("illegal key: #{key}") if key.to_s != "name" && key.to_s != "type_id" && self.orig_respond_to?(key)
     end
+  end
+
+  def data
+    #FIXME: why do we still need to initialize ? -> initialize is not executed after Form.find()
+    initialize_data if @data.nil?
+    @data
   end
 
   def convert_data
