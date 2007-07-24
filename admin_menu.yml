@@ -1,5 +1,5 @@
 - title:      "Website"
-  url:        "/admin/home/index"
+  url:        "/admin/home/website"
   children:
     - title:  "Manage"
       url:    "/admin/content/list"
@@ -23,6 +23,8 @@
     - url:    "/admin/containers"
     - url:    "/admin/siteusers"
     - url:    "/admin/events"
+    - url:    "/admin/tags"
+    - url:    "/admin/images"
 - title:      "Webfolder"
   url:        "/admin/home/webfolder"
 - title:      "Admin"
