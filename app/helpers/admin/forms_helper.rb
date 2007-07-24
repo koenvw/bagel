@@ -42,6 +42,7 @@ module Admin::FormsHelper
     if !options[:help].blank?
       out << '<p class="mcehelp">'+ options[:help] +'</p>'
     end
+    return out
   end
 
   def bagel_country_select(method, priority_countries = nil, options = {}, html_options = {})
