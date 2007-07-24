@@ -26,7 +26,7 @@ content_type ||= ContentType.new
 posted_tags = []
 parent_tags = []
 if request.post?
-  if !params["tags"].nil_or_empty?
+  if !params["tags"].blank?
 	tags = params["tags"]
 	tags.split(",").each do |element|
 	  tag = Tag.find(element)

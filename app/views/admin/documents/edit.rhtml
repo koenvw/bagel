@@ -20,7 +20,7 @@
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="document_title">Text extraction</label>
-			<%= @document.content_type %>: <%= (@document.content == "NO CONTENT" || @document.content.nil_or_empty?) ? "not ok. unsupported file." : "ok" %>
+			<%= @document.content_type %>: <%= (@document.content == "NO CONTENT" || @document.content.blank?) ? "not ok. unsupported file." : "ok" %>
 		</fieldset>
 		<% end %>
 		<div class="mceFrame">

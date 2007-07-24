@@ -38,7 +38,7 @@ class Admin::ImagesController < ApplicationController
     if request.post?
       @image.attributes = params[:image]
       @image.prepare_sitems(params[:sitems])
-      @image.title = @image.image_file if @image.title.nil_or_empty?
+      @image.title = @image.image_file if @image.title.blank?
       if @image.save
         @image.save_workflow(params[:workflow_steps])
         @image.save_tags(params[:tags])

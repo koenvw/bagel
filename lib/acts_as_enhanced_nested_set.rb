@@ -47,7 +47,7 @@ module ActsAsEnhancedNestedSet
   module InstanceMethods
 
     def to_child_of(target)
-      if target.nil_or_empty? || target.to_s == "0"
+      if target.blank? || target.to_s == "0"
         move_to_root
       else
         move_to_child_of(target)

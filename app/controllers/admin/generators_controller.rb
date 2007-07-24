@@ -12,7 +12,7 @@ class Admin::GeneratorsController < ApplicationController
 
   def list
     conditions = "1=1"
-    conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].nil_or_empty?
+    conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].blank?
     conditions << " AND generator_folder_id = #{params[:id]}" unless params[:id].nil?
     @generator_pages, @generators = paginate :generator, :per_page => 9999, :order => "name asc", :conditions => conditions
     @websites = Website.find(:all)

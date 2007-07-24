@@ -22,9 +22,9 @@ end
 
 <div id="relations_<%= direction %><%=uniq_id%>" style="display:inline;">
 	<div id="relations<%= direction %><%=uniq_id%>_list">
-		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">			
+		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">
 		<% if request.post? %>
-			<li id='relations<%= direction %>_item_none' style="display: <%= (params["relations"].nil_or_empty? || direction == "out") ? "block" : "none" %>;">There are no relations</li>
+			<li id='relations<%= direction %>_item_none' style="display: <%= (params["relations"].blank? || direction == "out") ? "block" : "none" %>;">There are no relations</li>
 			<% relations = params["relations"] %>
 			<% relations.split(",").each do |element| to_sobject_id = element.split("-")[0]; category_id = element.split("-")[1] %>
 				<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> to_sobject_id, :category_id=> category_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => "in"} %>

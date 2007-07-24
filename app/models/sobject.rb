@@ -165,7 +165,7 @@ class Sobject < ActiveRecord::Base
       published_by_check = " AND sobjects.updated_by IN (#{users.join(",")})"
     end
     # search_string
-    unless options[:search_string].nil_or_empty?
+    unless options[:search_string].blank?
       search_check = "AND (sitems.name LIKE '%#{ActiveRecord::Base.connection.quote_string(options[:search_string])}%')"
     end
     # content_types

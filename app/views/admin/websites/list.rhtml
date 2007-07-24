@@ -17,7 +17,7 @@
 	  <tr class="content">
 		  <td><%= link_to @item.name, :action => "edit", :id => @item %> </td>
 		  <td>
-			<% if @item.domain.nil_or_empty? %>
+			<% if @item.domain.blank? %>
 				<span class="greyText">empty</span>
 			<% else	%>
 				<%=h truncate(@item.domain, 40,'...') %>

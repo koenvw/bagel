@@ -20,7 +20,7 @@ class Form < ActiveRecord::Base
 
   def initialize_data
     if @data.nil?
-      unless read_attribute(:data).nil_or_empty?
+      unless read_attribute(:data).blank?
         @data = YAML.load(read_attribute(:data))
       else
         @data = {}

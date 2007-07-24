@@ -1,6 +1,6 @@
 <% 
 	## set default websiteId if params is empty
-	if !params[:website_id].nil_or_empty? 
+	if !params[:website_id].blank? 
 		websiteId = params[:website_id]
 	else
 		websiteId = Website.find(:first).id.to_s
@@ -28,7 +28,7 @@
 			<div class="folderTree">
 			<ul>
 				<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == websiteId } %>
-				<% if !@folders.nil_or_empty? %>
+				<% if !@folders.blank? %>
 				<% @folders.each do |folder| %>
 					<li>
 						<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => websiteId }, :id => 'cat_' + folder.id.to_s %>
@@ -49,7 +49,7 @@
 		<div class="subContentRight">
 			<% unless params[:id].nil? %>
 			<h3 class="crumbs">
-            <%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;
+			<%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;
 			<%=
 				nested_set_full_outline(GeneratorFolder.find(params[:id]), :separator => " &raquo; ") do |item, current|
 					if params[:id] == item.id.to_s
@@ -73,7 +73,7 @@
 				<tr class="content">
 					<td><%= link_to generator.name, :action => 'edit', :id => generator, :website_id => websiteId %></td>
 					<td>
-						<% if !generator.description.nil_or_empty? %>
+						<% if !generator.description.blank? %>
 							<%=h truncate(generator.description, 15,'...') %>
 						<% else	%>
 							<span class="greyText">empty</span>

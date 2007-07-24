@@ -20,7 +20,7 @@ class Admin::MeController < ApplicationController
       end
 
       # Save password
-      @admin_user.password = params[:password] unless params[:password].nil_or_empty?
+      @admin_user.password = params[:password] unless params[:password].blank?
       @admin_user.save
 
       # Handle e-mail address change

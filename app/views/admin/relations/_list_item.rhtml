@@ -22,7 +22,7 @@
 <% if direction == "in" %>
   <% relation_name = "<strong>#{relation_category.name}:</strong> " %>
 <% elsif direction == "out" %>
-  <% relation_category.name_reverse.nil_or_empty? ? relation_name = "" : relation_name = "<strong>#{relation_category.name_reverse}:</strong> " %>
+  <% relation_category.name_reverse.blank? ? relation_name = "" : relation_name = "<strong>#{relation_category.name_reverse}:</strong> " %>
 <% end %>
 
 <% case @sobject.content_type

@@ -17,7 +17,7 @@ class Admin::DocumentsController < ApplicationController
     if request.post?
       @document.attributes = params[:document]
       @document.prepare_sitems(params[:sitems])
-      @document.title = @document.filename if @document.title.nil_or_empty?
+      @document.title = @document.filename if @document.title.blank?
       Document.transaction do
         if @document.save
           @document.save_workflow(params[:workflow_steps])

@@ -30,7 +30,7 @@
 			%>
 			<li>
 				<%= check_box_tag "workflow_steps[]", @wf_step.id, checked, options || {}  %><%= @wf_step.name %>
-				<%= "(#{current_action.first.admin_user.fullname})" unless current_action.nil_or_empty? %>
+				<%= "(#{current_action.first.admin_user.fullname})" unless current_action.blank? %>
 			</li>
 		<% end %>
 		</ul>

@@ -53,7 +53,7 @@ class Admin::AdminUsersController < ApplicationController
     end
 
     if @admin_user.update_attributes(params[:admin_user])
-      @admin_user.password = params[:password] unless params[:password].nil_or_empty?
+      @admin_user.password = params[:password] unless params[:password].blank?
       @admin_user.is_active = params[:admin_user][:is_active]
       @admin_user.save
       flash[:notice] = 'User was successfully updated.'

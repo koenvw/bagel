@@ -23,7 +23,7 @@ width:520px;
                         <ul id="categories_tree" class="dhtmlgoodies_tree">
                         <li id="node10000" noDrag="true" noSiblings="true"><a href="#">Menu Items</a>
                         <ul>
-                        <% if !params[:parent_id].nil_or_empty? %>
+                        <% if !params[:parent_id].blank? %>
                                 <% @parent = Menu.find(params[:parent_id]) %>
                                 <% @menus = @parent.all_children %>
                                 <% @menus.each do |category| %>
