@@ -841,6 +841,7 @@
 		padding: 11px;
 		width: 755px;
 	}
+	.subContent p.mcehelp,
 	fieldset.oneline p.help
 	{
 		color: #333;
@@ -848,6 +849,11 @@
 		padding: 4px 3px 4px 28px;
 		border: 1px solid #ADADAD;
 		background: #BDBDBD url('../../images/bluegel/icons/icon_help_small.png') no-repeat 4px 3px;
+	}
+	.subContent p.mcehelp
+	{
+		margin: 0 auto 0 auto; width: 742px;
+		background: #BDBDBD url('../../images/bluegel/icons/icon_help_small.png') no-repeat 4px center;
 	}
 	fieldset.smaller { width: 450px; }
 	
@@ -887,6 +893,7 @@
 		margin: 0 0 0 29px;
 		width: 772px;
 	}
+
 	.subContent .mceFrame .text_area_large { width: 770px; }
 	fieldset.oneline ul
 	{

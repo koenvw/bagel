@@ -38,6 +38,10 @@ module Admin::FormsHelper
     out = '<div class="mceFrame">'
     out << text_area(:form, method, options)
     out << '</div>'
+    out << '<br />'
+    if !options[:help].blank?
+      out << '<p class="mcehelp">'+ options[:help] +'</p>'
+    end
   end
 
   def bagel_country_select(method, priority_countries = nil, options = {}, html_options = {})
