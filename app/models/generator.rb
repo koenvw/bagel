@@ -29,7 +29,9 @@ class Generator < ActiveRecord::Base
   end
 
   def dependencies
-    template.scan(/controller.include_template\("(\w+)"\)/).flatten
+    (template.scan(/controller.include_template\("(\w+)"\)/) + 
+     template.scan(/controller.render_generator\("(\w+)"\)/) + 
+     template.scan(/controller.render_generator\('(\w+)'\)/)).flatten
   end
 
 end
