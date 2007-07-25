@@ -23,23 +23,22 @@
 <body>
 <div id="loginBox">
 <% form_tag :action => 'login' do %>
-	<fieldset>
-		
+	<div class="posForm">
 		<% unless flash[:notice].nil? %><p class="loginerr"><%= flash[:notice] %></p><% end %>
 		<% unless flash[:message].nil? %><p class="loginerr"><%= flash[:message] %></p><% end %>
 		<% unless flash[:warning].nil? %><p class="loginerr"><%= flash[:warning] %></p><% end %>
 		
 		<label for="user_login">Username</label>
 		<%= text_field :admin_user, "username", {:class => "textfield"} %>
-		<br />
+
 		<label for="user_password">Password</label>
 		<%= password_field :admin_user, "password", :class => "textfield" %>
+
 		<div class="loginPos">
-			<%= submit_tag 'Login',          :name => 'login',          :class => "button" %>
-			<%= submit_tag 'Reset Password', :name => 'reset_password', :class => "button" %>
+			<%= submit_tag 'Login',          :name => 'login',          :class => "button login" %>
+			<%= submit_tag 'Reset Password', :name => 'reset_password', :class => "button lostpass" %>
 		</div>
-		
-	</fieldset>
+	</div>
 <% end %>
 </div>
 </body>

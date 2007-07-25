@@ -40,16 +40,19 @@
 		top: 50%;
 		left: 50%;
 		margin: -215px 0 0 -265px;
+		overflow: hidden;
 	}
-	#loginBox fieldset
+	#loginBox div.posForm
 	{
-		border: none;
-		position: absolute;
-		top: 160px;
-		left: 90px;
+		width: 325px;
+		margin: 0 auto 0 auto;
+		padding-top: 175px;
+		position: relative;
 	}
-	#loginBox fieldset .loginPos { text-align: right; width: 316px; }
-	#loginBox fieldset input.textfield
+	#loginBox .loginPos { margin-top: 5px; position: relative; text-align: right; width: 318px; }
+	#loginBox .loginPos input.login { float: right; }
+	#loginBox .loginPos input.lostpass { float: right; margin-right: 5px; }
+	#loginBox input.textfield
 	{
 		width: 200px;
 		padding: 3px;
@@ -58,7 +61,7 @@
 		border: 1px solid #ccc;
 		margin-bottom: 3px;
 	}
-	#loginBox fieldset label
+	#loginBox label
 	{
 		font-size: 14px;
 		margin-top: 3px;
@@ -73,6 +76,9 @@
 		left: 99px;
 		width: 313px;
 		text-align: center;
+		position: absolute;
+		top: 135px;
+		left: 0;
 	}
 	
 /* MAIN CONTAINER
