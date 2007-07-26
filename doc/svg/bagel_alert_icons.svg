@@ -14,10 +14,9 @@
    id="svg2305"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/josbeir/WEBDEV/bagel_gfx/sources/svg"
-   sodipodi:docname="alert icons.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="true">
+   sodipodi:docbase="/home/josbeir/Development/current_projects/cuttingedge_bagel/vendor/plugins/bagel/doc/svg"
+   sodipodi:docname="alert_icons.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs2307">
     <linearGradient
@@ -867,17 +866,17 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="341.45738"
-     inkscape:cy="832.91369"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="85.497235"
+     inkscape:cy="882.97388"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="910"
      inkscape:window-height="626"
-     inkscape:window-x="0"
-     inkscape:window-y="49" />
+     inkscape:window-x="5"
+     inkscape:window-y="73" />
   <metadata
      id="metadata2310">
     <rdf:RDF>
@@ -898,13 +897,13 @@
        id="rect2596"
        width="40.272114"
        height="45.506836"
-       x="185.57047"
-       y="164.95547"
+       x="286.58572"
+       y="138.69151"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_notice.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       transform="matrix(1.1077855,0,0,1.0165558,178.59315,162.15808)"
+       transform="matrix(1.1077855,0,0,1.0165558,279.6084,135.89411)"
        d="M 39.875 42.0625 A 13.8125 4.4375 0 1 1  12.25,42.0625 A 13.8125 4.4375 0 1 1  39.875 42.0625 z"
        sodipodi:ry="4.4375"
        sodipodi:rx="13.8125"
@@ -920,7 +919,7 @@
        inkscape:export-ydpi="90" />
     <g
        id="g4076"
-       transform="matrix(0.9253269,0,0,0.9253269,185.25697,166.05326)"
+       transform="matrix(0.9253269,0,0,0.9253269,286.27222,139.78929)"
        inkscape:r_cx="true"
        inkscape:r_cy="true"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_notice.png"
@@ -1101,14 +1100,14 @@
        id="rect3567"
        width="43.285999"
        height="45.263"
-       x="237.92233"
-       y="163.61469"
+       x="338.93759"
+       y="137.35072"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_error.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
        id="g2389"
-       transform="translate(0,1.314332)">
+       transform="translate(101.01525,-24.949634)">
       <g
          transform="matrix(0.8762285,0,0,0.8762285,238.53585,164.77856)"
          inkscape:label="Layer 1"
@@ -1175,15 +1174,15 @@
        id="rect3599"
        width="43.285999"
        height="45.262562"
-       x="293.24606"
-       y="163.21692"
+       x="394.26132"
+       y="136.95296"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_warning.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
        inkscape:label="Layer 1"
        id="g2571"
-       transform="matrix(0.9357442,0,0,0.9357442,251.87508,93.028691)"
+       transform="matrix(0.9357442,0,0,0.9357442,352.89033,66.764725)"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_warning.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -1280,7 +1279,7 @@
     <g
        inkscape:label="Layer 1"
        id="g3638"
-       transform="matrix(0.9066054,0,0,0.9066054,292.86051,166.44339)"
+       transform="matrix(0.9066054,0,0,0.9066054,393.87576,140.17942)"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/g3638.png">
@@ -1329,15 +1328,15 @@
        id="rect3692"
        width="44.820271"
        height="44.302086"
-       x="135.80046"
-       y="166.2195"
+       x="236.81572"
+       y="139.95554"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_help.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
        inkscape:label="Layer 1"
        id="g3686"
-       transform="matrix(0.9713924,0,0,0.9713924,135.05676,164.85655)"
+       transform="matrix(0.9713924,0,0,0.9713924,236.07201,138.59258)"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_help.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -1377,14 +1376,14 @@
        id="rect3427"
        width="43.285999"
        height="45.262562"
-       x="350.14273"
-       y="162.23091"
+       x="451.15799"
+       y="135.96695"
        inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/icons/icon_confirm.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
        id="g3446"
-       transform="translate(-37.142857,-15.357136)">
+       transform="translate(63.872397,-41.621102)">
       <path
          transform="matrix(0.8564067,0,0,0.8885213,388.26347,179.40302)"
          d="M 46.138718 23.42804 A 22.008699 21.213203 0 1 1  2.1213188,23.42804 A 22.008699 21.213203 0 1 1  46.138718 23.42804 z"

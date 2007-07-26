@@ -14,13 +14,12 @@
    id="svg3628"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/josbeir/Development/current_projects/idf_bagel/vendor/plugins/bagel/doc/svg"
+   sodipodi:docbase="/home/josbeir/Development/current_projects/cuttingedge_bagel/vendor/plugins/bagel/doc/svg"
    sodipodi:docname="buttons.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:export-filename="/home/josbeir/WEBDEV/bagel_gfx/sources/svg/buttons.png"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90"
-   sodipodi:modified="true">
+   inkscape:export-ydpi="90">
   <defs
      id="defs3630">
     <linearGradient
@@ -4839,9 +4838,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="246.51224"
-     inkscape:cy="99.754016"
+     inkscape:zoom="1"
+     inkscape:cx="361.21536"
+     inkscape:cy="642.28223"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      inkscape:window-width="1280"

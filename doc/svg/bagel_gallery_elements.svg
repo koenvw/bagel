@@ -14,8 +14,8 @@
    id="svg4198"
    sodipodi:version="0.32"
    inkscape:version="0.45"
-   sodipodi:docbase="/home/josbeir/Development/current_projects/cuttingedge_bagel/vendor/plugins/bagel/doc/svg"
-   sodipodi:docname="icons_simple.svg"
+   sodipodi:docbase="/home/josbeir/Development/current_projects/cuttingedge_bagel/vendor/plugins/bagel/doc/svg/new"
+   sodipodi:docname="bagel_gallery_elements.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    sodipodi:modified="true">
   <defs
@@ -373,6 +373,14 @@
          offset="1.0000000"
          id="stop1446" />
     </linearGradient>
+    <filter
+       id="filter3251"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3253"
+         stdDeviation="1.743194"
+         inkscape:collect="always" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -381,9 +389,9 @@
      borderopacity="1.0000000"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="6.3020833"
-     inkscape:cx="47.545556"
-     inkscape:cy="6.1957398"
+     inkscape:zoom="1.5755208"
+     inkscape:cx="109.80189"
+     inkscape:cy="-14.368504"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:grid-bbox="true"
@@ -796,6 +804,52 @@
            id="path8658"
            sodipodi:nodetypes="cccccccc" />
       </g>
+    </g>
+    <g
+       id="g2433"
+       inkscape:label="Layer 1"
+       transform="translate(79.077155,-103.87377)">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/gallery_background.png"
+         ry="0"
+         rx="0"
+         y="73.645149"
+         x="46.429173"
+         height="160.2655"
+         width="179.95595"
+         id="rect2160"
+         style="opacity:1;fill:#eeeeee;fill-opacity:0.93333333;stroke:none;stroke-width:0.22400001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         transform="matrix(0.9940105,0,0,1,315.55736,-114.28571)"
+         ry="5.7142859"
+         rx="4.6428571"
+         y="194.46855"
+         x="-264.05969"
+         height="149"
+         width="168"
+         id="rect3163"
+         style="opacity:0.64835169;fill:#000000;fill-opacity:0.93333333;stroke:none;stroke-width:0.22400001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3251)" />
+      <rect
+         ry="5.7142859"
+         rx="4.6150489"
+         y="79.719353"
+         x="52.429173"
+         height="149"
+         width="166.99376"
+         id="rect3133"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.22400001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rect2170.png"
+         y="173.43361"
+         x="75"
+         height="8.5714283"
+         width="128.92857"
+         id="rect2170"
+         style="opacity:0.64835169;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.22400001;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
   </g>
 </svg>

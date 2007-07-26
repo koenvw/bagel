@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2337"
+   sodipodi:version="0.32"
+   inkscape:version="0.45"
+   sodipodi:docbase="/home/josbeir/Development/current_projects/cuttingedge_bagel/vendor/plugins/bagel/doc/svg/new"
+   sodipodi:docname="bagel_rounded.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   sodipodi:modified="true">
+  <defs
+     id="defs2339" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="375"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="910"
+     inkscape:window-height="626"
+     inkscape:window-x="5"
+     inkscape:window-y="73" />
+  <metadata
+     id="metadata2342">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g3983"
+       transform="translate(-10.120834,-40.4133)">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_top.png"
+         ry="0"
+         rx="0"
+         y="173.08101"
+         x="-43.427155"
+         height="17.188"
+         width="835"
+         id="rect3141"
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_top.png"
+         id="rect2160"
+         d="M -33.177151,173.081 C -38.856811,173.081 -43.427151,178.47618 -43.427151,185.14385 L -43.427151,190.269 L 791.57284,190.269 L 791.57284,185.14385 C 791.57284,178.47617 787.00247,173.081 781.32284,173.081 L -33.177151,173.081 z "
+         style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <path
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 790.70059,97.68574 C 796.38029,97.68574 800.95059,92.29056 800.95059,85.62289 L 800.95059,80.49774 L -34.049404,80.49774 L -34.049404,85.62289 C -34.049404,92.29057 -29.479034,97.68574 -23.799404,97.68574 L 790.70059,97.68574 z "
+       id="path3145"
+       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_bottom.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
+       id="rect5715"
+       width="834"
+       height="13"
+       x="-55.236286"
+       y="-228.14134"
+       rx="0"
+       ry="0"
+       transform="scale(1,-1)"
+       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_split_top.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g5717"
+       transform="translate(767.7637,-385.23365)"
+       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_split_top.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         id="rect5677"
+         d="M -811.09375,600.375 C -817.6857,600.375 -823,605.01781 -823,610.8125 L -823,613.375 L -523,613.375 L -523,610.8125 C -523,605.01782 -528.31432,600.375 -534.90625,600.375 L -811.09375,600.375 z "
+         style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-opacity:1" />
+      <path
+         id="rect5685"
+         d="M -498.5625,600.375 C -504.33481,600.375 -509,604.86342 -509,610.46875 L -509,613.375 L 11,613.375 L 11,610.46875 C 11,604.86342 6.3660565,600.375 0.59375,600.375 L -498.5625,600.375 z "
+         style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-opacity:1"
+       id="rect5755"
+       width="834"
+       height="13"
+       x="-42.508381"
+       y="-300.22665"
+       rx="0"
+       ry="0"
+       transform="scale(1,-1)"
+       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_split_bottom.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g5757"
+       transform="matrix(1,0,0,-1,780.49162,900.6016)"
+       inkscape:export-filename="/home/josbeir/WEBDEV/bagel/public/layout/bluegel/images/rounded_split_bottom.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         id="path5759"
+         d="M -811.09375,600.375 C -817.6857,600.375 -823,605.01781 -823,610.8125 L -823,613.375 L -523,613.375 L -523,610.8125 C -523,605.01782 -528.31432,600.375 -534.90625,600.375 L -811.09375,600.375 z "
+         style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-opacity:1" />
+      <path
+         id="path5761"
+         d="M -498.5625,600.375 C -504.33481,600.375 -509,604.86342 -509,610.46875 L -509,613.375 L 11,613.375 L 11,610.46875 C 11,604.86342 6.3660565,600.375 0.59375,600.375 L -498.5625,600.375 z "
+         style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:none;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>
