@@ -105,7 +105,10 @@ module ApplicationHelper
 protected
 
   def is_spam_comment?(author, text)
-    # TODO check whether anti-spam is enabled (in AppConfig of Settings)
+    # Check whether spam protection is enabled
+    return false unless (Setting.get('SpamSettings') || {})[:enable_spam_protection]
+
+    # Check comment for spam using Akismet
     is_spam_comment_akismet?(author, text)
   end
 
