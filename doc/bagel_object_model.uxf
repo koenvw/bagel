@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.Class</type><coordinates><x>320</x><y>520</y><w>210</w><h>80</h></coordinates><panel_attributes>Relationship
+--</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>970</x><y>270</y><w>210</w><h>70</h></coordinates><panel_attributes>Website
+--
+-name: string
+bg=orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>970</x><y>520</y><w>210</w><h>80</h></coordinates><panel_attributes>Tag
+--
+-name: string
+bg=orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>510</x><y>516</y><w>180</w><h>54</h></coordinates><panel_attributes>from
+lt=&lt;&lt;-</panel_attributes><additional_attributes>160;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>510</x><y>536</y><w>180</w><h>54</h></coordinates><panel_attributes>to
+lt=&lt;&lt;-</panel_attributes><additional_attributes>160;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>670</x><y>520</y><w>210</w><h>80</h></coordinates><panel_attributes>Sobject
+--
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>670</x><y>130</y><w>210</w><h>80</h></coordinates><panel_attributes>Generator
+--
+-name: string
+-template: text
+-corecontenttype: string
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>320</x><y>130</y><w>210</w><h>80</h></coordinates><panel_attributes>UrlMappings
+--
+- path:string
+- hash:yaml</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>970</x><y>130</y><w>210</w><h>80</h></coordinates><panel_attributes>Setting
+--
+#get(name): string</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>389</x><y>320</y><w>82</w><h>90</h></coordinates><panel_attributes>from/to
+lt=&lt;&lt;- </panel_attributes><additional_attributes>41;20;41;70</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>373</x><y>430</y><w>114</w><h>110</h></coordinates><panel_attributes>
+
+relation type
+lt=&lt;&lt;-</panel_attributes><additional_attributes>57;20;57;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>860</x><y>150</y><w>130</w><h>150</h></coordinates><panel_attributes> website
+lt=&lt;&lt;-</panel_attributes><additional_attributes>110;130;70;130;70;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>860</x><y>276</y><w>130</w><h>54</h></coordinates><panel_attributes>  website
+lt=&lt;&lt;-</panel_attributes><additional_attributes>110;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>510</x><y>140</y><w>180</w><h>170</h></coordinates><panel_attributes>
+lt=&lt;&lt;-</panel_attributes><additional_attributes>20;150;70;150;70;20;160;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>510</x><y>290</y><w>210</w><h>250</h></coordinates><panel_attributes>
+lt=&lt;&lt;-</panel_attributes><additional_attributes>20;20;70;20;70;190;190;190;190;230</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>320</x><y>280</y><w>210</w><h>60</h></coordinates><panel_attributes>ContentType
+--
+-name: string
+--
+bg=orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>670</x><y>230</y><w>210</w><h>190</h></coordinates><panel_attributes>Sitem
+--
+-name: string
+-status: string
+-publish_from: datetime
+-publish_till: datetime
+-publish_date: datetime
+-content: ContentType
+-link: string
+--
+-created_on: datetime
+-updated_on: datetime
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>680</x><y>800</y><w>210</w><h>100</h></coordinates><panel_attributes>Content
+--
+-title: string
+-intro: text
+-body: text
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>320</x><y>390</y><w>210</w><h>60</h></coordinates><panel_attributes>Relation
+--
+-name: string
+--
+bg=orange
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>860</x><y>496</y><w>130</w><h>54</h></coordinates><panel_attributes>tags
+lt=&lt;-
+m1=0..n</panel_attributes><additional_attributes>110;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>190</x><y>950</y><w>210</w><h>100</h></coordinates><panel_attributes>SiteUser
+--
+-name: string
+-email: string
+-login: string
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>740</x><y>580</y><w>40</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>20;20;20;220</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>600</x><y>580</y><w>130</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>110;20;110;130;20;130;20;220</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>330</x><y>580</y><w>370</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>350;20;350;110;20;110;20;220</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>830</x><y>580</y><w>470</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>20;20;20;110;450;110;450;220</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>800</x><y>580</y><w>210</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>20;20;20;130;190;130;190;220</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1090</x><y>736</y><w>118</w><h>104</h></coordinates><panel_attributes>lt=&gt;&gt;
+parent_id</panel_attributes><additional_attributes>20;64;20;34;70;34;70;84;40;84</additional_attributes></element><element><type>com.umlet.control.Group</type><coordinates><x>1090</x><y>820</y><w>120</w><h>104</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>190</x><y>800</y><w>210</w><h>100</h></coordinates><panel_attributes>Form
+--
+-name: string
+-data: text
+-form: text
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1200</x><y>800</y><w>210</w><h>100</h></coordinates><panel_attributes>Image
+--
+-title: string
+-image:image
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>430</x><y>800</y><w>210</w><h>100</h></coordinates><panel_attributes>Container
+--
+-title: string
+-description: text
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>920</x><y>800</y><w>210</w><h>100</h></coordinates><panel_attributes>Menu
+--
+-name: string
+-position: number
+--
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>400</y><w>40</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-&gt;
+</panel_attributes><additional_attributes>20;20;20;120</additional_attributes></element><element><type>com.umlet.control.Group</type><coordinates><x>500</x><y>60</y><w>120</w><h>104</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element></umlet_diagram>
