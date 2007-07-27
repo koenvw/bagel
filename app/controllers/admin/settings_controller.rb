@@ -41,16 +41,6 @@ class Admin::SettingsController < ApplicationController
     redirect_to :action => 'list'
   end
 
-  def move_left
-    flash[:error] = 'Error occurred. (Name not unique?)' unless Setting.move_left(params[:id])
-    redirect_to :action => 'list'
-  end
-
-  def move_right
-    flash[:error] = 'Error occurred. (Name not unique?)' unless Setting.move_right(params[:id])
-    redirect_to :action => 'list'
-  end
-
   def sort
     Setting.find(:all).each do |setting|
       setting.position = params["sortlist"].index(setting.id.to_s) + 1

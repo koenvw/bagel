@@ -14,34 +14,6 @@ module ActsAsEnhancedNestedSet
       end
     end
 
-    # TODO: remove me
-    def move_left(id)
-      $stderr.puts 'DEPRECATION WARNING: ActsAsEnhancedNestedSet.move_left() is deprecated; use the instance method instead.'
-
-      # Find node
-      moving_node = self.find(id)
-      return if moving_node.blank?
-
-      # Move node right
-      moving_node.move_left
-    end
-
-    # TODO: remove me
-    def move_right(id)
-      $stderr.puts 'DEPRECATION WARNING: ActsAsEnhancedNestedSet.move_right() is deprecated; use the instance method instead.'
-
-      # Find node
-      moving_node = self.find(id)
-      return if moving_node.blank?
-
-      # Move node right
-      moving_node.move_right
-    end
-
-    def sort_all(sorted_list)
-      #FIXME:
-    end
-
   end
 
   module InstanceMethods
@@ -118,8 +90,6 @@ module ActsAsEnhancedNestedSet
     def real_siblings
       self.has_parent? ? self.siblings : (self.roots - [self])
     end
-
-    
 
     def sort_children
       return unless self.has_children?

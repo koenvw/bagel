@@ -23,7 +23,7 @@ module ActsAsAssistant
         controller.class.assistant_id     = params[:identifier]
         controller.class.assistant_title  = params[:title]
         controller.class.assistant_steps  = params[:steps]
-        
+
         controller.instance_eval do
           @assistant_title  = params[:title]
           @assistant_steps  = params[:steps]
@@ -90,7 +90,7 @@ module ActsAsAssistant
       fix_data
       session[:assistants][self.class.assistant_id] = {}
     end
-  
+
   end
 
 end

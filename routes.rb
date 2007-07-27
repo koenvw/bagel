@@ -33,7 +33,7 @@ end
 
 with_options :controller => 'admin/log_messages' do |m|
   m.admin_log_messages        '/admin/log_messages'
-  m.admin_log_messages_rotate '/admin/log_messages/rotate', :action => 'rotate'
+  m.admin_log_messages_rotate '/admin/log_messages/rotate',      :action => 'rotate'
   m.admin_log_message         '/admin/log_messages/:id/:action', :action => 'show'
 end
 
