@@ -12,16 +12,48 @@ class Admin::EventsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :edit }
 
   def edit
+    # Find or create event
     @event = Event.find_by_id(params[:id]) || Event.new
+    
     if request.post?
+      old_attr = {
+        :container          => @event.attributes,
+        :sitems             => @event.sitems.map(&:attributes),
+        :sobject            => @event.sobject.attributes,
+        :relations_as_from  => @event.sobject.relations_as_from.map(&:attributes),
+        :relations_as_to    => @event.sobject.relations_as_to.map(&:attributes),
+        :tags               => @event.sobject.tags.map(&:attributes)
+      }
+      is_new_item = @event.id.nil?
+
+      # Update attributes based on params
       @event.attributes = params[:event]
       @event.prepare_sitems(params[:sitems])
 
+      # Save
       Event.transaction do
         if @event.save
+          # Save related
           @event.save_tags(params[:tags])
           @event.save_relations(params[:relations])
           @event.set_updated_by(params)
+
+          # Log
+          new_attr = {
+            :container          => @event.attributes,
+            :sitems             => @event.sitems.map(&:attributes),
+            :sobject            => @event.sobject.attributes,
+            :relations_as_from  => @event.sobject.relations_as_from.map(&:attributes),
+            :relations_as_to    => @event.sobject.relations_as_to.map(&:attributes),
+            :tags               => @event.sobject.tags.map(&:attributes)
+          }
+          diff = old_attr.inspect_with_newlines.html_diff_with(new_attr.inspect_with_newlines)
+          bagel_log :message    => "Event #{is_new_item ? 'created' : 'updated'}",
+                    :kind       => 'data',
+                    :severity   => :low,
+                    :extra_info => (is_new_item ? new_attr : { :diff => diff })
+
+          # Done
           flash[:notice] = 'Event was successfully updated.'
           redirect_to params[:referer] || {:controller => "content", :action => "list"}
         end

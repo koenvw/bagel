@@ -34,7 +34,7 @@ class Admin::AdminUsersController < ApplicationController
       bagel_log :message    => "Admin user created",
                 :kind       => 'data',
                 :severity   => :low,
-                :extra_info => { :user => @admin_user }
+                :extra_info => { :user => @admin_user.attributes }
 
       flash[:notice] = 'User was successfully created.'
       redirect_to admin_users_url

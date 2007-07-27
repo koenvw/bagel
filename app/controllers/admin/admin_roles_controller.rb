@@ -26,7 +26,7 @@ class Admin::AdminRolesController < ApplicationController
       bagel_log :message    => "Admin role created",
                 :kind       => 'data',
                 :severity   => :low,
-                :extra_info => { :role => @role }
+                :extra_info => { :role => @role.attributes }
 
       flash[:notice] = 'Role was successfully created.'
       redirect_to admin_roles_url

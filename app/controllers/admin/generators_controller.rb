@@ -36,7 +36,7 @@ class Admin::GeneratorsController < ApplicationController
         bagel_log :message    => "Generator #{is_new_item ? 'created' : 'updated'}",
                   :kind       => 'data',
                   :severity   => :low,
-                  :extra_info => { :diff => diff, :generator => @generator }
+                  :extra_info => { :diff => diff }
 
         flash[:notice] ='Generator was successfully updated.'
         redirect_to :action => 'list', :id => params[:folder_id], :website_id => params[:website_id]
