@@ -4,6 +4,8 @@
 # - startOpen   : default relationpopup open
 # - showAdd   : show the "add" button
 #
+#
+if item.ctype && !item.ctype.hide_tags? 
 
 # show add defaults to true
 showAdd = true if showAdd.nil?
@@ -86,3 +88,4 @@ end
 	</div>
 	<div class="bottom"></div>
 </div>
+<% end %>

@@ -5,6 +5,7 @@
 # - hide_out     : display outging relations ?
 content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
 %>
+<% if item.ctype && !item.ctype.hide_relations? %>
 <div class="subContent">
 	<a href="#" class="openClose">Open</a>
     <%= render :partial => 'admin/relations/popup', :locals => { :direction => "in", :item => item, :content_type_id => content_type_id } %>
@@ -22,3 +23,4 @@ content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
 	</div>
 	<div class="bottom"></div>
 </div>
+<% end %>

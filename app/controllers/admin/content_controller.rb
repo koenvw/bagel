@@ -32,7 +32,7 @@ class Admin::ContentController < ApplicationController
                                              :page => params[:page],
                                              :per_page => 25
     # FIXME: the condition is necessary because generator is not a real content type
-    @content_types = ContentType.find(:all, :conditions => "extra_info!='hide'", :order => "name")
+    @content_types = ContentType.find(:all, :conditions => "hidden = 0", :order => "name")
     @websites = Website.find(:all,:order => "name")
   end
 

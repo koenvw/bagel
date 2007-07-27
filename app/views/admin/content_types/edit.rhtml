@@ -18,6 +18,22 @@
 			<%= text_field 'type', 'extra_info' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
+			<label for="content_hidden">Hidden?</label>
+			<%= check_box 'type', 'hidden' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="content_websites">Hide Websites?</label>
+			<%= check_box 'type', 'hide_websites' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="content_tags">Hide Tags?</label>
+			<%= check_box 'type', 'hide_tags' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
+			<label for="content_relations">Hide Relations?</label>
+			<%= check_box 'type', 'hide_relations' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
 			<label for="content_type_description">Description</label>
 			<%= text_area 'type', 'description' , :class => "large_text_input", :size => "30" %>
 		</fieldset>

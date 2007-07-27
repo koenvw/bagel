@@ -3,6 +3,7 @@
 # - item : the content object
 # - start_open   : default open
 %>
+<% if item.ctype && !item.ctype.hide_websites? %>
 <div class="subContent">
 	<a href="#" class="openClose">Open</a>
 	<h3 class="forClose">Websites</h3>
@@ -32,3 +33,4 @@
 	</div>
 	<div class="bottom"></div>
 </div>
+<% end %>
