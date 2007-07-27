@@ -5,10 +5,10 @@ class News < ActiveRecord::Base
   validates_presence_of :title
   validates_presence_of :body
 
-  def prepare_sitem
-    sitems.each do |sitem|
-      sitem.name = title unless title.nil?
-    end
+  # Liquid support
+
+  def to_liquid
+    NewsDrop.new(self)
   end
 
   ### DEPRECATED ###
@@ -52,7 +52,7 @@ class News < ActiveRecord::Base
         :offset=> offset,
         :limit=> limit,
         :include=>[:sobject,:sitems],
-        :joins => ["INNER JOIN categories_sobjects CA ON CA.category_id = #{category.id} AND sobjects.id = CA.sobject_id",xrels]
+        :joins => ["INNER JOIN sobjects_tags CA ON CA.category_id = #{category.id} AND sobjects.id = CA.sobject_id",xrels]
        )
     end
   end

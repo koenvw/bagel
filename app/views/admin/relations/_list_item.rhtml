@@ -1,17 +1,17 @@
 <%
 # Parameters
 # - to_sobject_id : the target for the relation
-# - category_id   : the category for the relation
+# - relation_id   : the category for the relation
 # - uniq_id       : the identifier that will make this relations list unique (in case of multiple instances per page)
 # - editor_id     : the DOM id of the tinymce instance (for inserting images)
 # - direction     : "in" or "out"
 %>
 
 <% uniq2_id ||= generate_id  %>
-<% relation_category = Relation.find(category_id) %>
+<% relation_category = Relation.find(relation_id) %>
 <% @rels_html ||= "" %>
 <% ajax ||= false %>
-<% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{category_id}" %>
+<% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{relation_id}" %>
 
 <li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>">
 

@@ -1,11 +1,12 @@
 class SiteController < ApplicationController
+
   before_filter :redirect_to_default_website
   before_filter :check_splash
-  #FIXME: this won't work on http://localhost
-  #before_filter :domain_lock
+
   attr_accessor :content_for_layout
   attr_accessor :content_type
   attr_accessor :content_title
+
   @@dont_do_splash = false
 
   #no login required
@@ -18,7 +19,8 @@ class SiteController < ApplicationController
   # 2/ for the content:
   #  --> /:site/show/:content_type/:id should always work
   #  --> /show/:content_type/:id will look at HTTP_HOST to figure out the correct website
-  #
+
+  ########## RENDERING CONTENT
 
   # route '/' is set to root, not index
   def root
@@ -43,9 +45,178 @@ class SiteController < ApplicationController
       render :text => "#{site} #{site_id}"
       #render_404 and return
     else
-      render :inline => gen.template
+      case gen.templating_engine
+      when 'liquid'
+        on_liquid_stack(gen.name) do
+          begin
+            # Build assigns
+            misc_assigns = {
+              'path_info'       => request.path_info
+            }
+            assigns = {
+              'data'            => DataDrop.new(assigns_for_generator(gen, misc_assigns)),
+              'site_controller' => SiteControllerDrop.new(self, params)
+            }
+            
+            # Render
+            render :text => liquid_template(gen, assigns)
+          rescue => exception
+            handle_liquid_exception(exception, self, request)
+          end
+        end
+      when 'erb'
+        render :inline => gen.template
+      end
     end
   end
+
+  def content
+
+    # Require both id and type
+    render_404 and return if params[:id].nil?
+    render_500 and return if params[:type].nil?
+
+    @content_type = params[:type].downcase
+
+    # Find requested item
+    case params[:type].downcase
+    when 'news'
+      @news = News.find(params[:id])
+      render_404 and return if @news.nil?
+      @content_title = @news.title
+      @content_generator, @content_for_layout = @news.template2(site_id)
+    when 'form'
+      @form = Form.find(params[:id])
+      render_404 and return if @form.nil?
+      @content_title = @form.name
+      @content_generator, @content_for_layout = @form.template2(site_id)
+    when 'form_definition' # Slightly custom
+      @formdef = FormDefinition.find_by_name(params[:id]) if params[:id].to_i == 0
+      @formdef = FormDefinition.find(params[:id])         if params[:id].to_i != 0
+      render_404 and return if @formdef.nil?
+      # FIXME this does not work with Liquid
+      str =  "<%= start_form_tag :controller => 'site', :action => 'submit', :id => @formdef %>"
+      str << @formdef.template_form(site_id)
+      str << "<%= end_form_tag %>"
+      @content_for_layout = str
+      @content_title = @formdef.name
+      @content_generator = @formdef.generator(site_id)
+    when 'generator' # Slightly custom
+      @generator = Generator.find_by_name(params[:id])
+      render_404 and return if @generator.nil?
+      @content_title = "" # Empty, because users don't really want a <title>cutting_edge_rss_xml</title> etc
+      @content_generator = @generator
+      @content_for_layout = @content_generator.template
+    when 'container'
+      @container = Container.find(params[:id])
+      render_404 and return if @container.nil?
+      @content_title = @container.title
+      @content_generator, @content_for_layout = @container.template2(site_id)
+    when 'event'
+      @event = Event.find(params[:id])
+      render_404 and return if @event.nil?
+      @content_title = @event.title
+      @content_generator, @content_for_layout = @event.template2(site_id)
+    else
+      render :text => "no such content type", :status => "404" and return
+    end
+
+    item = instance_variable_get("@"+@content_type)
+    @content = item
+
+    # Check whether item is published
+    unless item.nil? or params.has_key?(:preview)
+      # generators don't have sitems
+      if item.class != Generator && item.respond_to?(:sitems)
+        logger.warn "BAGEL::SiteController.index => item is not published"
+        render_404 and return unless item.is_published?(site_id)
+      end
+    end
+
+    # Format mapping
+    formats = {
+      'html' => 'text/html',
+      'xml'  => 'text/xml',
+      'css'  => 'text/css',
+      'js'   => 'application/x-javascript'
+    }
+
+    # Render the content
+    if @content_generator.templating_engine == 'liquid'
+      # Liquid
+
+      on_liquid_stack(@content_generator.name) do
+        begin
+          # Create assigns hash (item, content_title, content_for_layout, content_type)
+          misc_assigns = {
+            'content_type'  => lambda { @content_type },
+            'content_title' => lambda { @content_title },
+            'content'       => lambda { @content },
+            'path_info'     => lambda { request.path_info }
+          }
+
+          # Convert assigns to a DataDrop used for delaying queries to the point where they're actually needed
+          assigns = {
+            'data' => DataDrop.new(assigns_for_generator(@content_generator, misc_assigns))
+          }
+
+          # The site controller is passed to the cache tag, because only site controller
+          # can actually use write_fragment and read_fragment... not very pretty but it works
+          assigns.merge!({
+            'site_controller' => SiteControllerDrop.new(self, params)
+          })
+
+          if !params[:print].nil? || params[:type] == "splash"
+            # no layout view
+            render :text => Liquid::Template.parse(@content_for_layout).render!(assigns)
+          elsif !params[:generator].nil?
+            # preview
+            render :text => Liquid::Template.parse(params[:generator][:template]).render!(assigns)
+          elsif formats.keys.include?(params[:format])
+            # HTML, XML, CSS, JS
+            response.headers["Content-Type"] = formats[params[:format]]
+            render :text => Liquid::Template.parse(@content_for_layout).render!(assigns), :type => params[:format].to_sym
+          else # *_content_layout
+            # Find generator
+            gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_content_layout", site_id ])
+            render :text => "BAGEL::SiteController.index => Generator '#{site}_content_layout' not found" and return if gen.nil?
+
+            # Build assigns
+            rendered_content_for_layout = liquid_template(@content_generator, assigns, @content_for_layout)
+            assigns = assigns.merge('content_for_layout' => rendered_content_for_layout)
+
+            # Render
+            render :text => liquid_template(gen, assigns)
+          end
+        rescue => exception
+          handle_liquid_exception(exception, self, request)
+        end
+      end
+    else
+      # eRuby
+      if !params[:print].nil? || params[:type] == "splash"
+        # no layout view
+        render :inline => @content_for_layout
+      elsif !params[:generator].nil?
+        # preview
+        render :inline => params[:generator][:template]
+      elsif formats.keys.include?(params[:format])
+        # HTML, XML, CSS, JS
+        response.headers["Content-Type"] = formats[params[:format]]
+        render :inline => @content_for_layout, :type => params[:format].to_sym
+      else # *_content_layout
+        # Find generator
+        gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_content_layout", site_id ])
+        render :text => "BAGEL::SiteController.index => Generator '#{site}_content_layout' not found" and return if gen.nil?
+
+        # Render
+        render :inline => gen.template
+      end
+    end
+
+  end
+
+  ########## RENDERING OTHER CONTENT
 
   def media_item_from_db
     # Figure out disposition
@@ -65,158 +236,8 @@ class SiteController < ApplicationController
     send_data(media_item_data, :type => media_item.content_type, :disposition => disposition)
   end
 
-  def content
-
-    # cleanup param id => MAJOR GOTCHA?
-    #params[:id] = params[:id].scan(/(\d+|w+)/).first
-
-    render_404 and return if params[:id].nil?
-    render_500 and return if params[:type].nil?
-
-    @content_type = params[:type].downcase
-
-    # FIXME: rails 1.2 seperates route on dots so :id will never have an extension?
-    params_id = File.basename(params[:id], File.extname(params[:id]))
-
-    #click_counts are updated in .template() (ActsAsContentType)
-    case params[:type].downcase
-    when 'page'
-      @page = Page.find(:first,:include=>:sitems,:conditions => ['website_id=? AND name=?', site_id,params_id]) if params_id.to_i == 0 #FIXME: this will not work if site_id is bad
-      @page = Page.find(params_id)          if params_id.to_i != 0
-      if @page.nil?
-        logger.warn "BAGEL::SiteController.index => Page '#{params_id}'not found"
-        render_404 and return
-      end
-      @content_for_layout = @page.template(site_id)
-      @content_title = @page.title
-
-    when 'news'
-      @news = News.find(params_id)
-      render_404 and return if @news.nil?
-      @content_for_layout = @news.template(site_id)
-      @content_title = @news.title
-
-    when 'form'
-      @form = Form.find(params_id)
-      render_404 and return if @form.nil?
-      @content_for_layout = @form.template(site_id)
-      @content_title = @form.name
-
-    when 'form_definition'
-      @formdef = FormDefinition.find_by_name(params_id) if params_id.to_i == 0
-      @formdef = FormDefinition.find(params_id) if params_id.to_i != 0
-      render_404 and return if @formdef.nil?
-      str = ''
-      str << "<%= start_form_tag :controller => 'site', :action => 'submit', :id => @formdef %>"
-      str << @formdef.template_form(site_id)
-      str << "<%= end_form_tag %>"
-      @content_for_layout = str
-      @content_title = @formdef.name
-
-    when 'generator'
-      @generator = Generator.find_by_name(params_id)
-      if @generator.nil?
-        logger.warn "BAGEL::SiteController.index => generator '#{params_id}'not found"
-        render_404 and return
-      end
-      @content_for_layout =  @generator.template
-      @content_title = ""
-
-    when 'book'
-      @book = Book.find(params_id)
-      render_404 and return if @book.nil?
-      @content_for_layout = @book.template(site_id)
-      @content_title = @book.title
-
-    when 'test_article'
-      @test_article= TestArticle.find(params_id)
-      render_404 and return if @test_article.nil?
-      @content_for_layout = @test_article.template(site_id)
-      @content_title = @test_article.title
-
-    when 'gallery'
-      @gallery= Gallery.find(params_id)
-      render_404 and return if @gallery.nil?
-      @content_for_layout = @gallery.template(site_id)
-      @content_title = @gallery.title
-
-    when 'container'
-      @container= Container.find(params_id)
-      render_404 and return if @container.nil?
-      @content_for_layout = @container.template(site_id)
-      @content_title = @container.title
-
-    when 'video'
-      @video= Video.find(params_id)
-      render_404 and return if @video.nil?
-      @content_for_layout = @video.template(site_id)
-      #@content_title = @video.title
-
-    when 'event'
-      @event= Event.find(params_id)
-      render_404 and return if @event.nil?
-      @content_for_layout = @event.template(site_id)
-      @content_title = @event.title
-
-    else
-      render :text => "no such contenttype", :status => "404" and return
-    end
-
-    # published or not
-    item=instance_variable_get("@"+@content_type)
-    unless item.nil? or params.has_key?(:preview)
-      # generators don't have sitems
-      if item.class != Generator && item.respond_to?(:sitems)
-        logger.warn "BAGEL::SiteController.index => item is not published"
-        render_404 and return unless item.is_published?(site_id)
-      end
-    end
-
-    # render the content
-    if !params[:print].nil? || params[:type] == "splash"
-      # no layout view
-      render :inline => @content_for_layout
-    elsif !params[:generator].nil?
-      # preview
-      render :inline => params[:generator][:template]
-    elsif params[:format] == "html"
-      # HTML
-      response.headers["Content-Type"] = "text/html"
-      render :inline => @content_for_layout, :type => :html
-    elsif params[:format] == "xml"
-      # XML
-      response.headers["Content-Type"] = "text/xml"
-      render :inline => @content_for_layout, :type => :xml
-    elsif params[:format] == "css"
-      # CSS
-      response.headers["Content-Type"] = "text/css"
-      render :inline => @content_for_layout, :type => :css
-    elsif params[:format] == "js"
-      # JS
-      response.headers["Content-Type"] = "application/x-javascript"
-      render :inline => @content_for_layout, :type => :js
-    else
-      # normal
-      gen = Generator.find(:first, :conditions =>["name=? AND website_id=?",site + "_content_layout",site_id])
-      if gen.nil?
-        render :text => "BAGEL::SiteController.index => Generator '#{site+"_content_layout"}' not found" and return
-      else
-        render :inline => gen.template
-      end
-    end
-  end
-
-  #template methods
-  def render_content(cls)
-    # FIXME: where is this used?
-    render_to_string :inline => cls.template(site_id)
-  end
-
-  def include_template(template_name, locals = {})
-    render_generator(template_name, locals)
-  end
-
   def render_generator(generator, locals = {})
+    # Find generator
     if AppConfig[:perform_caching]
       gen = Cache.get(generator)
       if gen.nil?
@@ -226,22 +247,77 @@ class SiteController < ApplicationController
     else
       gen = Generator.find_by_name(generator)
     end
-    if gen.nil?
-      str = "can not find generator '#{generator}'"
-    else
+
+    # Make sure there is a generator
+    return "can not find generator '#{generator}'" if gen.nil?
+
+    case gen.templating_engine
+    when 'liquid'
+      on_liquid_stack(gen.name) do
+        begin
+          assigns = {
+            'data'            => DataDrop.new(assigns_for_generator(gen)),
+            'site_controller' => SiteControllerDrop.new(self, params)
+          }
+          str = liquid_template(gen, assigns)
+        rescue => exception
+          handle_liquid_exception(exception, self, request)
+        end
+      end
+    when 'erb'
       str = render_to_string :inline => gen.template, :locals => locals
     end
-    return str
-  end
-  
-  def link_to_content(name, options = {}, html_options = nil, *parameters_for_method_reference)
-    #FIXME: this is never used ?
-    if options.has_key?(:sobject_id)
-    end
-    link_to(name, options = {}, html_options = nil, *parameters_for_method_reference)
+
+    # Done
+    str
   end
 
-  #form handling
+  ########## MISC HELPERS
+
+  def global_assigns(other={})
+    gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_liquid_globals", site_id ])
+    if !gen.nil? and gen.templating_engine == 'liquid'
+      gen.assigns_as_hash(other)
+    else
+      {}
+    end
+  end
+
+  def assigns_for_generator(gen, existing_assigns={})
+    globals = global_assigns(existing_assigns)
+
+    data_assigns = {}
+    data_assigns.merge!(globals)
+    data_assigns.merge!(gen.assigns_as_hash(globals, existing_assigns))
+    data_assigns.merge!(existing_assigns)
+
+    data_assigns
+  end
+
+  def handle_liquid_caching(name, options, cache_binding, params)
+    # Read cache
+    cache = read_fragment(name, options)
+
+    # Check whether we should load a cached version
+    if cache.nil? or params[:clear]
+      # Render content and cache it
+      output = eval('super(context)', cache_binding)
+      write_fragment(name, output, options)
+    else
+      # Load output from cache
+      output = cache
+    end
+
+    # Return output
+    output
+  end
+
+  def include_template(template_name, locals = {})
+    render_generator(template_name, locals)
+  end
+
+  ########## FORM HANDLING
+
   def submit
     @formdef = FormDefinition.find(params[:id])
     redirect_to_back_or_home and return if @formdef.nil? or params[:form].nil?
@@ -251,12 +327,6 @@ class SiteController < ApplicationController
       flash[:errors] = ["required fields are empty"]
       redirect_to_back_or_home and return
     end
-    # check for spam via akismet
-    # FIXME!
-    #if check_comment_for_spam(@comment.author, @comment.comment_text)
-    #  flash[:errors] = ["spam!"]
-    #  redirect_to_back_or_home and return
-    #end
     # remove "required" from input fields
     params_stripped = {}
     params[:form].each { |key,value| params_stripped[key.to_s.gsub("-required","").to_sym] = value }
@@ -346,23 +416,31 @@ class SiteController < ApplicationController
 
     end
 
-    # save the form
+    # Create the form
     @form = Form.new
     @form.form_definition_id = @formdef.id
     @form.name = params[:form][:name]
     @form.data = params[:form]
     @form.form = @formdef.template
-    if @form.save
 
+    # Find the to address
+    params[:to] = params[:form][:to] if params[:to].nil?
+    params[:to] = params[:form][:email] if params[:to].nil?
+    params[:to] = params[:form][:name] if params[:to].nil?
+
+    # Check for spam
+    if is_spam_comment?(params[:to], params[:form].to_s)
+      flash[:error] = 'Your comment was registered as spam. Please make sure everything you entered doesn\'t look like spam. Sorry. :)'
+      redirect_to_back_or_home
+      return
+    end
+
+    # Save it
+    if @form.save
       unless params[:mail_generator_name].nil?
         mail_generator = Generator.find_by_name(params[:mail_generator_name])
         render :text => "generator '#{params[:mail_generator_name]}' not found" and return if mail_generator.nil?
         params[:body] = mail_generator.template
-
-        # see where we can find the to: adres
-        params[:to] = params[:form][:to] if params[:to].nil?
-        params[:to] = params[:form][:email] if params[:to].nil?
-        params[:to] = params[:form][:name] if params[:to].nil?
 
         # check email adres
         if !params[:to].nil? && !params[:to].match(AppConfig[:email_expression])
@@ -397,32 +475,29 @@ class SiteController < ApplicationController
   end
 
   def set_default_website
-    # do we have a site ?
+    # Check whether we have a site set
     redirect_to_back_or_home and return if params[:new_site].nil?
-    # check the site, to see if its valid
+
+    # Find website ID for name
     website_id = get_website_id(params[:new_site])
-    if website_id == nil
-      # BAD SITE !
-      redirect_to_back_or_home
+    redirect_to_back_or_home and return if website_id == nil
+
+    # Find website
+    website = Website.find(website_id)
+
+    # Set cookie
+    cookies[:default_website] = { :value => params[:new_site], :domain => website.domain, :expires => 5.years.from_now }
+
+    # Done
+    if website.domain == ""
+      redirect_to "/#{cookies[:default_website]}"
     else
-      # set cookie and redirect
-      # FIXME: project specific => auto55.be
-      cookies[:default_website] = { :value => params[:new_site], :domain => "auto55.be", :expires => 5.years.from_now }
-      website = Website.find(website_id).domain
-      if website == ""
-        redirect_to "/#{cookies[:default_website]}"
-      else
-        redirect_to website
-      end
+      redirect_to website.domain
     end
   end
 
   def redirect_to_back_or_home
-    if request.env["HTTP_REFERER"].nil?
-      redirect_to "/"
-    else
-      redirect_to :back
-    end
+    redirect_to (request.env["HTTP_REFERER"].nil? ? '/' : :back)
   end
 
   def redirect_to_default_website
@@ -487,15 +562,8 @@ class SiteController < ApplicationController
     end
   end
 
-  def triggergc
-
-    GC.start
-    render :inline => "<%= debug request %>" and return
-    render :text => "garbage collected"
-  end
-
 private
-  
+
   def add_referrer_to_url(url)
     current_url = request.env['PATH_INFO']
     url_split = url.split("?")
@@ -505,6 +573,20 @@ private
       querystring_split = url_split[1].split("=")
       return url_for(:controller => url_split[0], querystring_split[0].to_sym => querystring_split[1], :referrer => current_url)
     end
+  end
+
+public
+
+  ########## DEPRECATED
+
+  def render_content(cls)
+    $stderr.puts 'DEPRECATION WARNING: SiteController#render_content() is deprecated.'
+    render_to_string :inline => cls.template(site_id)
+  end
+
+  def link_to_content(name, options = {}, html_options = nil, *parameters_for_method_reference)
+    $stderr.puts 'DEPRECATION WARNING: SiteController#link_to_content() is deprecated.'
+    link_to(name, options = {}, html_options = nil, *parameters_for_method_reference)
   end
 
 end

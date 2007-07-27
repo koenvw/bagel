@@ -4,7 +4,8 @@ class PictureDbFile < MediaItem
 #                 :thumbnail_class => 'MediaItemThumbnail',
                  :thumbnails      => Setting.image_thumbnails,
                  :content_type    => :image, # not related to Bagel content types
-                 :processor       => Setting.image_processor
+                 :processor       => Setting.image_processor,
+                 :max_size => 10.megabyte
   validates_as_attachment
 
   acts_as_content_type

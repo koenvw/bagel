@@ -20,6 +20,7 @@ gem install rmagick
 gem install memcache-client
 gem install mime-types
 gem install ferret
+gem install liquid
 ?? gem install capistrano
 
 TEXT TOOLS

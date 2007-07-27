@@ -26,4 +26,11 @@ class FormDefinition < ActiveRecord::Base
       gen.template
     end
   end
+
+  # Liquid support
+
+  def to_liquid
+    FormDefinitionDrop.new(self)
+  end
+
 end

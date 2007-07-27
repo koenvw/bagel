@@ -15,9 +15,9 @@ class Admin::ImagesController < ApplicationController
     unless params[:tag_id].nil?
       params[:tag_id]=params[:tag_id].to_i
       if params[:tag_id]>0
-        condition_string = "cached_category_ids LIKE '%;#{params[:tag_id].to_i};%'"
+        condition_string = "cached_tag_ids LIKE '%;#{params[:tag_id].to_i};%'"
       else
-        condition_string = "cached_category_ids NOT LIKE '%;#{params[:tag_id].to_i};%'"
+        condition_string = "cached_tag_ids NOT LIKE '%;#{params[:tag_id].to_i};%'"
       end
     else
       condition_string = "1"

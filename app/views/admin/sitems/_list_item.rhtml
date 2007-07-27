@@ -50,19 +50,12 @@ end
 			<%= website_name %>
 		<% end %>
 	</td>
-	<% case item.class.to_s
-		when "Menu" then %>
-			<td style="text-align: right;">
-				Link <%= text_field_tag "sitems[#{sitem_id}][link]", sitem.link, :class => "bigText" %>
-			</td>
-		<% else %>
-			<td style="text-align: right; width: 260px;">
-				Publish From: <%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
-			</td>
-			<td style="text-align: right; width: 260px;">
-				Publish Till: <%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
-			</td>
-	<% end%>
+	<td style="text-align: right; width: 260px;">
+		Publish From: <%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+	</td>
+	<td style="text-align: right; width: 260px;">
+		Publish Till: <%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+	</td>
 </tr>
 <%= tag "input", {:type => "hidden", :name => "sitems[#{sitem_id}][website_id]", :value => sitem.website_id } %>
 <!--[eoform:sitem]-->

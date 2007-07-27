@@ -54,7 +54,7 @@ private
     # Add tags to container
     container.save_tags(params[:tags])
 
-    Dir.entries(entry).reject { |sub_entry| sub_entry.begins_with?('.') or sub_entry == '_imported' }.each do |sub_entry|
+    Dir.entries(entry).reject { |sub_entry| sub_entry.starts_with?('.') or sub_entry == '_imported' }.each do |sub_entry|
       # Convert sub_entry into a path
       sub_entry = File.join(entry, sub_entry)
 

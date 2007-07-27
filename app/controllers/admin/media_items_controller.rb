@@ -12,7 +12,7 @@ class Admin::MediaItemsController < ApplicationController
 
   def list
     # Skip thumbnails
-    condition_string = 'parent_id IS NULL'
+    condition_string = 'type LIKE \'Picture%\' AND parent_id IS NULL'
 
     # Find by search string
     if params[:search_string]
@@ -26,15 +26,14 @@ class Admin::MediaItemsController < ApplicationController
     end
 
     # Find all media
-    @media_item_pages, @media_items = paginate_collection MediaItem.find(:all, :conditions => 'type LIKE \'Picture%\''),
+    @media_item_pages, @media_items = paginate_collection MediaItem.find(:all, :conditions => condition_string),
                                                           :per_page   => 20,
                                                           :order      => "media_items.updated_on DESC",
-                                                          :include    => :sobject,
-                                                          :conditions => condition_string
+                                                          :include    => :sobject
 
     # Determine count
     @media_items_filtered_count = @media_items.length
-    @media_items_count          = MediaItem.find(:all, :conditions => 'parent_id IS NULL').length
+    @media_items_count          = MediaItem.find(:all, :conditions => 'type LIKE \'Picture%\' AND parent_id IS NULL').length
   end
 
   def edit
@@ -85,15 +84,19 @@ class Admin::MediaItemsController < ApplicationController
       # Give a pretty title to this media item
       @media_item.set_title
 
-      if @media_item.save
-        @media_item.save_workflow(params[:workflow_steps])
-        @media_item.save_tags(params[:tags])
-        @media_item.save_relations(params[:relations])
+      begin
+        if @media_item.save
+          @media_item.save_workflow(params[:workflow_steps])
+          @media_item.save_tags(params[:tags])
+          @media_item.save_relations(params[:relations])
 
-        @media_item.set_updated_by(params)
+          @media_item.set_updated_by(params)
 
-        flash[:notice] = 'Media item was successfully updated.'
-        redirect_to :controller => 'media_items', :action => 'edit', :id => @media_item
+          flash[:notice] = 'Media item was successfully updated.'
+          redirect_to :controller => 'media_items', :action => 'edit', :id => @media_item
+        end
+      rescue => e
+        flash[:error] = %[An unexpected error occurred while trying to save the media item: "#{e.to_s}". %]
       end
     end
   end

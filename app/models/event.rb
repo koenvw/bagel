@@ -3,12 +3,6 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :title
 
-  def prepare_sitem
-    sitems.each do |sitem|
-      sitem.name = title unless title.nil?
-    end
-  end
-
   #FIXME: change the database table
   def updated_on
     updated_at
@@ -18,4 +12,11 @@ class Event < ActiveRecord::Base
   def created_on
     created_at
   end
+
+  # Liquid support
+
+  def to_liquid
+    EventDrop.new(self)
+  end
+
 end

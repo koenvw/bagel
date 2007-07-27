@@ -1,5 +1,3 @@
-# NOTE: Login/logout now happens in Admin::HomeController instead
-
 class Admin::AdminUsersController < ApplicationController
   requires_authorization :actions => [:index, :show, :edit, :update, :create, :new, :destroy ],
                          :permission => [:admin_users_management,:_admin_management]
@@ -32,6 +30,12 @@ class Admin::AdminUsersController < ApplicationController
     @admin_user.password = params[:password]
 
     if @admin_user.save
+      # Log
+      bagel_log :message    => "Admin user created",
+                :kind       => 'data',
+                :severity   => :low,
+                :extra_info => { :user => @admin_user }
+
       flash[:notice] = 'User was successfully created.'
       redirect_to admin_users_url
     else
@@ -52,7 +56,23 @@ class Admin::AdminUsersController < ApplicationController
       flash[:warning] = 'The admin user cannot be disabled.'
     end
 
+    old_attributes = {
+      :user       => @admin_user.attributes,
+      :user_roles => @admin_user.admin_roles.map(&:id)
+    }
+
     if @admin_user.update_attributes(params[:admin_user])
+      # Log
+      new_attributes = {
+        :user       => @admin_user.attributes,
+        :user_roles => @admin_user.admin_roles.map(&:id)
+      }
+      diff = old_attributes.inspect_with_newlines.html_diff_with(new_attributes.inspect_with_newlines)
+      bagel_log :message    => "Admin user updated",
+                :kind       => 'data',
+                :severity   => :low,
+                :extra_info => { :diff => diff, :user => @admin_user }
+
       @admin_user.password = params[:password] unless params[:password].blank?
       @admin_user.is_active = params[:admin_user][:is_active]
       @admin_user.save

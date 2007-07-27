@@ -11,6 +11,16 @@
 			<label for="generator_name">Name</label>
 			<%= text_field 'generator', 'name' , :class => "large_text_input", :size => "30" %>
 		</fieldset>
+		<fieldset class="oneline">
+			<label for="generator_templating_engine">Templating Engine</label>
+			<%= select 'generator', 'templating_engine', { 'ERB' => 'erb', 'Liquid' => 'liquid' } %>
+		</fieldset>
+<% if @generator.templating_engine == 'liquid' %>
+		<fieldset class="oneline" style="margin-top:5px;margin-bottom:5px">
+			<label for="generator_assigns">Assigns</label>
+			<%= text_area 'generator', 'assigns', :style => "width:593px;height:300px;" %><br />
+		</fieldset>
+<% end %>
 		<div class="mceFrame">
 			<%= text_area_tag 'codepress1', @generator.template, :class => 'codepress ruby', :style => "width:773px;height:500px;" %><br/>
 			<a href="#" onclick="codepress1.toggleEditor();return false;">on/off</a>

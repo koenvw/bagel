@@ -88,7 +88,7 @@ class Admin::HomeController < ApplicationController
 
     # Find all entries in the web folder
     @dir_entries = Dir.entries(root_path)
-    @dir_entries.reject!  { |entry| entry.begins_with?('.') or entry == '_imported' }
+    @dir_entries.reject!  { |entry| entry.starts_with?('.') or entry == '_imported' }
     @dir_entries.collect! { |entry| root_path + entry }
 
     # Find all possible content types
@@ -116,11 +116,13 @@ private
     user = AdminUser.authenticate(params[:admin_user][:username], params[:admin_user][:password])
     if user.nil? or not user.is_active?
       flash[:notice] = 'Incorrect username or password.'
+      bagel_log :message => "User #{params[:admin_user][:username]} failed to login", :kind => 'login', :severity => :medium, :hostname => request.host_with_port
       render :layout => false
       return
     end
 
     # Log the user in
+    bagel_log :message => "User #{params[:admin_user][:username]} logged in", :kind => 'login', :severity => :low, :hostname => request.host_with_port
     session[:admin_user] = user.id
 
     # Redirect to requested page

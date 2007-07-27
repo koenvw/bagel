@@ -1,0 +1,17 @@
+A new high-severity log message has been logged.
+
+Message
+	<%= @log_message.message %>
+Severity
+	<%= LogMessage::SEVERITY_NAMES[@log_message.severity] %>
+Kind
+	<%= @log_message.kind %>
+Request URL
+	<%= @log_message.request_url || 'n/a' %>
+Referrer URL
+	<%= @log_message.referrer_url || 'n/a' %>
+Admin User ID
+	<%= @log_message.admin_user_id || 'n/a' %>
+
+More information about this log message is available at
+<%= admin_log_message_url(:id => @log_message, :host => @host) %>

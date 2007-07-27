@@ -21,7 +21,7 @@ if i.save
     page.insert_html :bottom,
                      "relations_sorted_#{direction}#{params[:sub_id]}list",
                      :partial => "admin/relations/list_item", 
-                     :locals => { :to_sobject_id=> i.sobject.id, :category_id=> params[:cat_id], :editor_id => uniq_id, :uniq_id => params[:sub_id], :uniq2_id => uniq2_id, :direction => direction, :ajax=>true }
+                     :locals => { :to_sobject_id=> i.sobject.id, :relation_id=> params[:cat_id], :editor_id => uniq_id, :uniq_id => params[:sub_id], :uniq2_id => uniq2_id, :direction => direction, :ajax=>true }
     # higlight the partial that was added
     page.visual_effect :pulsate, "relations_item_#{direction}#{uniq2_id}_#{i.sobject.id}-#{params[:cat_id]}", :duration => 1, :pulses => 5
     # FIXME: isn't there a helper for this ?

@@ -1,42 +1,32 @@
 class String
-  def nil_or_empty?
-    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
-    empty?
-  end
   def clean
     downcase.strip.gsub(/[^-_\s[:alnum:]]/, '').tr(' ', '_')
   end
+
   def rubify
     downcase.strip.gsub(/[^-_\s[:alnum:]]/, '').squeeze(' ').tr(' ', '_')
   end
+
   def rubify!
     replace rubify
   end
+
   def domainify
-    str = gsub(".","_").gsub(":","-").gsub("www_","")
-    return str.gsub("fr_autovibes_be","autovibes_fr").gsub("fr_auto55_be","auto55_fr").gsub("auto55_com","auto55_be").gsub("fr_auto55_com","auto55_fr")
+    gsub(".","_").gsub(":","-").gsub("www_","")
   end
-  #FIXME:
-  #def t
-  #  to_s
-  #end
+
   def to_bool
     return true if to_s.downcase == "true"
     return false if to_s.downcase == "false"
   end
-  def begins_with?(other)
-    self[0..other.length-1] == other
-  end	
 end
+
 class Time
   def formatted
     strftime("%d %b %Y").strip
   end
-  def format_out
-    $stderr.puts('DEPRECATION WARNING: format_out is deprecated. use formatted()')
-    formatted
-  end
 end
+
 class Float
   def round_to(x)
     (self * 10**x).round.to_f / 10**x
@@ -55,14 +45,7 @@ class Array
   # checks every element for nil.
   # if an element is an array, it is only considered nil if all elements are nil
   def has_nilelement?
-    select { |element| 
-      element.is_a?(Array) ? element.select {|el| el.nil? }.size == element.size : element.nil? 
-    }.size > 0
-  end
-
-  def nil_or_empty?
-    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
-    empty?
+    any? { |e|e.respond_to?(:all?) ? e.all? { |x| x.nil? } : e.nil? }
   end
 
   def each_with_level # used in combination with convert_to_tree helper
@@ -83,9 +66,67 @@ class Array
   end
 end
 
+# Converting hashes/arrays/... to HTML
+
+require 'erb' # For ERB:Util.h
+
+def true.to_html  ; 'true'   ; end
+def false.to_html ; 'false'  ; end
+def nil.to_html   ; '(null)' ; end
+
+class String
+  def to_html
+    self
+  end
+end
+
+class Hash
+  def to_html
+    res = '<dl>'
+    each_pair do |key, value|
+      res << '<dt>' + (key.respond_to?(:to_html)   ? key.to_html   : ERB::Util.h(key.to_s)) + '</dt>'
+      res << '<dd>' + (value.respond_to?(:to_html) ? value.to_html : ERB::Util.h(value.to_s)) + '</dd>'
+    end
+    res << '</dl>'
+  end
+end
+
+class Array
+  def to_html
+    res = '<ol>'
+    each do |item|
+      res << '<li>' + (item.respond_to?(:to_html) ? item.to_html : ERB::Util.h(item.to_s))  + '</li>'
+    end
+    res << '</ol>'
+  end
+end
+
+# Deprecated
+
 class NilClass
   def nil_or_empty?
     $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
     true
+  end
+end
+
+class Array
+  def nil_or_empty?
+    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
+    empty?
+  end
+end
+
+class String
+  def nil_or_empty?
+    $stderr.puts('DEPRECATION WARNING: nil_or_empty? is deprecated. use blank?')
+    empty?
+  end
+end
+
+class Time
+  def format_out
+    $stderr.puts('DEPRECATION WARNING: format_out is deprecated. use formatted()')
+    formatted
   end
 end

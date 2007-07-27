@@ -1,5 +1,5 @@
 - title:      "Website"
-  url:        "/admin/home/index"
+  url:        "/admin/home/website"
   children:
     - title:  "Manage"
       url:    "/admin/content/list"
@@ -13,8 +13,6 @@
       url:    "/admin/menus"
     - title:  "Tags"
       url:    "/admin/tags"
-    - title:  "Shortcuts"
-      url:    "/admin/tools"
   hidden_children:
     - url:    "/admin/forms"
     - url:    "/admin/news"

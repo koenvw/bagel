@@ -1,9 +1,12 @@
 class Tag < ActiveRecord::Base
+
   acts_as_enhanced_nested_set
-  has_and_belongs_to_many :sobjects, :join_table => "categories_sobjects", :foreign_key => "category_id"
-                          #FIXME: rename category_sobjects to tags_sobjects
-  validates_presence_of :name
+
+  has_and_belongs_to_many :sobjects, :join_table => "sobjects_tags"
+
+  validates_presence_of   :name
   validates_uniqueness_of :name # name must be unique, so we don't run in to troubles when looking up tags by name (Sobject.find_with_parameters)
+
   serialize :content_type_ids
 
   def <=>(other_tag)
@@ -17,5 +20,10 @@ class Tag < ActiveRecord::Base
     ContentType.find(:all,:conditions => ["id IN (#{type_ids.join(",")})"])
   end
 
+  # Liquid support
+
+  def to_liquid
+    TagDrop.new(self)
+  end
 
 end

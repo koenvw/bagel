@@ -4,14 +4,31 @@ class Menu < ActiveRecord::Base
 
   validates_presence_of :name
 
-  def prepare_sitem
-    sitems.each do |sitem|
-      sitem.name = name.downcase.gsub(/ /,'_').gsub(/[^a-z_]/,'') unless name.nil?
+  # Compatibility
+
+  def link(site=nil)
+    if site.nil?
+      attributes['link']
+    else
+      link_to_site(site) unless site.nil?
     end
   end
 
-  #FIXME: UGLY!!
-  def link(site)
+  def title
+    # Just to make ourselves consistent with the other ContentTypes
+    name
+  end
+
+  # Liquid support
+
+  def to_liquid
+    MenuDrop.new(self)
+  end
+
+  # Deprecated
+
+  def link_to_site(site)
+    $stderr.puts('DEPRECATION WARNING: Menu#link with a parameter is deprecated; please use Menu#link without parameters')
     if AppConfig[:websites].nil? || AppConfig[:websites][site] == nil
       website_id = Website.find_by_name(site)
     else
@@ -23,17 +40,8 @@ class Menu < ActiveRecord::Base
     return ""
   end
 
-  # just to make ourselves consistent with the other ContentTypes
-  def title
-    name
-  end
-
   def self.list(param)
     $stderr.puts('DEPRECATION WARNING: Menu.list is deprecated; please use Menu.find')
-    find(:all)
-  end
-
-  def self.list(site,parent_id)
     find(
       :all,
       :order => "lft",
@@ -45,5 +53,4 @@ class Menu < ActiveRecord::Base
       :include=>[:sitems]
     )
   end
-
 end

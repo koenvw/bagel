@@ -12,12 +12,6 @@ class Form < ActiveRecord::Base
     initialize_data
   end
 
-  def prepare_sitem
-    sitems.each do |sitem|
-      sitem.name = name unless name.nil?
-    end
-  end
-
   def initialize_data
     if @data.nil?
       unless read_attribute(:data).blank?
@@ -52,7 +46,6 @@ class Form < ActiveRecord::Base
     check_data
     write_attribute(:data, @data)
     # FIXME: acts_as_content_type also does a before_safe
-    prepare_sitem # just to make ourselves consistent
     prepare_sobject
   end
 
@@ -120,7 +113,7 @@ class Form < ActiveRecord::Base
     if options[:tag_names]
       tag_check = "AND (1=0"
       options[:tag_names].each do |tag|
-        tag_check << " OR cached_category_ids LIKE '%;#{Tag.find_by_name(tag).id};%' "
+        tag_check << " OR cached_tag_ids LIKE '%;#{Tag.find_by_name(tag).id};%' "
       end
       tag_check << ")"
     end
@@ -139,6 +132,12 @@ class Form < ActiveRecord::Base
       :offset  => options[:offset] || nil,
       :order   => options[:order]
     )
+  end
+
+  # Liquid support
+
+  def to_liquid
+    FormDrop.new(self)
   end
 
 end

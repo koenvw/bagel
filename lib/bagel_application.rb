@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 module BagelApplication
 
   def self.append_features(base)
@@ -9,6 +11,8 @@ module BagelApplication
   end
 
   module ClassMethods
+
+    ########## Bagel-specific
 
     @@site_id = {}
     def bagel_application_setup
@@ -45,19 +49,39 @@ module BagelApplication
       }
     end
 
+    ########## Exception Notification
+
+    def consider_local(*args)
+      local_addresses.concat(args.flatten.map { |a| IPAddr.new(a) })
+    end
+
+    def local_addresses
+      addresses = read_inheritable_attribute(:local_addresses)
+      unless addresses
+        addresses = [IPAddr.new("127.0.0.1")]
+        write_inheritable_attribute(:local_addresses, addresses)
+      end
+      addresses
+    end
+
+    def exception_data(deliverer=self)
+      if deliverer == self
+        read_inheritable_attribute(:exception_data)
+      else
+        write_inheritable_attribute(:exception_data, deliverer)
+      end
+    end
+
   end
 
   module InstanceMethods
 
-    public
-    def content_types
-      $stderr.puts('DEPRECATION WARNING: content_types can no longer be used. use ContentTypes.find(:all)')
-      raise NotImplementedError.new("DEPRECATION WARNING: content_types can no longer be used. use ContentTypes.find(:all)")
-    end
+  public
 
-    def current_user
-      $stderr.puts 'DEPRECATION WARNING: Application#current_user() is deprecated; use AdminUser#current_user() instead.'
-      AdminUser.current_user
+    ########## Bagel-specific
+
+    def bagel_log(*args)
+      LogMessage.log(*args)
     end
 
     def site
@@ -103,10 +127,11 @@ module BagelApplication
 
     # fetch the relationship for the given item and relationship name
     def get_relation(item, relation_name)
-      Relationship.find_by_from_sobject_id_and_category_id(item.sobject.id,Relation.find_by_name(relation_name).id)
+      Relationship.find_by_from_sobject_id_and_relation_id(item.sobject.id,Relation.find_by_name(relation_name).id)
     end
 
-    protected
+  protected
+
     def check_authentication
       if session[:admin_user].nil?
         session[:requested_page] = request.parameters
@@ -134,7 +159,66 @@ module BagelApplication
 
     end
 
+  public
 
+    ########## Exception Notification
 
-end
+    def local_request?
+      # FIXME temp
+      false
+      #remote = IPAddr.new(request.remote_ip)
+      #!self.class.local_addresses.detect { |addr| addr.include?(remote) }.nil?
+    end
+
+    def render_404
+      render :file => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found"
+    end
+
+    def render_500(to_string=false)
+      if to_string
+        render_to_string :file => "#{RAILS_ROOT}/public/500.html", :status => "500 Error"
+      else
+        render           :file => "#{RAILS_ROOT}/public/500.html", :status => "500 Error"
+      end
+    end
+
+    def rescue_action_in_public(exception)
+      case exception
+        when ActiveRecord::RecordNotFound, ActionController::UnknownController, ActionController::UnknownAction
+          render_404
+        else          
+          render_500
+
+          # Gather data about exception
+          session = request.session.instance_variables.inject({}) do |memo, var|
+            memo.merge({ var => request.session.instance_variable_get(var) })
+          end
+          data = {
+            :generator_backtrace => $_bagel_liquid_template_stack,
+            :controller          => {
+              :params              => params,
+              :request             => request.params,
+              :session             => session
+            }
+          }
+
+          # Log exception
+          bagel_log :exception => exception, :severity => :high, :kind => 'exception', :extra_info => data, :hostname => request.host_with_port
+      end
+    end
+
+    ########## DEPRECATED
+
+    def content_types
+      $stderr.puts('DEPRECATION WARNING: content_types can no longer be used. use ContentTypes.find(:all)')
+      raise NotImplementedError.new("DEPRECATION WARNING: content_types can no longer be used. use ContentTypes.find(:all)")
+    end
+
+    def current_user
+      $stderr.puts 'DEPRECATION WARNING: Application#current_user() is deprecated; use AdminUser#current_user() instead.'
+      AdminUser.current_user
+    end
+
+  end
+
 end

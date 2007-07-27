@@ -34,6 +34,12 @@
 						<p>Use forms for contact-forms and content which does not in fit in a core content type</p>
 					</div>
 					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_log_management) %>
+					<div class="containersm">
+						<h3><%= link_to "Logging", :controller => "log_messages" %></h3>
+						<p>View recent site/admin activity here</p>
+					</div>
+					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_relations_management) %>
 					<div class="containersm">
 						<h3><%= link_to "Relations", :controller => "relations" %></h3>

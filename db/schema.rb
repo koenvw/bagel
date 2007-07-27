@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "categories", ["name"], :name => "index_categories_on_name"
   add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
 
-  create_table "categories_sobjects", :id => false, :force => true do |t|
+  create_table "sobjects_tags", :id => false, :force => true do |t|
     t.column "sobject_id",  :integer, :default => 0, :null => false
     t.column "category_id", :integer, :default => 0, :null => false
   end

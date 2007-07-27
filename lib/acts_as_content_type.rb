@@ -23,27 +23,44 @@ module ActsAsContentType
 
   module HelperFields
 
-    def template(website_id)
-      # update click_count (.find + .increment is faster than .update_all
-      sitem = sitems.find_by_website_id(website_id)
-      sitem.increment!(:click_count) unless sitem.nil?
-      # find generator by content_type
+    def generator(website_id)
+      # Find generator by content_type
       generator = Generator.find_by_website_id_and_content_type_id(website_id, self.ctype.id)
-      # find generator by core_content_type
-      generator = Generator.find_by_website_id_and_core_content_type(website_id, self.class.to_s) if generator.nil?
+
+      # Find generator by core_content_type
+      generator ||= Generator.find_by_website_id_and_core_content_type(website_id, self.class.to_s)
+
       if generator.nil?
         "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
-      else
-        generator.template
       end
+
+      generator
+    end
+
+    def template2(website_id)
+      # Update click_count (.find + .increment is faster than .update_all
+      sitem = sitems.find_by_website_id(website_id)
+      sitem.increment!(:click_count) unless sitem.nil?
+
+      # Find generator
+      g = generator(website_id)
+
+      # Return generator and its template
+      [ g, g.template ]
+    end
+
+    def template(website_id)
+      # Update click_count (.find + .increment is faster than .update_all
+      sitem = sitems.find_by_website_id(website_id)
+      sitem.increment!(:click_count) unless sitem.nil?
+
+      # Find generator
+      gen = generator(website_id)
+      gen.template
     end
 
     def intro_or_body
-      if intro.nil? or intro.size == 0
-        body
-      else
-        intro
-      end
+      (intro.blank?) ? body : intro
     end
 
     def intro(words=0, maximum_characters=0)
@@ -83,13 +100,11 @@ module ActsAsContentType
     end
 
     def is_published?(site_id)
-      true if sitems.find(:all,:conditions=>"sitems.publish_from<now() AND sitems.website_id=#{site_id} AND sitems.status='Published'").size>0
+      sitems.any? { |sitem| sitem.website_id == site_id and sitem.is_published? }
     end
 
     def has_hidden_sitem?
-      result = false
-      sitems.each {|sitem| result = true if sitem.status == "Hidden" }
-      result
+      sitems.any? { |sitem| !sitem.is_published? }
     end
 
     def relation(name, options = {})
@@ -101,7 +116,7 @@ module ActsAsContentType
       from_sobject_id = options[:reverse] == true ? "to_sobject_id" : "from_sobject_id"
       to_sobject_id = options[:reverse] == true ? "from_sobject_id" : "to_sobject_id"
       # look up first relationship for this relation
-      relationship = Relationship.find(:first, :conditions => ["#{from_sobject_id} = ? AND category_id = ?",self.sobject.id,relation.id], :limit=>1, :order => "position ASC")
+      relationship = Relationship.find(:first, :conditions => ["#{from_sobject_id} = ? AND relation_id = ?",self.sobject.id,relation.id], :limit=>1, :order => "position ASC")
       unless relationship.nil?
         # by using "type" we can save ourselves 1 extra query (sobject will be joined with the contentype directly)
         # FIXME: we do extra queries to find out the content type.
@@ -121,7 +136,7 @@ module ActsAsContentType
         # look up relation
         relation = Relation.find_by_name(name)
         return if relation.nil?
-        relations = Relationship.find(:all, :conditions => ["category_id =? AND from_sobject_id = ?",relation.id,self.sobject.id], :order=>"relationships.position", :include => [:to])
+        relations = Relationship.find(:all, :conditions => ["relation_id =? AND from_sobject_id = ?",relation.id,self.sobject.id], :order=>"relationships.position", :include => [:to])
       else
         # all relations
         relations = Relationship.find(:all, :conditions => ["from_sobject_id = ?",self.sobject.id], :order=>"relationships.position", :include => [:to])
@@ -136,6 +151,34 @@ module ActsAsContentType
       else
         sobject.tags
       end
+    end
+
+    def type_id
+      sobject.content_type_id
+    end
+
+    def ctype
+      sobject.ctype
+    end
+
+    def ctype_name
+      sobject.ctype_name
+    end
+
+    def created_by
+      sobject.created_by
+    end
+
+    def updated_by
+      sobject.updated_by
+    end
+
+    def controller_name
+      sobject.controller_name
+    end
+
+    def sitem_for(website)
+      sitems.select { |s| s.website == website }.first
     end
 
   end
@@ -167,8 +210,8 @@ module ActsAsContentType
 
     def save_tags(tags)
       sobject.tags.clear
-      sobject.cached_categories = ""
-      sobject.cached_category_ids = ""
+      sobject.cached_tags = ""
+      sobject.cached_tag_ids = ""
       unless tags.nil?
         tags = tags.split(",") if tags.is_a?(String)
         tags.uniq.each do |tag_id|
@@ -188,14 +231,6 @@ module ActsAsContentType
     def type_id=(content_type_id)
       #FIXME this does not work if sobject is not assigned yet (Item.create :type_id => , ...)
       sobject.content_type_id = content_type_id
-    end
-
-    def type_id
-      sobject.content_type_id
-    end
-
-    def ctype
-      sobject.ctype
     end
 
     def prepare_sitems(params)
@@ -224,6 +259,7 @@ module ActsAsContentType
         s.record_userstamps = false
         if AdminUser.exists?(params[:sobject][:updated_by])
           s.updated_by = AdminUser.find(params[:sobject][:updated_by])
+          #s.created_by ||= AdminUser.find(params[:sobject][:updated_by])
           s.save
         end
       end
@@ -248,7 +284,7 @@ module ActsAsContentType
     end
 
     def add_relation_unless(to_sobject_id,relation_id)
-      Relationship.find_or_create_by_from_sobject_id_and_to_sobject_id_and_category_id(sobject.id,to_sobject_id,relation_id)
+      Relationship.find_or_create_by_from_sobject_id_and_to_sobject_id_and_relation_id(sobject.id,to_sobject_id,relation_id)
     end
 
     def save_workflow(step_ids)
@@ -279,9 +315,9 @@ module ActsAsContentType
         relations_delete.each do |d|
           if relations.find{|r| r==d}.nil?
             if reverse_relations
-              Relationship.destroy_all "to_sobject_id=#{sobject.id} AND category_id=#{d[1]}"
+              Relationship.destroy_all "to_sobject_id=#{sobject.id} AND relation_id=#{d[1]}"
             else
-              Relationship.destroy_all "from_sobject_id=#{sobject.id} AND category_id=#{d[1]}"
+              Relationship.destroy_all "from_sobject_id=#{sobject.id} AND relation_id=#{d[1]}"
             end
           end
         end
@@ -293,15 +329,15 @@ module ActsAsContentType
         relations.each do |i|
             # first check if the item doesn't exist
             if reverse_relations
-              relationship=Relationship.find(:all,:conditions => "to_sobject_id=#{sobject.id} AND from_sobject_id=#{i[0]} AND category_id=#{i[1]}")
+              relationship=Relationship.find(:all,:conditions => "to_sobject_id=#{sobject.id} AND from_sobject_id=#{i[0]} AND relation_id=#{i[1]}")
             else
-              relationship=Relationship.find(:all,:conditions => "from_sobject_id=#{sobject.id} AND to_sobject_id=#{i[0]} AND category_id=#{i[1]}")
+              relationship=Relationship.find(:all,:conditions => "from_sobject_id=#{sobject.id} AND to_sobject_id=#{i[0]} AND relation_id=#{i[1]}")
             end
             if relationship.empty?
                if reverse_relations
-                 Relationship.create :to_sobject_id=>sobject.id,:from_sobject_id=>i[0],:category_id=>i[1],:position=>p
+                 Relationship.create :to_sobject_id=>sobject.id,:from_sobject_id=>i[0],:relation_id=>i[1],:position=>p
                else
-                 Relationship.create :from_sobject_id=>sobject.id,:to_sobject_id=>i[0],:category_id=>i[1],:position=>p
+                 Relationship.create :from_sobject_id=>sobject.id,:to_sobject_id=>i[0],:relation_id=>i[1],:position=>p
                end
             else
                relationship.first.position=p
@@ -312,9 +348,9 @@ module ActsAsContentType
       end
     end
 
-    def find_category_with_parent_id(parent_id)
+    def find_tags_with_parent_id(parent_id)
       # FIXME:
-      candidates = sobject.categories.select{|c| c.parent_id == parent_id }
+      candidates = sobject.tags.select{|c| c.parent_id == parent_id }
       if candidates.size > 0
         return candidates.first
       end
@@ -333,10 +369,6 @@ module ActsAsContentType
       end
     end
 
-    def prepare_sitem
-      #dummy, can be overridden if needed
-    end
-
     def create_default_sitems
       # prepare a sitem for each Website
       if sitems.empty?
@@ -348,11 +380,11 @@ module ActsAsContentType
 
     def prepare_sobject
       self.build_sobject(:content_type => self.class.to_s) if sobject.nil?
+      sobject.name = title if respond_to?(:title)
     end
 
     # create
     def before_save
-      prepare_sitem # just to make ourselves consistent
       prepare_sobject
     end
 

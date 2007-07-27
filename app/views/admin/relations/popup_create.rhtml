@@ -8,7 +8,7 @@
 		<fieldset>
 			<label>Content type</label>
 			<%= select "relations#{direction}#{uniq_id}",
-				"category_id",
+				"relation_id",
                 Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] },
 				:include_blank => true,
 				:selected => nil
@@ -16,7 +16,7 @@
 			<div class="clear"></div>
 		</fieldset>
 		<div class="spinner" id="spinner_create" style="display: none;"></div>
-		<%= observe_field "relations#{direction}#{uniq_id}_category_id",
+		<%= observe_field "relations#{direction}#{uniq_id}_relation_id",
 			:update => "relations#{direction}#{uniq_id}_content",
 			:on => "focus",
 			:url => {:controller => "relations", :action => "popup_create2", :sub_id => uniq_id, :direction => direction},

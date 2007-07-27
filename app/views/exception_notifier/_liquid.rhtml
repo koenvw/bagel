@@ -1,0 +1,11 @@
+Generator backtrace:
+
+<% (@data[:generator_backtrace] || []).reverse.each_with_index do |generator,  index| -%>
+  <%= index+1 %>. <%= generator %>
+<% end -%>
+
+Function backtrace:
+
+<% (@data[:function_backtrace] || []).reverse.each_with_index do |generator,  index| -%>
+  <%= index+1 %>. <%= generator %>
+<% end -%>

@@ -1,3 +1,5 @@
+require 'erb'
+
 class Admin::GeneratorsController < ApplicationController
   requires_authorization :actions => [:index, :list, :edit, :destroy],
                          :permission => [:admin_generators_management,:_admin_management]
@@ -19,14 +21,28 @@ class Admin::GeneratorsController < ApplicationController
   end
 
   def edit
+    # Find or create generator
     @generator = Generator.find_by_id(params[:id]) || Generator.new
+
     if request.post?
+      old_attributes = @generator.attributes
+      is_new_item = @generator.id.blank?
+
+      # Update generator
       @generator.attributes = params[:generator]
-      #render :inline => "<%= debug params %>" and return
       if @generator.save
+        # Log
+        diff = old_attributes.inspect_with_newlines.html_diff_with(@generator.attributes.inspect_with_newlines)
+        bagel_log :message    => "Generator #{is_new_item ? 'created' : 'updated'}",
+                  :kind       => 'data',
+                  :severity   => :low,
+                  :extra_info => { :diff => diff, :generator => @generator }
+
         flash[:notice] ='Generator was successfully updated.'
         redirect_to :action => 'list', :id => params[:folder_id], :website_id => params[:website_id]
       end
+    else
+      @generator.website = Website.find(params[:website_id]) unless @generator.website
     end
   end
 

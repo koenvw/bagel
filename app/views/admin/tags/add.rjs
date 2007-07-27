@@ -1,10 +1,10 @@
 unless params[:tags].nil?
-  params[:tags].each do |category_id|
+  params[:tags].each do |tag|
     uniq_id = generate_id
-    if params[:subtag].has_key?(category_id)
-      cat_add_id = params[:subtag][category_id]
+    if params[:subtag].has_key?(tag)
+      cat_add_id = params[:subtag][tag]
 	else
-      cat_add_id = category_id
+      cat_add_id = tag
     end
 	page.insert_html :bottom, 'tags_list', :partial => "admin/tags/list_item", :locals => { :category => Category.find(cat_add_id.to_i), :uniq_id => uniq_id }
     #page.visual_effect :highlight, "tags_item_#{uniq_id}" , :duration => 0.5

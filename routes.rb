@@ -31,6 +31,12 @@ with_options :controller => 'admin/urlmappings' do |m|
   m.admin_urlmappings '/admin/urlmappings'
 end
 
+with_options :controller => 'admin/log_messages' do |m|
+  m.admin_log_messages        '/admin/log_messages'
+  m.admin_log_messages_rotate '/admin/log_messages/rotate', :action => 'rotate'
+  m.admin_log_message         '/admin/log_messages/:id/:action', :action => 'show'
+end
+
 # ANY DOMAIN
 connect '/:site/index',                   :controller => 'site', :action => 'index'
 connect '/:site/show/:type/:id',          :controller => 'site', :action => 'content'

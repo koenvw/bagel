@@ -66,12 +66,14 @@
 			<table class="uniTable">
 				<tr class="heading">
 					<td class="tabDesc">Name</td>
+					<td class="colDesc">Engine</td>
 					<td class="colDesc">Description</td>
 					<td class="colDesc">&nbsp;</td>
 				</tr>
 				<% for generator in @generators %>
 				<tr class="content">
 					<td><%= link_to generator.name, :action => 'edit', :id => generator, :website_id => websiteId %></td>
+					<td style="width: 50px;"><%=h generator.templating_engine %></td>
 					<td>
 						<% if !generator.description.blank? %>
 							<%=h truncate(generator.description, 15,'...') %>
@@ -79,7 +81,7 @@
 							<span class="greyText">empty</span>
 						<% end %>
 					</td>
-					<td class="iconbox"  style="width: 150px;">
+					<td class="iconbox"  style="width: 180px;">
 						<span class="icon">
 							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => websiteId }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
 							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => params[:id], :website_id => websiteId } , :class => "edit"  %>

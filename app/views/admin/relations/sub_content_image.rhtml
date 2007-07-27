@@ -5,9 +5,9 @@ r_sub_type ||= params[:r_sub_type] # in case r_sub_type comes from paging
 searchphrase = params[:search] || ""
 
 unless r_sub_type.nil?
-  category_id = Tag.find_by_name(r_sub_type).id
-  conditions = ["image LIKE ? AND category_id = ?", "%" + searchphrase + "%",category_id]
-  joins = "INNER JOIN categories_sobjects CA ON CA.category_id = #{category_id} AND sobjects.id = CA.sobject_id"
+  tag_id = Tag.find_by_name(r_sub_type).id
+  conditions = ["image LIKE ? AND tag_id = ?", "%" + searchphrase + "%",tag_id]
+  joins = "INNER JOIN sobjects_tags CA ON CA.tag_id = #{tag_id} AND sobjects.id = CA.sobject_id"
 else
   conditions = ["image LIKE ? OR title LIKE ?", "%" + searchphrase + "%","%" + searchphrase + "%"]
   joins = ""

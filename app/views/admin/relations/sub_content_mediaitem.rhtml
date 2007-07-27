@@ -6,9 +6,9 @@ searchphrase = params[:search] || ""
 
 lsp = "%" + searchphrase + "%"
 unless r_sub_type.nil?
-  category_id = Tag.find_by_name(r_sub_type).id
-  conditions = ["(title LIKE ? OR filename LIKE ? or description LIKE ?) AND category_id = ?", lsp, lsp, lsp,category_id]
-  joins = "INNER JOIN categories_sobjects CA ON CA.category_id = #{category_id} AND sobjects.id = CA.sobject_id"
+  tag_id = Tag.find_by_name(r_sub_type).id
+  conditions = ["(title LIKE ? OR filename LIKE ? or description LIKE ?) AND tag_id = ?", lsp, lsp, lsp,tag_id]
+  joins = "INNER JOIN sobjects_tags CA ON CA.tag_id = #{tag_id} AND sobjects.id = CA.sobject_id"
 else
 	r_sub_type=""
   conditions = ["title LIKE ? OR filename LIKE ? or description LIKE ?", lsp, lsp, lsp]

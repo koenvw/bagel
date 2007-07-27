@@ -22,4 +22,10 @@ class MediaItem < ActiveRecord::Base
     MIME::Types.type_for(self.public_filename)
   end
 
+  # Liquid support
+
+  def to_liquid
+    MediaItemDrop.new(self)
+  end
+
 end

@@ -19,12 +19,6 @@ class Image < ActiveRecord::Base
     super
   end
 
-  def prepare_sitem
-    sitems.each do |sitem|
-      sitem.name = title unless title.nil?
-    end
-  end
-
   def get_storage_dir
     if new_record?
       "assets/" + Date.today.year.to_s + Date.today.month.to_s.rjust(2,"0")

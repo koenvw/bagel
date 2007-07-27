@@ -16,5 +16,3 @@ module Bagel::Routing::FromBagel
     eval(routes_as_string, binding) unless routes_as_string.blank? 
   end
 end
-
-
