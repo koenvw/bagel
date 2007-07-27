@@ -164,10 +164,8 @@ module BagelApplication
     ########## Exception Notification
 
     def local_request?
-      # FIXME temp
-      false
-      #remote = IPAddr.new(request.remote_ip)
-      #!self.class.local_addresses.detect { |addr| addr.include?(remote) }.nil?
+      remote = IPAddr.new(request.remote_ip)
+      !self.class.local_addresses.detect { |addr| addr.include?(remote) }.nil?
     end
 
     def render_404
