@@ -90,17 +90,6 @@ class SiteController < ApplicationController
       render_404 and return if @form.nil?
       @content_title = @form.name
       @content_generator, @content_for_layout = @form.template(site_id)
-    when 'form_definition' # Slightly custom
-      @formdef = FormDefinition.find_by_name(params[:id]) if params[:id].to_i == 0
-      @formdef = FormDefinition.find(params[:id])         if params[:id].to_i != 0
-      render_404 and return if @formdef.nil?
-      # FIXME this does not work with Liquid
-      str =  "<%= start_form_tag :controller => 'site', :action => 'submit', :id => @formdef %>"
-      str << @formdef.template_form(site_id)
-      str << "<%= end_form_tag %>"
-      @content_for_layout = str
-      @content_title = @formdef.name
-      @content_generator = @formdef.generator(site_id)
     when 'generator' # Slightly custom
       @generator = Generator.find_by_name(params[:id])
       render_404 and return if @generator.nil?
