@@ -45,6 +45,17 @@ module Admin::FormsHelper
     return out
   end
 
+  def bagel_select_field(method, options = {}, html_options = {})
+    choices = options[:values]
+    out = '<fieldset class="oneline">'
+    out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
+    out << select(:form, method, choices, options, html_options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end     
+    out << '</fieldset>'
+  end
+
   def bagel_country_select(method, priority_countries = nil, options = {}, html_options = {})
     options[:include_blank] = true
     out = '<fieldset class="oneline">'
@@ -72,8 +83,8 @@ module Admin::FormsHelper
     out << '</fieldset>'
   end
 
-  def bagel_select_admin_user(method, options = {}, html_options = {})
-    choices = AdminUser.find(:all).map { |user| [user.fullname, user.id] }
+  def bagel_admin_user_select(method, options = {}, html_options = {})
+    choices = AdminUser.find(:all, :order => "firstname").map { |user| [user.fullname, user.id] }
     options[:include_blank] = true
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
@@ -87,7 +98,17 @@ module Admin::FormsHelper
   def bagel_date_field(method, options = {})
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
-    out << calendar_field_tag("form[#{method}]", @form.send(method), { :class => "date" }, {:showOthers => true, :showsTime => true})
+    out << calendar_field_tag("form[#{method}]", @form.send(method),true, true, { :class => "date" }, {:showOthers => true, :showsTime => false})
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end     
+    out << '</fieldset>'
+  end
+
+  def bagel_date_time_field(method, options = {})
+    out = '<fieldset class="oneline">'
+    out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
+    out << calendar_field_tag("form[#{method}]", @form.send(method),true, true, { :class => "date" }, {:showOthers => true, :showsTime => true})
     if !options[:help].blank?
       out << '<p class="help">'+ options[:help] +'</p>'
     end     
