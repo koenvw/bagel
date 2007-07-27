@@ -266,7 +266,7 @@ class SiteController < ApplicationController
   def global_assigns(other={})
     gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_liquid_globals", site_id ])
     if !gen.nil? and gen.templating_engine == 'liquid'
-      gen.assigns_as_hash(other)
+      gen.assigns_as_hash(other).merge('flash' => flash.inject({}) { |memo, (key, value)| memo.merge({ key.to_s => value }) })
     else
       {}
     end
