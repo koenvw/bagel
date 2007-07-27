@@ -37,7 +37,7 @@ module ActsAsContentType
       generator
     end
 
-    def template2(website_id)
+    def template(website_id)
       # Update click_count (.find + .increment is faster than .update_all
       sitem = sitems.find_by_website_id(website_id)
       sitem.increment!(:click_count) unless sitem.nil?
@@ -47,16 +47,6 @@ module ActsAsContentType
 
       # Return generator and its template
       [ g, g.template ]
-    end
-
-    def template(website_id)
-      # Update click_count (.find + .increment is faster than .update_all
-      sitem = sitems.find_by_website_id(website_id)
-      sitem.increment!(:click_count) unless sitem.nil?
-
-      # Find generator
-      gen = generator(website_id)
-      gen.template
     end
 
     def intro_or_body

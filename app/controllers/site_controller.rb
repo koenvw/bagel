@@ -84,12 +84,12 @@ class SiteController < ApplicationController
       @news = News.find(params[:id])
       render_404 and return if @news.nil?
       @content_title = @news.title
-      @content_generator, @content_for_layout = @news.template2(site_id)
+      @content_generator, @content_for_layout = @news.template(site_id)
     when 'form'
       @form = Form.find(params[:id])
       render_404 and return if @form.nil?
       @content_title = @form.name
-      @content_generator, @content_for_layout = @form.template2(site_id)
+      @content_generator, @content_for_layout = @form.template(site_id)
     when 'form_definition' # Slightly custom
       @formdef = FormDefinition.find_by_name(params[:id]) if params[:id].to_i == 0
       @formdef = FormDefinition.find(params[:id])         if params[:id].to_i != 0
@@ -111,12 +111,12 @@ class SiteController < ApplicationController
       @container = Container.find(params[:id])
       render_404 and return if @container.nil?
       @content_title = @container.title
-      @content_generator, @content_for_layout = @container.template2(site_id)
+      @content_generator, @content_for_layout = @container.template(site_id)
     when 'event'
       @event = Event.find(params[:id])
       render_404 and return if @event.nil?
       @content_title = @event.title
-      @content_generator, @content_for_layout = @event.template2(site_id)
+      @content_generator, @content_for_layout = @event.template(site_id)
     else
       render :text => "no such content type", :status => "404" and return
     end

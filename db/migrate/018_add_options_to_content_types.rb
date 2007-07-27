@@ -13,4 +13,3 @@ class AddOptionsToContentTypes < ActiveRecord::Migration
     remove_column :content_types, :hide_relations
   end
 end 
-
