@@ -1,5 +1,5 @@
 - title:      "Website"
-  url:        "/admin/home/website"
+  url:        "/admin/home/index"
   children:
     - title:  "Manage"
       url:    "/admin/content/list"
