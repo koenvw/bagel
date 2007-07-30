@@ -47,7 +47,7 @@ class News < ActiveRecord::Base
           AND sitems.website_id=#{website_id}
           AND (sitems.publish_till<now() OR sitems.publish_till IS NULL)
           AND sitems.publish_from<now()
-          AND sitems.status='Published'
+          AND sitems.is_published=1
         ",xsql],
         :offset=> offset,
         :limit=> limit,

@@ -75,7 +75,7 @@ namespace :bagel do
         next if matching_sitem.nil?
 
         # Update this sitem
-        attrs = [ :status, :website_id, :publish_date, :publish_from, :publish_till ]
+        attrs = [ :is_published, :website_id, :publish_date, :publish_from, :publish_till ]
         attrs.each { |attr| sitem[attr] = matching_sitem[attr] }
         sitem.save
       end

@@ -330,9 +330,6 @@ class SiteController < ApplicationController
             su.active = false
             su.save
           end
-          #unless su.nil?
-          #  su.sitems.each { |sitem| sitem.status = "Hidden"; sitem.save }
-          #end
         end
 
       when "store_as_site_user"
@@ -340,7 +337,7 @@ class SiteController < ApplicationController
         if su.nil?
           su = SiteUser.create :email => params[:form][:email].downcase, :active => true
           # default to hidden for all sites
-          su.sitems.each { |sitem| sitem.status = "Hidden" }
+          su.sitems.each { |sitem| sitem.is_published = false }
           su.save
         end
         su.name = params[:form][:name]
@@ -373,7 +370,7 @@ class SiteController < ApplicationController
         #render :inline => "<%= debug @su %>" and return
         if su.save
           #FIXME: why status was reset on su.save ???
-          sitem.status = "1"
+          sitem.is_published = true
           sitem.save
         else
           flash[:errors] = su.errors.full_messages
@@ -384,6 +381,7 @@ class SiteController < ApplicationController
           redirect_to_back_or_home and return
         end
 
+      # FIXME: auto55-specific
       when "store_as_site_link"
         @link=Link.new
         @link.title=params[:form][:name]
@@ -398,7 +396,7 @@ class SiteController < ApplicationController
           @link.save
           @link.sitems.delete_all
 
-          @link.create_in_sitems :status=>'Hidden',:website_id=>params[:website_id],:name=> params[:form][:name]
+          @link.create_in_sitems :is_published => false,:website_id=>params[:website_id],:name=> params[:form][:name]
           flash[:errors] = ["Toevoeging link compleet"]
           redirect_to params[:return] and return
         end

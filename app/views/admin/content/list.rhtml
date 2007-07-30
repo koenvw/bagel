@@ -54,7 +54,7 @@
 				<%
 					if @websites.size > 1
 						website_out = []
-						websites = @item.sitems.select {|s| s.status=="1"}.map {|s| s.website.name }.sort
+						websites = @item.sitems.select {|s| s.is_published? }.map {|s| s.website.name }.sort
 						for website_name in websites
 							if File.exists?(RAILS_ROOT + "/public/images/websites/#{website_name}.png")
 								website_out << link_to(image_tag("/images/websites/#{website_name}.png"), {:controller => "/site", :action => "content", :type => @item.content.class.to_s.tableize.singularize, :site => website_name, :id => @item.content.id, :clear => 1})

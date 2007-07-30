@@ -48,7 +48,7 @@ class Menu < ActiveRecord::Base
       :conditions=>"
         menus.parent_id='#{parent_id}'
         AND sitems.website_id=#{Website.find_by_name(site).id}
-        AND sitems.status='Published'
+        AND sitems.is_published=1
       ",
       :include=>[:sitems]
     )

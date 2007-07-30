@@ -232,11 +232,11 @@ module ActsAsContentType
           # if we are using workflow only admins can change the status
           if ctype && ctype.workflow
             if AdminUser.current_user.is_admin?
-              # workaround for checkboxes that do not return value when not set
-              new_sitem[:status] = "0" unless new_sitem.has_key?(:status)
+              new_sitem[:is_published] = new_sitem.has_key?(:is_published)
             end
           else
-            # no status change
+            # no status change 
+            # FIXME: why not ?
           end
           merged_attributes = wsitem.attributes.merge(new_sitem)
           wsitem.attributes = merged_attributes

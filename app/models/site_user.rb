@@ -11,7 +11,8 @@ class SiteUser < ActiveRecord::Base
   end
 
   def self.find_with_website_id(website_id)
-    find(:all, :conditions => ["website_id = ? AND status = 'Published' AND active = 1", website_id], :include => :sitems)
+    # FIXME: deprecated?
+    find(:all, :conditions => ["website_id = ? AND is_published = 1 AND active = 1", website_id], :include => :sitems)
   end
 
 end

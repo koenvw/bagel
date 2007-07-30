@@ -36,7 +36,7 @@ module SiteHelper
     items_not_published = Menu.find(:all,:conditions=>"
         menus.parent_id='#{menu_id}'
         AND sitems.website_id=#{Website.find_by_name(site).id}
-        AND sitems.status='Hidden'
+        AND sitems.is_published=0
       ",
       :include=>[:sitems]
     )

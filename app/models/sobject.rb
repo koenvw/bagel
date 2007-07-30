@@ -127,7 +127,7 @@ class Sobject < ActiveRecord::Base
     else
       # website_id
       if options[:website_id]
-        website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.status='Published'" # FIXME: status conflicts with status below?
+        website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.is_published=1" # FIXME: status conflicts with status below?
       end
     end
     
