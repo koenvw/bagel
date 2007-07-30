@@ -39,6 +39,7 @@ class Admin::FormsController < ApplicationController
   end
 
   def edit
+    render_404 if params[:id].blank? && (params[:form_definition_id].blank? or params[:type_id].blank?)
     @form = Form.find_by_id(params[:id]) || Form.new
     @form.form_definition_id ||= params[:form_definition_id]
     @form.type_id ||= params[:type_id]
