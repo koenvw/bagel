@@ -5,7 +5,7 @@
 # - showAdd   : show the "add" button
 #
 #
-if item.ctype && !item.ctype.hide_tags? 
+if (item.ctype && !item.ctype.hide_tags?) or item.ctype.nil?
 
 # show add defaults to true
 showAdd = true if showAdd.nil?
