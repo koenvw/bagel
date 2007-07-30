@@ -224,22 +224,23 @@ module ActsAsContentType
     end
 
     def prepare_sitems(params)
-
-      params.each do |key,new_sitem|
-        # we use .select b/c find_by_website_id does not work for new records
-        wsitems = sitems.select {|v| v.website_id == new_sitem[:website_id].to_i }
-        wsitem = wsitems.first
-        # if we are using workflow only admins can change the status
-        if ctype && ctype.workflow
-          if AdminUser.current_user.is_admin?
-            # workaround for checkboxes that do not return value when not set
-            new_sitem[:status] = "0" unless new_sitem.has_key?(:status)
+      unless params.blank?
+        params.each do |key,new_sitem|
+          # we use .select b/c find_by_website_id does not work for new records
+          wsitems = sitems.select {|v| v.website_id == new_sitem[:website_id].to_i }
+          wsitem = wsitems.first
+          # if we are using workflow only admins can change the status
+          if ctype && ctype.workflow
+            if AdminUser.current_user.is_admin?
+              # workaround for checkboxes that do not return value when not set
+              new_sitem[:status] = "0" unless new_sitem.has_key?(:status)
+            end
+          else
+            # no status change
           end
-        else
-          # no status change
+          merged_attributes = wsitem.attributes.merge(new_sitem)
+          wsitem.attributes = merged_attributes
         end
-        merged_attributes = wsitem.attributes.merge(new_sitem)
-        wsitem.attributes = merged_attributes
       end
     end
 
