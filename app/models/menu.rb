@@ -40,7 +40,7 @@ class Menu < ActiveRecord::Base
     return ""
   end
 
-  def self.list(param)
+  def self.list(site,parent_id) 
     $stderr.puts('DEPRECATION WARNING: Menu.list is deprecated; please use Menu.find')
     find(
       :all,

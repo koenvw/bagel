@@ -79,7 +79,7 @@
 						<% end %>
 						</td>
 						<% end %>
-						<td><%= @item.sitems.first.publish_date.formatted %></td>
+						<td><%=  @item.sitems.first.publish_from.formatted %></td>
 						<td class="iconbox">
 							<span class="icon">
 								<%= link_to "delete", { :controller => @item.controller_name, :action => 'destroy', :id => @item.content.id, :website_id=>params[:website_id], :search_string=>params[:search_string], :content_type=>params[:content_type], :redirect=>"/admin/content/list" }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>

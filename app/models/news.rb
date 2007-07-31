@@ -52,7 +52,7 @@ class News < ActiveRecord::Base
         :offset=> offset,
         :limit=> limit,
         :include=>[:sobject,:sitems],
-        :joins => ["INNER JOIN sobjects_tags CA ON CA.category_id = #{category.id} AND sobjects.id = CA.sobject_id",xrels]
+        :joins => ["INNER JOIN sobjects_tags CA ON CA.tag_id = #{category.id} AND sobjects.id = CA.sobject_id",xrels]
        )
     end
   end
