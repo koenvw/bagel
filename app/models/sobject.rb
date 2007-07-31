@@ -147,9 +147,21 @@ class Sobject < ActiveRecord::Base
     # content_types
     if options[:content_types]
       # map elements to ids
-      ctypes = options[:content_types].to_a.map do |ct|
-        (ct.to_i == 0) ? ContentType.find_by_name(ct).id : ct
-      end
+      ctypes = options[:content_types].to_a.map { |content_type_id|
+        if content_type_id.to_i == 0
+          # not integer, look up by name
+          content_type = ContentType.find_by_name(content_type_id)
+          # raise RecordNotFound if name not found
+          if content_type.nil? 
+            raise ActiveRecord::RecordNotFound.new("Couldn't find content_type with name=#{content_type_id}")
+          else
+            content_type.id
+          end
+        else
+          # content type is integer
+          content_type_id
+        end
+      }
       content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})"
     end
     

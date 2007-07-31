@@ -5,6 +5,8 @@ digraph G {
       <% generator.dependencies.each do |dep_gen| %>
         <%= generator.name %> -> <%= dep_gen %>;
       <% end %>
+    <% else %>
+        <%= generator.name %>;
     <% end %>
   <% end %>
 

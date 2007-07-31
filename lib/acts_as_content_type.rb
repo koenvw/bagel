@@ -177,7 +177,7 @@ module ActsAsContentType
 
     def add_sitem(website_id)
       # build a sitem, default status to NOT published
-      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :status => "0"
+      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :is_published => false 
     end
 
     def add_sitem_unless(website)
@@ -192,7 +192,7 @@ module ActsAsContentType
       if sitem.nil?
         add_sitem(website_id)
       else
-        sitem.status = "1"
+        sitem.is_published = true
         sitem.save
         sitem
       end
@@ -284,7 +284,7 @@ module ActsAsContentType
         wf_step = WorkflowStep.find(step_id)
         if wf_step.is_final?
           # FIXME: how do we know on which website to publish ???
-          sitems.each do |sitem| sitem.status = "Published"; sitem.save end
+          sitems.each do |sitem| sitem.is_published = true; sitem.save end
         end
         WorkflowAction.create :sobject_id => sobject.id, :admin_user_id => AdminUser.current_user.id, :workflow_step_id => step_id
       end
