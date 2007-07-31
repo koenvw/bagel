@@ -65,7 +65,6 @@ svn commit -m 'Ignoring database.yml'
 echo "Finished."
 
 # install required plugins for bagel
-script/plugin install http://dev.rubyonrails.org/svn/plugins/exception_notification/
 script/plugin install http://svn.rails-engines.org/engines/branches/rb_1.2/ 
 script/plugin install http://svn.techno-weenie.net/projects/plugins/attachment_fu/
 script/plugin install svn://projects.jkraemer.net/acts_as_ferret/tags/stable/acts_as_ferret
