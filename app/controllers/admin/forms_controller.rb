@@ -59,16 +59,32 @@ class Admin::FormsController < ApplicationController
 
   def update
     @form = Form.find_by_id(params[:id]) || Form.new
+
+    # store current attributes for diffing
+    old_attributes = @form.attributes
+    is_new_item = @form.id.blank?
+
+    # set attributes
     @form.name = params[:form][:name]
     @form.data = params[:form]
     @form.type_id = params[:form][:type_id]
     @form.form_definition_id = params[:form_definition_id]
+
     @form.prepare_sitems(params[:sitems])
+
     if @form.save
       @form.save_workflow(params[:workflow_steps])
       @form.save_tags(params[:tags])
       @form.save_relations(params[:relations])
       @form.set_updated_by(params)
+
+      # Log
+      diff = old_attributes.inspect_with_newlines.html_diff_with(@form.attributes.inspect_with_newlines)
+      bagel_log :message    => "Template #{is_new_item ? 'created' : 'updated'}",
+                :kind       => 'data',
+                :severity   => :low,
+                :extra_info => { :diff => diff }
+
       flash[:notice] = 'Form was successfully updated.'
       redirect_to params[:referer] || {:controller => "content", :action => "list"}
     else

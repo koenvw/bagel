@@ -92,5 +92,15 @@ module SiteHelper
     }
     return myHash
   end
+
+
+  def truncate_with_words(text, length = 30, truncate_string = "...")
+    if text.nil? then return end
+
+    nearest_left_space = length - truncate_string.chars.length
+    nearest_left_space -= 1 until text.chars[nearest_left_space] == 32 or nearest_left_space == 0
+
+    text.chars.length > length ? text.chars[0...nearest_left_space] + truncate_string : text
+  end
   
 end

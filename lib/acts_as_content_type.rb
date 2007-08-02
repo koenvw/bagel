@@ -54,20 +54,33 @@ module ActsAsContentType
     end
 
     def intro(words=0, maximum_characters=0)
-      if respond_to?(:title) && respond_to?(:body)
-        if words == 0 and (attributes['intro'].nil? or attributes['intro'].size == 0)
-          body.split[0..10].collect { |w| w + " " }.to_s
-        elsif (attributes['intro'].nil? or attributes['intro'].size == 0) or words != 0
-          str = title + body.split[0..words].collect { |w| w + " " }.to_s
+      $stderr.puts 'DEPRECATION WARNING: .intro(words,max_chars) is deprecated; use truncate_with_words instead.'
+      # check if we are working on a object that can have an intro
+      if respond_to?(:title) && respond_to?(:body) && !title.blank? && !body.blank?
+
+        # if we don't have a number of words specified and our object does not have an intro field
+        if words == 0 and intro.blank?
+          # return the first 10 word of the body
+          body.split[0..10].join(" ")
+
+        # if we have a number of words to return and still no intro field
+        elsif words != 0 and intro.blank?
+          # 
+          maximum_characters ||= (+1.0/0.0) # infinity!
+
+          # see how many words can fit in maximum_characters
+          str = title + body.split[0..words].join(" ")
           until str.size < maximum_characters
             words -= 1
-            str = title + body.split[0..words].collect { |w| w + " " }.to_s
+            str = title + body.split[0..words].join(" ")
             break if words <= 0
           end
-          body.split[0..words].collect { |w| w + " " }.to_s
+          body.split[0..words].join(" ")
         else
           attributes['intro']
         end
+      else
+          return ""
       end
     end
 
