@@ -29,6 +29,7 @@ generators_001:
   id: "5"
   description: ""
   preview_url: 
+  assigns: 
   templating_engine: 
 generators_002: 
   generator_folder_id: 
@@ -62,6 +63,7 @@ generators_002:
   id: "6"
   description: ""
   preview_url: 
+  assigns: 
   templating_engine: 
 generators_003: 
   generator_folder_id: 
@@ -81,6 +83,7 @@ generators_003:
   id: "7"
   description: ""
   preview_url: 
+  assigns: 
   templating_engine: 
 generators_004: 
   generator_folder_id: 
@@ -96,4 +99,5 @@ generators_004:
   id: "8"
   description: ""
   preview_url: 
+  assigns: 
   templating_engine: 

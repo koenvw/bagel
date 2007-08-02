@@ -5,6 +5,7 @@ menus_001:
   updated_on: 2007-05-15 13:34:30
   lft: "1"
   id: "8"
+  link: 
   menus_count: 
   rgt: "8"
   parent_id: 
@@ -14,6 +15,7 @@ menus_002:
   updated_on: 2007-05-15 13:34:42
   lft: "2"
   id: "9"
+  link: 
   menus_count: 
   rgt: "5"
   parent_id: "8"
@@ -23,6 +25,7 @@ menus_003:
   updated_on: 2007-05-15 13:34:52
   lft: "6"
   id: "10"
+  link: 
   menus_count: 
   rgt: "7"
   parent_id: "8"
@@ -32,6 +35,7 @@ menus_004:
   updated_on: 2007-05-15 13:35:12
   lft: "3"
   id: "11"
+  link: 
   menus_count: 
   rgt: "4"
   parent_id: "9"

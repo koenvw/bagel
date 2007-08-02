@@ -4,102 +4,146 @@ content_types_007:
   core_content_type: SiteUser
   name: Visitor
   updated_on: 2007-04-18 18:49:38
+  hide_tags: "0"
   id: "9"
   description: ""
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_008: 
   created_on: 2007-04-18 19:00:13
   core_content_type: Generator
   name: Template
   updated_on: 2007-04-18 19:01:00
+  hide_tags: "0"
   id: "10"
   description: ""
   extra_info: hide
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_009: 
   created_on: 2007-07-11 14:30:10
   core_content_type: MediaItem
   name: Picture (Database File)
   updated_on: 2007-07-11 15:53:24
+  hide_tags: "0"
   id: "11"
   description: ""
   extra_info: PictureDbFile
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_010: 
   created_on: 2007-07-11 14:30:19
   core_content_type: MediaItem
   name: Picture (S3)
   updated_on: 2007-07-11 15:52:35
+  hide_tags: "0"
   id: "12"
   description: ""
   extra_info: PictureS3
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_011: 
   created_on: 2007-07-11 14:30:29
   core_content_type: MediaItem
   name: Picture (File System)
   updated_on: 2007-07-11 15:53:04
+  hide_tags: "0"
   id: "13"
   description: ""
   extra_info: PictureFileSystem
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_001: 
   created_on: 2007-04-05 19:56:29
   core_content_type: News
   name: News
   updated_on: 2007-04-18 18:48:24
+  hide_tags: "0"
   id: "1"
   description: |-
     test
     fdkjsf
     s
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_002: 
   created_on: 2007-04-06 10:56:36
   core_content_type: Image
   name: Image
   updated_on: 2007-04-18 18:47:54
+  hide_tags: "0"
   id: "2"
   description: ""
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_003: 
   created_on: 2007-04-09 13:57:08
   core_content_type: News
   name: Column
   updated_on: 2007-04-09 13:57:08
+  hide_tags: "0"
   id: "3"
   description: |-
     blah blah
     blah blah
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_004: 
   created_on: 2007-04-09 14:09:58
   core_content_type: Container
   name: Photo Gallery
   updated_on: 2007-04-18 18:48:11
+  hide_tags: "0"
   id: "4"
   description: ""
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_005: 
   created_on: 2007-04-09 14:18:58
   core_content_type: Form
   name: Specification
   updated_on: 2007-04-18 18:48:47
+  hide_tags: "0"
   id: "6"
   description: ""
   extra_info: "26"
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"
 content_types_006: 
   created_on: 2007-04-18 18:32:45
   core_content_type: Document
   name: Document
   updated_on: 2007-04-18 18:32:45
+  hide_tags: "0"
   id: "8"
   description: ""
   extra_info: ""
+  hide_relations: "0"
   workflow_id: 
+  hide_websites: "0"
+  hidden: "0"

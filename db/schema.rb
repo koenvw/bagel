@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 9) do
 
   create_table "admin_permissions", :force => true do |t|
     t.column "name", :string
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_table "admin_roles_admin_users", :id => false, :force => true do |t|
-    t.column "admin_role_id", :integer, :null => false
-    t.column "admin_user_id", :integer
+    t.column "admin_role_id", :integer,                :null => false
+    t.column "admin_user_id", :integer, :default => 0, :null => false
   end
 
   create_table "admin_users", :force => true do |t|
@@ -40,34 +40,6 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "reset_code",                :string
   end
 
-  create_table "books", :force => true do |t|
-    t.column "title",      :string
-    t.column "created_on", :datetime
-    t.column "updated_on", :datetime
-    t.column "intro",      :text
-  end
-
-  create_table "categories", :force => true do |t|
-    t.column "name",             :string
-    t.column "protected",        :boolean
-    t.column "parent_id",        :integer
-    t.column "created_on",       :datetime
-    t.column "updated_on",       :datetime
-    t.column "extra_info",       :string,   :default => ""
-    t.column "categories_count", :integer
-    t.column "lft",              :integer
-    t.column "rgt",              :integer
-    t.column "type",             :string,   :default => "", :null => false
-  end
-
-  add_index "categories", ["name"], :name => "index_categories_on_name"
-  add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
-
-  create_table "sobjects_tags", :id => false, :force => true do |t|
-    t.column "sobject_id",  :integer, :default => 0, :null => false
-    t.column "category_id", :integer, :default => 0, :null => false
-  end
-
   create_table "containers", :force => true do |t|
     t.column "title",       :string
     t.column "description", :text
@@ -77,12 +49,16 @@ ActiveRecord::Schema.define(:version => 0) do
 
   create_table "content_types", :force => true do |t|
     t.column "name",              :string
-    t.column "core_content_type", :string,   :default => "", :null => false
-    t.column "description",       :text,     :default => "", :null => false
-    t.column "extra_info",        :string,   :default => "", :null => false
+    t.column "core_content_type", :string,   :default => "",    :null => false
+    t.column "description",       :text,     :default => "",    :null => false
+    t.column "extra_info",        :string,   :default => "",    :null => false
     t.column "created_on",        :datetime
     t.column "updated_on",        :datetime
     t.column "workflow_id",       :integer
+    t.column "hidden",            :boolean,  :default => false
+    t.column "hide_websites",     :boolean,  :default => false
+    t.column "hide_tags",         :boolean,  :default => false
+    t.column "hide_relations",    :boolean,  :default => false
   end
 
   create_table "content_types_relations", :id => false, :force => true do |t|
@@ -125,12 +101,6 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "forms", ["name"], :name => "index_forms_on_name"
   add_index "forms", ["form_definition_id"], :name => "index_forms_on_form_definition_id"
 
-  create_table "galleries", :force => true do |t|
-    t.column "title",      :string
-    t.column "created_on", :datetime
-    t.column "updated_on", :datetime
-  end
-
   create_table "generator_files", :force => true do |t|
     t.column "name",         :string
     t.column "generator_id", :integer
@@ -159,87 +129,22 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "generator_folder_id", :integer
     t.column "content_type_id",     :integer
     t.column "templating_engine",   :string
+    t.column "assigns",             :text
   end
 
   add_index "generators", ["name"], :name => "index_generators_on_name"
   add_index "generators", ["website_id"], :name => "index_generators_on_website_id"
   add_index "generators", ["core_content_type"], :name => "index_generators_on_content_type"
 
-  create_table "globalize_countries", :force => true do |t|
-    t.column "code",                   :string, :limit => 2
-    t.column "english_name",           :string
-    t.column "date_format",            :string
-    t.column "currency_format",        :string
-    t.column "currency_code",          :string, :limit => 3
-    t.column "thousands_sep",          :string, :limit => 2
-    t.column "decimal_sep",            :string, :limit => 2
-    t.column "currency_decimal_sep",   :string, :limit => 2
-    t.column "number_grouping_scheme", :string
-  end
-
-  add_index "globalize_countries", ["code"], :name => "index_globalize_countries_on_code"
-
-  create_table "globalize_languages", :force => true do |t|
-    t.column "iso_639_1",             :string,  :limit => 2
-    t.column "iso_639_2",             :string,  :limit => 3
-    t.column "iso_639_3",             :string,  :limit => 3
-    t.column "rfc_3066",              :string
-    t.column "english_name",          :string
-    t.column "english_name_locale",   :string
-    t.column "english_name_modifier", :string
-    t.column "native_name",           :string
-    t.column "native_name_locale",    :string
-    t.column "native_name_modifier",  :string
-    t.column "macro_language",        :boolean
-    t.column "direction",             :string
-    t.column "pluralization",         :string
-    t.column "scope",                 :string,  :limit => 1
-  end
-
-  add_index "globalize_languages", ["iso_639_1"], :name => "index_globalize_languages_on_iso_639_1"
-  add_index "globalize_languages", ["iso_639_2"], :name => "index_globalize_languages_on_iso_639_2"
-  add_index "globalize_languages", ["iso_639_3"], :name => "index_globalize_languages_on_iso_639_3"
-  add_index "globalize_languages", ["rfc_3066"], :name => "index_globalize_languages_on_rfc_3066"
-
-  create_table "globalize_translations", :force => true do |t|
-    t.column "type",                :string
-    t.column "tr_key",              :string
-    t.column "table_name",          :string
-    t.column "item_id",             :integer
-    t.column "facet",               :string
-    t.column "language_id",         :integer
-    t.column "pluralization_index", :integer
-    t.column "text",                :text
-    t.column "namespace",           :string
-  end
-
-  add_index "globalize_translations", ["tr_key", "language_id"], :name => "index_globalize_translations_on_tr_key_and_language_id"
-  add_index "globalize_translations", ["table_name", "item_id", "language_id"], :name => "globalize_translations_table_name_and_item_and_language"
-
-  create_table "images", :force => true do |t|
-    t.column "image",         :string
-    t.column "created_on",    :datetime
-    t.column "updated_on",    :datetime
-    t.column "title",         :string,   :default => ""
-    t.column "description",   :text
-    t.column "size",          :integer
-    t.column "content_type",  :string
-    t.column "filename",      :string
-    t.column "height",        :integer
-    t.column "width",         :integer
-    t.column "parent_id",     :integer
-    t.column "thumbnail",     :string
-    t.column "db_file_id",    :integer
-    t.column "data",          :binary
-  end
-
-  create_table "links", :force => true do |t|
-    t.column "title",       :string
-    t.column "url",         :string
-    t.column "description", :text
-    t.column "status",      :string
-    t.column "created_on",  :datetime
-    t.column "updated_on",  :datetime
+  create_table "log_messages", :force => true do |t|
+    t.column "severity",      :integer
+    t.column "kind",          :string
+    t.column "created_at",    :datetime
+    t.column "message",       :string
+    t.column "extra_info",    :text
+    t.column "request_url",   :string
+    t.column "referrer_url",  :string
+    t.column "admin_user_id", :string
   end
 
   create_table "mail_deliveries", :force => true do |t|
@@ -256,7 +161,7 @@ ActiveRecord::Schema.define(:version => 0) do
   add_index "mail_deliveries", ["recipient"], :name => "index_mail_deliveries_on_recipient"
   add_index "mail_deliveries", ["site_user_id"], :name => "index_mail_deliveries_on_site_user_id"
 
-  create_table "media_thumbnails", :force => true do |t|
+  create_table "media_item_thumbnails", :force => true do |t|
     t.column "content_type", :string
     t.column "filename",     :string
     t.column "size",         :integer
@@ -264,6 +169,9 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "parent_id",    :integer
     t.column "created_on",   :datetime
     t.column "updated_on",   :datetime
+    t.column "height",       :integer
+    t.column "width",        :integer
+    t.column "db_file_id",   :integer
   end
 
   create_table "media_items", :force => true do |t|
@@ -291,6 +199,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "menus_count", :integer
     t.column "lft",         :integer
     t.column "rgt",         :integer
+    t.column "link",        :string
   end
 
   add_index "menus", ["name"], :name => "index_menus_on_name"
@@ -300,14 +209,6 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "title",      :string
     t.column "intro",      :text
     t.column "body",       :text
-    t.column "created_on", :datetime
-    t.column "updated_on", :datetime
-  end
-
-  create_table "pages", :force => true do |t|
-    t.column "title",      :string
-    t.column "body",       :text
-    t.column "author_id",  :integer
     t.column "created_on", :datetime
     t.column "updated_on", :datetime
   end
@@ -328,12 +229,12 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table "relationships", :force => true do |t|
     t.column "from_sobject_id", :integer
     t.column "to_sobject_id",   :integer
-    t.column "category_id",     :integer
+    t.column "relation_id",     :integer
     t.column "position",        :integer, :default => 0
     t.column "extra_info",      :string,  :default => ""
   end
 
-  add_index "relationships", ["from_sobject_id", "to_sobject_id", "category_id"], :name => "from_sobject_id_to_sobject_id_category_id", :unique => true
+  add_index "relationships", ["from_sobject_id", "to_sobject_id", "relation_id"], :name => "from_sobject_id_to_sobject_id_category_id", :unique => true
   add_index "relationships", ["position"], :name => "index_relationships_on_position"
 
   create_table "settings", :force => true do |t|
@@ -363,13 +264,9 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_table "sitems", :force => true do |t|
-    t.column "name",         :string
     t.column "content_id",   :integer
     t.column "content_type", :string
-    t.column "parent_id",    :integer
-    t.column "status",       :string
     t.column "website_id",   :integer
-    t.column "link",         :string
     t.column "publish_from", :datetime
     t.column "publish_till", :datetime
     t.column "publish_date", :datetime
@@ -377,41 +274,45 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "updated_on",   :datetime
     t.column "click_count",  :integer,  :default => 0
     t.column "sobject_id",   :integer
+    t.column "is_published", :boolean
   end
 
   add_index "sitems", ["content_id", "content_type", "website_id"], :name => "content_id_content_type_website_id", :unique => true
-  add_index "sitems", ["name"], :name => "index_sitems_on_name"
-  add_index "sitems", ["parent_id"], :name => "index_sitems_on_parent_id"
-  add_index "sitems", ["status"], :name => "index_sitems_on_status"
   add_index "sitems", ["publish_from"], :name => "index_sitems_on_publish_from"
   add_index "sitems", ["publish_till"], :name => "index_sitems_on_publish_till"
   add_index "sitems", ["sobject_id"], :name => "index_sitems_on_sobject_id"
 
   create_table "sobjects", :force => true do |t|
-    t.column "content_id",          :integer
-    t.column "content_type",        :string
-    t.column "cached_category_ids", :string,   :default => ""
-    t.column "created_by",          :integer
-    t.column "updated_by",          :integer
-    t.column "cached_categories",   :string
-    t.column "created_on",          :datetime
-    t.column "updated_on",          :datetime
-    t.column "content_type_id",     :integer
+    t.column "content_id",      :integer
+    t.column "content_type",    :string
+    t.column "cached_tag_ids",  :string
+    t.column "created_by",      :integer
+    t.column "updated_by",      :integer
+    t.column "cached_tags",     :string
+    t.column "created_on",      :datetime
+    t.column "updated_on",      :datetime
+    t.column "content_type_id", :integer
+    t.column "name",            :string
   end
 
   add_index "sobjects", ["content_id", "content_type"], :name => "content_id_content_type", :unique => true
-  add_index "sobjects", ["cached_category_ids"], :name => "index_sobjects_on_cached_category_ids"
+  add_index "sobjects", ["cached_tag_ids"], :name => "index_sobjects_on_cached_category_ids"
+
+  create_table "sobjects_tags", :id => false, :force => true do |t|
+    t.column "sobject_id", :integer, :default => 0, :null => false
+    t.column "tag_id",     :integer, :default => 0, :null => false
+  end
 
   create_table "tags", :force => true do |t|
     t.column "name",             :string
     t.column "extra_info",       :string
     t.column "parent_id",        :integer
-    t.column "active",           :boolean,  :null => false
+    t.column "active",           :boolean
+    t.column "content_type_ids", :text
     t.column "lft",              :integer
     t.column "rgt",              :integer
     t.column "created_on",       :datetime
     t.column "updated_on",       :datetime
-    t.column "content_type_ids", :text
   end
 
   create_table "url_mappings", :force => true do |t|
@@ -432,12 +333,12 @@ ActiveRecord::Schema.define(:version => 0) do
   end
 
   create_table "workflow_actions", :force => true do |t|
-    t.column "sobject_id",       :integer,  :null => false
-    t.column "workflow_step_id", :integer,  :null => false
+    t.column "sobject_id",       :integer, :null => false
+    t.column "workflow_step_id", :integer, :null => false
     t.column "checked",          :boolean
-    t.column "admin_user_id",    :integer,  :null => false
-    t.column "updated_at",       :datetime
-    t.column "created_at",       :datetime
+    t.column "admin_user_id",    :integer, :null => false
+    t.column "created_on",       :integer, :null => false
+    t.column "updated_on",       :integer, :null => false
   end
 
   create_table "workflow_steps", :force => true do |t|
@@ -445,8 +346,8 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "description",   :text
     t.column "admin_role_id", :integer
     t.column "is_final",      :boolean
-    t.column "position",      :integer
-    t.column "workflow_id",   :integer
+    t.column "position",      :integer,  :null => false
+    t.column "workflow_id",   :integer,  :null => false
     t.column "updated_at",    :datetime
     t.column "created_at",    :datetime
     t.column "optional",      :boolean
