@@ -57,7 +57,7 @@ class SiteController < ApplicationController
               'data'            => DataDrop.new(assigns_for_generator(gen, misc_assigns)),
               'site_controller' => SiteControllerDrop.new(self, params)
             }
-            
+
             # Render
             render :text => liquid_template(gen, assigns)
           rescue => exception
@@ -65,7 +65,12 @@ class SiteController < ApplicationController
           end
         end
       when 'erb'
-        render :inline => gen.template
+        begin
+          render :inline => gen.template
+        rescue Exception => ex
+          str = "<pre>error processing '#{gen.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          render :text => str
+        end
       end
     end
   end
@@ -93,7 +98,7 @@ class SiteController < ApplicationController
     when 'generator' # Slightly custom
       @generator = Generator.find_by_name(params[:id])
       render_404 and return if @generator.nil?
-      @content_title = "" # Empty, because users don't really want a <title>cutting_edge_rss_xml</title> etc
+      @content_title = "" # Empty, because users don't really want a <title></title>
       @content_generator = @generator
       @content_for_layout = @content_generator.template
     when 'container'
@@ -117,7 +122,6 @@ class SiteController < ApplicationController
     unless item.nil? or params.has_key?(:preview)
       # generators don't have sitems
       if item.class != Generator && item.respond_to?(:sitems)
-        logger.warn "BAGEL::SiteController.index => item is not published"
         render_404 and return unless item.is_published?(site_id)
       end
     end
@@ -192,14 +196,24 @@ class SiteController < ApplicationController
       elsif formats.keys.include?(params[:format])
         # HTML, XML, CSS, JS
         response.headers["Content-Type"] = formats[params[:format]]
-        render :inline => @content_for_layout, :type => params[:format].to_sym
+        begin
+          render :inline => @content_for_layout, :type => params[:format].to_sym
+        rescue Exception => ex
+          str = "<pre>error processing '#{@content_generator.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          render :text => str
+        end
       else # *_content_layout
         # Find generator
         gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_content_layout", site_id ])
         render :text => "BAGEL::SiteController.index => Generator '#{site}_content_layout' not found" and return if gen.nil?
 
         # Render
-        render :inline => gen.template
+        begin
+          render :inline => gen.template
+        rescue Exception => ex
+          str = "<pre>error processing '#{@gen.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          render :text => str
+        end
       end
     end
 
@@ -254,7 +268,11 @@ class SiteController < ApplicationController
         end
       end
     when 'erb'
-      str = render_to_string :inline => gen.template, :locals => locals
+      begin
+        str = render_to_string :inline => gen.template, :locals => locals
+      rescue => exception
+        str = "<pre>error processing '#{gen.name}': #{exception.message}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+      end
     end
 
     # Done
