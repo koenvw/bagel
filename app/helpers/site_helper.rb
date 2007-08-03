@@ -74,8 +74,8 @@ module SiteHelper
     # if item is selected (based on uri parsing)? 
     selected = false
     request.request_uri.split("/").each do |uitem| 
-      if !uitem.blank? && !item.link(link).match("(http|ftp|https|)://.*")
-        item.link(link).split("/").each do |litem|
+      if !uitem.blank? && !item.link.match("(http|ftp|https|)://.*")
+        item.link.split("/").each do |litem|
           if uitem == litem
             selected = true
           end
@@ -85,7 +85,7 @@ module SiteHelper
     #make the hash
     myHash = {
       :title => item.title,
-      :link => ( item.link(link).blank? ? "#" : item.link(link) ),
+      :link => ( item.link.blank? ? "#" : item.link ),
       :selected => selected,
       :id => item.id,
       :children => get_menu_tree_childs(item, link)
