@@ -211,7 +211,7 @@ class SiteController < ApplicationController
         begin
           render :inline => gen.template
         rescue Exception => ex
-          str = "<pre>error processing '#{@gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          str = "<pre>error processing '#{gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
           render :text => str
         end
       end

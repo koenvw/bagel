@@ -118,12 +118,16 @@ class Sobject < ActiveRecord::Base
     # website_name
     if options[:website]
       if options[:website].to_i == 0 # a string
-        website_check = " AND sitems.website_id=#{Website.find_by_name(options[:website]).id}"
+        website = Website.find_by_name(options[:website])
+        raise ActiveRecord::RecordNotFound.new("Couldn't find website with name=#{options[:website]}") if website.nil?
+        website_check = " AND sitems.website_id=#{website.id}"
       else # a number
         website_check = " AND sitems.website_id=#{options[:website]}"
       end
     elsif options[:website_name]
-      website_check = " AND sitems.website_id=#{Website.find_by_name(options[:website_name]).id}"
+      website = Website.find_by_name(options[:website_name])
+      raise ActiveRecord::RecordNotFound.new("Couldn't find website with name=#{options[:website_name]}") if website.nil?
+      website_check = " AND sitems.website_id=#{website.id}"
     else
       # website_id
       if options[:website_id]

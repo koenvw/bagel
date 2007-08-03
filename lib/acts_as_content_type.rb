@@ -248,8 +248,7 @@ module ActsAsContentType
               new_sitem[:is_published] = new_sitem.has_key?(:is_published)
             end
           else
-            # no status change 
-            # FIXME: why not ?
+            new_sitem[:is_published] = new_sitem.has_key?(:is_published)
           end
           merged_attributes = wsitem.attributes.merge(new_sitem)
           wsitem.attributes = merged_attributes
