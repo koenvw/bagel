@@ -68,7 +68,7 @@ class SiteController < ApplicationController
         begin
           render :inline => gen.template
         rescue Exception => ex
-          str = "<pre>error processing '#{gen.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          str = "<pre>error processing '#{gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
           render :text => str
         end
       end
@@ -199,7 +199,7 @@ class SiteController < ApplicationController
         begin
           render :inline => @content_for_layout, :type => params[:format].to_sym
         rescue Exception => ex
-          str = "<pre>error processing '#{@content_generator.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          str = "<pre>error processing '#{@content_generator.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
           render :text => str
         end
       else # *_content_layout
@@ -211,7 +211,7 @@ class SiteController < ApplicationController
         begin
           render :inline => gen.template
         rescue Exception => ex
-          str = "<pre>error processing '#{@gen.name}': #{ex.message}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+          str = "<pre>error processing '#{@gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
           render :text => str
         end
       end
