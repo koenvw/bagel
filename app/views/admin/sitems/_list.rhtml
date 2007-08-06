@@ -22,9 +22,7 @@
 				<% end %>
 			<% end %>
 			<% sobject = item.sobject %>
-			<% if !sobject.new_record? %>
-				<% sobject.updated_by = AdminUser.current_user if sobject.updated_by.nil? %>
-			<% end %>
+            <% sobject.updated_by = AdminUser.current_user if sobject.updated_by.nil? #FIXME: shouldn't we initialize this in ActsAsContentType (or Sobject)  %>
 		</table>
 		<fieldset class="oneline" style="margin-bottom: 10px;">
 			<label for="updated_by">Published by</label>

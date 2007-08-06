@@ -262,7 +262,8 @@ module ActsAsContentType
         s.record_userstamps = false
         if AdminUser.exists?(params[:sobject][:updated_by])
           s.updated_by = AdminUser.find(params[:sobject][:updated_by])
-          #s.created_by ||= AdminUser.find(params[:sobject][:updated_by])
+          # FIXME: is the Userstamp lib broken ? created_by does never seem to be initialized.
+          s.created_by ||= AdminUser.find(params[:sobject][:updated_by])
           s.save
         end
       end
