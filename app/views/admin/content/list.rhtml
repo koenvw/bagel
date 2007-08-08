@@ -1,7 +1,12 @@
 <div class="topButton">
 	<h1>The content of your website</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
+		<% if params[:type_id].blank? %>
+			<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
+		<% else %>
+			<% ctype = ContentType.find(params[:type_id]) %>
+			<li><%= link_to 'Add content', figure_out_edit_link(ctype), :class => "addContent", :title => "Add new content" %></li>
+		<% end %>
 	</ul>
 </div>
 <div class="clear"></div>
