@@ -75,11 +75,7 @@ module SiteHelper
     selected = false
     request.request_uri.split("/").each do |uitem| 
       if !uitem.blank? && !item.link.match("(http|ftp|https|)://.*")
-        item.link.split("/").each do |litem|
-          if uitem == litem
-            selected = true
-          end
-        end
+        item.link.split("/").each { |litem| selected = (uitem == litem ? true : false) }
       end
     end
     #make the hash
