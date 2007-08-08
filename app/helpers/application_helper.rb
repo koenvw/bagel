@@ -102,40 +102,6 @@ module ApplicationHelper
     ((menu_item.nil? ? [] : menu_item['children']) || [])
   end
 
-protected
-
-  def is_spam_comment?(author, text)
-    # Check whether spam protection is enabled
-    return false unless (Setting.get('SpamSettings') || {})[:enable_spam_protection]
-
-    # Check comment for spam using Akismet
-    is_spam_comment_akismet?(author, text)
-  end
-
-  def is_spam_comment_akismet?(author, text)
-    akismet = Akismet.new(AppConfig[:akismet_key], AppConfig[:akismet_url])
-
-    # Check whether key is valid
-    unless akismet.verifyAPIKey
-      puts 'WARNING: Akismet key is not valid.'
-      return true
-    end
-
-    # Check comment, returning true when comment is spam
-    akismet.commentCheck(
-      request.remote_ip,            # remote IP
-      request.user_agent,           # user agent
-      request.env['HTTP_REFERER'],  # http referer
-      request.request_uri,          # permalink
-      'comment',                    # comment type
-      author,                       # author name
-      '',                           # author email
-      '',                           # author url
-      text,                         # comment text
-      {}                            # other
-    )
-  end
-
 public
 
   ########## DEPRECATED ##########
