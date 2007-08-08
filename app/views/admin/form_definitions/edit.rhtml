@@ -19,7 +19,7 @@
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="form_definition_action">Action</label>
-			<%= select 'form_definition', 'action', AppConfig[:form_actions], :include_blank => true  %>
+			<%= select 'form_definition', 'action', AppConfig[:form_actions] || [], :include_blank => true  %>
 		</fieldset>
 		<div class="bottom"></div>
 	</div>

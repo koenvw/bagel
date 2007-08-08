@@ -10,7 +10,7 @@
 			<%= text_field 'type', 'name' , :class => "large_text_input", :size => "30" %>
 		</fieldset>
 		<fieldset class="oneline">
-			<label for="content_type_config">Type:</label>
+			<label for="content_type_config">Acts As:</label>
 			<%= select 'type', 'core_content_type', AppConfig[:content_types].sort, :include_blank => true  %><br/>
 		</fieldset>
 		<fieldset class="oneline">
