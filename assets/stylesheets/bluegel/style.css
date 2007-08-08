@@ -225,6 +225,16 @@
 	#content table.uniTable tr.content td { border-bottom: 1px solid #D2D6DA; }
 	#content table.uniTable tr.content td.iconbox { width: 100px; text-align: right; }
 	#content table.uniTable td.more { text-align: right; }
+	#content table.uniTable ul.extrainfo
+	{
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		background: #F3F3F3;
+		padding: 2px;
+	}
+	#content table.uniTable ul.extrainfo li { padding-right: 6px; display: inline; color: #777; font-size: 10px; }
+	
 	
 	/* special class(es) for the image gallery table because this really doenst meet grid standards :-) */
 	
