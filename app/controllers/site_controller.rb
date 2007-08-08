@@ -460,7 +460,6 @@ class SiteController < ApplicationController
         # send mail
         # params: options[:form], options[:body], options[:subject], options[:to], options[:from]
         params[:content_type] ||= "text/html"
-        ApplicationMailer.queue = false
         ApplicationMailer.deliver_template_mail(params)
 
       end
