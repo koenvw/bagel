@@ -45,6 +45,16 @@ module Admin::FormsHelper
     return out
   end
 
+  def bagel_check_box(method, options = {})
+    out = '<fieldset class="oneline">'
+    out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
+    out << check_box(:form, method, options)
+    if !options[:help].blank?
+      out << '<p class="help">'+ options[:help] +'</p>'
+    end
+    out << '</fieldset>'
+  end
+
   def bagel_select_field(method, options = {}, html_options = {})
     choices = options[:values]
     out = '<fieldset class="oneline">'
