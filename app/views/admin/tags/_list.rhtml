@@ -58,7 +58,7 @@ end
 				<label for="tagname">Name</label>
 				<%= text_field_tag "new_tag", "", :id =>"tag_new_tag", :class => "text" %>
 				<label for="subtag">in</label>
-				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots.reject{|tag| !tag.content_types.include?(content_type)}, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
+				<%= content_tag("select",content_tag("option","","value"=>"") + options_from_collection_for_select(Tag.roots.reject{|tag| !tag.content_types.include?(content_type) || !tag.active?}, "id","name"), :name => "tag_child_of", :id => "tag_child_of") %>
 				<%= hidden_field_tag "content_type_id", content_type.id %>
 				<%= submit_tag "Create tag", :id => 'tag_add_submit', :class => "button" %>
 			</div>
