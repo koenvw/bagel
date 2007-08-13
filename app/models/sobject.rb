@@ -81,7 +81,7 @@ class Sobject < ActiveRecord::Base
     options.assert_valid_keys [ :tags, :website, :website_name, :website_id, :published_by,
                                 :search_string, :content_types, :publish_from, :publish_till,
                                 :status, :published, :current_workflow, :has_workflow, :conditions,
-                                :include, :order, :limit, :tags_inverted ]
+                                :include, :order, :limit, :tags_inverted, :relations ]
 
     # Convert :status option into a :published option
     if options[:status] and !options[:published]
@@ -94,6 +94,7 @@ class Sobject < ActiveRecord::Base
     unless options[:tags].nil?
       # map elements to ids
       tags = options[:tags].to_a.map do |tag|
+        # FIXME: reject non-active tags
         (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
       end
       tag_check = "AND (1=0"
@@ -106,6 +107,7 @@ class Sobject < ActiveRecord::Base
     unless options[:tags_inverted].nil?
       # map elements to ids
       tags = options[:tags_inverted].to_a.map do |tag|
+        # FIXME: reject non-active tags
         (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
       end
       tag_inverted_check = "AND (1=1"
@@ -134,7 +136,21 @@ class Sobject < ActiveRecord::Base
         website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.is_published=1" # FIXME: status conflicts with status below?
       end
     end
-    
+
+    # relations
+    if options[:relations]
+      relations = options[:relations].to_a.map do |element|
+        if element.to_i == 0 # a string
+          relation = Relation.find_by_name(element)
+          raise ActiveRecord::RecordNotFound.new("Couldn't find relation with name=#{element}") if relation.nil?
+          relation.id
+        else
+          element.to_i
+        end
+      end
+      joins = " INNER JOIN relationships ON relationships.relation_id IN (#{relations.join(",")}) AND relationships.from_sobject_id = sobjects.id"
+    end
+
     # published by
     if options[:published_by]
       users = options[:published_by].to_a.map do |user|
@@ -245,6 +261,7 @@ class Sobject < ActiveRecord::Base
         #{options[:conditions]}
       ",
       :include => includes,
+      :joins   => joins||=nil,
       :limit   => options[:limit]  || 5,
       :offset  => options[:offset] || 0,
       :order   => options[:order]  || "sitems.publish_from DESC"

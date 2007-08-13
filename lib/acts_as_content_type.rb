@@ -150,9 +150,9 @@ module ActsAsContentType
     def tags(parent_name = nil)
       if parent_name
         parent_tag = Tag.find_by_name(parent_name)
-        sobject.tags.find(:first,:conditions => ["parent_id=?",parent_tag.id]) if parent_tag
+        sobject.tags.find(:first,:conditions => ["parent_id=? and active=1",parent_tag.id]) if parent_tag
       else
-        sobject.tags
+        sobject.tags.reject{|tag| !tag.active?}
       end
     end
 
