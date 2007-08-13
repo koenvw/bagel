@@ -73,7 +73,7 @@ end
 		<!-- Drop tags here -->
 		<div id="tagList" class="taglistLeft">
 			<% (Tag.roots - item.tags - posted_tags).each do |tag| %>
-				<% if tag.content_types.include?(content_type) %>
+				<% if tag.content_types.include?(content_type) && tag.active? %>
 					<%= render :partial => "admin/tags/list_item", :locals => { :tag, tag } %>
 				<% end %>
 			<% end %>
