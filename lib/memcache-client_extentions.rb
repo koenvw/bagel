@@ -88,14 +88,17 @@ end
 module ActionController::Caching #:nodoc:
   module Fragments
     # modified so that adding "clear=1" to the querystring clears the cache
+    # also disable caching for AdminUsers
     def cache_erb_fragment(block, name = {}, options = nil)
       unless perform_caching then block.call; return end
 
       buffer = eval("_erbout", block.binding)
 
-      if params[:clear].nil? && cache = read_fragment(name, options)
+      if params[:clear].nil? && AdminUser.current_user.nil? && cache = read_fragment(name, options)
+        # add cached value to buffer
         buffer.concat(cache)
       else
+        # no cache, render block
         pos = buffer.length
         block.call
         write_fragment(name, buffer[pos..-1], options)
