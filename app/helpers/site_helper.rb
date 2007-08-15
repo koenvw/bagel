@@ -31,6 +31,15 @@ module SiteHelper
 
   end
 
+  def link_for(content_item, options = {})
+    link_hash = {:controller => "site", 
+                 :action => "content",
+                 :site => controller.site, 
+                 :type=> content_item.ctype.core_content_type.downcase, 
+                 :id => content_item.id }
+    url_for link_hash.update(options)
+  end
+
   def truncate_with_words(text, length = 30, truncate_string = "...")
     if text.nil? then return end
 
@@ -63,7 +72,8 @@ module SiteHelper
         @menus[i] = {:indent => allmenus[i].level, 
                      :title  => "#{allmenus[i].title}",
                      :children_count => allmenus[i].all_children_count,
-                     :link  =>  allmenus[i].link.blank? ? "#" : allmenus[i].link}
+                     :link  =>  allmenus[i].link.blank? ? "#" : allmenus[i].link,
+                     :menu_id => allmenus[i].id}
         @menus[i][:selected] =  allmenus[i] == @menuselect
     end
     allmenus[1..-1].each_index do |i|
@@ -90,6 +100,7 @@ module SiteHelper
     item.self_and_ancestors.each do |ancestor|
       @elements << {:title => ancestor.title,
                     :link => ancestor.link,
+                    :menu_id => ancestor.id,
                     :close => 0}
     end
     @elements.last[:close] = 1

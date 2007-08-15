@@ -46,6 +46,10 @@
   <%= "#{relation_name} #{@item.title}" %>
   <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 
+<% when 'Menu' -%>
+<% @item=@sobject.content -%>
+    <%= "#{relation_name} #{nested_set_full_outline(@item) {|item,current| item.title }}" %>
+  <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 <% else
 
   @item=@sobject.content -%>

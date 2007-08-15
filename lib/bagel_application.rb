@@ -179,6 +179,9 @@ module BagelApplication
       end
     end
 
+   
+
+  public
     def paginate_collection(collection, options = {})
       default_options = {:per_page => 10, :page => 1}
       options = default_options.merge options
@@ -190,8 +193,6 @@ module BagelApplication
       return [pages, slice]
 
     end
-
-  public
 
     ########## Exception Notification
 
