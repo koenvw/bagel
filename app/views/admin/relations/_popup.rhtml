@@ -2,8 +2,8 @@
 # Parameters:
 # - (uniq_id) : the identifier that will make this relations popup unique (in case of multiple instances per page)
 # - direction : "in" or "out"
-# - item      : the content object
-# - content_type_id      : the content_type_id
+# - item	  : the content object
+# - content_type_id	  : the content_type_id
 #
 uniq_id ||= ""
 %>
@@ -25,9 +25,16 @@ give me direction!
 		<div class="relationBox">
 			<fieldset>
 				<label>Relation type</label>
+				<%
+					if item.class == Menu
+						relations = Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] }
+					else
+						relations = Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] }
+					end
+				%>
 				<%= select "relations#{direction}#{uniq_id}",
 					"relation_id",
-                    Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] },
+					relations,
 					:include_blank => true,
 					:selected => nil
 				%>
