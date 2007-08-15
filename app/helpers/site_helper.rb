@@ -32,6 +32,7 @@ module SiteHelper
   end
 
   def link_for(content_item, options = {})
+    return if content_item.nil?
     link_hash = {:controller => "site", 
                  :action => "content",
                  :site => controller.site, 
