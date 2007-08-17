@@ -6,7 +6,8 @@ class PictureFileSystem < MediaItem
                  :thumbnails      => Setting.image_thumbnails,
                  :content_type    => :image, # not related to Bagel content types
                  :processor       => Setting.image_processor,
-                 :max_size => 10.megabyte
+                 :size            => 1..10.megabyte,
+                 :content_type   => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png','image/bmp'] 
   validates_as_attachment
 
   acts_as_content_type
