@@ -90,7 +90,7 @@ class Form < ActiveRecord::Base
   end
 
   def has_field?(field)
-    !attributes["form_definition_id"].nil? and form_definition.template.scan(/:#{field}/).size >0
+    !attributes["form_definition_id"].nil? and form_definition.template.scan(/ :#{field}/).size >0
   end
 
   def self.find_with_parameters(options = {})

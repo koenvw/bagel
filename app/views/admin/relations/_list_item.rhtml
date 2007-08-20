@@ -16,7 +16,6 @@
 <li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>">
 
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
-<% unless @sobject.content_type == "News" && @sobject.content.title == "" %>
 
 
 <% if direction == "in" %>
@@ -51,13 +50,10 @@
     <%= "#{relation_name} #{nested_set_full_outline(@item) {|item,current| item.title }}" %>
   <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 <% else
-
   @item=@sobject.content -%>
   <%= "#{relation_name} #{@item.title}" %>
   <span class="icon"><%= link_to "edit","/admin/#{@sobject.content_type.tableize.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 
-
-<% end %>
 <% end %>
 
 <% if direction == "in" %>
