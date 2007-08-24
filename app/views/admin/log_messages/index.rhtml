@@ -21,7 +21,7 @@
 		<tr class="content">
 			<td><span style="<%= @severity_styles[msg.severity] %>"><%=h LogMessage::SEVERITY_NAMES[msg.severity] %></span></td>
 			<td><%=h msg.kind %></td>
-			<td><%= link_to h(truncate(msg.message, 60)), admin_log_message_url(:id => msg, :action => 'show') %></td>
+			<td><%= link_to h(truncate(msg.message, 50)), admin_log_message_url(:id => msg, :action => 'show') %></td>
 			<td><%=h msg.created_at %></td>
 			<td class="iconbox">
 				<span class="icon">
