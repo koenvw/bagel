@@ -18,13 +18,13 @@ else
 	condition_string = 'type LIKE \'Picture%\' AND parent_id IS NULL' 
 
 @media_item_pages, @media_items = controller.paginate_collection MediaItem.find(:all, :conditions => condition_string),
-														  :per_page   => 20,
+														  :per_page   => 4,
 														  :order	  => "media_items.updated_on DESC",
-														  :include	=> :sobject 
+														  :include	=> :sobject,
+                                                          :page => params[:page]
 
-r_type='media_item'
+r_type='mediaitem'
 %>
-
 <div class="headerinf">results: <%= @media_item_pages.item_count %> - page <%= @media_item_pages.current.number %>/<%= @media_item_pages.length %></div>
 
 <table class="imgTable">
