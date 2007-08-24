@@ -21,7 +21,7 @@
 		<fieldset class="oneline" style="white-space: nowrap; overflow: hidden;">
 			<%
 				if @websites.size > 1 
-					selectWidth = "148px;"
+					selectWidth = "122px;"
 				else
 					selectWidth = "155px;"
 				end
@@ -78,7 +78,8 @@
 						<% if @websites.size > 1 %>
 						<td>
 						<% if website_out.size > 0 %>
-							<%= website_out.join(",") %>
+							<%#= website_out.join(",") %>
+							<span class="greyText">FIXME: Layout</span>
 						<% else	%>
 							<span class="greyText">none</span>
 						<% end %>
