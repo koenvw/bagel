@@ -225,3 +225,13 @@
 			padding-top: 30px;
 			font-size: 13px;
 		}
+
+		div.bigPopup div.dontCloseBox
+		{
+			position: absolute;
+			right: 12px;
+			top: 250px;
+			width: 125px;
+		}
+		div.bigPopup div.dontCloseBox input { float: right; }
+		

@@ -3,9 +3,13 @@
  *  *********
  */
 
-	Event.observe(window, 'load', bagel_addRelation, false);
-	function bagel_addRelation()
-	{
+	Event.observe(window, 'load', function() {
+		bagel_addRelation();
+		relVisualAction();
+		createRelation();
+	}, false);
+	
+	function bagel_addRelation() {
 		if(!$$('.relationManager')) return false;
 		$$('.relationManager').each(function(relationManager) { 
 			relationManager.getElementsByClassName('addRelation').each(function(a) { 
@@ -44,10 +48,8 @@
 			}
 		}
 	}
-	
-	Event.observe(window, 'load', relVisualAction, false);
-	function relVisualAction()
-	{
+
+	function relVisualAction() {
 		// check relation list and apply some stuff to it
 		if(!$$('.relationManager')) return false;
 		var lists = $$('ul#relations_sorted_inlist li');	
@@ -67,8 +69,9 @@
 		});
 		
 		// destroy current overlay
-		if(typeof relOverlay == "object") {	
-			relOverlay.destroy();
+		if(typeof relOverlay == "object") {
+			if(!$('dontClose').checked)	
+				relOverlay.destroy();
 		}
 		
 		// reset relations field
@@ -76,9 +79,7 @@
 			$$('.relationBox option')[0].selected = true;
 	}
 	
-	Event.observe(window, 'load', createRelation, false);
-	function createRelation()
-	{
+	function createRelation() {
 		$$('a.createRelation').each(function(button) {
 			Event.observe(button,'click', function(ev) {
 				Event.stop(ev);

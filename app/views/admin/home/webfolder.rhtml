@@ -5,8 +5,7 @@
 <table class="uniTable">
 	<tr class="heading">
 		<td style="width: 20px;"><input id="chkAll" type="checkbox" name="chkAll" onclick="javascript:SelectAllCheckboxes(this);" /></td>
-		<td class="headDesc">Filename</td>
-		<td class="headDesc" style="text-align: center; width: 50px;">Type</td>
+		<td class="headDesc" colspan="2">Filename</td>
 		<td class="headDesc" style="width: 100px;">Date</td>
 	</tr>
 <% @dir_entries.each do |entry| %>
@@ -20,19 +19,27 @@
 			<%= tag("input", { "type" => "checkbox", "id" => "files_"+uniq_id, "name" => "entries[]", "value" => entry } )   %>
 		<% end %>
 		</td>
+		<td style="width: 20px; text-align: center;">
+			<%
+				if File.directory?(entry) 
+					imgFile = "icon_folder"
+				elsif File.basename(entry).downcase.match('.jpg$|.png$|.gif$|.bmp$')
+					imgFile = "icon_img"
+				elsif File.basename(entry).downcase.match('.doc$|.rtf$|.odt$')
+					imgFile = "icon_doc"
+				elsif File.basename(entry).downcase.match('.ods$|.xls$')
+					imgFile = "icon_spread"
+				else
+					imgFile = "icon_generic"
+				end
+			%>	
+			<img src="/plugin_assets/bagel/images/bluegel/icons/<%= imgFile %>.png" alt="" />
+		</td>
 		<td>
 		<% if File.directory?(entry) %>
 			<%= File.basename(entry) + "(" + count_files.to_s + ")" %>
 		<% else %>
 			<%= File.basename(entry) %>
-		<% end %>
-		</td>
-		<td style="text-align: center;">
-		<%# TO DO re-add images, and make a distinction between images, documents, audio and video %>
-		<% if File.directory?(entry) %>
-			directory<%#= image_tag "folder" %>
-		<% else %>
-			file<%#= image_tag "image" %>
 		<% end %>
 		</td>
 		<td><%= File.atime(entry).formatted %></td>

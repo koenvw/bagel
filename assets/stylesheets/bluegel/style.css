@@ -359,6 +359,13 @@
 	ul.mainNav li a.new:hover { background-position: -125px -459px; }
 	ul.mainNav li a.back { background-position: -2px -606px; }
 	ul.mainNav li a.back:hover { background-position: -105px -606px; }
+	ul.mainNav li a.flushAll { background-position: -2px -781px; }
+	ul.mainNav li a.flushAll:hover { background-position: -106px -781px; }
+	ul.mainNav li a.export { background-position: -2px -746px; width: 95px; }
+	ul.mainNav li a.export:hover { background-position: -105px -746px; }
+	ul.mainNav li a.sort { background-position: -2px -816px; }
+	ul.mainNav li a.sort:hover { background-position: -105px -816px; }
+
 	a.filter { margin-top: -5px; background-position: -2px -379px; }
 	a.filter:hover { background-position: -105px -379px; }
 	a.addGr { width: 61px; height: 28px; background-position: -2px -500px; }
@@ -367,8 +374,8 @@
 	a.addGrLight:hover { background-position: -83px -534px; }
 	a.sortGrLight { width: 60px; height: 27px; background-position: -2px -718px; }
 	a.sortGrLight:hover { background-position: -83px -718px; }
-	a.createGrLight { width: 97px; height: 27px; background-position: -2px -751px; }
-	a.createGrLight:hover { background-position: -98px -751px; }
+	a.createGrLight { width: 90px; height: 27px; background-position: -2px -854px; }
+	a.createGrLight:hover { background-position: -105px -854px; }
 		/* positioning containers */
 		
 		.topButton

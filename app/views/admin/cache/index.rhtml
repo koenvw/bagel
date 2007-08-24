@@ -1,7 +1,7 @@
 <div class="topButton">
 	<h1>Caching</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'Flush All', :action => "flush", :class => "flushAll", :title => "Flush all" %></li>
+		<li><%= link_to 'Flush All', { :action => "flush" }, { :class => "flushAll", :title => "Flush all" } %></li>
 	</ul>
 </div>
 <div class="clear"></div>
@@ -11,12 +11,16 @@
 			<td class="tabDesc">Parameter</td>
 			<td class="colDesc">Value</td>
 		</tr>
-		<% @stats.each do |server,stats| %>
-			<tr class="content"><td>Hits</td><td><%= stats["get_hits"] %></td></tr>
-			<tr class="content"><td>Misses</td><td><%= stats["get_misses"] %></td></tr>
-			<tr class="content"><td>Bytes read</td><td><%= number_to_human_size(stats["bytes_read"]) %></td></tr>
-			<tr class="content"><td>Bytes written</td><td><%= number_to_human_size(stats["bytes_written"]) %></td></tr>
-			<tr class="content"><td>Current items</td><td><%= stats["curr_items"] %></td></tr>
+		<% if !@stats.blank? %>
+			<% @stats.each do |server,stats| %>
+				<tr class="content"><td>Hits</td><td><%= stats["get_hits"] %></td></tr>
+				<tr class="content"><td>Misses</td><td><%= stats["get_misses"] %></td></tr>
+				<tr class="content"><td>Bytes read</td><td><%= number_to_human_size(stats["bytes_read"]) %></td></tr>
+				<tr class="content"><td>Bytes written</td><td><%= number_to_human_size(stats["bytes_written"]) %></td></tr>
+				<tr class="content"><td>Current items</td><td><%= stats["curr_items"] %></td></tr>
+			<% end %>
+		<% else %>
+			<tr class="content"><td colspan="2">Nothing found</td></tr>
 		<% end %>
 	</table>
 </div> 
