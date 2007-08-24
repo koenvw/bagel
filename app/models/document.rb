@@ -26,6 +26,9 @@ class Document < MediaItem
   #end
 
   def extract_text
+    # check if we have a filter
+    return if FILTERS[self.content_type].nil?
+
     # Create temporary working directory directory
     FileUtils.mkdir_p(File.join(RAILS_ROOT, 'tmp', 'documents'))
 
