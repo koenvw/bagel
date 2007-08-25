@@ -1,0 +1,49 @@
+INSTALLING BAGEL
+================
+
+Instructions for Debian 4.0 (Etch)
+----------------------------
+
+0/ General requirements
+- build-essential
+- subversion
+- mysql
+/usr/bin/mysqladmin -u root password 'enter-your-good-new-password-here'
+
+A/ Install RAILS
+sudo apt-get install ruby rdoc irb
+
+->rubygems: do not install the debian package -> the bin folder of gems is not in path ???
+
+wget http://rubyforge.org/frs/download.php/20989/rubygems-0.9.4.tgz
+
+tar xvfz rubygems-0.9.4.tgz
+cd rubygems-0.9.4
+sudo ruby setup.rb
+
+sudo gem update
+sudo gem install rails -y
+
+B/ Install bagel dependencies
+
+APACHE 2.2
+
+sudo apt-get install apache2 apache2.2-common apache2-mpm-prefork apache2-utils
+
+a2ensite benzine --> FIXME: config file
+a2enmod rewrite
+a2enmod proxy_balancer
+
+--
+MONGREL
+gem install mongrel_cluster -y
+
+--
+EXTRAS
+apt-get install librmagick-ruby
+apt-get install memcached
+--
+gem install mongrel_cluster ferret hpricot htmlentities memcache-client mime-types capistrano -y
+
+
+
