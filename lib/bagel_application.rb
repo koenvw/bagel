@@ -31,7 +31,7 @@ module BagelApplication
                     :theme_advanced_toolbar_align => "left",
                     :theme_advanced_resizing => true,
                     :theme_advanced_resize_horizontal => false,
-                    :theme_advanced_buttons1 => "bold,italic,underline,separator,strikethrough,bullist,numlist,link,image,separator,code,anchor,separator,pastetext,pasteword,selectall",
+                    :theme_advanced_buttons1 => "bold,italic,underline,separator,strikethrough,bullist,numlist,link,image,separator,code,anchor,separator,pastetext,pasteword,selectall,separator,formatselect",
                     :theme_advanced_buttons2 => "",
                     :theme_advanced_buttons3 => "",
                     :plugins => %w{contextmenu paste inlinepopups advimage advlink table},
