@@ -33,6 +33,11 @@ svn propset svn:ignore "*" log/
 echo "Updating and commiting..."
 svn update log/
 svn commit -m 'Ignoring all files in /log/'
+svn update
+
+svn remove public/index.html
+svn commit -m "removing public/index.html"
+svn update
 
 echo "Removing tmp directory from SVN"
 svn remove tmp/
@@ -86,3 +91,10 @@ svn up
 
 svn commit -m 'Adding bagel'
 svn up
+
+# copy bagel schema to our rails app (so we can use rake db:migrate)
+cp vendor/plugins/bagel/db/schema.rb db/
+
+svn add db/schema.rb
+svn commit -m "adding bagel schema.rb"
+svn update

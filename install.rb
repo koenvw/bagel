@@ -54,7 +54,7 @@ END
 end
 
 # add requires
-["require 'plugins/bagel/lib/configuration'","require 'vendor/plugins/bagel/admin_menu' ","require 'memcache_util'","require 'mime/types'","require 'htmlentities'","require 'net/ftp'"].each do |line|
+["require 'plugins/bagel/lib/configuration'","require 'vendor/plugins/bagel/admin_menu' ","require 'memcache_util'","require 'mime/types'","require 'htmlentities'","require 'net/ftp'","require 'RMagick'","require 'liquid'"].each do |line|
   insert_line(line, 'Rails::Initializer.run', file)
 end
 
@@ -62,17 +62,20 @@ end
 # add config
 config = <<EOC
   # Load engines plugin first,
-  config.plugins = ["engines","betternestedset","exception_notification","bagel","*"]
+  config.plugins = ["engines","betternestedset","bagel","*"]
 
   #Application Config
-  config.app_config.content_types = ["News","Image","Form","FormDefinition","Container","SiteUser","Document","Generator"]
-  config.app_config.content_status = ["Draft","Reviewed","Published","Hidden"]
-  config.app_config.form_actions = ["store_as_site_user","remove_as_site_user"] 
+  config.app_config.content_types = %w( News MediaItem Form FormDefinition Container SiteUser Document Generator )
+  config.app_config.content_status = %w( Draft Reviewed Published Hidden )
+  config.app_config.form_actions = %w( store_as_site_user remove_as_site_user ) 
 
   # akismet key
   config.app_config.akismet_key = ""
   config.app_config.akismet_url = ""
   
+  # assistant ("content_type" => "controller_name")
+  config.app_config.assistant_controllers = { }
+
   # Domains
   config.app_config.domain_map = {} # domainify_name => name in bagel(websites)
   config.app_config.websites = {} # website_name(bagel) => website_id
