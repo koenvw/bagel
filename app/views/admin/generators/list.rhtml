@@ -71,7 +71,8 @@
 				</tr>
 				<% for generator in @generators %>
 				<tr class="content">
-					<td><%= link_to generator.name, :action => 'edit', :id => generator, :website_id => websiteId %></td>
+					<td><%= link_to truncate(generator.name.reverse, 35).reverse, :action => 'edit', :id => generator, 
+:website_id => websiteId %></td>
 					<td style="text-align: center;"><%=h generator.templating_engine %></td>
 					<td class="iconbox"  style="width: 180px;">
 						<span class="icon">
