@@ -19,7 +19,7 @@
 			<fieldset class="oneline" style="margin-top: 8px; padding-top: 10px;">
 				<ul class="imageRevisions">
 					<li><%= link_to("original", url_for_file_column('image', 'image')) %></li>
-					<% for image_version in @image_versions %>
+					<% for image_version in @image_versions.sort %>
 					<li><%= link_to(image_version, url_for_file_column('image', 'image', image_version)) %></li>
 					<% end %>
 				</ul>
