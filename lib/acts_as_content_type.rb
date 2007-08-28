@@ -103,7 +103,7 @@ module ActsAsContentType
     end
 
     def is_published?(site_id)
-      sitems.any? { |sitem| sitem.website_id == site_id and sitem.is_published? }
+      sitems.find(:all,:conditions=>"sitems.publish_from<now() AND sitems.website_id=#{site_id} AND sitems.is_published=1").size>0
     end
 
     def has_hidden_sitem?
