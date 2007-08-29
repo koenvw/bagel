@@ -28,14 +28,18 @@ end
 			workflow_id  = false
 		end
 		# if we are using workflow only admins can change the status
+		# and items are not published by default
 		if workflow_id
 			disabled = true unless AdminUser.current_user.is_admin?
+			is_published = sitem.is_published?
 		else
 			disabled = false
+			# not using workflow, published by default
+			is_published = sitem.new_record? ? true : sitem.is_published?
 		end
 		%>
-		<% if sitem.is_published? %>
-			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][is_published]", :value=> 1, :checked => (sitem.is_published? ? "checked" : "checked" ), :disabled => disabled } %>
+		<% if is_published %>
+			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][is_published]", :value=> 1, :checked => (is_published ? "checked" : "checked" ), :disabled => disabled } %>
 		<% else %>
 			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][is_published]", :value=> 1, :disabled => disabled } %>
 		<% end %>
