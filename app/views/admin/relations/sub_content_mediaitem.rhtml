@@ -37,7 +37,7 @@ r_type='mediaitem'
 <td class="imgContainer">
   <% @media_item.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
   <%= link_to_remote image_tag(@media_item.public_filename(Setting.get("ImageSettings")[:default2].to_sym), :border=>0, :alt=> @media_item.public_filename),
-		 :url => "/admin/relations/add/#{@media_item.sobject.id}?cat_id=#{id}sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
+		 :url => "/admin/relations/add/#{@media_item.sobject.id}?cat_id=#{id}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
 		:position => :top
