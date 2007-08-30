@@ -1,7 +1,7 @@
 class LogMailer < ActionMailer::Base
 
   # FIXME send email to all admins instead?
-  @@recipient_addresses = [ %( "Denis Defreyne" <denis.defreyne@stoneship.org> ) ]
+  @@recipient_addresses = [ %( koen.vanwinckel@dotprojects.be ) ]
   cattr_accessor :recipient_addresses
 
   @@subject_prefix = "[ERROR] "
