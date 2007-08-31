@@ -93,9 +93,20 @@ class Sobject < ActiveRecord::Base
     # tags
     unless options[:tags].nil?
       # map elements to ids
-      tags = options[:tags].to_a.map do |tag|
+      tags = options[:tags].to_a.compact.uniq.map do |tag_id|
         # FIXME: reject non-active tags
-        (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
+        if tag_id.to_i == 0
+          # not integer, lookup by name
+          tag = Tag.find_by_name(tag_id)
+          # raise RecordNotFound if name not found
+          if tag.nil? 
+            raise ActiveRecord::RecordNotFound.new("Couldn't find tag with name=#{tag_id}")
+          else
+            tag.id
+          end
+        else
+           tag_id.to_i
+        end
       end
       tag_check = "AND (1=0"
       tags.each do |tag_id|
@@ -106,9 +117,20 @@ class Sobject < ActiveRecord::Base
     
     unless options[:tags_inverted].nil?
       # map elements to ids
-      tags = options[:tags_inverted].to_a.map do |tag|
+      tags = options[:tags_inverted].to_a.compact.uniq.map do |tag_id|
         # FIXME: reject non-active tags
-        (tag.to_i == 0) ? Tag.find_by_name(tag).id : tag.to_i
+        if tag_id.to_i == 0
+          # not integer, lookup by name
+          tag = Tag.find_by_name(tag_id)
+          # raise RecordNotFound if name not found
+          if tag.nil? 
+            raise ActiveRecord::RecordNotFound.new("Couldn't find tag with name=#{tag_id}")
+          else
+            tag.id
+          end
+        else
+           tag_id.to_i
+        end
       end
       tag_inverted_check = "AND (1=1"
       tags.each do |tag_id|
@@ -139,7 +161,7 @@ class Sobject < ActiveRecord::Base
 
     # relations
     if options[:relations]
-      relations = options[:relations].to_a.map do |element|
+      relations = options[:relations].to_a.compact.uniq.map do |element|
         if element.to_i == 0 # a string
           relation = Relation.find_by_name(element)
           raise ActiveRecord::RecordNotFound.new("Couldn't find relation with name=#{element}") if relation.nil?
@@ -153,7 +175,7 @@ class Sobject < ActiveRecord::Base
 
     # published by
     if options[:published_by]
-      users = options[:published_by].to_a.map do |user|
+      users = options[:published_by].to_a.compact.uniq.map do |user|
         (user.to_i == 0) ? AdminUser.find_by_username(user).id : user.to_i
       end
       published_by_check = " AND sobjects.updated_by IN (#{users.join(",")})"
@@ -167,7 +189,7 @@ class Sobject < ActiveRecord::Base
     # content_types
     if options[:content_types]
       # map elements to ids
-      ctypes = options[:content_types].to_a.map { |content_type_id|
+      ctypes = options[:content_types].to_a.compact.uniq.map { |content_type_id|
         if content_type_id.to_i == 0
           # not integer, look up by name
           content_type = ContentType.find_by_name(content_type_id)
