@@ -1,9 +1,15 @@
 <% 
 	## set default websiteId if params is empty
-	if !params[:website_id].blank? || !cookies[:gen_lastWebsiteId].blank? 
-		websiteId = (params[:website_id].blank? ? cookies[:gen_lastWebsiteId] : params[:website_id])
+	if !params[:website_id].blank? || !cookies["gen_lastWebsiteId"].blank? 
+		websiteId = (params[:website_id].blank? ? cookies["gen_lastWebsiteId"] : params[:website_id])
 	else
 		websiteId = Website.find(:first).id.to_s
+	end
+	
+	if !params[:id].blank? || !cookies["gen_lastFolderId"].blank? 
+		fid = (params[:id].blank? ? cookies["gen_lastFolderId"] : params[:id])
+	else
+		fid = nil
 	end
 %>
 <div class="topButton">
@@ -47,12 +53,12 @@
 	<!-- Begin templates -->
 		
 		<div class="subContentRight">
-			<% unless params[:id].nil? %>
+			<% unless fid.nil? %>
 			<h3 class="crumbs">
 			<%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;
 			<%=
-				nested_set_full_outline(GeneratorFolder.find(params[:id]), :separator => " &raquo; ") do |item, current|
-					if params[:id] == item.id.to_s
+				nested_set_full_outline(GeneratorFolder.find(fid), :separator => " &raquo; ") do |item, current|
+					if fid == item.id.to_s
 						item.name
 					else
 						link_to item.name, :id => item.id, :website_id => websiteId
@@ -77,7 +83,7 @@
 					<td class="iconbox"  style="width: 180px;">
 						<span class="icon">
 							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => websiteId }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
-							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => params[:id], :website_id => websiteId } , :class => "edit"  %>
+							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => fid, :website_id => websiteId } , :class => "edit"  %>
 							<%= link_to "view", "/#{generator.website.name}/show/generator/#{generator.name}.html", :class => "edit", :onclick => "return false;" unless generator.website.nil? %>
 						</span>
 					</td>
@@ -96,10 +102,10 @@
 				<% if @generators.size == 0 %>
 				<tr>
 					<td colspan="3">
-					<% if params[:id].nil? %>
+					<% if fid.nil? %>
 						No templates found.
 						<% else %>
-						No templates found in folder '<%= GeneratorFolder.find(params[:id]).name %>'
+						No templates found in folder '<%= GeneratorFolder.find(fid).name %>'
 					<% end %>
 					</td>
 				</tr>
