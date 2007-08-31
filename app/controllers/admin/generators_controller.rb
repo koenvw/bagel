@@ -15,7 +15,7 @@ class Admin::GeneratorsController < ApplicationController
   def list
 	if !params[:website_id].blank? || !cookies["gen_lastWebsiteId"].blank? 
 		@websiteId = (params[:website_id].blank? ? cookies["gen_lastWebsiteId"] : params[:website_id])
-		cookies[:gen_lastWebsiteId] = params[:website_id]
+		cookies[:gen_lastWebsiteId] = params[:website_id] || cookies["gen_lastWebsiteId"]
 	else
 		@websiteId = Website.find(:first).id.to_s
 	end
