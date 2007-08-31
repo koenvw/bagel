@@ -2,7 +2,7 @@
 	## set default websiteId if params is empty
 	if !params[:website_id].blank? || !cookies[:gen_lastWebsite_id].blank? 
 		websiteId = (params[:website_id].blank? ? cookies[:gen_lastWebsite_id] : params[:website_id])
-		cookies[:gen_lastWebsite_id] = { :value => websiteId, :expires => 1.month.from_now }
+		cookies[:gen_lastWebsite_id] = websiteId
 	else
 		websiteId = Website.find(:first).id.to_s
 	end
