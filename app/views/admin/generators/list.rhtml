@@ -1,21 +1,7 @@
-<% 
-	## set default websiteId if params is empty
-	if !params[:website_id].blank? || !cookies["gen_lastWebsiteId"].blank? 
-		websiteId = (params[:website_id].blank? ? cookies["gen_lastWebsiteId"] : params[:website_id])
-	else
-		websiteId = Website.find(:first).id.to_s
-	end
-	
-	if !params[:id].blank? || !cookies["gen_lastFolderId"].blank? 
-		fid = (params[:id].blank? ? cookies["gen_lastFolderId"] : params[:id])
-	else
-		fid = nil
-	end
-%>
 <div class="topButton">
 <h1>Listing templates</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'New template', { :action => 'edit', :website_id => websiteId }, :class => "new", :title => "New template" %></li>
+		<li><%= link_to 'New template', { :action => 'edit', :website_id => @websiteId }, :class => "new", :title => "New template" %></li>
 		<li><%= link_to 'List Folders', { :controller => "generator_folders", :action => 'list' }, :class => "folders", :title => "List folders"  %></li>
 	</ul>
 </div>
@@ -28,21 +14,21 @@
 		<div class="subContentLeft">
 			<% form_tag :action => "list",:id => nil do %>
 			<fieldset class="oneline" style="position: static; width: 252px;">	
-				<%= select_tag :website_id, options_for_select(Website.find(:all).collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), websiteId), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;", :style => "width: 250px;" %>
+				<%= select_tag :website_id, options_for_select(Website.find(:all).collect {|p| [ p.name, p.id.to_s ] }.insert(0,["",""]), @websiteId), :onchange => "document.getElementsByTagName('form')[0].submit(); return false;", :style => "width: 250px;" %>
 			</fieldset>	
 			<% end %>
 			<div class="folderTree">
 			<ul>
-				<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == websiteId } %>
+				<% @folders = GeneratorFolder.roots.select {|el| el.website_id.to_s == @websiteId } %>
 				<% if !@folders.blank? %>
 				<% @folders.each do |folder| %>
 					<li>
-						<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => websiteId }, :id => 'cat_' + folder.id.to_s %>
+						<%= link_to folder.name, { :action => 'list', :id => folder, :website_id => @websiteId }, :id => 'cat_' + folder.id.to_s %>
 							<%= render_subtree(folder.all_children, folder.id) %>
 					</li>
 				<% end %>
 				<% else %>
-				There are no folders for this website. Do you want to <%= link_to 'create', { :controller => "generator_folders", :action => 'edit', :website_id => websiteId }, :class => "folders", :title => "Folders"  %> some?
+				There are no folders for this website. Do you want to <%= link_to 'create', { :controller => "generator_folders", :action => 'edit', :website_id => @websiteId }, :class => "folders", :title => "Folders"  %> some?
 				<% end %>
 			</ul>
 			</div>
@@ -53,15 +39,15 @@
 	<!-- Begin templates -->
 		
 		<div class="subContentRight">
-			<% unless fid.nil? %>
+			<% unless params[:id].nil? %>
 			<h3 class="crumbs">
-			<%= link_to "Home", { :action => 'list', :id => nil, :website_id => websiteId }, :id => 'cat_0' %>&raquo;
+			<%= link_to "Home", { :action => 'list', :id => nil, :website_id => @websiteId }, :id => 'cat_0' %>&raquo;
 			<%=
-				nested_set_full_outline(GeneratorFolder.find(fid), :separator => " &raquo; ") do |item, current|
-					if fid == item.id.to_s
+				nested_set_full_outline(GeneratorFolder.find(params[:id]), :separator => " &raquo; ") do |item, current|
+					if params[:id] == item.id.to_s
 						item.name
 					else
-						link_to item.name, :id => item.id, :website_id => websiteId
+						link_to item.name, :id => item.id, :website_id => @websiteId
 					end
 				end
 			%>
@@ -77,13 +63,12 @@
 				</tr>
 				<% for generator in @generators %>
 				<tr class="content">
-					<td><%= link_to truncate(generator.name.reverse, 35).reverse, :action => 'edit', :id => generator, 
-:website_id => websiteId %></td>
+					<td><%= link_to truncate(generator.name.reverse, 35).reverse, :action => 'edit', :id => generator, :website_id => @websiteId %></td>
 					<td style="text-align: center;"><%=h generator.templating_engine %></td>
 					<td class="iconbox"  style="width: 180px;">
 						<span class="icon">
-							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => websiteId }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
-							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => fid, :website_id => websiteId } , :class => "edit"  %>
+							<%= link_to "delete", { :action => 'destroy', :id => generator, :website_id => @websiteId }, :class => "delete", :confirm => "Are you sure?", :method => :post %>
+							<%= link_to "edit", { :action => 'edit', :id => generator, :folder_id => params[:id], :website_id => @websiteId } , :class => "edit"  %>
 							<%= link_to "view", "/#{generator.website.name}/show/generator/#{generator.name}.html", :class => "edit", :onclick => "return false;" unless generator.website.nil? %>
 						</span>
 					</td>
@@ -102,10 +87,10 @@
 				<% if @generators.size == 0 %>
 				<tr>
 					<td colspan="3">
-					<% if fid.nil? %>
+					<% if params[:id].nil? %>
 						No templates found.
 						<% else %>
-						No templates found in folder '<%= GeneratorFolder.find(fid).name %>'
+						No templates found in folder '<%= GeneratorFolder.find(params[:id]).name %>'
 					<% end %>
 					</td>
 				</tr>
