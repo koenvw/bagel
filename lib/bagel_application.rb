@@ -214,24 +214,26 @@ module BagelApplication
     end
 
     def rescue_action_in_public(exception)
+      # Gather data about exception
+      session = request.session.instance_variables.inject({}) do |memo, var|
+        memo.merge({ var => request.session.instance_variable_get(var) })
+      end
+      data = {
+        :generator_backtrace => $_bagel_liquid_template_stack,
+        :controller          => {
+          :params              => params,
+          :request             => request.params,
+          :session             => session
+        }
+      }
       case exception
-        when ActiveRecord::RecordNotFound, ActionController::UnknownController, ActionController::UnknownAction
+        when ActiveRecord::RecordNotFound, ActionController::UnknownController, ActionController::UnknownAction, ActionController::RoutingError
           render_404
+          
+          # Log exception
+          bagel_log :exception => exception, :severity => :medium, :kind => '404', :extra_info => data, :hostname => request.host_with_port
         else          
           render_500
-
-          # Gather data about exception
-          session = request.session.instance_variables.inject({}) do |memo, var|
-            memo.merge({ var => request.session.instance_variable_get(var) })
-          end
-          data = {
-            :generator_backtrace => $_bagel_liquid_template_stack,
-            :controller          => {
-              :params              => params,
-              :request             => request.params,
-              :session             => session
-            }
-          }
 
           # Log exception
           bagel_log :exception => exception, :severity => :high, :kind => 'exception', :extra_info => data, :hostname => request.host_with_port

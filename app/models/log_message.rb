@@ -30,9 +30,10 @@ class LogMessage < ActiveRecord::Base
 
     # Extract exception
     unless exception.nil?
-      extra_info[:exception]          = exception
+      # FIXME: exception or ENV might contain objects that can not be yamlized 
+      #extra_info[:exception]          = exception
+      #extra_info[:environment]        = ENV.to_hash
       extra_info[:function_backtrace] = exception.backtrace unless exception.nil?
-      extra_info[:environment]        = ENV.to_hash
     end
 
     # YAMLize extra info

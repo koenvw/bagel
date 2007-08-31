@@ -68,8 +68,7 @@ class SiteController < ApplicationController
         begin
           render :inline => gen.template
         rescue Exception => ex
-          str = "<pre>error processing '#{gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
-          render :text => str
+          handle_erb_exception(exception, gen)
         end
       end
     end
@@ -198,9 +197,8 @@ class SiteController < ApplicationController
         response.headers["Content-Type"] = formats[params[:format]]
         begin
           render :inline => @content_for_layout, :type => params[:format].to_sym
-        rescue Exception => ex
-          str = "<pre>error processing '#{@content_generator.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
-          render :text => str
+        rescue => exception
+          handle_erb_exception(exception, @content_generator)
         end
       else # *_content_layout
         # Find generator
@@ -210,11 +208,12 @@ class SiteController < ApplicationController
         # Render
         begin
           render :inline => gen.template
-        rescue Exception => ex
-          str = "<pre>error processing '#{gen.name}': #{ERB::Util.html_escape(ex.message)}<br/>#{ex.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
-          render :text => str
+        rescue => exception
+          handle_erb_exception(exception, @content_generator)
         end
       end
+      # something went wrong ...
+      render_500 unless performed?
     end
 
   end
@@ -271,7 +270,7 @@ class SiteController < ApplicationController
       begin
         str = render_to_string :inline => gen.template, :locals => locals
       rescue => exception
-        str = "<pre>error processing '#{gen.name}': #{exception.message}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>" if local_request?
+        handle_erb_exception(exception, gen)
       end
     end
 
@@ -280,6 +279,15 @@ class SiteController < ApplicationController
   end
 
   ########## MISC HELPERS
+
+  def handle_erb_exception(exception,generator)
+    str = "<pre>error processing '#{generator.name}': #{ERB::Util.html_escape(exception.message)}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>"
+    if local_request?
+      render :text => str
+    else
+      bagel_log :exception => exception, :severity => :high, :extra_info => {:message => str}, :kind => 'exception', :request_url => request.env["PATH_INFO"]
+    end
+  end
 
   def global_assigns(other={})
     gen = Generator.find(:first, :conditions => [ 'name=? AND website_id=?', "#{site}_liquid_globals", site_id ])
@@ -327,9 +335,12 @@ class SiteController < ApplicationController
 
   def submit
     @formdef = FormDefinition.find(params[:id])
-    redirect_to_back_or_home and return if @formdef.nil? or params[:form].nil?
+    if @formdef.nil? or params[:form].nil? 
+      flash[:errors] = ["form definition not found or params[:forms] empty"]
+      redirect_to_back_or_home and return
+    end
 
-       # check input
+    # check input
     if params[:form].to_a.select { |el| el[0].match(/required/) && el[1] == "" }.size > 0
       flash[:errors] = ["required fields are empty"]
       redirect_to_back_or_home and return
@@ -476,6 +487,11 @@ class SiteController < ApplicationController
       redirect_to_back_or_home
     end
 
+  end
+
+  def print_routes
+    #FIXME: move this to admin/
+    render :inline => "<pre><% ActionController::Routing::Routes.routes.each do |r| %><%= r %><% end %></pre>" unless AdminUser.current_user.nil?
   end
 
   def set_default_website
