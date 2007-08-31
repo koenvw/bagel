@@ -54,9 +54,8 @@ module ActsAsPicture
 
       # Crop
       unless version[:crop].nil?
-        dx, dy = *version[:crop].split(':').map { |i| i.to_i }
-        w, h = (image.rows * dx / dy), (image.columns * dy / dx)
-        image.crop!(::Magick::CenterGravity, [image.columns, w].min, [image.rows, h].min, true) 
+        crop_width, crop_height = *version[:crop_resized].split(':').map { |i| i.to_i } 
+        image.crop_resized!(crop_width, crop_height, Magick::CenterGravity)
       end
 
       # Add watermark
