@@ -13,6 +13,9 @@ class Admin::GeneratorsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
   def list
+    if !params[:website_id].blank?
+    	cookies[:gen_lastWebsiteId] = params[:website_id]
+    end
     conditions = "1=1"
     conditions << " AND website_id = #{params[:website_id]}" unless params[:website_id].blank?
     conditions << " AND generator_folder_id = #{params[:id]}" unless params[:id].nil?

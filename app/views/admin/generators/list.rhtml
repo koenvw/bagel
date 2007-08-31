@@ -1,8 +1,7 @@
 <% 
 	## set default websiteId if params is empty
-	if !params[:website_id].blank? || !cookies[:gen_lastWebsite_id].blank? 
-		websiteId = (params[:website_id].blank? ? cookies[:gen_lastWebsite_id] : params[:website_id])
-		cookies[:gen_lastWebsite_id] = websiteId
+	if !params[:website_id].blank? || !cookies[:gen_lastWebsiteId].blank? 
+		websiteId = (params[:website_id].blank? ? cookies[:gen_lastWebsiteId] : params[:website_id])
 	else
 		websiteId = Website.find(:first).id.to_s
 	end
