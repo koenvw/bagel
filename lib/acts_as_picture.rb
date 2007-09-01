@@ -54,7 +54,7 @@ module ActsAsPicture
 
       # Crop
       unless version[:crop].nil?
-        crop_width, crop_height = *version[:crop_resized].split(':').map { |i| i.to_i } 
+        crop_width, crop_height = *version[:crop].split(':').map { |i| i.to_i } 
         image.crop_resized!(crop_width, crop_height, Magick::CenterGravity)
       end
 
