@@ -13,12 +13,12 @@ class Admin::GeneratorsController < ApplicationController
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
   def list
-	if !params[:website_id].blank? || !cookies["gen_lastWebsiteId"].blank? 
-		@websiteId = (params[:website_id].blank? ? cookies["gen_lastWebsiteId"] : params[:website_id])
-		cookies[:gen_lastWebsiteId] = params[:website_id] || cookies["gen_lastWebsiteId"]
-	else
-		@websiteId = Website.find(:first).id.to_s
-	end
+    if !params[:website_id].blank? || !cookies["gen_lastWebsiteId"].blank? 
+      @websiteId = (params[:website_id].blank? ? cookies["gen_lastWebsiteId"] : params[:website_id])
+      cookies[:gen_lastWebsiteId] = params[:website_id] || cookies["gen_lastWebsiteId"]
+    else
+      @websiteId = Website.find(:first).id.to_s
+    end
     conditions = "1=1"
     conditions << " AND website_id = #{@websiteId}" unless @websiteId.blank?
     conditions << " AND generator_folder_id = #{params[:id]}" unless params[:id].nil?
