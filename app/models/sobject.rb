@@ -81,7 +81,7 @@ class Sobject < ActiveRecord::Base
     options.assert_valid_keys [ :tags, :website, :website_name, :website_id, :published_by,
                                 :search_string, :content_types, :publish_from, :publish_till,
                                 :status, :published, :current_workflow, :has_workflow, :conditions,
-                                :include, :order, :limit, :tags_inverted, :relations ]
+                                :include, :order, :limit, :tags_inverted, :relations, :relationships ]
 
     # Convert :status option into a :published option
     if options[:status] and !options[:published]
@@ -159,7 +159,7 @@ class Sobject < ActiveRecord::Base
       end
     end
 
-    # relations
+    # relations, feed with relation ids or relation names
     if options[:relations]
       relations = options[:relations].to_a.compact.uniq.map do |element|
         if element.to_i == 0 # a string
@@ -170,7 +170,19 @@ class Sobject < ActiveRecord::Base
           element.to_i
         end
       end
-      joins = " INNER JOIN relationships ON relationships.relation_id IN (#{relations.join(",")}) AND relationships.from_sobject_id = sobjects.id"
+      joins = " INNER JOIN relationships ON relationships.relation_id IN (#{relations.join(",")}) AND relationships.from_sobject_id = sobjects.id" unless relations.blank?
+    end
+    
+    # relationships, feed with sobject ids or sobjects 
+    if options[:relationships]
+      sobject_ids = options[:relationships].to_a.compact.uniq.map do |element|
+        if element.is_a? Sobject
+          element.id
+        else
+          element.to_i
+        end
+      end
+      joins = " INNER JOIN relationships ON relationships.to_sobject_id IN (#{sobject_ids.join(",")}) AND relationships.from_sobject_id = sobjects.id" unless sobject_ids.blank?
     end
 
     # published by
@@ -204,7 +216,7 @@ class Sobject < ActiveRecord::Base
           content_type_id
         end
       }
-      content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})"
+      content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})" unless ctypes.blank?
     end
     
     # publish_from
