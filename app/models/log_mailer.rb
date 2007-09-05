@@ -4,14 +4,14 @@ class LogMailer < ActionMailer::Base
   @@recipient_addresses = [ %( koen.vanwinckel@dotprojects.be ) ]
   cattr_accessor :recipient_addresses
 
-  @@subject_prefix = "[ERROR] "
+  @@subject_prefix = (Setting.get('EmailSettings') || {})[:subject_prefix] || '[ERROR] '
   cattr_accessor :subject_prefix
 
   def log_message(log_message, host)
-    subject     @@subject_prefix + 'New log message: ' + log_message.message[0..39]
+    subject     @@subject_prefix + log_message.message[0..39]
 
     recipients recipient_addresses
-    from       (Setting.get('EmailSettings') || {})[:address] || 'noemail@example.com'
+    from       (Setting.get('EmailSettings') || {})[:from_address] || 'Exception Notifier <exception.notifier@default.com>'
 
     body       :log_message => log_message, :host => host
   end

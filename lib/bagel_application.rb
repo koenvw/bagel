@@ -81,6 +81,7 @@ module BagelApplication
     ########## Bagel-specific
 
     def bagel_log(*args)
+      args[:hostname] = request.host_with_port unless args[:hostname]
       LogMessage.log(*args)
     end
 

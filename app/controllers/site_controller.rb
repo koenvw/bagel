@@ -491,7 +491,7 @@ class SiteController < ApplicationController
 
   def print_routes
     #FIXME: move this to admin/
-    render :inline => "<pre><% ActionController::Routing::Routes.routes.each do |r| %><%= r %><% end %></pre>" unless AdminUser.current_user.nil?
+    render :inline => "<pre><% ActionController::Routing::Routes.routes.each do |r| %><%= r %>\n<% end %></pre>" unless AdminUser.current_user.nil?
   end
 
   def set_default_website
