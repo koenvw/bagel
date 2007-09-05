@@ -274,6 +274,9 @@ class Sobject < ActiveRecord::Base
     end
     
     # includes
+    # warning: be careful when including other tables without benchmarking 
+    # performance might drop significantly
+    # sometimes its better not to solve the "n+1 problem"
     includes = :sitems
     if options[:include]
       includes = [includes,options[:include]]

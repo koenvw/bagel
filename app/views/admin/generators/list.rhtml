@@ -1,7 +1,7 @@
 <div class="topButton">
 <h1>Listing templates</h1>
 	<ul class="mainNav">
-		<li><%= link_to 'New template', { :action => 'edit', :website_id => @websiteId }, :class => "new", :title => "New template" %></li>
+        <li><%= link_to 'New template', { :action => 'edit', :website_id => @websiteId, :folder_id => params[:id] }, :class => "new", :title => "New template" %></li>
 		<li><%= link_to 'List Folders', { :controller => "generator_folders", :action => 'list' }, :class => "folders", :title => "List folders"  %></li>
 	</ul>
 </div>

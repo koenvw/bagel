@@ -37,7 +37,7 @@ class Admin::ContentController < ApplicationController
     @item_pages, @items = paginate_collection(nonpaginated_items, :page => params[:page], :per_page => 25 )
 
     # Find all content types except generators
-    @content_types = ContentType.find(:all, :conditions => "extra_info!='hide'", :order => "name")
+    @content_types = ContentType.find(:all, :conditions => "hidden=0", :order => "name")
 
     # Find all web sites
     @websites = Website.find(:all, :order => "name")
@@ -46,7 +46,7 @@ class Admin::ContentController < ApplicationController
   def wizard
     # Find all content types except generators
     # FIXME: hide via checkbox, not via extra info?
-    @content_types = ContentType.find(:all, :conditions => "extra_info != 'hide'", :order => "name")
+    @content_types = ContentType.find(:all, :conditions => "hidden=0", :order => "name")
   end
 
 end

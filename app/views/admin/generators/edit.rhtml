@@ -32,21 +32,20 @@
 		<fieldset class="oneline">
 			(Use this template for displaying:
 			<%= select 'generator', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %> or
-            <%= select 'generator', 'core_content_type', AppConfig[:content_types].sort, :include_blank => true  %>) on website:
+			<%= select 'generator', 'core_content_type', AppConfig[:content_types].sort, :include_blank => true  %>) on website:
 			<%= select 'generator', 'website_id', Website.find(:all,:order => "name").collect {|p| [ p.name, p.id ] }, { :include_blank => true } %><br/>
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="generator_folder_id">Folder</label>
 			<% options = "<option value=\"\"></option>" %>
 			<% Website.find(:all).each do |website| %>
-			  <% options << "<optgroup label=\"#{website.name}\">" %>
-			  <% elements = GeneratorFolder.find(:all, :conditions => ["website_id = ?",website.id]) %>
-			  <% options << options_for_select(elements.map {|item| ["#{'...' * item.level}#{item.name}",item.id]}, @generator.generator_folder_id) %>
-			  <% options << "</optgroup>" %>
+				<% options << "<optgroup label=\"#{website.name}\">" %>
+				<% elements = GeneratorFolder.find(:all, :conditions => ["website_id = ?",website.id]) %>
+				<% options << options_for_select(elements.map {|item| ["#{'...' * item.level}#{item.name}",item.id]}, @generator.generator_folder_id || params[:folder_id].to_i) %>
+				<% options << "</optgroup>" %>
 			<% end %>
 			<%= select_tag 'generator[generator_folder_id]', options %>
-		  </fieldset>
-
+		</fieldset>
 		<div class="bottom"></div>
 	</div>
 
