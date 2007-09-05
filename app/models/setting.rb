@@ -30,7 +30,7 @@ class Setting < ActiveRecord::Base
     return nil if root.nil?
 
     if root.children.empty?
-      root
+      {}
     else
       # for each child our setting has...
       root.children.each do |child|

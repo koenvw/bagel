@@ -29,7 +29,8 @@ class Admin::MediaItemsController < ApplicationController
     @media_item_pages, @media_items = paginate_collection MediaItem.find(:all, :conditions => condition_string),
                                                           :per_page   => 20,
                                                           :order      => "media_items.updated_on DESC",
-                                                          :include    => :sobject
+                                                          :include    => :sobject,
+                                                          :page => params[:page]
 
     # Determine count
     @media_items_filtered_count = @media_items.length
