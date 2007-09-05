@@ -80,9 +80,10 @@ module BagelApplication
 
     ########## Bagel-specific
 
-    def bagel_log(*args)
-      args[:hostname] = request.host_with_port unless args[:hostname]
-      LogMessage.log(*args)
+    def bagel_log(options = {})
+      options[:hostname] ||= request.host_with_port
+      options[:request_url] ||= "#{current_domain}#{request.env["PATH_INFO"]}"
+      LogMessage.log(options)
     end
 
     def site

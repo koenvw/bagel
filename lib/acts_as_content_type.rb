@@ -111,6 +111,7 @@ module ActsAsContentType
     end
 
     def relation(name, options = {})
+      # FIXME: option :reverse is a bad idea => there can be multiple reverse relations than can only be distinguished by their content-type (add extra option content-type?)
       options.assert_valid_keys [:reverse]
       # look up relation
       relation = Relation.find_by_name(name, :include => :content_type)
@@ -144,6 +145,7 @@ module ActsAsContentType
         # all relations
         relations = Relationship.find(:all, :conditions => ["from_sobject_id = ?",self.sobject.id], :order=>"relationships.position", :include => [:to])
       end
+      # FIXME: check is_published?
       relations.map { |relation| relation.to.content }
     end
 

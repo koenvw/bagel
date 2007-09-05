@@ -67,7 +67,7 @@ class SiteController < ApplicationController
       when 'erb'
         begin
           render :inline => gen.template
-        rescue Exception => ex
+        rescue => exception
           handle_erb_exception(exception, gen)
         end
       end
@@ -270,8 +270,9 @@ class SiteController < ApplicationController
       begin
         str = render_to_string :inline => gen.template, :locals => locals
       rescue => exception
-        handle_erb_exception(exception, gen)
+        str = handle_erb_exception(exception, gen, :return)
       end
+      return str
     end
 
     # Done
@@ -280,12 +281,16 @@ class SiteController < ApplicationController
 
   ########## MISC HELPERS
 
-  def handle_erb_exception(exception,generator)
+  def handle_erb_exception(exception,generator, render_or_return = :render)
     str = "<pre>error processing '#{generator.name}': #{ERB::Util.html_escape(exception.message)}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>"
     if local_request?
-      render :text => str
+      if render_or_return == :render 
+          render :text => str
+      else
+          return str
+      end
     else
-      bagel_log :exception => exception, :severity => :high, :extra_info => {:message => str}, :kind => 'exception', :request_url => request.env["PATH_INFO"]
+      bagel_log :exception => exception, :severity => :high, :extra_info => {:message => str}, :kind => 'exception', :request_url => "#{current_domain}#{request.env["PATH_INFO"]}" and return ""
     end
   end
 
