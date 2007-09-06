@@ -20,7 +20,7 @@
 			:update => "relations#{direction}#{uniq_id}_content",
 			:on => "focus",
 			:url => {:controller => "relations", :action => "popup_create2", :sub_id => uniq_id, :direction => direction},
-			:with => "'rel_id=' + escape(value)",
+			:with => "'rel_id=' + value",
 			:loading => "Element.show('spinner_create')",
 			:complete => "Element.hide('spinner_create')"
 		%>

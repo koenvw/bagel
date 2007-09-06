@@ -16,7 +16,7 @@ if params['rel_id'].to_i > 0
 		:url => {:controller => "relations", :action => "sub_content_#{r_type}", :id => params['rel_id'], :sub_id => params[:sub_id], :r_type_id => r_type_id, :r_sub_type => r_sub_type, :rel_id => params[:rel_id], :direction => params[:direction]},
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search')",
-		:with => "'search=' + escape(value)"
+		:with => "'search=' + value"
 	%>
 	<div class="relContent" id="relations<%=params[:sub_id]%>_sub_content">
 	  <%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{:id=>params['rel_id'], :r_type_id => r_type_id, :r_sub_type=>r_sub_type} %>
