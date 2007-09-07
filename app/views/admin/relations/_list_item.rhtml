@@ -27,11 +27,11 @@
 <% case @sobject.content_type
    when 'Image'
     @image=@sobject.content -%>
-	
-	<div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
-		<%= relation_name + @image.image_file %>
-	</div>
-   
+    
+    <div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
+        <%= "#{relation_name} #{@image.image_file}" %>
+    </div>
+  
 <span class="icon">
 <%= link_to "Edit" ,"/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
 <% when 'News','Page','Book','Gallery'
