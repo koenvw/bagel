@@ -17,7 +17,7 @@
 		<tr class="content">
 			<td><%= link_to @item.name, :action => "edit", :id => @item %> </td>
 			<td>
-				<%=h truncate(@item.content_type.name, 40,'...') %>
+				<%=h truncate(@item.content_type.name, 40,'...') if @item.content_type %>
 			</td>
 			<td class="iconbox">
 				<span class="icon">
