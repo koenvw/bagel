@@ -8,7 +8,7 @@ class LogMessage < ActiveRecord::Base
 
   SEVERITY_NAMES = SEVERITY.invert
 
-  ROLLOVER = 4.weeks
+  ROLLOVER = 1.weeks
 
   belongs_to              :admin_user
 
