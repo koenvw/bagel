@@ -286,7 +286,7 @@ module ActsAsContentType
       # remove removed relationships
       (current_relations - added_relations).each { |relation| relation.destroy }
       # fix positions
-      added_relations.each_with_index { |relation,index| relation.update_attribute :position, index }
+      added_relations.each_with_index { |relation,index| relation.update_attribute :position, index if relation.valid? }
     end
 
     def add_relation_unless(to_sobject_id,relation_id)

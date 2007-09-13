@@ -34,6 +34,16 @@
   
 <span class="icon">
 <%= link_to "Edit" ,"/admin/#{@sobject.content_type.pluralize.downcase}/edit/#{@sobject.content.id}", :class => "edit" %>
+<%
+   when 'PictureFileSystem','PictureDbFile','PictureS3','PictureFTP'
+    @image=@sobject.content -%>
+    
+    <div class="imgItem" style="background-image: url('<%= @image.public_filename('micro') %>');">
+        <%= "#{relation_name} #{@image.filename}" %>
+    </div>
+  
+<span class="icon">
+<%= link_to "Edit" ,"/admin/#{@image.controller_name}/edit/#{@sobject.content.id}", :class => "edit" %>
 <% when 'News','Page','Book','Gallery'
     @item=@sobject.content -%>
 

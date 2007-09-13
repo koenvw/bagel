@@ -6,7 +6,7 @@ class Relationship < ActiveRecord::Base
 
   acts_as_list :scope => :from_sobject_id
 
-  validates_presence_of   :from, :to, :relation
+  validates_presence_of   :from_sobject_id, :to_sobject_id, :relation_id
   validates_associated    :from, :to, :relation
   validates_uniqueness_of :relation_id, :scope => [ :relation_id, :from_sobject_id, :to_sobject_id ]
 
