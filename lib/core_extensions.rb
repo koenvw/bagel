@@ -19,6 +19,11 @@ class String
     return true if to_s.downcase == "true"
     return false if to_s.downcase == "false"
   end
+
+  def disable_html
+    self.gsub(/<input/,    '<input readonly="readonly"').
+         gsub(/<textarea/, '<textarea readonly="readonly"')
+  end
 end
 
 class Time

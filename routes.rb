@@ -1,11 +1,14 @@
 # ROOT
+
 connect '',      :controller => 'site',       :action => 'root'
 connect 'admin', :controller => 'admin/home', :action => 'redirect_to_home'
 
 # SPECIAL CASES
+
 connect '/media_item_from_db', :controller => 'site', :action => 'media_item_from_db'
 
 # ADMIN
+
 with_options :controller => 'admin/home' do |m|
   m.login          '/admin/login',                    :action => 'login'
   m.logout         '/admin/logout',                   :action => 'logout'
@@ -37,13 +40,20 @@ with_options :controller => 'admin/log_messages' do |m|
   m.admin_log_message         '/admin/log_messages/:id/:action', :action => 'show'
 end
 
+with_options :controller => 'admin/translations' do |m|
+  m.admin_translations            '/admin/translations'
+  m.admin_translations_translate  '/admin/translations/:id',  :action => 'translate'
+end
+
 # ANY DOMAIN
+
 connect '/:site/index',                   :controller => 'site', :action => 'index'
 connect '/:site/show/:type/:id',          :controller => 'site', :action => 'content'
 connect '/:site/show/:type/:id.:format',  :controller => 'site', :action => 'content'
 connect '/:site/show/:type/:id/:sub_id',  :controller => 'site', :action => 'content'
 
 # VIRTUAL DOMAINS
+
 connect '/show/:type/:id',                :controller => 'site', :action => 'content'
 connect '/show/:type/:id.:format',        :controller => 'site', :action => 'content'
 connect '/content/:type/:id',             :controller => 'site', :action => 'content'

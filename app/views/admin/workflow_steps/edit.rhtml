@@ -19,8 +19,12 @@
 			<%= check_box 'workflow_step', 'is_final' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
+			<label for="workflow_step_optional">Translatable from now on?</label>
+			<%= check_box 'workflow_step', 'is_translatable' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
 			<label for="workflow_step_optional">Optional?</label>
-			<%= check_box 'workflow_step', 'optional' %><br/>
+			<%= check_box 'workflow_step', 'is_optional' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="workflow_step_position">Position</label>

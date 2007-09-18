@@ -1,0 +1,51 @@
+<% if (item.ctype && !item.ctype.hide_websites?) or item.ctype.nil? %>
+<% sobject = item.sobject %>
+<% translation_relations_from = sobject.translation_relations %>
+<% translation_relations_to   = sobject.inverse_translation_relations %>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<h3 class="forClose">Translations</h3>
+	<div class="collapsed">
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label for="sobject_language">Language</label>
+			<%= select :sobject, :language, @languages.map { |l| [ l[:name], l[:code] ] }, { :include_blank => true, :selected => sobject.language } %>
+		</fieldset>
+<% if !translation_relations_to.empty? %>
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label>Translation of</label>
+			<%= link_to translation_relations_to.first.from.content.title, :controller => translation_relations_to.first.from.content.controller_name, :action => 'edit', :id => translation_relations_to.first.from.content %>
+		</fieldset>
+<% else %>
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label>Request translations for languages</label>
+<% @languages.each do |language| %>
+			<%= check_box_tag("requested_translations[#{language[:code]}]", '1', false) %> <%= language[:name] %>
+<% end %>
+		</fieldset>
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label>Synchronised?</label>
+			<%= check_box_tag('publish_synced', '1', sobject.publish_synced?) %> Publish this item when all translations are ready.
+		</fieldset>
+<% if sobject.publish_synced? %>
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<label>Sync Status</label>
+			<%= sobject.published_sync? ? 'This item and its translations are published.' : 'This item and its translations are not published yet; either this item or its translations are not ready yet.' %>
+		</fieldset>
+<% end %>
+		<table class="uniTable">
+			<tr class="heading">
+				<td>Language</td>
+				<td>Workflow Status</td>
+			</tr>
+<% sobject.relations_as_from.select { |r| r.relation.is_translation_relation? }.each do |relationship| %>
+			<tr class="content">
+				<td class="descr"><%= link_to(relationship.to.language_name, :controller => relationship.to.content.controller_name, :action => "edit", :id => relationship.to.content) %></td>
+				<td><%= relationship.to.content.current_workflow_step_name %></td>
+			</tr>
+<% end %>
+		</table>
+<% end %>
+	</div>
+	<div class="bottom"></div>
+</div>
+<% end %>

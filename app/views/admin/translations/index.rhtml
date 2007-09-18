@@ -1,0 +1,16 @@
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Title</td>
+			<td style="width: 160px;" class="colDesc">Language</td>
+			<td style="width: 120px;" class="colDesc">Type</td>
+		</tr>
+<% @translation_relations.each do |relation| %>
+		<tr class="content">
+			<td><%= link_to h(relation.to.content.title), :action => 'translate', :id => relation %></td>
+			<td><%= relation.from.language_name %> &rarr; <%= relation.to.language_name %></td>
+			<td><%= relation.from.ctype.name %></td>
+		</tr>
+<% end %>
+	</table>
+</div>

@@ -103,11 +103,11 @@ module ActsAsContentType
     end
 
     def is_published?(site_id)
-      sitems.find(:all,:conditions=>"sitems.publish_from<now() AND sitems.website_id=#{site_id} AND sitems.is_published=1").size>0
+      sitems.any? { |si| si.website_id == site_id and si.publish_from < Time.now and si.published_async? }
     end
 
     def has_hidden_sitem?
-      sitems.any? { |sitem| !sitem.is_published? }
+      sitems.any? { |sitem| !sitem.published_async? }
     end
 
     def relation(name, options = {})
@@ -186,6 +186,17 @@ module ActsAsContentType
       sitems.select { |s| s.website == website }.first
     end
 
+    def current_workflow_step
+      unless sobject.workflow_actions.empty?
+        sobject.workflow_actions.sort_by { |wa| wa.workflow_step.position }.reverse.first.workflow_step
+      end
+    end
+
+    def current_workflow_step_name
+      step = current_workflow_step
+      step && step.name || ''
+    end
+
   end
 
   module HelperMethods
@@ -211,6 +222,11 @@ module ActsAsContentType
         sitem.save
         sitem
       end
+    end
+
+    def save_language(language)
+      sobject.language = language
+      sobject.save
     end
 
     def save_tags(tags)

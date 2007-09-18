@@ -31,7 +31,7 @@ end
 		# and items are not published by default
 		if workflow_id
 			disabled = true unless AdminUser.current_user.is_admin?
-			is_published = sitem.is_published?
+			is_published = sitem.published_async?
 		else
 			disabled = false
 			# not using workflow, published by default

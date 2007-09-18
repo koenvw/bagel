@@ -1,7 +1,10 @@
 class WorkflowStep < ActiveRecord::Base
+
   acts_as_list
+
   validates_presence_of :name, :admin_role_id
   validates_uniqueness_of :name
+
   belongs_to :admin_role
   belongs_to :workflow
   has_many :workflow_actions
@@ -10,4 +13,9 @@ class WorkflowStep < ActiveRecord::Base
   def <=>(other_step)
     self.position <=> other_step.position
   end
+
+  def optional?
+    is_optional?
+  end
+
 end

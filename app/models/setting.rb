@@ -85,4 +85,17 @@ class Setting < ActiveRecord::Base
     (Setting.get("ImageSettings")[:processor] || :rmagick).to_sym
   end
 
+  def self.languages
+    # Returns something like [ { :name => "English", :code => "en" }, { :name => "Dutch", :code => "nl" } ]
+    result = ((self.get_cached('LanguageSettings') || {})[:languages] || '')
+    result = result.split(',').map { |l| l.split('=').map(&:strip) }
+    result.map! { |l| { :code => l[0], :name => l[1] } }
+    result.sort! { |x,y| x[:name] <=> y[:name] }
+  end
+
+  def self.language_name_for_code(code)
+    matching_languages = self.languages.select { |l| l[:code].to_sym == code.to_sym } || []
+    (matching_languages.first || {})[:name]
+  end
+
 end

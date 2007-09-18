@@ -11,6 +11,8 @@
       url:    "/admin/menus/list2"
     - title:  "Tags"
       url:    "/admin/tags/list"
+    - title:  "Translations"
+      url:    "/admin/translations"
   hidden_children:
     - url:    "/admin/home/index"
     - url:    "/admin/forms"

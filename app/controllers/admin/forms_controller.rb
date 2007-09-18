@@ -44,17 +44,9 @@ class Admin::FormsController < ApplicationController
     @form.form_definition_id ||= params[:form_definition_id]
     @form.type_id ||= params[:type_id]
     session[:form_definition_id] = @form.form_definition_id # for autocomplete
-  end
 
-  def clone_form
-    @f = Form.find(params[:id])
-    @form = @f.clone
-    session[:form_definition_id] = @form.form_definition_id # for autocomplete
-    str = '<div id="breadcrumb"><%= link_to "Forms", :controller => "form_definitions" %> > <%= link_to @form.form_definition.name, :controller => "forms", :action => "list", :id => @form.form_definition_id %> > <%= @form.name %> (clone) </div>'
-    str << "<%= start_form_tag :action => 'create', :id => @form.form_definition_id %>"
-    str << @form.form_definition.template
-    str << "<%= end_form_tag %>"
-    render :inline => str, :layout => true
+    # Prepare languages
+    @languages = Setting.languages
   end
 
   def update
@@ -77,6 +69,61 @@ class Admin::FormsController < ApplicationController
       @form.save_tags(params[:tags])
       @form.save_relations(params[:relations])
       @form.set_updated_by(params)
+
+      # Save language
+      @form.save_language(params[:sobject][:language])
+      @form.sobject.publish_synced = params[:publish_synced] ? true : false
+      @form.save
+
+      # Create translated items if necessary
+      # FIXME this is duplicated in news controller... perhaps move this elsewhere?
+      language_codes = (params[:requested_translations] || {}).keys.map(&:to_s)
+      language_codes.each do |language_code|
+        # Skip language when there is already an existing object
+        next if @form.sobject.language == language_code
+        next unless @form.sobject.relations_as_from.select { |r| r.to.language == language_code }.empty?
+
+        Form.transaction do
+          # Clone object
+          new_form = Form.new
+          new_form.form_definition_id = @form.form_definition_id
+          new_form.form               = @form.form
+          new_form.name               = @form.name + " [Untranslated #{Setting.language_name_for_code(language_code)}]"
+          new_form.prepare_sobject
+
+          # Clone sobject
+          new_form.sobject.language         = language_code.to_s
+          new_form.sobject.content_type     = @form.sobject.content_type
+          new_form.sobject.content_type_id  = @form.sobject.content_type_id
+          new_form.sobject.created_by       = @form.sobject.created_by
+          new_form.sobject.updated_by       = @form.sobject.updated_by
+
+          new_form.sobject.save
+          new_form.save
+
+          # Clone tags
+          @form.sobject.tags.each { |tag| new_form.sobject.tags << tag }
+
+          # Clone relationships
+          @form.sobject.relations_as_from.each do |relationship|
+            new_relationship = relationship.clone
+            new_relationship.from_sobject_id = new_form.sobject.id
+            new_relationship.save
+          end
+          @form.sobject.relations_as_to.each do |relationship|
+            new_relationship = relationship.clone
+            new_relationship.to_sobject_id = new_form.sobject.id
+            new_relationship.save
+          end
+
+          # Create two translation relationships
+          # FIXME Try to change relations in such a way that many-to-many relations are possible
+          relation = Relation.find_by_name("Translation - #{@form.sobject.ctype.name}")
+          raise "Unable to find relation named 'Translation - #{@form.sobject.ctype.name}'" if relation.nil?
+          @form.add_relation_unless(new_form.sobject.id, relation.id)
+
+        end
+      end
 
       # Log
       diff = old_attributes.inspect_with_newlines.html_diff_with(@form.attributes.inspect_with_newlines)

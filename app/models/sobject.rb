@@ -74,6 +74,44 @@ class Sobject < ActiveRecord::Base
     ( MediaItem::ALLOWED_CLASS_NAMES.include?(self.content_type) ? 'media_item' : self.content_type ).tableize.downcase
   end
 
+  # Returns the name of the language instead of its code
+  def language_name
+    Setting.language_name_for_code(language)
+  end
+
+  # Returns all translation relations (if this sobject has translations)
+  def translation_relations
+    relations_as_from.select { |r| r.relation.is_translation_relation? }
+  end
+
+  # Returns all inverse translation relations (if this sobject is a translation of something else)
+  def inverse_translation_relations
+    relations_as_to.select   { |r| r.relation.is_translation_relation? }
+  end
+
+  # Returns true if this sobject has an async published sitem, false otherwise
+  def published_async?
+    sitems.any? { |si| si.published_async? }
+  end
+
+  # Returns true if this sobject is published
+  def published_sync?
+    unless translation_relations.empty?
+      published_async? and translation_relations.map(&:to).all?           { |so| so.published_async? }
+    else
+      published_async? and inverse_translation_relations.map(&:from).all? { |so| so.published_async? }
+    end
+  end
+
+  def publish_synced?
+    parent_rel = inverse_translation_relations.first
+    if parent_rel.nil?
+      self[:publish_synced]
+    else
+      parent_rel.from.publish_synced?
+    end
+  end
+
   def self.find_with_parameters(options = {})
     # Default options:
     # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,include=nil,order="sitems.publish_from DESC",status="Published"
@@ -155,7 +193,7 @@ class Sobject < ActiveRecord::Base
     else
       # website_id
       if options[:website_id]
-        website_check = " AND sitems.website_id=#{options[:website_id]} AND sitems.is_published=1" # FIXME: status conflicts with status below?
+        website_check = " AND sitems.website_id=#{options[:website_id]}"
       end
     end
 
@@ -218,7 +256,7 @@ class Sobject < ActiveRecord::Base
       }
       content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})" unless ctypes.blank?
     end
-    
+
     # publish_from
     if options[:publish_from]
       publish_from_check = " AND sitems.publish_from >= '#{options[:publish_from].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
@@ -227,7 +265,7 @@ class Sobject < ActiveRecord::Base
     else
       publish_from_check = " AND sitems.publish_from>'0001-01-01'"
     end
-    
+
     # publish_till
     if options[:publish_till]
       publish_till_check = " AND sitems.publish_from <= '#{options[:publish_till].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
@@ -236,25 +274,25 @@ class Sobject < ActiveRecord::Base
     else
       publish_till_check = " AND (sitems.publish_till<'9999-01-01' OR sitems.publish_till IS NULL)"
     end
-    
+
     # is published
-    if options[:published]
-      if options[:published] == :all
-        status_check = ' '
-      else
-        status_check = " AND sitems.is_published='#{options[:published] ? '1' : '0'}'"
-      end
-    else
-      status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
-    end
-    
+    # if options[:published]
+    #   if options[:published] == :all
+    #     status_check = ' '
+    #   else
+    #     status_check = " AND sitems.is_published='#{options[:published] ? '1' : '0'}' AND sitems.publish_from < now()"
+    #   end
+    # else
+    #   status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
+    # end
+
     # workflow
     if options[:has_workflow]
-      workflow_check = ""; workflows = []
-      workflow_check << " AND sobjects.content_type_id IN (#{wf_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
+      workflow_check = ""
       options[:has_workflow].to_a.each do |step_id|
         # FIXME: not efficient with many step_ids
         wf_step = WorkflowStep.find(step_id)
+        workflow_check << " AND sobjects.content_type_id IN (#{wf_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
         workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step_id})"
       end
     end
@@ -282,10 +320,9 @@ class Sobject < ActiveRecord::Base
       includes = [includes,options[:include]]
     end
 
-    find(
+    res = find(
       :all,
       :conditions => "1=1
-        #{status_check}
         #{website_check}
         #{tag_check}
         #{tag_inverted_check}
@@ -303,6 +340,25 @@ class Sobject < ActiveRecord::Base
       :offset  => options[:offset] || 0,
       :order   => options[:order]  || "sitems.publish_from DESC"
     )
+    
+    website_name = (options[:website] and options[:website].to_i == 0) ? options[:website] : options[:website_name]
+    website_id   = (options[:website] and options[:website].to_i != 0) ? options[:website.to_i] : options[:website_id]
+    
+    if options[:published] == :all
+      # don't reject anything
+    else
+      if options[:published] == 1
+        # select sobjects with at least one sitem that is explicitly published
+        res.select! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.published_sync? } }
+        # select sobjects where all sitems have publish from date < now
+        res.select! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.publish_from < now } }
+      else
+        # reject items that are explicitly published and that have publish date < now
+        res.reject! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.published_sync? or si.publish_from < now } }
+      end
+     end
+
+    res
   end
 
   ########## DEPRECATED

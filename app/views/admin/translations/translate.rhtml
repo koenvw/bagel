@@ -1,0 +1,48 @@
+<!--
+
+	When a user (i.e. a translator) edits a text he sees a split screen:
+	
+	to the left the source text (body text of the original content item)
+	
+	to the right a wysiwyg editor where the translation can be added
+	
+	He can also set the translation workflow step based on his access rights
+	
+	At the bottom is a “save” button to save the translation.
+
+-->
+
+<h1>Translating <%= figure_out_content_type_name(@relationship.to.content) || "(unknown)" %></h1>
+
+<!-- original -->
+
+<% form_tag :action => 'blah' do %>
+	<h2 style="color: #000; background: orange; padding: 10px; margin: 0 -30px;">Original (Dutch)</h2>
+	<div style="height: 300px; overflow: auto; padding: 10px 0; margin: 20px -20px;">
+		<% @form = @relationship.from.content %>
+		<% @news = @relationship.from.content %>
+		<%= (render :partial => 'form_form').disable_html if @type == :form %>
+		<%= (render :partial => 'form_news').disable_html if @type == :news %>
+	</div>
+<% end %>
+
+<!-- translated -->
+
+<% form_tag :action => 'translate', :id => params[:id] do %>
+
+	<!-- translation -->
+	<h2 style="color: #000; background: orange; padding: 10px; margin: 0 -30px;">Translated (French)</h2>
+	<div style="height: 300px; overflow: auto; padding: 10px 0; margin: 20px -20px;">
+		<% @form = @relationship.to.content %>
+		<% @news = @relationship.to.content %>
+		<%= render :partial => 'form_form' if @type == :form %>
+		<%= render :partial => 'form_news' if @type == :news %>
+	</div>
+
+	<!-- workflow stuff -->
+	<%= render :partial => "admin/workflows/list", :locals => { :item => @form } %>
+
+	<!-- button -->
+	<input type="submit" value="Save Translation">
+
+<% end %>

@@ -13,4 +13,8 @@ class Relation < ActiveRecord::Base
     RelationDrop.new(self)
   end
 
+  def is_translation_relation?
+    name =~ /^Translation - /
+  end
+
 end
