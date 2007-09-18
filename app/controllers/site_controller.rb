@@ -282,7 +282,7 @@ class SiteController < ApplicationController
   ########## MISC HELPERS
 
   def handle_erb_exception(exception,generator, render_or_return = :render)
-    str = "<pre>error processing '#{generator.name}': #{ERB::Util.html_escape(exception.message)}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre>"
+    str = "<div class=\"templateError\"><pre>error processing '#{generator.name}': #{ERB::Util.html_escape(exception.message)}<br/>#{exception.backtrace.reject {|line| !line.starts_with?("compiled")}.join("<br/>")}</pre></div>"
     if local_request?
       if render_or_return == :render 
           render :text => str
