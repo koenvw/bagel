@@ -1,3 +1,4 @@
+<% if Setting.translation_enabled? %>
 <% if (item.ctype && !item.ctype.hide_websites?) or item.ctype.nil? %>
 <% sobject = item.sobject %>
 <% translation_relations_from = sobject.translation_relations %>
@@ -48,4 +49,5 @@
 	</div>
 	<div class="bottom"></div>
 </div>
+<% end %>
 <% end %>

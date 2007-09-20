@@ -6,7 +6,10 @@
 	<%= hidden_field_tag "news[type_id]", @news.type_id || params[:type_id] %>
 	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= error_messages_for 'news' %>
+
 	<%= render :partial => "form" %>
+
+	<%= render :partial => "admin/sharing/share", :locals => { :item => @news } %>
 	<%= render :partial => "admin/translations/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/workflows/list", :locals => { :item => @news } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @news } %>

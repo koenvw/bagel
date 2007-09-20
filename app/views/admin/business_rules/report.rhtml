@@ -1,0 +1,19 @@
+<div id="contentFrame">
+	<table class="uniTable">
+		<tr class="heading">
+			<td class="tabDesc">Blah</td>
+			<td class="colDesc">Content type</td>
+		</tr>
+<% @objects.each do |obj| %>
+		<tr class="content">
+			<td><%= link_to obj.title, :controller => obj.controller_name, :id => obj.id, :action => 'edit' %></td>
+			<td><%= obj.sobject.ctype.name %></td>
+		</tr>
+<% end %>
+	</table>
+	<p><%= link_to 'Add', :action => 'new' %></p>
+</div>
+
+<% if @objects.size > 0 %>
+<div class="paging"><%= bagel_pagination_links @object_pages %></div>
+<% end %>

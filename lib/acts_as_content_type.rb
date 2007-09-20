@@ -382,6 +382,18 @@ module ActsAsContentType
 
   module Callbacks
 
+    def validate
+      unless sobject.ctype.nil?
+        sobject.ctype.business_rules.each do |rule|
+          # Call rule
+          unless rule.passes_for(self)
+            # Add errors
+            rule.rule_errors.each { |error| errors.add_to_base(error) }
+          end
+        end
+      end
+    end
+
     def after_initialize
       # we need to prepare these to make the forms work on new Objects.
       # its very important to only do this on new records (otherwise .find() will trigger this for every object)

@@ -39,11 +39,15 @@ class Admin::ImagesController < ApplicationController
       @image.attributes = params[:image]
       @image.prepare_sitems(params[:sitems])
       @image.title = @image.image_file if @image.title.blank?
+      
+      @image.save(false)
+      
+      @image.save_workflow(params[:workflow_steps])
+      @image.save_tags(params[:tags])
+      @image.save_relations(params[:relations])
+      @image.set_updated_by(params)
+      
       if @image.save
-        @image.save_workflow(params[:workflow_steps])
-        @image.save_tags(params[:tags])
-        @image.save_relations(params[:relations])
-        @image.set_updated_by(params)
         flash[:notice] = 'Image was successfully updated.'
         redirect_to params[:referer] || {:controller => "content", :action => "list"}
       end

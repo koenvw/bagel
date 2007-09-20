@@ -28,6 +28,7 @@
 		</div>
 		<div class="bottom"></div>
 	</div>
+	<%= render :partial => "admin/sharing/share", :locals => { :item => @document } %>
 	<%= render :partial => "admin/workflows/list", :locals => { :item => @document } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @document } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @document } %>

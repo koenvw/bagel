@@ -79,6 +79,8 @@ class Sobject < ActiveRecord::Base
     Setting.language_name_for_code(language)
   end
 
+  ##### Translations & Publishing
+
   # Returns all translation relations (if this sobject has translations)
   def translation_relations
     relations_as_from.select { |r| r.relation.is_translation_relation? }
@@ -111,6 +113,8 @@ class Sobject < ActiveRecord::Base
       parent_rel.from.publish_synced?
     end
   end
+
+  ##### Finding
 
   def self.find_with_parameters(options = {})
     # Default options:

@@ -32,11 +32,16 @@ class Admin::EventsController < ApplicationController
 
       # Save
       Event.transaction do
+        @event.save(false)
+
+        # Save related
+        @event.save_tags(params[:tags])
+        @event.save_relations(params[:relations])
+        @event.set_updated_by(params)
+
         if @event.save
-          # Save related
-          @event.save_tags(params[:tags])
-          @event.save_relations(params[:relations])
-          @event.set_updated_by(params)
+          # Share on del.icio.us
+          share_on_delicious(@event, params[:sharing_delicious_site]) if params[:sharing_delicious]
 
           # Log
           new_attr = {

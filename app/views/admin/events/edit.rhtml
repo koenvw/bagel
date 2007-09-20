@@ -23,6 +23,7 @@
 		</div>
 		<div class="bottom"></div>
 	</div>
+	<%= render :partial => "admin/sharing/share", :locals => { :item => @event } %>
 	<%= render :partial => "admin/workflows/list", :locals => { :item => @event } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @event } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @event } %>

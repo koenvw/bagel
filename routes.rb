@@ -45,6 +45,11 @@ with_options :controller => 'admin/translations' do |m|
   m.admin_translations_translate  '/admin/translations/:id',  :action => 'translate'
 end
 
+with_options :controller => 'admin/business_rules' do |m|
+  m.admin_business_rules      '/admin/business_rules'
+  m.admin_business_rule       '/admin/business_rules/:action/:id'
+end
+
 # ANY DOMAIN
 
 connect '/:site/index',                   :controller => 'site', :action => 'index'

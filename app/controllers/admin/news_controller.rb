@@ -23,17 +23,19 @@ class Admin::NewsController < ApplicationController
       @news.prepare_sitems(params[:sitems])
 
       News.transaction do
-        if @news.save
-          # Save other stuff
-          @news.save_tags(params[:tags])
-          @news.save_relations(params[:relations])
-          @news.set_updated_by(params)
-          @news.save_workflow(params[:workflow_steps])
+        @news.save(false)
 
-          # Save language
-          @news.save_language(params[:sobject][:language])
-          @news.sobject.publish_synced = params[:publish_synced]
-          @news.save
+        # Save other stuff
+        @news.save_tags(params[:tags])
+        @news.save_relations(params[:relations])
+        @news.set_updated_by(params)
+        @news.save_workflow(params[:workflow_steps])
+
+        # Save language
+        @news.save_language(params[:sobject][:language])
+        @news.sobject.publish_synced = params[:publish_synced]
+
+        if @news.save
 
           # Create translated items if necessary
           # FIXME this is duplicated in forms controller... perhaps move this elsewhere?
@@ -83,6 +85,9 @@ class Admin::NewsController < ApplicationController
 
             end
           end
+
+          # Share on del.icio.us
+          share_on_delicious(@news, params[:sharing_delicious_site]) if params[:sharing_delicious]
 
           # Log
           diff = old_attributes.inspect_with_newlines.html_diff_with(@news.attributes.inspect_with_newlines)

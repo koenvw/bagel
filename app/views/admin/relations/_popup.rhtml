@@ -31,9 +31,9 @@ give me direction!
 				<label>Relation type</label>
 				<%
 					if item.class == Menu
-						relations = Relation.find(:all,:order => "name").collect{ |rel| [rel.name,rel.id] }
+						relations = Relation.find(:all,:order => "name").reject { |r| r.is_translation_relation? }.collect { |r| [ r.name, r.id ] }
 					else
-						relations = Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").collect{ |rel| [rel.name,rel.id] }
+						relations = Relation.find(:all,:order => "name", :joins => "INNER JOIN content_types_relations ON relations.id = content_types_relations.relation_id AND content_types_relations.content_type_id = #{content_type_id}").reject { |r| r.is_translation_relation? }.collect { |r| [ r.name, r.id ] }
 					end
 				%>
 				<%= select "relations#{direction}#{uniq_id}",

@@ -63,3 +63,6 @@ require 'liquid/misc'
 # Diff
 require 'string_diff'
 require 'inspect_with_newlines'
+
+# i can has delishuz
+require 'delicious'

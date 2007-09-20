@@ -50,6 +50,9 @@ class Admin::FormsController < ApplicationController
   end
 
   def update
+    # Prepare languages
+    @languages = Setting.languages
+
     @form = Form.find_by_id(params[:id]) || Form.new
 
     # store current attributes for diffing
@@ -64,16 +67,17 @@ class Admin::FormsController < ApplicationController
 
     @form.prepare_sitems(params[:sitems])
 
-    if @form.save
-      @form.save_workflow(params[:workflow_steps])
-      @form.save_tags(params[:tags])
-      @form.save_relations(params[:relations])
-      @form.set_updated_by(params)
+    @form.save(false)
+    @form.save_workflow(params[:workflow_steps])
+    @form.save_tags(params[:tags])
+    @form.save_relations(params[:relations])
+    @form.set_updated_by(params)
 
-      # Save language
-      @form.save_language(params[:sobject][:language])
-      @form.sobject.publish_synced = params[:publish_synced] ? true : false
-      @form.save
+    # Save language
+    @form.save_language(params[:sobject][:language])
+    @form.sobject.publish_synced = params[:publish_synced] ? true : false
+
+    if @form.save
 
       # Create translated items if necessary
       # FIXME this is duplicated in news controller... perhaps move this elsewhere?
@@ -124,6 +128,9 @@ class Admin::FormsController < ApplicationController
 
         end
       end
+
+      # Share on del.icio.us
+      share_on_delicious(@form, params[:sharing_delicious_site]) if params[:sharing_delicious]
 
       # Log
       diff = old_attributes.inspect_with_newlines.html_diff_with(@form.attributes.inspect_with_newlines)

@@ -33,13 +33,15 @@ class Admin::ContainersController < ApplicationController
 
       # Save
       Container.transaction do
-        if @container.save
-          # Save related
-          @container.save_workflow(params[:workflow_steps])
-          @container.save_tags(params[:tags])
-          @container.save_relations(params[:relations])
-          @container.set_updated_by(params)
+        @container.save(false)
 
+        # Save related
+        @container.save_workflow(params[:workflow_steps])
+        @container.save_tags(params[:tags])
+        @container.save_relations(params[:relations])
+        @container.set_updated_by(params)
+
+        if @container.save
           # Log
           new_attr = {
             :container          => @container.attributes,

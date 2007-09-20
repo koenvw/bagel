@@ -78,11 +78,11 @@ class Setting < ActiveRecord::Base
   # Convenience methods
 
   def self.image_thumbnails
-    Setting.get("ImageSettings")[:versions].inject({}) { |memo, (k,v)| memo[k] = v[:size] ; memo }
+    self.get("ImageSettings")[:versions].inject({}) { |memo, (k,v)| memo[k] = v[:size] ; memo }
   end
 
   def self.image_processor
-    (Setting.get("ImageSettings")[:processor] || :rmagick).to_sym
+    (self.get("ImageSettings")[:processor] || :rmagick).to_sym
   end
 
   def self.languages
@@ -96,6 +96,19 @@ class Setting < ActiveRecord::Base
   def self.language_name_for_code(code)
     matching_languages = self.languages.select { |l| l[:code].to_sym == code.to_sym } || []
     (matching_languages.first || {})[:name]
+  end
+
+  def self.translation_enabled?
+    (self.get("LanguageSettings") || {})[:translation_enabled] == true
+  end
+
+  def self.sharing_enabled?
+    (self.get("SharingSettings") || {})[:enabled] == true
+  end
+
+  def self.delicious_credentials
+    res = self.get("SharingSettings") || {}
+    { :username => res[:delicious_username], :password => res[:delicious_password] }
   end
 
 end

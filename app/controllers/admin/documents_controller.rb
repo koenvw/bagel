@@ -19,11 +19,17 @@ class Admin::DocumentsController < ApplicationController
       @document.prepare_sitems(params[:sitems])
       @document.title = @document.filename if @document.title.blank?
       Document.transaction do
+        @document.save(false)
+        
+        @document.save_workflow(params[:workflow_steps])
+        @document.save_tags(params["tags"])
+        @document.save_relations(params["relations"])
+        @document.set_updated_by(params)
+        
         if @document.save
-          @document.save_workflow(params[:workflow_steps])
-          @document.save_tags(params["tags"])
-          @document.save_relations(params["relations"])
-          @document.set_updated_by(params)
+          # Share on del.icio.us
+          share_on_delicious(@document, params[:sharing_delicious_site]) if params[:sharing_delicious]
+
           flash[:notice] = 'document was successfully updated.'
           redirect_to params[:referer] || {:controller => "content", :action => "list"}
         end

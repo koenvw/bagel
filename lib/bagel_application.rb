@@ -164,6 +164,28 @@ module BagelApplication
       )
     end
 
+    def link_for(content_item, options = {})
+      # FIXME: this does not work reliably when there are multiple content_types with the same core_content_type
+      return if content_item.nil?
+      return if content_item.ctype.nil?
+      link_hash = { :controller => "/site", 
+                    :action => "content",
+                    :site => self.site, 
+                    :type=> content_item.ctype.core_content_type.downcase, 
+                    :id => content_item.id }
+      url_for link_hash.update(options)
+    end
+
+    def share_on_delicious(item, site)
+      credentials = Setting.delicious_credentials
+      delicious_post(
+        :username     => credentials[:username],
+        :password     => credentials[:password],
+        :url          => link_for(item, :site => params[:sharing_delicious_site]),
+        :description  => item.title
+      )
+    end
+
   protected
 
     def check_authentication

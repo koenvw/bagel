@@ -54,6 +54,8 @@
       url:    "/admin/workflows"
     - title:  "Logging"
       url:    "/admin/log_messages"
+    - title:  "Rules"
+      url:    "/admin/business_rules"
   hidden_children:
     - url:    "/admin/generator_folders"
     - url:    "/admin/workflow_steps"

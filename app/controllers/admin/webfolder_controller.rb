@@ -49,10 +49,12 @@ private
     container = Container.new
     container.title   = File.basename(entry)
     container.type_id = relation.content_type.id
-    container.save
+    container.save(false)
 
     # Add tags to container
     container.save_tags(params[:tags])
+
+    container.save
 
     Dir.entries(entry).reject { |sub_entry| sub_entry.starts_with?('.') or sub_entry == '_imported' }.each do |sub_entry|
       # Convert sub_entry into a path
@@ -82,11 +84,13 @@ private
         media_item.description   = ''
         media_item.uploaded_data = file
         media_item.content_type  = MIME::Types.type_for(full_path).to_s
-        media_item.save
+        media_item.save(false)
       end
 
       # Add tags
       media_item.save_tags(params[:tags])
+
+      media_item.save
 
       # Add relationships
       container.add_relation_unless(media_item.sobject.id, relation.id)
@@ -137,12 +141,13 @@ private
       media_item.description   = ''
       media_item.uploaded_data = file
       media_item.content_type  = MIME::Types.type_for(full_path).to_s
-      media_item.save
+      media_item.save(false)
     end
 
     # Add tags
     media_item.save_tags(params[:tags])
 
+    media_item.save
     # Move files out of the way
     imported_dirname = File.dirname(full_path) + '/_imported'
     FileUtils.mkdir(imported_dirname) unless File.exists?(imported_dirname)

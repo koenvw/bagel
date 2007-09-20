@@ -86,13 +86,14 @@ class Admin::MediaItemsController < ApplicationController
       @media_item.set_title
 
       begin
+        @media_item.save(false)
+        @media_item.save_workflow(params[:workflow_steps])
+        @media_item.save_tags(params[:tags])
+        @media_item.save_relations(params[:relations])
+
+        @media_item.set_updated_by(params)
+
         if @media_item.save
-          @media_item.save_workflow(params[:workflow_steps])
-          @media_item.save_tags(params[:tags])
-          @media_item.save_relations(params[:relations])
-
-          @media_item.set_updated_by(params)
-
           flash[:notice] = 'Media item was successfully updated.'
           redirect_to :controller => 'media_items', :action => 'edit', :id => @media_item
         end

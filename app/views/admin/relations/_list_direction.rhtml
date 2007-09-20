@@ -33,9 +33,9 @@ end
 		<% else %>
 
 			<% if direction == "in" %>
-				<% relations = item.sobject.relations_as_from.find(:all,:order => 'position,relation_id') %>
+				<% relations = item.sobject.relations_as_from.find(:all,:order => 'position,relation_id').reject { |r| r.relation.is_translation_relation? } %>
 			<% else %>
-				<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,relation_id') %>
+				<% relations = item.sobject.relations_as_to.find(:all,:order => 'position,relation_id').reject { |r| r.relation.is_translation_relation? } %>
 			<% end %>
 
 			<li class="noitem" id='relations<%= direction %>_item_none' style="display: <%= (relations.empty?) ? "block" : "none" %>;"><%= noreltxt %></li>

@@ -1,0 +1,9 @@
+<h2>Editing business rule</h2>
+
+<%= error_messages_for :business_rule %>
+
+<% form_for(:business_rule, @business_rule, :url => { :action => :edit } ) do |f| %>
+
+	<%= render :partial => "form", :locals => { :f => f } %>
+
+<% end %>

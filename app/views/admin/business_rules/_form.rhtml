@@ -1,0 +1,24 @@
+<div class="subContent">
+	<fieldset class="oneline">
+		<label for="business_rule_name">Name</label>
+		<%= f.text_field :name, :class => "large_text_input", :size => "30" %>
+	</fieldset>
+	<fieldset class="oneline">
+		<label for="business_content_type">Content type</label>
+		<%= f.select :content_type_id, @content_types.map { |ct| [ ct.name, ct.id ] } %>
+	</fieldset>
+	<fieldset class="oneline">
+		<label for="business_rule_code">Code</label>
+		<%= f.text_area :code, :rows => 20, :cols => 80 %>
+	</fieldset>
+    <div class="bottom"></div>
+</div>
+
+<div class="bottomButton">
+	<ul class="mainNav">
+		<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>
+		<li><%= link_to 'Back', { :action => 'index' }, :class => "back" %></li>
+	</ul>
+</div>
+
+<div class="clear"></div>

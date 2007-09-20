@@ -32,6 +32,7 @@ module SiteHelper
   end
 
   def link_for(content_item, options = {})
+    # FIXME duplicated in bagel_application.rb
     # FIXME: this does not work reliably when there are multiple content_types with the same core_content_type
     return if content_item.nil?
     return if content_item.ctype.nil?

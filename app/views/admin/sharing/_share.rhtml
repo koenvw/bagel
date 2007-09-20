@@ -1,0 +1,13 @@
+<% if Setting.sharing_enabled? and Setting.delicious_credentials[:username] and Setting.delicious_credentials[:password] %>
+<div class="subContent">
+	<a href="#" class="openClose">Open</a>
+	<h3 class="forClose">Sharing</h3>
+	<div class="collapsed">
+		<fieldset class="oneline" style="margin-bottom: 10px;">
+			<%= check_box_tag :sharing_delicious %> Share on del.icio.us &mdash;
+			site: <%= select_tag :sharing_delicious_site, options_for_select(item.sobject.sitems.map { |si| [ si.website.name, si.website.name ] }) %>
+		</fieldset>
+	</div>
+	<div class="bottom"></div>
+</div>
+<% end %>

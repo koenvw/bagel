@@ -5,7 +5,9 @@ class ContentType < ActiveRecord::Base
   validates_uniqueness_of :name
 
   belongs_to              :workflow
+  has_many                :business_rules
   has_and_belongs_to_many :relations
+  has_many                :sobjects
 
   # Liquid support
 
