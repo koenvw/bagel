@@ -79,7 +79,11 @@ module ActionView #:nodoc:
       #   <% cache("time",:expire => 1.minute) do %> <%= Time.now %> <% end %>
       #   <% cache("cache_1m_time") do %> <%= Time.now.tomorrow %> <% end %>
       def cache(name = {}, options=nil, &block)
-        @controller.cache_erb_fragment(block, name, options)
+        content = @controller.cache_erb_fragment(block, name, options)
+
+        (options[:locals] || {}).each_pair do |key, value|
+          content.gsub!(key.to_s, value.to_s)
+        end
       end
     end
   end
@@ -89,7 +93,13 @@ module ActionController::Caching #:nodoc:
   module Fragments
     # modified so that adding "clear=1" to the querystring clears the cache
     def cache_erb_fragment(block, name = {}, options = nil)
-      unless perform_caching then block.call; return end
+      unless perform_caching
+        content = block.call
+        (options[:locals] || {}).each_pair do |key, value|
+          content.gsub!(key.to_s, value.to_s)
+        end
+        return content
+      end
 
       buffer = eval("_erbout", block.binding)
 
@@ -100,7 +110,13 @@ module ActionController::Caching #:nodoc:
         # no cache, render block
         pos = buffer.length
         block.call
+
         write_fragment(name, buffer[pos..-1], options)
+
+        (options[:locals] || {}).each_pair do |key, value|
+          buffer[pos..-1] = buffer[pos..-1].gsub!(key.to_s, value.to_s)
+        end
+        buffer[pos..-1]
       end
     end
   end

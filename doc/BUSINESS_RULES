@@ -1,0 +1,22 @@
+Business Rules Stuff
+====================
+
+Example Rules
+-------------
+
+- regex-check a field
+- correctly capitalize a first name
+- check whether a given tag is present
+- ...
+
+Code
+----
+
+In the Code field, enter Ruby code that validates a given object. For
+example:
+
+	rule_errors << "Track list is empty" if obj.track_list.blank?
+
+With helper methods, this becomes
+
+	require_tag(obj, 'Rating')

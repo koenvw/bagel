@@ -75,7 +75,7 @@ class Admin::MediaItemsController < ApplicationController
 
     # Find versions names
     if MediaItem::PICTURE_CLASS_NAMES.include?(@media_item[:type])
-      @media_item_versions = (Setting.get('ImageSettings')[:versions] || {}).collect { |k,v| k.to_s }
+      @media_item_versions = Setting.image_versions.collect { |k,v| k.to_s }
     end
 
     if request.post?

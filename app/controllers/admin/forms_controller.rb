@@ -92,6 +92,7 @@ class Admin::FormsController < ApplicationController
           new_form = Form.new
           new_form.form_definition_id = @form.form_definition_id
           new_form.form               = @form.form
+          new_form.data               = @form.data
           new_form.name               = @form.name + " [Untranslated #{Setting.language_name_for_code(language_code)}]"
           new_form.prepare_sobject
 

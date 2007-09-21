@@ -1,0 +1,55 @@
+# Get Flickr URL
+flickr_original_url = params[:id]
+flickr_title        = params[:title]
+flickr_extension    = params[:id][-3..-1]
+
+# Find appropriate relation and content type (PictureFTP/PictureFileSystem/...)
+relation      = Relation.find(params[:rel_id]).imported_relation
+content_type  = relation.content_type
+picture_type  = content_type.extra_info
+
+unless params[:id].nil?
+  uniq2_id = generate_id
+
+  # Read image
+  data = open(flickr_original_url)
+  data.extend FileCompat
+
+  # Create picture
+  picture = PictureFileSystem.new
+  picture[:type] = picture_type
+  picture.type_id = content_type.id
+  picture.attributes = {
+    'title'         => params[:title],
+    'uploaded_data' => data,
+    'description'   => '...'
+  }
+  picture.content_type = case flickr_extension
+  when 'jpg'
+    'image/jpeg'
+  when 'gif'
+    'image/gif'
+  when 'png'
+    'image/png'
+  end
+
+  picture.save
+
+  # Render
+  page.insert_html :bottom,
+                   "relations_sorted_inlist",
+                   :partial => "admin/relations/list_item", 
+                   :locals => { :to_sobject_id => picture.sobject.id, :relation_id => relation.id, :direction => 'in', :uniq2_id => uniq2_id, :ajax => true }
+
+  # Higlight the partial that was added
+  page.visual_effect :pulsate, "relations_item_in#{uniq2_id}_#{picture.sobject.id}-#{relation.id}", :duration => 1, :pulses => 5
+
+  # Fix sorting
+  # FIXME: isn't there a helper for this ?
+  page << "Sortable.create(\"relations_sorted_inlist\", {handle:'dragme', onChange:function(){$('relations').value = Sortable.sequence(\"relations_sorted_inlist\")}, onUpdate:function(){new Ajax.Request('', {asynchronous:true, evalScripts:true, parameters:Sortable.serialize(\"relations_sorted_inlist\")})}, only:'draggable'})"
+
+  # Udate hidden form field
+  page << "$('relations').value = Sortable.sequence(\"relations_sorted_inlist\")"
+else
+  page.alert("id is empty!")
+end

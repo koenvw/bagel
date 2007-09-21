@@ -42,9 +42,9 @@ end
 
 			<% relations.each do |relation| %>
 				<% if direction == "in" %>
-					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :relation_id=> relation.relation_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction} %>
+					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.to_sobject_id, :relation_id => relation.relation_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction, :is_translation => relation.relation.is_translation_relation? } %>
 				<% else %>
-					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.from_sobject_id, :relation_id=> relation.relation_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction } %>
+					<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> relation.from_sobject_id, :relation_id => relation.relation_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => direction, :is_translation => relation.relation.is_translation_relation? } %>
 				<% end %>
 			<% end %>
 

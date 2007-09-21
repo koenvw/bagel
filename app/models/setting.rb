@@ -75,15 +75,32 @@ class Setting < ActiveRecord::Base
     end
   end
 
-  # Convenience methods
+  # Convenience methods - Image
 
   def self.image_thumbnails
-    self.get("ImageSettings")[:versions].inject({}) { |memo, (k,v)| memo[k] = v[:size] ; memo }
+    self.image_versions.inject({}) { |memo, (k,v)| memo[k] = v[:size] ; memo }
   end
 
   def self.image_processor
     (self.get("ImageSettings")[:processor] || :rmagick).to_sym
   end
+
+  def self.image_versions
+    (Setting.get('ImageSettings')[:versions] || {}).merge({
+      :media_gallery => media_gallery_image_version,
+      :relationship  => relationship_image_version
+    })
+  end
+
+  def self.media_gallery_image_version
+    { :crop => '150:94', :size => '150x94' }
+  end
+
+  def self.relationship_image_version
+    { :crop => '67:50', :size => '67x50' }
+  end
+
+  # Convenience methods - Languages
 
   def self.languages
     # Returns something like [ { :name => "English", :code => "en" }, { :name => "Dutch", :code => "nl" } ]
@@ -98,9 +115,13 @@ class Setting < ActiveRecord::Base
     (matching_languages.first || {})[:name]
   end
 
+  # Convenience methods - Translation
+
   def self.translation_enabled?
     (self.get("LanguageSettings") || {})[:translation_enabled] == true
   end
+
+  # Convenience methods - Sharing
 
   def self.sharing_enabled?
     (self.get("SharingSettings") || {})[:enabled] == true

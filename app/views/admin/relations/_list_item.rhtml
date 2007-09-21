@@ -13,7 +13,7 @@
 <% ajax ||= false %>
 <% li_id = "relations_item_#{direction}#{uniq2_id}_#{to_sobject_id}-#{relation_id}" %>
 
-<li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>">
+<li id="<%= li_id %>" class="draggable<%= (direction == "out" ? " out" : "") %>" <%= 'style="display:none"' if is_translation %>>
 
 <% @sobject = Sobject.find_by_id(to_sobject_id) -%>
 
@@ -29,7 +29,7 @@
     @image=@sobject.content -%>
     
     <div class="imgItem" style="background-image: url('<%= url_for_file_column('image', 'image', 'micro') %>');">
-        <%= "#{relation_name} #{@image.image_file}" %>
+        <%= "#{relation_name} #{@image.title}" %>
     </div>
   
 <span class="icon">
@@ -39,7 +39,7 @@
     @image=@sobject.content -%>
     
     <div class="imgItem" style="background-image: url('<%= @image.public_filename('micro') %>');">
-        <%= "#{relation_name} #{@image.filename}" %>
+        <%= "#{relation_name} #{@image.title}" %>
     </div>
   
 <span class="icon">

@@ -18,11 +18,11 @@ module ActsAsPicture
   module InstanceMethods
 
     def version_settings
-      Setting.get("ImageSettings")[:versions][self.thumbnail.to_sym]
+      Setting.image_versions[self.thumbnail.to_sym]
     end
 
     def default_thumbnail_public_filename
-      self.public_filename(Setting.get("ImageSettings")[:default].to_sym)
+      self.public_filename(:media_gallery)
     end
 
     def crop_and_add_watermark(image)

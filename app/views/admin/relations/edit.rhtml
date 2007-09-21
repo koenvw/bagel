@@ -9,13 +9,13 @@
 			<label for="relation_name">Name</label>
 			<%= text_field 'relation', 'name' , :class => "large_text_input", :size => "30" %>
 		</fieldset>
-		<!--<fieldset class="oneline">
-			<label for="relation_name">Name Reverse</label>
-			<%= text_field 'relation', 'name_reverse' , :class => "large_text_input", :size => "30" %>
-		  </fieldset>-->
+		<fieldset class="oneline">
+			<label for="relation_content_type_id">External?</label>
+			<%= check_box :relation, :is_external %> This is an external relation to <select id="relation_external_type" name="relation[external_type]"><option value="flickr">Flickr</option></select> which imports into <%= select 'relation', 'imported_relation_id', Relation.find(:all, :order => "name").map { |r| [ r.name, r.id ] }, :include_blank => true %><br />
+		</fieldset>
 		<fieldset class="oneline">
 			<label for="relation_content_type_id">To</label>
-			<%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %><br/>
+			<%= select 'relation', 'content_type_id', ContentType.find(:all,:order => "name").map {|type| [type.name,type.id]}, :include_blank => true  %> (Leave blank if external)<br/>
 		</fieldset>
 		<fieldset class="oneline">
 			<label for="relation_content_type_id">From</label>

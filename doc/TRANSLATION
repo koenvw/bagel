@@ -1,0 +1,55 @@
+Translation stuff
+=================
+
+Settings
+--------
+
+Settings gained LanguageSettings -> languages, a structured string of
+languages (e.g. en=English,nl=Dutch,es=Spanish)
+
+Translations of translations
+----------------------------
+
+Theoretically, it is possible to create translations of translations. For
+example, a user writes an article A (e.g. English), and a translation B
+(Dutch) of A is created. A translation of B, C, can be created, and this can
+even be in English again.
+
+Fortunately the GUI prevents this from happening. :>
+
+Synchronised publishing
+-----------------------
+
+Synchronised publishing means that an item and its translations will only be
+really published when the item and its translations are all published. If one
+translation, or the original, is not set to published, the other items will
+not be published either.
+
+Workflow integration
+--------------------
+
+Translations use the same workflow as normal items, so there is no need for a
+separate translator workflow.
+
+Notes:
+
+- Easier without synchronized publishing. Articles don't have to wait.
+
+- "Ready for publishing" step (right after "ready for reviewing" step)
+  indicates the article is translatable.
+
+Translator interface
+--------------------
+
+* Object appears when object is inversely translation-related to an object
+  that is on or past the Translatable workflow step.
+
+* Object disappears when published.
+
+Examples:
+
+* Dutch article. Workflow step: Draft. Even if this article is related through
+  translation relations to other articles, they still won't show up.
+
+* Dutch article. Workflow step: Ready for publishing. All articles that are
+  related to this article, and that are not yet published, show up.

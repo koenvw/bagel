@@ -66,3 +66,7 @@ require 'inspect_with_newlines'
 
 # i can has delishuz
 require 'delicious'
+
+# flickr
+require 'open-uri'
+require 'flickr'

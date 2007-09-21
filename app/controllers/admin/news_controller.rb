@@ -49,7 +49,7 @@ class Admin::NewsController < ApplicationController
               # Clone object
               new_news = News.new
               new_news.title              = @news.title + " [Untranslated #{Setting.language_name_for_code(language_code)}]"
-              new_news.body               = '(... to be translated ...)'
+              new_news.body               = @news.body
               new_news.prepare_sobject
 
               # Clone sobject

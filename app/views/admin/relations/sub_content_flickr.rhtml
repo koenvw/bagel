@@ -1,0 +1,36 @@
+<%
+
+# Get photos
+username = (Setting.get('ImageSettings') || {})[:flickr_username]
+username = 'ddfreyne'
+if username.nil?
+  photos = []
+else
+  photos = flickr_photos_for(username)
+end
+
+# Paginate
+photo_pages = []
+
+%>
+
+<div class="headerinf">results: &hellip;</div>
+
+<table class="imgTable">
+	<tr>
+<% photos.first(4).each do |photo| %>
+		<td class="imgContainer">
+			<%= link_to_remote image_tag(photo[:thumbnail_url]),
+                  :url => "/admin/relations/add_flickr/" +
+                          "?id=#{photo[:original_url].url_escape}" +
+                          "&title=#{photo[:title].url_escape}" +
+                          "&description=#{photo[:description]}" +
+                          "&rel_id=#{id}",
+                  :loading => "Element.show('spinner_relations_search')",
+                  :complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
+                  :position => :top
+            %>
+		</td>
+<% end %>
+	</tr>
+</table>
