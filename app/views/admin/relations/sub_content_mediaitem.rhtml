@@ -10,7 +10,7 @@ if r_sub_type.nil?
   conditions = " type LIKE \'Picture%\' AND parent_id is null" # ["(title LIKE ? OR filename LIKE ? or description LIKE ?) AND tag_id = ?", lsp, lsp, lsp,tag_id]
   joins = nil # "INNER JOIN sobjects_tags CA ON CA.tag_id = #{tag_id} AND sobjects.id = CA.sobject_id"
 else
-  conditions = ["title LIKE ? OR filename LIKE ? or description LIKE ? and parent_id is null AND type LIKE \'Picture%\'", lsp, lsp, lsp]
+  conditions = ["(title LIKE ? OR filename LIKE ? OR description LIKE ?) AND parent_id is null AND type LIKE \'Picture%\'", lsp, lsp, lsp]
   joins = nil
   end
 # Skip thumbnails
