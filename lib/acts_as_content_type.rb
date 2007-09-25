@@ -125,11 +125,14 @@ module ActsAsContentType
         # by using "type" we can save ourselves 1 extra query (sobject will be joined with the contentype directly)
         # FIXME: we do extra queries to find out the content type.
         if options[:reverse] == true
-          type = relationship.from.content_type.downcase.to_sym
+          type = relationship.from.content_type
         else
-          type = relationship.to.content_type.downcase.to_sym
+          type = relationship.to.content_type
         end
-        s = Sobject.find(relationship.send(to_sobject_id), :include => type)
+        # FIXME: making an exception for media_items (Picture* are really MediaItems)
+        type = 'media_item' if MediaItem::ALLOWED_CLASS_NAMES.include?(type)
+        s = Sobject.find(relationship.send(to_sobject_id), :include => type.downcase.to_sym)
+        # FIXME why not use .content? => :include => type
         s.send(type)
       end
     end
