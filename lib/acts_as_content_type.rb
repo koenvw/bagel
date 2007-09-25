@@ -133,7 +133,7 @@ module ActsAsContentType
         type = 'media_item' if MediaItem::ALLOWED_CLASS_NAMES.include?(type)
         s = Sobject.find(relationship.send(to_sobject_id), :include => type.downcase.to_sym)
         # FIXME why not use .content? => :include => type
-        s.send(type)
+        s.send(type.downcase.to_sym)
       end
     end
 
