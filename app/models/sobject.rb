@@ -348,6 +348,8 @@ class Sobject < ActiveRecord::Base
     website_name = (options[:website] and options[:website].to_i == 0) ? options[:website] : options[:website_name]
     website_id   = (options[:website] and options[:website].to_i != 0) ? options[:website.to_i] : options[:website_id]
     
+    # FIXME: website_name is not always used (also website or website_id) => we need to fill website_name if website or website_id is supplied by the user
+    # FIXME: :published is optional, the default should be: "items with published?==true and publish_from < now" (but how will this work together with published_sync?
     if options[:published] == :all
       # don't reject anything
     else
@@ -358,7 +360,7 @@ class Sobject < ActiveRecord::Base
         res.select! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.publish_from < now } }
       else
         # reject items that are explicitly published and that have publish date < now
-        res.reject! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.published_sync? or si.publish_from < now } }
+        #res.reject! { |so| so.sitems.select { |si| si.website.id == website_id or si.website.name == website_name }.any? { |si| si.published_sync? or si.publish_from < now } }
       end
      end
 

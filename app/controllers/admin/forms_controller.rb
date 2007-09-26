@@ -135,7 +135,7 @@ class Admin::FormsController < ApplicationController
 
       # Log
       diff = old_attributes.inspect_with_newlines.html_diff_with(@form.attributes.inspect_with_newlines)
-      bagel_log :message    => "Template #{is_new_item ? 'created' : 'updated'}",
+      bagel_log :message    => "Form #{is_new_item ? 'created' : 'updated'}",
                 :kind       => 'data',
                 :severity   => :low,
                 :extra_info => { :diff => diff }
