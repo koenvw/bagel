@@ -11,7 +11,7 @@
 	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
 		<table class="uniTable">
 			<tr class="heading">
-				<td>&nbsp;</td>
+				<td><input id="chkAll" type="checkbox" name="chkAll" onclick="javascript:SelectAllCheckboxes(this);" /></td>
 				<td colspan="4">Name</th>
 			</tr>
 			<% if item.sitems.empty? %>

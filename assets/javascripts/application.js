@@ -1,14 +1,12 @@
 
 	/* simple function to send messages to the notice flashbox */
-	function flashNotice(msg)
-	{
+	function flashNotice(msg) {
 		$('flashNotice').innerHTML = msg;
 		new Effect.Appear($('flashNotice'));
 	}
 
 	Event.observe(window, 'load', categoriesTree, false);
-	function categoriesTree()
-	{
+	function categoriesTree() {
 		if ($('categories_tree') != undefined)
 		{
 			treeObj = new JSDragDropTree();
@@ -21,8 +19,7 @@
 		}
 	}
 
-	function SelectAllCheckboxes(spanChk)
-	{
+	function SelectAllCheckboxes(spanChk) {
 		var xState=1;
 		var theBox=spanChk;
 		var str = "";
@@ -41,8 +38,7 @@
  */
 
 	Event.observe(window, 'load', tableHover, false);
-	function tableHover()
-	{
+	function tableHover() {
 		var table = $$('table.uniTable');
 		for(var i=0; i < table.length; i++) {
 			var row = table[i].getElementsByTagName('tr');
@@ -60,8 +56,7 @@
 /** Content Menu filtering system */
 
 	Event.observe(window, 'load', filterContentMenu, false);
-	function filterContentMenu()
-	{
+	function filterContentMenu() {
 		if(!$('leftRightContent')) return false;
 		
 		// filter field action
@@ -87,8 +82,7 @@
 	}
 	
 	// actual filter/effect action
-	function filterContentMenu_Fade(inputElement, classElement)
-	{
+	function filterContentMenu_Fade(inputElement, classElement) {
 		for(i = 0; i < classElement.length; i++) {
 			// get all h3 elements
 			h3strings = classElement[i].getElementsByTagName('h3');
@@ -106,8 +100,7 @@
 /** Image revisions */
 
 	Event.observe(window, 'load', getImageRevisions, false);
-	function getImageRevisions()
-	{
+	function getImageRevisions() {
 		if(!$$('ul.imageRevisions') || !$$('div.imgContainer')) return false;
 		$$('ul.imageRevisions li a, div.imgContainer a.showpic').each(function(imgsrc) { 
 			imgsrc.onclick = function() {
@@ -122,8 +115,7 @@
 /** Save generator with ajax and put event listener (ctrl + s) on it **/
 
 	Event.observe(window, 'load', saveGenerator, false);
-	function saveGenerator()
-	{
+	function saveGenerator() {
 		if(!$("generator-form")) return false;
 		Event.observe(document, 'keypress', function(e) {
 			if(e.ctrlKey && (e.which == 115 || e.keyCode == 83)) {
