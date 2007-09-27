@@ -12,44 +12,24 @@
                  |___/
 
     created by dotProjects
-
 -->
 <title>Bagel Admin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <!-- do some beauty -->
-<%= stylesheet_link_tag "bluegel/style.css", :plugin => "bagel" %>
-<%= stylesheet_link_tag "bluegel/overlay.css", :plugin => "bagel" %>
+<%= stylesheet_link_tag "bluegel/style.css", "bluegel/overlay.css", :plugin => "bagel" %>
+<%= stylesheet_link_tag 'drag-drop-folder-tree', 'calendar-system.css', :plugin => "bagel" %>
+<!-- bagelr -->
+<%= javascript_include_tag 'prototype/prototype', 'prototype/effects', 'prototype/dragdrop', 'prototype/controls',  :plugin => "bagel" %>
+<%= javascript_include_tag 'bagelCollapse', 'bagelOverlay','bagelTagdrag', 'bagelRelation',  'application', :plugin => "bagel" %>
+<%= javascript_include_tag 'swfobject', :plugin => "bagel" %>
+<%= javascript_include_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
+<%= javascript_include_tag 'calendar', 'calendar-en', 'calendar-setup', :plugin => "bagel" %>
+<% #deprecated -%>
 
-<!-- bagel specific stylesheets -->
-<%= stylesheet_link_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
-<%= stylesheet_link_tag 'calendar-system.css', :plugin => "bagel" %>
-
-<!-- do some magic (aligned to the left to preserve structure) -->
+<!-- tinymce -->
 <%= javascript_include_tiny_mce_if_used %>
 <%= tiny_mce if using_tiny_mce? %>
-
-<!-- load prototype/scriptaculous bundle -->
-<%= javascript_include_tag 'prototype/prototype', :plugin => "bagel" %>
-<%= javascript_include_tag 'prototype/effects', :plugin => "bagel" %>
-<%= javascript_include_tag 'prototype/dragdrop', :plugin => "bagel" %>
-<%= javascript_include_tag 'prototype/controls', :plugin => "bagel" %>
-<%= javascript_include_tag 'bagelCollapse', :plugin => "bagel" %>
-<%= javascript_include_tag 'bagelOverlay', :plugin => "bagel" %>
-<%= javascript_include_tag 'bagelTagdrag', :plugin => "bagel" %>
-<%= javascript_include_tag 'bagelRelation', :plugin => "bagel" %>
-<%= javascript_include_tag 'application', :plugin => "bagel" %>
-
-<!-- load other handy scripts -->
-<%= javascript_include_tag 'swfobject', :plugin => "bagel" %>
-<%= javascript_include_tag 'popup', :plugin => "bagel" %>
-<%= javascript_include_tag 'tabcontrol', :plugin => "bagel" %>
-<% # dragdrop folder %>
-<%= javascript_include_tag 'drag-drop-folder-tree', :plugin => "bagel" %>
-<%= javascript_include_tag 'ajax', :plugin => "bagel" %>
-<% # js calendar %>
-<%= javascript_include_tag 'calendar', 'calendar-en', 'calendar-setup', :plugin => "bagel" %>
-
 <% if @content_for_page_scripts -%>
 <script type="text/javascript">
 // <![CDATA[

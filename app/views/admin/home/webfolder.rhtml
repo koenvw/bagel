@@ -52,7 +52,16 @@
 <% end %>
 </table>
 
-<p>Import files with content type <%= select_tag 'file_content_type', @content_types %><br/>Import folders with relation <%= select_tag 'folder_relation', @relations %></p>
+<table style="margin-bottom: 15px;">
+	<tr>
+		<td style="width: 190px;">Import files with content type</td>
+		<td><%= select_tag 'file_content_type', @content_types, { :style => "width: 200px" } %></td>
+	</tr>
+	<tr>
+		<td>Import folders with relation</td>
+		<td><%= select_tag 'folder_relation', @relations, { :style => "width: 200px" } %></p></td>
+	</tr>
+</table> 
 
 <%= render :partial => "admin/tags/list", :locals => { :item => Image.create, :startOpen => true, :showAdd => false } %>
 
