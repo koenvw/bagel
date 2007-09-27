@@ -55,11 +55,11 @@ end
 			<%= website_name %>
 		<% end %>
 	</td>
-	<td style="text-align: right; width: 260px;">
-		Publish From: <%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+	<td style="text-align: left; width: 135px;">
+		<%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
 	</td>
-	<td style="text-align: right; width: 260px;">
-		Publish Till: <%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+	<td style="text-align: left; width: 135px;">
+		<%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
 	</td>
 </tr>
 <%= tag "input", {:type => "hidden", :name => "sitems[#{sitem_id}][website_id]", :value => sitem.website_id } %>
