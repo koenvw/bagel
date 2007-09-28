@@ -36,8 +36,8 @@ class Admin::MenusController < ApplicationController
       if @menu.save
         @menu.save_relations(params["relations"])
         @menu.to_child_of(params[:parent_id]) if @menu.parent.id.to_s != params[:parent_id]
-        @menu.move_to_right_of(params[:move_below]) if !params[:move_below].nil? && params[:move_below]!="0"
-        @menu.move_to_left_of(params[:move_above]) if !params[:move_above].nil? && params[:move_above]!="0"
+        @menu.move_to_right_of(params[:move_below]) if !params[:move_below].blank? && params[:move_below]!="0"
+        @menu.move_to_left_of(params[:move_above]) if !params[:move_above].blank? && params[:move_above]!="0"
         flash[:notice] = 'Menu was successfully updated.'
         redirect_to :action => 'list2'
       end
