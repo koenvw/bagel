@@ -21,6 +21,7 @@ gem install memcache-client
 gem install mime-types
 gem install ferret
 gem install liquid
+gem install flickraw
 ?? gem install capistrano
 
 TEXT TOOLS
