@@ -2,18 +2,21 @@
 	<%= error_messages_for 'menu' %>
 	<div class="subContent">
 		<fieldset class="oneline">
-			Name <%= text_field 'menu', 'name'  %>
-			&nbsp; Parent <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
+			<label>Name</label>
+			<%= text_field 'menu', 'name'  %> &nbsp; Parent <%= select_nested_set_tag :parent_id, Menu, @menu.parent_id %>
 		</fieldset>
 		<fieldset class="oneline">
-			Link <%= text_field 'menu', 'link'  %>
+			<label>Link</label>
+			<%= text_field 'menu', 'link'  %>
 		</fieldset>
         <% unless @menu.level == 0 or @menu.siblings.size == 0 %>
 		<fieldset class="oneline">
-            Move above <%= select_tag :move_above, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %> or
+            <label>Move above</label>
+			<%= select_tag :move_above, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %> or
 		</fieldset>
 		<fieldset class="oneline">
-            Move below <%= select_tag :move_below, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %>
+            <label>Move below</label>
+			<%= select_tag :move_below, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %>
 		</fieldset>
         <% end %>
 		<div class="bottom"></div>
