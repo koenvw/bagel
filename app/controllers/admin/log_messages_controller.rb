@@ -3,7 +3,13 @@ class Admin::LogMessagesController < ApplicationController
   requires_authorization :actions => [ :index, :show, :destroy ], :permission => [ :admin_log_management ]
 
   def index
-    @log_message_pages, @log_messages = paginate :log_messages, :per_page => 20, :order => 'created_at DESC'
+    conditions = {}
+    conditions[:kind] = params[:kind] if params[:kind]
+    conditions[:severity] = params[:severity_id] if params[:severity_id]
+    conditions = nil if conditions.size == 0
+
+    @log_message_pages, @log_messages = paginate :log_messages, :per_page => 20, :order => 'created_at DESC',
+                                                 :conditions => conditions
   end
 
   def show

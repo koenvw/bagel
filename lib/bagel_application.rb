@@ -82,7 +82,8 @@ module BagelApplication
 
     def bagel_log(options = {})
       options[:hostname] ||= request.host_with_port
-      options[:request_url] ||= "#{current_domain}#{request.env["PATH_INFO"]}"
+      options[:request_url] ||= "#{request.protocol}#{request.env["HTTP_HOST"]}#{request.request_uri}"
+      options[:params] ||= request.parameters.inspect
       LogMessage.log(options)
     end
 

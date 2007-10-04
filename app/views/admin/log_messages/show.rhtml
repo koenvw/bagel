@@ -25,11 +25,11 @@
 	</tr>
 	<tr>
 		<td>Request URL</td>
-		<td><%= link_to @log_message.request_url || 'n/a' %></td>
+		<td><%= @log_message.request_url ? link_to(@log_message.request_url,  @log_message.request_url) : 'n/a' %></td>
 	</tr>
 	<tr>
 		<td>Referrer URL</td>
-		<td><%= link_to @log_message.referrer_url || 'n/a' %></td>
+		<td><%= @log_message.referrer_url ? link_to(@log_message.referrer_url, @log_message.referrer_url) : 'n/a' %></td>
 	</tr>
 	<tr>
 		<td>Admin User</td>

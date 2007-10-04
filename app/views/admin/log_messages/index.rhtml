@@ -7,6 +7,35 @@
 }
 
 %>
+<div class="topButton">
+	<h1>Logs</h1>
+	<ul class="mainNav">
+		<% if params[:type_id].blank? %>
+			<li><%= link_to 'Add content', '/admin/content/wizard', :class => "addContent", :title => "Add new content" %></li>
+		<% else %>
+			<% ctype = ContentType.find(params[:type_id]) %>
+			<li><%= link_to 'Add content', figure_out_edit_link(ctype), :class => "addContent", :title => "Add new content" %></li>
+		<% end %>
+	</ul>
+</div>
+<div class="clear"></div>
+
+<% form_tag({:action => "index"}, {:method => 'get', :class => "filter", :name => "select_rec" }) do %> 
+<div class="subContent">
+	<fieldset class="oneline">
+		<div class="filterfield">
+			<input style="width: 670px;" name="search_string" type="text" class="large_text_input" value="<%= params["search_string"]%>"/>
+			<a class="posRight filter" href="#" onclick="$$('form')[0].submit(); return false;">filter</a>
+		</div>
+	</fieldset>
+	<fieldset class="oneline" style="white-space: nowrap; overflow: hidden;">
+		<% kinds = LogMessage.find_by_sql("SELECT distinct(kind) FROM log_messages").map &:kind %>
+		<%= select_tag 'severity_id', options_for_select(LogMessage::SEVERITY.to_a.insert(0,["Severity",""]), params[:severity_id].to_i), { :onChange=>"document.select_rec.submit()" } %> 
+		<%= select_tag 'kind', options_for_select(kinds.sort.insert(0,["Kind",""]), params[:kind]), { :onChange=>"document.select_rec.submit()" } %> 
+	</fieldset>
+	<div class="bottom"></div>
+</div>
+<% end %> 
 
 <div id="contentFrame">
 	<table class="uniTable">
@@ -39,6 +68,8 @@
 	</table>
 </div>
 
+
 <div class="paging"><%= bagel_pagination_links(@log_message_pages) %></div>
 
 <p><%= link_to 'Rotate logs', admin_log_messages_rotate_url(:action => 'rotate'), :confirm => "Are you sure you want to rotate the log entries? Old log entries will be deleted. You cannot undo this action.", :method => :post %></p>
+

@@ -34,6 +34,7 @@ class LogMessage < ActiveRecord::Base
       #extra_info[:exception]          = exception
       #extra_info[:environment]        = ENV.to_hash
       extra_info[:function_backtrace] = exception.backtrace unless exception.nil?
+      extra_info[:parameters]         = params[:params]
     end
 
     # YAMLize extra info
