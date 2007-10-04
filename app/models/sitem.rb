@@ -5,6 +5,7 @@ class Sitem < ActiveRecord::Base
   belongs_to :content, :polymorphic => true
 
   def published?
+    return false if sobject.nil?
     if sobject.inverse_translation_relations.empty?
       sync = sobject.publish_synced?
     else
@@ -19,6 +20,7 @@ class Sitem < ActiveRecord::Base
   end
 
   def published_sync?
+    return false if sobject.nil?
     if sobject.translation_relations.empty?
       sobject.inverse_translation_relations.map(&:from).all? { |so| so.published_async? }
     else

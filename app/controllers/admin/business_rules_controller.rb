@@ -1,7 +1,7 @@
 class Admin::BusinessRulesController < ApplicationController
 
-  requires_authorization :actions => [ :index ],
-                         :permission => [ :foo ]
+  requires_authorization :actions => [:index, :edit, :destroy, :report],
+                         :permission => [:admin_business_rules_management,:_admin_management]
 
   def index
     @business_rules = BusinessRule.find(:all)

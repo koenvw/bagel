@@ -1,7 +1,15 @@
+<div class="topButton">
+	<h1>Business Rules Report</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'List Rules', { :action => "index" }, :class => "list", :title => "List rules" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
 <div id="contentFrame">
 	<table class="uniTable">
 		<tr class="heading">
-			<td class="tabDesc">Blah</td>
+			<td class="tabDesc">Title</td>
 			<td class="colDesc">Content type</td>
 		</tr>
 <% @objects.each do |obj| %>

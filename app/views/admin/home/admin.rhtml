@@ -60,6 +60,12 @@
 						<p>Configure the different content types</p>
 					</div>
 					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_business_rules_management) %>
+					<div class="containersm">
+						<h3><%= link_to "Rules", :controller => "business_rules" %></h3>
+						<p>Configure data validation rules for content types</p>
+					</div>
+					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_users_management) %>
 					<div class="containersm">
 						<h3><%= link_to "Users", :controller => "users" %></h3>

@@ -17,12 +17,14 @@ class BusinessRule < ActiveRecord::Base
   end
 
   def non_matching_objects
-    sobjects = Sobject.find(:all, :conditions => [ 'content_type_id = ?', content_type.id ], :include => content_type.core_content_type.downcase)
+    sobjects = Sobject.find(:all, :conditions => [ 'content_type_id = ?', content_type.id ], :include => content_type.core_content_type.downcase, :limit => 9999)
     contents = sobjects.map { |so| eval('so.' + content_type.core_content_type.downcase) }
     contents.reject { |x| passes_for(x) }
   end
 
   ### Helper functions
+  
+  # FIXME: move this to a module under lib/ ?
 
   def require_tag(obj, tag_name, params={})
     params[:message] ||= "Tag named '#{tag_name}' must be present but is not."
@@ -36,14 +38,14 @@ class BusinessRule < ActiveRecord::Base
     rule_errors << params[:message] unless tag_present
   end
 
-  def require_relationship(obj, relationship_name, params={})
-    params[:message] ||= "Relationship named '#{relationship_name}' must be present but is not."
+  def require_relation(obj, relation_name, params={})
+    params[:message] ||= "Relation named '#{relation_name}' must be present but is not."
 
     return unless obj
 
-    relationship_present = obj.sobject.relations_as_from.any? { |r| r.relation.name == relationship_name }
+    relation_present = obj.sobject.relations_as_from.any? { |r| r.relation.name == relation_name }
 
-    rule_errors << params[:message] unless relationship_present
+    rule_errors << params[:message] unless relation_present
   end
 
   def require_translation(obj, language, params={})

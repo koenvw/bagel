@@ -1,3 +1,11 @@
+<div class="topButton">
+	<h1>Business Rules</h1>
+	<ul class="mainNav">
+		<li><%= link_to 'Add Rule', { :action => "edit" }, :class => "new", :title => "Add new rule" %></li>
+	</ul>
+</div>
+<div class="clear"></div>
+
 <div id="contentFrame">
 	<table class="uniTable">
 		<tr class="heading">
@@ -5,13 +13,23 @@
 			<td class="colDesc">Content type</td>
 			<td class="colDesc" style="width: 200px;">&nbsp;</td>
 		</tr>
-<% @business_rules.each do |business_rule| %>
+		<% @business_rules.each do |business_rule| %>
 		<tr class="content">
 			<td><%= link_to h(business_rule.name), :action => 'edit', :id => business_rule %></td>
 			<td><%= business_rule.content_type.name %></td>
-			<td><%= link_to 'Edit', :action => 'edit', :id => business_rule %> &mdash; <%= link_to 'Destroy', { :action => 'destroy', :id => business_rule }, :confirm => "Are you sure you want to delete the business rule named '#{business_rule.name}'? You cannot undo this action.", :method => :post %> &mdash; <%= link_to 'View Report', :action => 'report', :id => business_rule %></td>
+			<td class="iconbox">
+				<span class="icon">
+					<%= link_to 'report', :action => 'report', :id => business_rule %>
+					<%= link_to "delete", {:action => 'destroy', :id => business_rule }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to "edit", {:action => 'edit', :id => business_rule}, :class =>"edit", :title => "Edit Entry" %>
+				</span>
+			</td> 
 		</tr>
-<% end %>
+		<% end %>
+		<% if @business_rules.size == 0 %>
+		<tr>
+			<td colspan="5">No items yet</td>
+		</tr>
+		<% end %>
 	</table>
-	<p><%= link_to 'Add', :action => 'edit' %></p>
 </div>
