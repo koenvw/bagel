@@ -39,6 +39,54 @@ class Admin::NewsController < ApplicationController
           @news.sobject.publish_synced = params[:publish_synced]
 
           if @news.save! # will throw ActiveRecord::RecordInvalid and rollback the transaction
+            # Create translated items if necessary
+            # FIXME this is duplicated in forms controller... perhaps move this elsewhere?
+            language_codes = (params[:requested_translations] || {}).keys.map(&:to_s)
+            language_codes.each do |language_code|
+              # Skip language when there is already an existing object
+              next if @news.sobject.language == language_code
+              next unless @news.sobject.relations_as_from.select { |r| r.to.language == language_code }.empty?
+
+              News.transaction do
+                # Clone object
+                new_news = News.new
+                new_news.title              = @news.title + " [Untranslated #{Setting.language_name_for_code(language_code)}]"
+                new_news.body               = @news.body
+                new_news.prepare_sobject
+
+                # Clone sobject
+                new_news.sobject.language         = language_code.to_s
+                new_news.sobject.content_type     = @news.sobject.content_type
+                new_news.sobject.content_type_id  = @news.sobject.content_type_id
+                new_news.sobject.created_by       = @news.sobject.created_by
+                new_news.sobject.updated_by       = @news.sobject.updated_by
+
+                new_news.sobject.save
+                new_news.save
+
+                # Clone tags
+                @news.sobject.tags.each { |tag| new_news.sobject.tags << tag }
+
+                # Clone relationships
+                @news.sobject.relations_as_from.each do |relationship|
+                  new_relationship = relationship.clone
+                  new_relationship.from_sobject_id = new_news.sobject.id
+                  new_relationship.save
+                end
+                @news.sobject.relations_as_to.each do |relationship|
+                  new_relationship = relationship.clone
+                  new_relationship.to_sobject_id = new_news.sobject.id
+                  new_relationship.save
+                end
+
+                # Create two translation relationships
+                # FIXME Try to change relations in such a way that many-to-many relations are possible
+                relation = Relation.find_by_name("Translation - #{@news.sobject.ctype.name}")
+                raise "Unable to find relation named 'Translation - #{@news.sobject.ctype.name}'" if relation.nil?
+                @news.add_relation_unless(new_news.sobject.id, relation.id)
+
+              end
+            end
 
             # Share on del.icio.us
             share_on_delicious(@news, params[:sharing_delicious_site]) if params[:sharing_delicious]
