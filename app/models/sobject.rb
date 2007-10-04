@@ -280,15 +280,15 @@ class Sobject < ActiveRecord::Base
     end
 
     # is published
-    # if options[:published]
-    #   if options[:published] == :all
-    #     status_check = ' '
-    #   else
-    #     status_check = " AND sitems.is_published='#{options[:published] ? '1' : '0'}' AND sitems.publish_from < now()"
-    #   end
-    # else
-    #   status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
-    # end
+    if options[:published]
+      if options[:published] == :all
+        status_check = ' '
+      else
+        status_check = " AND sitems.is_published='#{options[:published] ? '1' : '0'}' AND sitems.publish_from < now()"
+      end
+    else
+      status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
+    end
 
     # workflow
     if options[:has_workflow]
@@ -335,6 +335,7 @@ class Sobject < ActiveRecord::Base
         #{publish_from_check}
         #{publish_till_check}
         #{published_by_check}
+        #{status_check}
         #{workflow_check}
         #{options[:conditions]}
       ",
