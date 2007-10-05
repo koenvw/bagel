@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 9) do
+ActiveRecord::Schema.define(:version => 0) do
 
   create_table "admin_permissions", :force => true do |t|
     t.column "name", :string
@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(:version => 9) do
   end
 
   create_table "admin_roles_admin_users", :id => false, :force => true do |t|
-    t.column "admin_role_id", :integer,                :null => false
-    t.column "admin_user_id", :integer, :default => 0, :null => false
+    t.column "admin_role_id", :integer, :null => false
+    t.column "admin_user_id", :integer
   end
 
   create_table "admin_users", :force => true do |t|
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "email_address_unconfirmed", :string
     t.column "email_address_code",        :string
     t.column "reset_code",                :string
+  end
+
+  create_table "business_rules", :force => true do |t|
+    t.column "name",            :string
+    t.column "content_type_id", :integer
+    t.column "code",            :text
   end
 
   create_table "containers", :force => true do |t|
@@ -191,6 +197,16 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "updated_on",   :datetime
   end
 
+  create_table "media_thumbnails", :force => true do |t|
+    t.column "content_type", :string
+    t.column "filename",     :string
+    t.column "size",         :integer
+    t.column "thumbnail",    :string
+    t.column "parent_id",    :integer
+    t.column "created_on",   :datetime
+    t.column "updated_on",   :datetime
+  end
+
   create_table "menus", :force => true do |t|
     t.column "name",        :string
     t.column "parent_id",   :integer
@@ -200,6 +216,7 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "lft",         :integer
     t.column "rgt",         :integer
     t.column "link",        :string
+    t.column "tree_id",     :integer,  :null => false
   end
 
   add_index "menus", ["name"], :name => "index_menus_on_name"
@@ -213,17 +230,15 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "updated_on", :datetime
   end
 
-  create_table "queued_mails", :force => true do |t|
-    t.column "object", :text
-    t.column "mailer", :string
-  end
-
   create_table "relations", :force => true do |t|
-    t.column "name",            :string
-    t.column "content_type_id", :integer
-    t.column "created_on",      :datetime
-    t.column "updated_on",      :datetime
-    t.column "name_reverse",    :string
+    t.column "name",                 :string
+    t.column "content_type_id",      :integer
+    t.column "created_on",           :datetime
+    t.column "updated_on",           :datetime
+    t.column "name_reverse",         :string
+    t.column "is_external",          :boolean
+    t.column "external_type",        :string
+    t.column "imported_relation_id", :integer
   end
 
   create_table "relationships", :force => true do |t|
@@ -293,6 +308,8 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "updated_on",      :datetime
     t.column "content_type_id", :integer
     t.column "name",            :string
+    t.column "language",        :string
+    t.column "publish_synced",  :boolean
   end
 
   add_index "sobjects", ["content_id", "content_type"], :name => "content_id_content_type", :unique => true
@@ -300,19 +317,19 @@ ActiveRecord::Schema.define(:version => 9) do
 
   create_table "sobjects_tags", :id => false, :force => true do |t|
     t.column "sobject_id", :integer, :default => 0, :null => false
-    t.column "tag_id",     :integer, :default => 0, :null => false
+    t.column "tag_id",     :integer
   end
 
   create_table "tags", :force => true do |t|
     t.column "name",             :string
     t.column "extra_info",       :string
     t.column "parent_id",        :integer
-    t.column "active",           :boolean
-    t.column "content_type_ids", :text
+    t.column "active",           :boolean,  :null => false
     t.column "lft",              :integer
     t.column "rgt",              :integer
     t.column "created_on",       :datetime
     t.column "updated_on",       :datetime
+    t.column "content_type_ids", :text
   end
 
   create_table "url_mappings", :force => true do |t|
@@ -333,24 +350,25 @@ ActiveRecord::Schema.define(:version => 9) do
   end
 
   create_table "workflow_actions", :force => true do |t|
-    t.column "sobject_id",       :integer, :null => false
-    t.column "workflow_step_id", :integer, :null => false
+    t.column "sobject_id",       :integer,  :null => false
+    t.column "workflow_step_id", :integer,  :null => false
     t.column "checked",          :boolean
-    t.column "admin_user_id",    :integer, :null => false
-    t.column "created_on",       :integer, :null => false
-    t.column "updated_on",       :integer, :null => false
+    t.column "admin_user_id",    :integer,  :null => false
+    t.column "updated_at",       :datetime
+    t.column "created_at",       :datetime
   end
 
   create_table "workflow_steps", :force => true do |t|
-    t.column "name",          :string
-    t.column "description",   :text
-    t.column "admin_role_id", :integer
-    t.column "is_final",      :boolean
-    t.column "position",      :integer,  :null => false
-    t.column "workflow_id",   :integer,  :null => false
-    t.column "updated_at",    :datetime
-    t.column "created_at",    :datetime
-    t.column "optional",      :boolean
+    t.column "name",            :string
+    t.column "description",     :text
+    t.column "admin_role_id",   :integer
+    t.column "is_final",        :boolean
+    t.column "position",        :integer
+    t.column "workflow_id",     :integer
+    t.column "updated_at",      :datetime
+    t.column "created_at",      :datetime
+    t.column "is_optional",     :boolean
+    t.column "is_translatable", :boolean
   end
 
   create_table "workflows", :force => true do |t|
