@@ -216,7 +216,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column "lft",         :integer
     t.column "rgt",         :integer
     t.column "link",        :string
-    t.column "tree_id",     :integer,  :null => false
+    t.column "tree_id",     :integer
   end
 
   add_index "menus", ["name"], :name => "index_menus_on_name"
