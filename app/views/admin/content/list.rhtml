@@ -73,7 +73,7 @@
 				<!--<tr><td colspan="4">FIXME</td></tr>-->
 				<% else %>
 					<tr class="content">
-						<td><%= link_to @item.content.title, :controller => @item.controller_name, :action => "edit", :id => @item.content.id, :tag_names => params[:tag_names] %> </td>
+						<td><%= link_to truncate(@item.content.title,80), :controller => @item.controller_name, :action => "edit", :id => @item.content.id, :tag_names => params[:tag_names] %> </td>
 						<td><%= @item.ctype_name %></td>
 						<% if @websites.size > 1 %>
 						<td>
