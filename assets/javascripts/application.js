@@ -138,4 +138,32 @@
 			}
 		}, false);
 	}
-	
+
+/** bagel_googleMap, used in FormDefinitions **/
+
+	Event.observe(window, 'load', bagel_googleMap, false);
+	function bagel_googleMap() {
+		if (GBrowserIsCompatible()) {
+			var map = new GMap2(document.getElementById("map"));
+			map.addControl(new GLargeMapControl());
+			map.addControl(new GMapTypeControl());
+			map.setCenter(new GLatLng(50.84323737103243, 4.36981201171875), 7);
+			GEvent.addListener(map, "click", function(overlay, point) {
+				if (overlay) {
+					map.removeOverlay(overlay);
+				} else {
+					map.clearOverlays();
+					map.addOverlay(new GMarker(point));
+					$("form_latitude").value = point.lat();
+					$("form_longitude").value = point.lng();
+				}
+			});
+			if (!isNaN(parseFloat($("form_latitude").value)) &&
+				!isNaN(parseFloat($("form_longitude").value))) {
+				var point = new GLatLng(parseFloat($("form_latitude").value),
+										parseFloat($("form_longitude").value));
+				map.clearOverlays();
+				map.addOverlay(new GMarker(point));
+			}
+		}
+	}

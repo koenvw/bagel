@@ -78,15 +78,17 @@ module Admin::FormsHelper
   end
 
   def bagel_google_map(method, options = {})
-    google_maps_key = Setting.get("form_settings")[:google_maps_key] || "ABQIAAAAkFl4zo_XLubPzqJVuMDFvBTJQa0g3IQ9GZqIMmInSLzwtGDKaBSLp8ScqaRZ5Opk5TOqbqjFG4YDsw" # http://localhost
+    form_settings = Setting.get("FormSettings") || {}
+    google_maps_key = form_settings[:google_maps_key] || "ABQIAAAAkFl4zo_XLubPzqJVuMDFvBTJQa0g3IQ9GZqIMmInSLzwtGDKaBSLp8ScqaRZ5Opk5TOqbqjFG4YDsw" # http://localhost
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='+ google_maps_key +'" type="text/javascript"></script>'
     out << javascript_include_tag("google_map", :plugin => :bagel)
-    out << javascript_tag("bagel_googleMap(#{@form.latitude},#{@form.longitude});")
+    #out << javascript_tag("bagel_googleMap(#{@form.latitude},#{@form.longitude});")
+    #out << javascript_tag("bagel_googleMap();")
     out << hidden_field(:form, :latitude)
     out << hidden_field(:form, :longitude)
-    out << '<div id="map" style="width: 425px; height: 300px; float: right;"></div>'
+    out << '<div id="map" style="width: 550px; height: 300px; float: left;"></div>'
     if !options[:help].blank?
       out << '<p class="help">'+ options[:help] +'</p>'
     end    
