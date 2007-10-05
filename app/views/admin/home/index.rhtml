@@ -20,7 +20,7 @@
 		<% @recent_items.each do |@sobject| %>
 		<% unless @sobject.content.nil? %>
 		<tr class="content">
-			<td><%= link_to @sobject.content.title, :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %></td>
+			<td><%= link_to truncate(@sobject.content.title,80), :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %></td>
 			<td><%= @sobject.ctype_name %></td>
 			<td><%= @sobject.content.updated_on.formatted %></td>
 			<td class="iconbox">
