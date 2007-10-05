@@ -1,4 +1,3 @@
-require 'YAML'
 def admin_menu
   admin_menu_project_filename = File.join(RAILS_ROOT, 'config', 'admin_menu.yml')
   admin_menu_bagel_filename   = File.join(File.dirname(__FILE__), 'admin_menu.yml')
