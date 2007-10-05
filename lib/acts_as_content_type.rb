@@ -31,7 +31,7 @@ module ActsAsContentType
       generator ||= Generator.find_by_website_id_and_core_content_type(website_id, self.class.to_s)
 
       if generator.nil?
-        "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
+        raise "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
       end
 
       generator

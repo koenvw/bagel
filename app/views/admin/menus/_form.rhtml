@@ -9,16 +9,16 @@
 			<label>Link</label>
 			<%= text_field 'menu', 'link'  %>
 		</fieldset>
-        <% unless @menu.level == 0 or @menu.siblings.size == 0 %>
+		<% unless @menu.level == 0 or @menu.siblings.size == 0 %>
 		<fieldset class="oneline">
-            <label>Move above</label>
+			<label>Move above</label>
 			<%= select_tag :move_above, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %> or
 		</fieldset>
 		<fieldset class="oneline">
-            <label>Move below</label>
+			<label>Move below</label>
 			<%= select_tag :move_below, options_for_select(@menu.siblings.map {|item|[item.name,item.id]}.unshift(["","0"])) %>
 		</fieldset>
-        <% end %>
+		<% end %>
 		<div class="bottom"></div>
 	</div>
 	
@@ -28,6 +28,7 @@
 	<div class="bottomButton">
 		<ul class="mainNav">
 			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>
+			<li><%= link_to 'Back', params[:referer] || request.env['HTTP_REFERER'], :class => "back" %></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
