@@ -40,7 +40,7 @@
    when 'PictureFileSystem','PictureDbFile','PictureS3','PictureFTP'
     @image=@sobject.content -%>
     
-    <div class="imgItem" style="background-image: url('<%= @image.public_filename('micro') %>');">
+    <div class="imgItem" style="background-image: url('<%= @image.public_filename(:relationship) %>');">
         <%= "#{relation_name} #{@image.title}" %>
     </div>
   
