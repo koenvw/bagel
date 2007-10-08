@@ -45,13 +45,14 @@ end
 		<% end %>
 	</td>
 	<td class="descr">
-		<% if  item.class.to_s == "News" %>
-			<% if item.new_record? %>
-				<%= link_to website_name, :controller => '/site', :action => 'content', :id => sitem.content_id, :type => "news", :site => website_name  %>
+		<% case item.class.to_s
+			 when "News","Form","Container" %>
+				<% if item.new_record? %>
+					<%= website_name %>
+				<% else %>
+					<%= link_to website_name, controller.link_for(sitem.content, {:preview => 1, :site => website_name}) %>
+				<% end %>
 			<% else %>
-				<%= website_name %>
-			<% end %>
-		<% else %>
 			<%= website_name %>
 		<% end %>
 	</td>
