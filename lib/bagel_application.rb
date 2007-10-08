@@ -87,13 +87,19 @@ module BagelApplication
     end
 
     def site
-      if params[:site].nil?
-        # routing is virtual
-        AppConfig[:domain_map].nil? ? current_domain.domainify : AppConfig[:domain_map][current_domain.domainify]
-      else
-        # follow the site that the route gave us
-        params[:site]
-      end
+      return params[:site] || figure_out_site || current_domain.domainify
+    end
+
+    def figure_out_site
+      # 1/ we look in the domain map (see config/environment.rb)
+      return AppConfig[:domain_map][current_domain.domainify] if AppConfig[:domain_map] && AppConfig[:domain_map][current_domain.domainify]
+
+      # 2/ we look in the database (expensive!)
+      current_website = Website.find(:first, :conditions => ["domain RLIKE ?",current_domain])
+      return current_website.name if current_website
+
+      # nothing figured out...
+      return nil
     end
 
     def current_domain

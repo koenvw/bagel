@@ -24,16 +24,16 @@ class SiteController < ApplicationController
 
   # route '/' is set to root, not index
   def root
-    # if the HTTP_HOST is known to be a website
-    unless Website.find_by_name(site).nil?
+    # show the website index page if we can figure out in which site we are.
+    if figure_out_site
       index
     else
-      # ... show the list of websites
+      # nothing found ... show the list of websites
       str = ''
       Website.find(:all).each do |website|
-        str << "<a href=\"/#{website.name}/index\">#{website.name}</a> | "
+        str << "<li><a href=\"/#{website.name}/index\">#{website.name}</a></li>"
       end
-      render :text => str + "<a href=\"/admin\">Admin</a>"
+      render :text => "Website not found. Please select: <ul>#{str}<li><a href=\"/admin\">Admin</a></li></ul>"
     end
   end
 
