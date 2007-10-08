@@ -93,11 +93,11 @@ class Setting < ActiveRecord::Base
   end
 
   def self.media_gallery_image_version
-    { :crop => '150:94', :size => '150x94' }
+    { :crop => '150:94', :size => '100%' }
   end
 
   def self.relationship_image_version
-    { :crop => '67:50', :size => '67x50' }
+    { :crop => '67:50', :size => '100%' }
   end
 
   # Convenience methods - Languages
