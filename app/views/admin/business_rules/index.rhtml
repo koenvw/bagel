@@ -19,8 +19,8 @@
 			<td><%= business_rule.content_type.name %></td>
 			<td class="iconbox">
 				<span class="icon">
-					<%= link_to 'report', :action => 'report', :id => business_rule %>
 					<%= link_to "delete", {:action => 'destroy', :id => business_rule }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
+					<%= link_to 'report', {:action => 'report', :id => business_rule}, :class =>"edit", :title => "Report on Entry" %>
 					<%= link_to "edit", {:action => 'edit', :id => business_rule}, :class =>"edit", :title => "Edit Entry" %>
 				</span>
 			</td> 
