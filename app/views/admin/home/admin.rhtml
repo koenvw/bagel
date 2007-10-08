@@ -12,6 +12,12 @@
 						<p>Use this for url rewriting</p>
 					</div>
 					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_cache_management) %>
+					<div class="containersm">
+						<h3><%= link_to "Aliases", admin_urlmappings_url %></h3>
+						<p>Use this for url rewriting</p>
+					</div>
+					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_generator_files_management) %>
 					<div class="containersm">
 						<h3><%= link_to "Files", :controller => "generator_files" %></h3>
@@ -42,6 +48,12 @@
 						<p>Assign roles (permissions) to admin users</p>
 					</div>
 					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:admin_business_rules_management) %>
+					<div class="containersm">
+						<h3><%= link_to "Rules", :controller => "business_rules" %></h3>
+						<p>Configure data validation rules for content types</p>
+					</div>
+					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_settings_management) %>
 					<div class="containersm">
 						<h3><%= link_to "Settings", :controller => "settings" %></h3>
@@ -58,12 +70,6 @@
 					<div class="containersm">
 						<h3><%= link_to "Types", :controller => "content_types" %></h3>
 						<p>Configure the different content types</p>
-					</div>
-					<% end %>
-					<% if AdminUser.current_user.has_admin_permission?(:admin_business_rules_management) %>
-					<div class="containersm">
-						<h3><%= link_to "Rules", :controller => "business_rules" %></h3>
-						<p>Configure data validation rules for content types</p>
 					</div>
 					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_users_management) %>

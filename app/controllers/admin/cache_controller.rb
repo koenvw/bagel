@@ -1,6 +1,6 @@
 class Admin::CacheController < ApplicationController
   requires_authorization :actions => [:index, :flush],
-                         :permission => [:cache_management,:_content_management]
+                         :permission => [:admin_cache_management,:_admin_management] 
 
   def index
     @stats = CACHE.stats rescue @stats = []

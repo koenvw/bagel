@@ -1,6 +1,7 @@
 class Admin::LogMessagesController < ApplicationController
 
-  requires_authorization :actions => [ :index, :show, :destroy ], :permission => [ :admin_log_management ]
+  requires_authorization :actions => [ :index, :show, :destroy ], 
+                         :permission => [:admin_log_management,:_admin_management]
 
   def index
     conditions = {}
