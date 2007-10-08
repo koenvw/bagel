@@ -115,7 +115,7 @@ module ActsAsContentType
       options.assert_valid_keys [:reverse]
       # look up relation
       relation = Relation.find_by_name(name, :include => :content_type)
-      return if relation.nil?
+      raise ActiveRecord::RecordNotFound.new("Couldn't find relation with name=#{name}") if relation.nil?
       # see if we want the relation in the reverse direction (from/to) #FIXME: shouldn't we use the reverse_name for the relation?
       from_sobject_id = options[:reverse] == true ? "to_sobject_id" : "from_sobject_id"
       to_sobject_id = options[:reverse] == true ? "from_sobject_id" : "to_sobject_id"

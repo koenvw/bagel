@@ -83,6 +83,7 @@ class SiteController < ApplicationController
     @content_type = params[:type].downcase
 
     # Find requested item
+    # FIXME: :type is not a good name => :content_type ?
     case params[:type].downcase
     when 'news'
       @news = News.find(params[:id])

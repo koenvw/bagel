@@ -25,7 +25,7 @@ class Admin::ContentController < ApplicationController
       :tags             => params[:tag_id], 
       :website_id       => params[:website_id], 
       :published_by     => params[:user_id], 
-      :current_workflow => params[:step_id], 
+      :current_workflow_step => params[:step_id], 
       :publish_from     => publish_from, 
       :publish_till     => publish_till, 
       :limit            => 1000, 

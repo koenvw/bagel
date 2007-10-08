@@ -122,7 +122,7 @@ class Sobject < ActiveRecord::Base
 
     options.assert_valid_keys [ :tags, :website, :website_name, :website_id, :published_by,
                                 :search_string, :content_types, :publish_from, :publish_till,
-                                :status, :published, :current_workflow, :has_workflow, :conditions,
+                                :status, :published, :current_workflow_step, :has_workflow_step, :conditions,
                                 :include, :order, :limit, :tags_inverted, :relations, :relationships ]
 
     # Convert :status option into a :published option
@@ -137,8 +137,10 @@ class Sobject < ActiveRecord::Base
       # map elements to ids
       tags = options[:tags].to_a.compact.uniq.map do |tag_id|
         # FIXME: reject non-active tags
-        if tag_id.to_i == 0
-          # not integer, lookup by name
+        if tag_id.is_a?(Tag)
+            tag_id.id
+        elsif tag_id.to_i == 0
+          # not integer, look up by name
           tag = Tag.find_by_name(tag_id)
           # raise RecordNotFound if name not found
           if tag.nil? 
@@ -147,6 +149,7 @@ class Sobject < ActiveRecord::Base
             tag.id
           end
         else
+           # integer
            tag_id.to_i
         end
       end
@@ -290,19 +293,22 @@ class Sobject < ActiveRecord::Base
       status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
     end
 
-    # workflow
-    if options[:has_workflow]
-      workflow_check = ""
-      options[:has_workflow].to_a.each do |step_id|
+    # has_workflow_step: will match content-items that have completed the given workflow_steps 
+    if options[:has_workflow_step]
+      workflow_check = ""; content_type_ids = []
+      options[:has_workflow_step].to_a.each do |step_id|
         # FIXME: not efficient with many step_ids
         wf_step = WorkflowStep.find(step_id)
-        workflow_check << " AND sobjects.content_type_id IN (#{wf_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
+        content_type_ids << wf_step.workflow.content_types.map{|ct|ct.id}
         workflow_check << " AND EXISTS (SELECT * FROM workflow_actions WHERE sobject_id=sobjects.id AND workflow_step_id=#{step_id})"
       end
+      workflow_check << " AND sobjects.content_type_id IN (#{content_type_ids.join(",")})" if content_type_ids.size > 0
     end
-    if options[:current_workflow]
-      workflow_check = ""; workflows = []
-      current_step = WorkflowStep.find(options[:current_workflow])
+
+    # current_workflow_step: will match content-items that have the given workflow_step as their highest workflow_action
+    if options[:current_workflow_step]
+      workflow_check = "";
+      current_step = WorkflowStep.find(options[:current_workflow_step])
       workflow_check << " AND sobjects.content_type_id IN (#{current_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
       current_step.workflow.workflow_steps.each do |step|
         if current_step.optional? || !step.optional? # skip optional steps unless the request step is optional # FIXME: this only works when optional steps come first?
@@ -314,7 +320,7 @@ class Sobject < ActiveRecord::Base
         end
       end
     end
-    
+
     # includes
     # warning: be careful when including other tables without benchmarking 
     # performance might drop significantly

@@ -42,7 +42,6 @@ module BagelApplication
                     :paste_convert_middot_lists => true,
                     :paste_unindented_list_class => "unindentedList",
                     :paste_convert_headers_to_strong => true,
-                    :paste_insert_word_content_callback => "convertWord",
                     :paste_remove_spans => true,
                     :paste_remove_styles => true,
                     :paste_strip_class_attributes => "mso"}.update(Setting.get("EditorSettings") || {})
