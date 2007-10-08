@@ -6,7 +6,7 @@ class PictureFTP < MediaItem
                  :content_type    => :image, # not related to Bagel content types
                  :processor       => Setting.image_processor, 
                  :size            => 0..10.megabyte, # FIXME: yes we allow 0, sometimes the size is 0 after succesfull upload?
-                 :content_type   => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png','image/bmp'] 
+                 :content_type   => ['image/jpg', 'image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png','image/bmp'] 
 
 
   validates_as_attachment

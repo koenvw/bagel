@@ -96,7 +96,7 @@ class Admin::MediaItemsController < ApplicationController
           redirect_to :controller => 'media_items', :action => 'edit', :id => @media_item
         end
       rescue => e
-        flash[:error] = %[An unexpected error occurred while trying to save the media item: "#{e.to_s}". %]
+        flash[:error] = %[An unexpected error occurred while trying to save the media item: "#{e.to_s}".]
         bagel_log :exception => e, :severity => :high, :kind => 'exception'
       end
     end
