@@ -143,7 +143,7 @@
 
 	Event.observe(window, 'load', bagel_googleMap, false);
 	function bagel_googleMap() {
-		if (GBrowserIsCompatible()) {
+		if (typeof GBrowserIsCompatible != "undefined" && GBrowserIsCompatible()) {
 			var map = new GMap2(document.getElementById("map"));
 			map.addControl(new GLargeMapControl());
 			map.addControl(new GMapTypeControl());
