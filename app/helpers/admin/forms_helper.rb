@@ -83,9 +83,6 @@ module Admin::FormsHelper
     out = '<fieldset class="oneline">'
     out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
     out << '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key='+ google_maps_key +'" type="text/javascript"></script>'
-    out << javascript_include_tag("google_map", :plugin => :bagel)
-    #out << javascript_tag("bagel_googleMap(#{@form.latitude},#{@form.longitude});")
-    #out << javascript_tag("bagel_googleMap();")
     out << hidden_field(:form, :latitude)
     out << hidden_field(:form, :longitude)
     out << '<div id="map" style="width: 550px; height: 300px; float: left;"></div>'
