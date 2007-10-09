@@ -16,9 +16,8 @@ else
 # Skip thumbnails
 #condition_string = 'type LIKE \'Picture%\' AND parent_id IS NULL' 
 
-@media_item_pages, @media_items = controller.paginate_collection MediaItem.find(:all, :conditions => conditions),
+@media_item_pages, @media_items = controller.paginate_collection MediaItem.find(:all, :conditions => conditions, :order => "media_items.updated_on DESC"),
 														  :per_page   => 4,
-														  :order	  => "media_items.updated_on DESC",
 														  :include	=> :sobject,
                                                           :page => params[:page]
 
