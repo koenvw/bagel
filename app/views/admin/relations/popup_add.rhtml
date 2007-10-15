@@ -45,19 +45,26 @@ if params['rel_id'].to_i > 0
 
 <fieldset class="search">
 	<label for="relations">Search:</label>
-	<input id="sub_search<%=params[:sub_id]%>" name="sub_search<%=params[:sub_id]%>" type="text" value="">
+	<input id="sub_search" name="sub_search" type="text" value="">
 </fieldset>
 <div class="spinner" id="spinner_relations_search" style="display: none;"></div>
-<%= observe_field "sub_search#{params[:sub_id]}",
+<%= observe_field "sub_search",
         :frequency => 0.5,
-        :update    => "relations#{params[:sub_id]}_sub_content",
-        :url       => {:controller => "relations", :action => "sub_content_#{r_type}", :id => params['rel_id'], :sub_id => params[:sub_id], :r_type_id => r_type_id, :r_sub_type => r_sub_type, :rel_id => params[:rel_id], :direction => params[:direction]},
+        :update    => "relations_sub_content",
+        :url       => {:controller => "relations", :action => "sub_content", :rel_id => params[:rel_id]},
         :loading  => "Element.show('spinner_relations_search')",
         :complete => "Element.hide('spinner_relations_search')",
-        :with     => "'search=' + value"
+        :with     => "'sub_search=' + value"
 %>
-<div class="relContent" id="relations<%=params[:sub_id]%>_sub_content">
-	<%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{:id=>params['rel_id'], :r_type_id => r_type_id, :r_sub_type=>r_sub_type} %>
+<div class="relContent" id="relations_sub_content">
+    <% case r_type
+        when "image", "mediaitem","menu" # these require special handling
+    %>
+        <%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{} %>
+    <% else %>
+        <%= render :file => "/admin/relations/sub_content", :locals=>{} %>
+    <% end %>
+
 </div>
 
 <% end %>

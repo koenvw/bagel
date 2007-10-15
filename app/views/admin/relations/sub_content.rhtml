@@ -1,39 +1,45 @@
 <%
 
-unless params[:sub_search].blank?
-    conditions = ["image LIKE ? OR title LIKE ?", "%" + params[:sub_search] + "%","%" + params[:sub_search] + "%"]
-else
-    conditions = nil
-end
-@image_pages, @images = controller.paginate :image,:per_page=>4,:conditions => conditions, :include => :sobject, :order_by => "images.updated_on DESC"
-r_type='image'
-%>
+relation = Relation.find(params[:rel_id])
 
-<div class="headerinf">results: <%= @image_pages.item_count %> - page <%= @image_pages.current.number %>/<%= @image_pages.length %></div>
+sobjects = Sobject.find_with_parameters :status => :all,
+                                        :content_types => relation.content_type_id,
+                                        :search_string => params[:sub_search], 
+                                        :limit => 99
 
-<table class="imgTable">
-<tr>
-<%
-	for @image in @images
+@items_pages, @items = controller.paginate_collection sobjects, :per_page => 5, :page => params[:page] 
 
 %>
-<td class="imgContainer">
-  <% @image.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
-  <%= link_to_remote image_tag(url_for_file_column('image', 'image', Setting.get("ImageSettings")[:default2]), :border=>0, :alt=> @image.image_file),
-		:url => "/admin/relations/add/#{@image.sobject.id}?rel_id=#{params[:rel_id]}",
-		:loading => "Element.show('spinner_relations_search')",
-		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
-		:position => :top
-    %>
-    <br><small><%= truncate(@image.image_file, 12) %></small>
-</td>
-<% end %>
+<div class="headerinf">results: <%= @items_pages.item_count %> - page <%= @items_pages.current.number %>/<%= @items_pages.length %></div>
+
+<table>
+<tr class="header">
+    <td>title <%= params[:sub_search]%></td>
+    <td>created</td>
+    <td>&nbsp;</td>
 </tr>
+<%
+    for @item in @items
+%>
+<tr>
+<td class="firstRow">
+   <%= link_to_remote truncate(@item.name, 40),
+        :url => "/admin/relations/add/#{@item.id}?rel_id=#{params[:rel_id]}",
+        :loading => "Element.show('spinner_relations_search')",
+        :complete => "Element.hide('spinner_relations_search'); relVisualAction();",
+        :position => :top
+    %>
+</td>
+    <td><%= @item.created_on.formatted %></td>
+    <td><%= @item.updated_on.formatted %></td>
+</tr>
+<% end %>
 </table>
 
-<% @item=@image_pages %>
-
-<% url = "/admin/relations/sub_content_#{r_type}?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search]}" %>
+<%
+@item=@items_pages
+%>
+<% url = "/admin/relations/sub_content?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search]}" %>
 <!-- FIRST -->
 <%= link_to_remote image_tag('arrow_left.png',:border=>0,:alt=> "first", :plugin => "bagel"),
                    :update=>"relations_sub_content",
@@ -58,4 +64,5 @@ r_type='image'
 <%= link_to_remote image_tag('arrow_right.png', :border=>0,:alt=> "last", :plugin => "bagel"),
                    :update=>"relations_sub_content",
                    :url => url + '&page='+@item.last.number.to_s %>
+ 
 
