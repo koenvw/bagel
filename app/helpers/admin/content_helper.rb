@@ -10,7 +10,7 @@ module Admin::ContentHelper
           form_definition_id = ctype.extra_info
         end
         if AppConfig[:assistant_controllers] and AppConfig[:assistant_controllers].include?(ctype.name)
-          link_hash = { :controller => AppConfig[:assistant_controllers][ctype.name] }
+          link_hash = { :controller => AppConfig[:assistant_controllers][ctype.name], :type_id => ctype.id }
         elsif AppConfig[:wizard_for] && AppConfig[:wizard_for].include?(ctype.name)
           link_hash = {:controller => "content", :action => "wizard_#{ctype.name.rubify}", :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }
         else

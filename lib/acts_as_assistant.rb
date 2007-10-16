@@ -40,7 +40,7 @@ module ActsAsAssistant
     ##### ACTIONS
 
     def index
-      redirect_to :action => 'step_1'
+      redirect_to(params.update({:action => 'step_1'}))
     end
 
     def restart
