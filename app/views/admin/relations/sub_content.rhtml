@@ -15,23 +15,24 @@ sobjects = Sobject.find_with_parameters :status => :all,
 <table>
 <tr class="header">
     <td>title <%= params[:sub_search]%></td>
-    <td>created</td>
-    <td>&nbsp;</td>
+    <td width="50px">created</td>
 </tr>
 <%
     for @item in @items
+        websites = @item.sitems.select { |s| s.published_async? }.map { |s| s.website.name }.sort
+        websites_name = websites.size > 0 ? websites.join(", ") : "no websites"
 %>
 <tr>
 <td class="firstRow">
-   <%= link_to_remote truncate(@item.name, 40),
+    <%= link_to_remote truncate(@item.name, 40), {
         :url => "/admin/relations/add/#{@item.id}?rel_id=#{params[:rel_id]}",
         :loading => "Element.show('spinner_relations_search')",
         :complete => "Element.hide('spinner_relations_search'); relVisualAction();",
-        :position => :top
+        :position => :top},
+        :title => "Websites: #{websites_name}"
     %>
 </td>
     <td><%= @item.created_on.formatted %></td>
-    <td><%= @item.updated_on.formatted %></td>
 </tr>
 <% end %>
 </table>
