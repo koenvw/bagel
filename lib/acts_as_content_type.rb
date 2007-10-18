@@ -112,7 +112,7 @@ module ActsAsContentType
 
     def relation(name, options = {})
       # FIXME: option :reverse is a bad idea => there can be multiple reverse relations than can only be distinguished by their content-type (add extra option content-type?)
-      options.assert_valid_keys [:reverse]
+      options.assert_valid_keys [:reverse, :website]
       # look up relation
       relation = Relation.find_by_name(name, :include => :content_type)
       raise ActiveRecord::RecordNotFound.new("Couldn't find relation with name=#{name}") if relation.nil?
@@ -133,11 +133,14 @@ module ActsAsContentType
         type = 'media_item' if MediaItem::ALLOWED_CLASS_NAMES.include?(type)
         s = Sobject.find(relationship.send(to_sobject_id), :include => type.downcase.to_sym)
         # FIXME why not use .content? => :include => type
-        s.send(type.downcase.to_sym)
+        item = s.send(type.downcase.to_sym)
+        item = nil if options[:website] && item && !item.is_published?(options[:website])
+        return item
       end
     end
 
-    def relations(name = nil)
+    def relations(name = nil, options = {})
+      options.assert_valid_keys [ :website ]
       return if self.sobject.nil?
       if name
         # look up relation
@@ -148,8 +151,11 @@ module ActsAsContentType
         # all relations
         relations = Relationship.find(:all, :conditions => ["from_sobject_id = ?",self.sobject.id], :order=>"relationships.position", :include => [:to])
       end
-      # FIXME: check is_published?
-      relations.map { |relation| relation.to.content }
+      # map to actual content objects
+      relations.map! { |relation| relation.to.content }
+      # reject non published object if requested
+      relations.reject! { |content| !content.is_published?(options[:website]) } if options[:website]
+      return relations
     end
 
     def tags(parent_name = nil)
