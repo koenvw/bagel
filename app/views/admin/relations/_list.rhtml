@@ -5,6 +5,7 @@
 # - hide_out	 : display outging relations ?
 # - (no_post): don't read relations from params when request.post? is true
 content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
+no_post ||= false
 %>
 <% if (item.ctype && !item.ctype.hide_relations?) or item.ctype.nil? %>
 <div class="subContent">
