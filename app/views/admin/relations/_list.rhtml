@@ -3,6 +3,7 @@
 # - item		 : the content object
 # - start_open   : default relationpopup open
 # - hide_out	 : display outging relations ?
+# - (no_post): don't read relations from params when request.post? is true
 content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
 %>
 <% if (item.ctype && !item.ctype.hide_relations?) or item.ctype.nil? %>
@@ -12,7 +13,7 @@ content_type_id = ((item.ctype) ? item.ctype.id : params[:type_id]) || 0
 	<%= hidden_field_tag :relationDisplayState, params[:relationDisplayState] %>
 	<div class="relationContent collapsed" style="display: <%= (startOpen ||= false) || params[:relationDisplayState] == "1" ? "block" : "none" %>;">
 		<div>
-			<%= render :partial => "admin/relations/list_direction", :locals => { :item => item, :direction => "in" } %>
+            <%= render :partial => "admin/relations/list_direction", :locals => { :item => item, :direction => "in", :no_post => no_post } %>
 			<% if !(hide_out ||= false) %>
 			<div style="text-align: right"><a onclick="$('relationsOut').toggle(); return false;" href="#"><em>This article has relations with</em></a></div>
 			<div id="relationsOut" style="display: none;">

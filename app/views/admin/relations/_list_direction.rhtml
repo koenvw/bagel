@@ -4,10 +4,12 @@
 # - direction   : "in" or "out"
 # - (uniq_id)	 : the identifier that will make this relations list unique (in case of multiple instances per page) 
 # - (editor_id) : the DOM id of the tinymce instance (for inserting images)
+# - (no_post): don't read relations from params when request.post? is true
 
 # Initialize optional parameters
 editor_id ||= ""
 uniq_id   ||= ""
+no_post ||= false
 
 if direction == "in"
   text_direction = "to"
@@ -23,9 +25,9 @@ end
 <div id="relations_<%= direction %><%=uniq_id%>" style="display:inline;">
 	<div id="relations<%= direction %><%=uniq_id%>_list">
 		<ul id="relations_sorted_<%= direction %><%= uniq_id %>list" style="list-style-type: none;">
-		<% if request.post? %>
+		<% if request.post? && !no_post %>
 			<li id='relations<%= direction %>_item_none' style="display: <%= (params["relations"].blank? || direction == "out") ? "block" : "none" %>;">There are no relations</li>
-			<% relations = params["relations"] %>
+			<% relations = params["relations"] || "" %>
 			<% relations.split(",").each do |element| to_sobject_id = element.split("-")[0]; relation_id = element.split("-")[1] %>
 				<%= render :partial => "admin/relations/list_item", :locals => { :to_sobject_id=> to_sobject_id, :relation_id=> relation_id, :uniq_id => uniq_id, :editor_id => editor_id, :direction => "in"} %>
 			<% end %>
