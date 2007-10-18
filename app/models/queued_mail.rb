@@ -28,12 +28,10 @@ class QueuedMail < ActiveRecord::Base
       # fill data
       data = {}
       data[:static_url] = "newsletters/" + website_name + "/" + time.strftime("%Y%m%d")
-      data[:date] = time.format_out
+      data[:date] = time.formatted
       data[:counter] = counter
       data[:updated_on] = updated_on
 
-      # queue mails
-      ApplicationMailer.queue = false
       if to_email.nil?
     siteusers = SiteUser.find_with_website_id(website.id)
       else
