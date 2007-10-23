@@ -48,23 +48,24 @@ if params['rel_id'].to_i > 0
 	<input id="sub_search" name="sub_search" type="text" value="">
 </fieldset>
 <div class="spinner" id="spinner_relations_search" style="display: none;"></div>
+<% 
+ case r_type
+  when "image", "mediaitem","menu" # these require special handling
+    action = "sub_content_#{r_type}"
+  else
+    action = "sub_content"
+  end
+%>
 <%= observe_field "sub_search",
         :frequency => 0.5,
         :update    => "relations_sub_content",
-        :url       => {:controller => "relations", :action => "sub_content_#{r_type}", :rel_id => params[:rel_id]},
+        :url       => {:controller => "relations", :action => action, :rel_id => params[:rel_id]},
         :loading  => "Element.show('spinner_relations_search')",
         :complete => "Element.hide('spinner_relations_search')",
         :with     => "'sub_search=' + value"
 %>
 <div class="relContent" id="relations_sub_content">
-    <% case r_type
-        when "image", "mediaitem","menu" # these require special handling
-    %>
-        <%= render :file => "/admin/relations/sub_content_#{r_type}", :locals=>{} %>
-    <% else %>
-        <%= render :file => "/admin/relations/sub_content", :locals=>{} %>
-    <% end %>
-
+    <%= render :file => "/admin/relations/#{action}", :locals=>{} %>
 </div>
 
 <% end %>
