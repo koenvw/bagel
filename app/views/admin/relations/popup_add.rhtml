@@ -51,7 +51,7 @@ if params['rel_id'].to_i > 0
 <%= observe_field "sub_search",
         :frequency => 0.5,
         :update    => "relations_sub_content",
-        :url       => {:controller => "relations", :action => "sub_content", :rel_id => params[:rel_id]},
+        :url       => {:controller => "relations", :action => "sub_content_#{r_type}", :rel_id => params[:rel_id]},
         :loading  => "Element.show('spinner_relations_search')",
         :complete => "Element.hide('spinner_relations_search')",
         :with     => "'sub_search=' + value"
