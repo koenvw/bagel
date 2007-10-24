@@ -62,13 +62,13 @@ class QueuedMail < ActiveRecord::Base
       # don't update setting if this was a testmailing
       return unless to_email.nil?
       # update counter
-      counter_setting = Setting.find_by_name("Newsletters").children.find_by_name(letter_name.to_s).children.find_by_name("counter")
+      counter_setting = Setting.find_by_name("Newsletters").children.find {|s| s.name == letter_name.to_s}.children.find {|s| s.name == "counter" }
       unless counter_setting.nil?
         counter_setting.value = (counter_setting.value.to_i + 1).to_s
-      counter_setting.save
+        counter_setting.save
       end
       # update updated_on
-      updated_on_setting = Setting.find_by_name("Newsletters").children.find_by_name(letter_name.to_s).children.find_by_name("updated_on")
+      updated_on_setting = Setting.find_by_name("Newsletters").children.find {|s| s.name == letter_name.to_s}.children.find {|s| s.name == "updated_on" }
       unless updated_on_setting.nil?
         updated_on_setting.value = Time.now.strftime("%Y-%m-%d %H:%I:%S")
         updated_on_setting.save
