@@ -1,0 +1,8 @@
+<table>
+    <tr><% @forms.first.data.each_key do |key| -%><th><%= key%></th><% end %></tr>
+
+    <% @forms.each do |f| -%>
+        <tr><% f.data.each_value do |val| %><td><%= val%></td><% end %></tr>
+    <% end-%>
+
+</table>

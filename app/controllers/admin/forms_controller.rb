@@ -172,6 +172,14 @@ class Admin::FormsController < ApplicationController
     @forms = Form.find_all_by_form_definition_id(params[:id])
     @csv = render_to_string :action => "export_csv", :layout => false
 
+    send_data @csv, :type => 'application/vnd.ms-excel', :filename => @formdef.name.rubify + "_" + Date.today.strftime("%Y%m%d") + ".csv"
+  end
+
+  def export_html
+    @formdef = FormDefinition.find(params[:id])
+    @forms = Form.find_all_by_form_definition_id(params[:id])
+    @csv = render_to_string :action => "export_html", :layout => false
+
     send_data @csv, :type => 'application/vnd.ms-excel', :filename => @formdef.name.rubify + "_" + Date.today.strftime("%Y%m%d") + ".xls"
   end
 

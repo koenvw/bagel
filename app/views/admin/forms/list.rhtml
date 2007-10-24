@@ -2,7 +2,7 @@
 	<h1>Listing Forms</h1>
 	<ul class="mainNav">
 		<li><%= link_to 'Add new form', { :action => 'edit', :form_definition_id => params[:id] }, :class => "new", :title => "Add new form" %></li>
-        <% if @forms.size > 0 %><li><%= link_to 'Export forms', { :action => 'export_csv', :id => params[:id] }, :class => "export", :title => "Export forms" %></li><% end %>
+		<% if @forms.size > 0 %><li><%= link_to 'Export forms', { :action => 'export_html', :id => params[:id] }, :class => "export", :title => "Export forms" %></li><% end %>
 	</ul>
 </div>
 <div class="clear"></div>
