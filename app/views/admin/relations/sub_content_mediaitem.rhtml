@@ -26,7 +26,7 @@ r_type='mediaitem'
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
 		:position => :top
 	%>
-	<br><small><%= truncate(@media_item.public_filename, 12) %></small>
+	<br><small><%= truncate(@media_item.title, 12) %></small>
 </td>
 <% end %>
 </tr>
