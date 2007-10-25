@@ -30,6 +30,15 @@ module ActsAsContentType
       # Find generator by core_content_type
       generator ||= Generator.find_by_website_id_and_core_content_type(website_id, self.class.to_s)
 
+      # FIXME: make website a multiselect for a generator
+      # so we can specify that 1 generator works for a set of websites
+
+      # Find generator by content_type without website
+      generator ||= Generator.find_by_content_type(self.ctype.id)
+
+      # Find generator by core_content_type without website
+      generator ||= Generator.find_by_core_content_type(self.class.to_s)
+
       if generator.nil?
         raise "no generator found for this content_type '#{self.class.to_s}' with website_id '#{website_id}'"
       end
