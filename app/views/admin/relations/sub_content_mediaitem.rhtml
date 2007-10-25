@@ -1,20 +1,8 @@
 <%
-params[:sub_id]=params[:sub_id].to_s
-r_sub_type ||= params[:r_sub_type] # in case r_sub_type comes from paging
 
-searchphrase = params[:search] || ""
-
+searchphrase = params[:sub_search] || ""
 lsp = "%" + searchphrase + "%"
-if r_sub_type.nil?
-  #tag_id = Tag.find_by_name(r_sub_type).id
-  conditions = " type LIKE \'Picture%\' AND parent_id is null" # ["(title LIKE ? OR filename LIKE ? or description LIKE ?) AND tag_id = ?", lsp, lsp, lsp,tag_id]
-  joins = nil # "INNER JOIN sobjects_tags CA ON CA.tag_id = #{tag_id} AND sobjects.id = CA.sobject_id"
-else
-  conditions = ["(title LIKE ? OR filename LIKE ? OR description LIKE ?) AND parent_id is null AND type LIKE \'Picture%\'", lsp, lsp, lsp]
-  joins = nil
-  end
-# Skip thumbnails
-#condition_string = 'type LIKE \'Picture%\' AND parent_id IS NULL' 
+conditions = ["(title LIKE ? OR filename LIKE ? OR description LIKE ?) AND parent_id is null AND type LIKE \'Picture%\'", lsp, lsp, lsp]
 
 @media_item_pages, @media_items = controller.paginate_collection MediaItem.find(:all, :conditions => conditions, :order => "media_items.updated_on DESC"),
 														  :per_page   => 4,
@@ -29,13 +17,11 @@ r_type='mediaitem'
 <tr>
 <%
 	for @media_item in @media_items
-	id=params['id'] if id.nil?
-	id = id.strip
 %>
 <td class="imgContainer">
   <% @media_item.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
   <%= link_to_remote image_tag(@media_item.public_filename(:relationship), :border=>0, :alt=> @media_item.public_filename),
-		 :url => "/admin/relations/add/#{@media_item.sobject.id}?cat_id=#{id}&sub_id=#{params[:sub_id]}&direction=#{params[:direction]}",
+  :url => "/admin/relations/add/#{@media_item.sobject.id}?rel_id=#{params[:rel_id]}",
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
 		:position => :top
@@ -48,7 +34,7 @@ r_type='mediaitem'
 
 <% @item=@media_item_pages %>
 
-<% url = "/admin/relations/sub_content_#{r_type}?id=#{id}&search=#{searchphrase}&sub_id=#{params[:sub_id]}&r_sub_type=#{r_sub_type}&direction=#{params[:direction]}" %>
+<% url = "/admin/relations/sub_content_#{r_type}?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search]}" %>
 <!-- FIRST -->
 <%= link_to_remote image_tag('arrow_left',:border=>0,:alt=> "first", :plugin => "bagel"),
 				   :update=>"relations#{params[:sub_id]}_sub_content",
