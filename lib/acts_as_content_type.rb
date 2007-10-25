@@ -34,7 +34,7 @@ module ActsAsContentType
       # so we can specify that 1 generator works for a set of websites
 
       # Find generator by content_type without website
-      generator ||= Generator.find_by_content_type(self.ctype.id)
+      generator ||= Generator.find_by_content_type_id(self.ctype.id)
 
       # Find generator by core_content_type without website
       generator ||= Generator.find_by_core_content_type(self.class.to_s)
