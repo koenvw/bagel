@@ -38,7 +38,6 @@ class Admin::MediaItemsController < ApplicationController
   def edit
     # Find media item
     @media_item = MediaItem.find_by_id(params[:id])
-    @media_item.create_default_sitems
 
     # Create media item if non-existant
     if @media_item.nil?
@@ -71,6 +70,7 @@ class Admin::MediaItemsController < ApplicationController
     end
 
     @media_item.type_id ||= params[:type_id]
+    @media_item.create_default_sitems
 
     # Find versions names
     if MediaItem::PICTURE_CLASS_NAMES.include?(@media_item[:type])
