@@ -16,6 +16,8 @@ class Admin::SiteUsersController < ApplicationController
 
   def edit
     @site_user = SiteUser.find_by_id(params[:id]) || SiteUser.new
+    @site_user.type_id ||= params[:type_id]
+    @site_user.create_default_sitems
     if request.post?
       @site_user.attributes = params[:site_user]
       @site_user.prepare_sitems(params[:sitems])

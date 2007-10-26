@@ -233,7 +233,7 @@ module ActsAsContentType
         website_id = website.id
       end
       sitem = sitems.find_by_website_id(website_id)
-      if sitem.nil?
+      if sitem.nil? # FIXME: sitem can never be nil? (its always an array, sometimes empty)
         add_sitem(website_id)
       else
         sitem.is_published = true
@@ -339,55 +339,6 @@ module ActsAsContentType
       end
     end
 
-    def save_relationships(relations_id,relations_cat_id,delete_id,delete_cat_id,reverse_relations=false)
-      $stderr.puts 'DEPRECATION WARNING: save_relationships() is deprecated; use save_relations instead.'
-      unless relations_id.nil?
-        relations=relations_id.zip(relations_cat_id)
-        # keep only the unique elements
-        relations.uniq
-      else
-        relations=Array.new
-      end
-      relations_delete=delete_id.zip(delete_cat_id) unless delete_id.nil?
-
-      # delete elements (if there where items in the first place)
-      unless delete_id.nil?
-        relations_delete.each do |d|
-          if relations.find{|r| r==d}.nil?
-            if reverse_relations
-              Relationship.destroy_all "to_sobject_id=#{sobject.id} AND relation_id=#{d[1]}"
-            else
-              Relationship.destroy_all "from_sobject_id=#{sobject.id} AND relation_id=#{d[1]}"
-            end
-          end
-        end
-      end
-
-      # only add if there are items submitted
-      unless relations_id.nil?
-        p=1
-        relations.each do |i|
-            # first check if the item doesn't exist
-            if reverse_relations
-              relationship=Relationship.find(:all,:conditions => "to_sobject_id=#{sobject.id} AND from_sobject_id=#{i[0]} AND relation_id=#{i[1]}")
-            else
-              relationship=Relationship.find(:all,:conditions => "from_sobject_id=#{sobject.id} AND to_sobject_id=#{i[0]} AND relation_id=#{i[1]}")
-            end
-            if relationship.empty?
-               if reverse_relations
-                 Relationship.create :to_sobject_id=>sobject.id,:from_sobject_id=>i[0],:relation_id=>i[1],:position=>p
-               else
-                 Relationship.create :from_sobject_id=>sobject.id,:to_sobject_id=>i[0],:relation_id=>i[1],:position=>p
-               end
-            else
-               relationship.first.position=p
-               relationship.first.save
-            end
-            p+=1
-        end
-      end
-    end
-
     def find_tags_with_parent_id(parent_id)
       # FIXME:
       candidates = sobject.tags.select{|c| c.parent_id == parent_id }
@@ -423,9 +374,10 @@ module ActsAsContentType
 
     def create_default_sitems
       # prepare a sitem for each Website
-      if sitems.empty?
-        Website.find(:all).each do |website|
-          add_sitem(website.id)
+      Website.find(:all).each do |website|
+        sitem = sitems.select {|v| v.website_id == website.id }
+        if sitem.blank?
+          add_sitem(website.id) 
         end
       end
     end

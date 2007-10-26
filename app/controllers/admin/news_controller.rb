@@ -15,6 +15,7 @@ class Admin::NewsController < ApplicationController
     @news = News.find_by_id(params[:id]) || News.new
     @languages = Setting.languages
     @news.type_id ||= params[:type_id]
+    @news.create_default_sitems # in case new websites were created after this item was created
     if request.post?
       old_attributes = @news.attributes
       is_new_item = @news.id.blank?

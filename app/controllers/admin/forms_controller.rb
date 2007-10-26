@@ -43,6 +43,7 @@ class Admin::FormsController < ApplicationController
     @form = Form.find_by_id(params[:id]) || Form.new
     @form.form_definition_id ||= params[:form_definition_id]
     @form.type_id ||= params[:type_id]
+    @form.create_default_sitems
     session[:form_definition_id] = @form.form_definition_id # for autocomplete
 
     # Prepare languages
@@ -64,7 +65,7 @@ class Admin::FormsController < ApplicationController
     @form.data = params[:form]
     @form.type_id = params[:form][:type_id]
     @form.form_definition_id = params[:form_definition_id]
-
+    @form.create_default_sitems
     @form.prepare_sitems(params[:sitems])
 
     begin

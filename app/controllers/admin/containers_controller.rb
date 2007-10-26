@@ -15,6 +15,7 @@ class Admin::ContainersController < ApplicationController
     # Find or create container
     @container = Container.find_by_id(params[:id]) || Container.new
     @container.type_id ||= params[:type_id]
+    @container.create_default_sitems
 
     if request.post?
       old_attr = {

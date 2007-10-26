@@ -38,6 +38,7 @@ class Admin::MediaItemsController < ApplicationController
   def edit
     # Find media item
     @media_item = MediaItem.find_by_id(params[:id])
+    @media_item.create_default_sitems
 
     # Create media item if non-existant
     if @media_item.nil?

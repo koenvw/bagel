@@ -14,6 +14,8 @@ class Admin::EventsController < ApplicationController
   def edit
     # Find or create event
     @event = Event.find_by_id(params[:id]) || Event.new
+    @event.type_id ||= params[:type_id]
+    @event.create_default_sitems
     
     if request.post?
       old_attr = {
