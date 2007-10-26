@@ -40,7 +40,7 @@ module SiteHelper
                  :action => "content",
                  :site => controller.site, 
                  :type=> content_item.ctype.core_content_type.downcase, 
-                 :id => content_item.id }
+                 :id => content_item.id_url }
     url_for link_hash.update(options)
   end
 
