@@ -1,6 +1,6 @@
 <%
 
-conditions = ["menus.name LIKE ? AND menus.name <>''", "%" + params[:sub_seach] + "%"]
+conditions = ["menus.name LIKE ? AND menus.name <>''", "%#{params[:sub_search]}%"]
 
 @videos_pages, @videos = controller.paginate :menu,
 										 :per_page=>5,
