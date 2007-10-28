@@ -40,7 +40,7 @@ conditions = ["menus.name LIKE ? AND menus.name <>''", "%" + params[:sub_seach] 
 @item=@videos_pages
 r_type='menu'
 %>
-<% url = "/admin/relations/sub_content_#{r_type}?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search}" %>
+<% url = "/admin/relations/sub_content_#{r_type}?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search]}" %>
 <!-- FIRST -->
 <%= link_to_remote image_tag('arrow_left',:border=>0,:alt=> "first", :plugin => "bagel"),
                    :update=>"relations#{params[:sub_id]}_sub_content",
