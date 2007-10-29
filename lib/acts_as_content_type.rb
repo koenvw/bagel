@@ -112,7 +112,7 @@ module ActsAsContentType
     end
 
     def is_published?(site_id)
-      sitems.any? { |si| si.website_id == site_id and si.published_async? and si.publish_from < Time.now }
+      sitems.any? { |si| si.website_id == site_id && si.published_async? && (si.publish_from.nil? || si.publish_from < Time.now) }
     end
 
     def has_hidden_sitem?
