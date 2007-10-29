@@ -79,7 +79,7 @@ class Admin::FormsController < ApplicationController
         @form.reload # make sure our tags/relations are up to date
 
         # Save language
-        @form.save_language(params[:sobject][:language])
+        @form.save_language(params[:sobject] && params[:sobject][:language])
         @form.sobject.publish_synced = params[:publish_synced] ? true : false
 
         if @form.save
