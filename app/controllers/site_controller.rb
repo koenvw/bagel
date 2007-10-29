@@ -440,6 +440,7 @@ class SiteController < ApplicationController
 
     # Create the form
     @form = Form.new
+    @form.type_id = params[:type_id]
     @form.form_definition_id = @formdef.id
     @form.name = params[:form][:name]
     @form.data = params[:form]
