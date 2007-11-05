@@ -39,14 +39,17 @@ class BusinessRule < ActiveRecord::Base
     rule_errors << params[:message] unless tag_present
   end
 
-  def require_relation(obj, relation_name, params={})
-    params[:message] ||= "Relation named '#{relation_name}' must be present but is not."
-
+  def require_relation(obj, relation_names, params={})
+    params[:message] ||= relation_names.to_a.map {|relation_name| "relation named '#{relation_name}'"}.to_sentence(:connector => "or") + " must be present but is not.".capitalize
     return unless obj
 
-    relation_present = obj.sobject.relations_as_from.any? { |r| r.relation.name == relation_name }
-
-    rule_errors << params[:message] unless relation_present
+    # user may give multiple relation_names, having at least 1 relation from the list is valid
+    valid = false
+    relation_names.to_a.each do |relation_name|
+      relation_present = obj.sobject.relations_as_from.any? { |r| r.relation.name == relation_name }
+      valid = true if relation_present
+    end
+    rule_errors << params[:message] unless valid
   end
 
   def require_translation(obj, language, params={})

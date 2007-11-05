@@ -149,7 +149,7 @@ class Admin::FormsController < ApplicationController
 
         else
           render :action => "edit"
-          raise ActiveRecord::RecordInvalid.new @form # ROLLBACK
+          raise ActiveRecord::RecordInvalid.new(@form) # ROLLBACK
         end
 
       end
