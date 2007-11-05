@@ -36,7 +36,7 @@ class Admin::NewsController < ApplicationController
           @news.reload # make sure our tags/relations are up to date
 
           # Save language
-          @news.save_language(params[:sobject][:language])
+          @news.save_language(params[:sobject] && params[:sobject][:language])
           @news.sobject.publish_synced = params[:publish_synced]
 
           if @news.save! # will throw ActiveRecord::RecordInvalid and rollback the transaction
