@@ -7,6 +7,7 @@ class BusinessRule < ActiveRecord::Base
   belongs_to :content_type
 
   def passes_for(obj)
+    return false if obj.nil?
     @rule_errors = []
     lambda { eval(code) }.call
     @rule_errors.blank?
@@ -18,12 +19,12 @@ class BusinessRule < ActiveRecord::Base
 
   def non_matching_objects
     sobjects = Sobject.find(:all, :conditions => [ 'content_type_id = ?', content_type.id ], :include => content_type.core_content_type.downcase, :limit => 9999)
-    contents = sobjects.map { |so| eval('so.' + content_type.core_content_type.downcase) }
-    contents.reject { |x| passes_for(x) }
+    contents = sobjects.map { |so| so.content }
+    contents.reject { |x| x.nil? || passes_for(x) }
   end
 
   ### Helper functions
-  
+
   # FIXME: move this to a module under lib/ ?
 
   def require_tag(obj, tag_name, params={})

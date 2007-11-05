@@ -5,7 +5,7 @@ class Admin::BusinessRulesController < ApplicationController
 
   def index
     @business_rules = BusinessRule.find(:all)
-  end 
+  end
 
   def edit
     @business_rule = BusinessRule.find_by_id(params[:id]) || BusinessRule.new
@@ -31,7 +31,7 @@ class Admin::BusinessRulesController < ApplicationController
   def destroy
     @business_rule = BusinessRule.find(params[:id])
     @business_rule.destroy
-    
+
     redirect_to :action => 'index'
   end
 
