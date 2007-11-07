@@ -40,7 +40,7 @@ class BusinessRule < ActiveRecord::Base
   end
 
   def require_relation(obj, relation_names, params={})
-    params[:message] ||= relation_names.to_a.map {|relation_name| "relation named '#{relation_name}'"}.to_sentence(:connector => "or") + " must be present but is not.".capitalize
+    params[:message] ||= (relation_names.to_a.map {|relation_name| "relation named '#{relation_name}'"}.to_sentence(:connector => "or") + " must be present but is not.").capitalize
     return unless obj
 
     # user may give multiple relation_names, having at least 1 relation from the list is valid
