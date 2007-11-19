@@ -513,13 +513,13 @@ class SiteController < ApplicationController
     website = Website.find(website_id)
 
     # Set cookie
-    cookies[:default_website] = { :value => params[:new_site], :domain => website.domain, :expires => 5.years.from_now }
+    cookies[:default_website] = { :value => params[:new_site], :domain =>  AppConfig[:cookie_domain] || current_domain, :expires => 5.years.from_now }
 
     # Done
     if website.domain == ""
       redirect_to "/#{cookies[:default_website]}"
     else
-      redirect_to website.domain
+      redirect_to "http://#{website.domain}"
     end
   end
 
@@ -555,7 +555,7 @@ class SiteController < ApplicationController
         if website == ""
           redirect_to "/#{cookies[:default_website]}"
         else
-          redirect_to website
+          redirect_to "http://#{website}"
         end
       end
     end
