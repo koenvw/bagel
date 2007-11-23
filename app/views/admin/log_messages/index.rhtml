@@ -20,7 +20,7 @@
 </div>
 <div class="clear"></div>
 
-<% form_tag({:action => "index"}, {:method => 'get', :class => "filter", :name => "select_rec" }) do %> 
+<% form_tag({:action => "index"}, {:method => 'get', :class => "filter", :name => "select_rec" }) do %>
 <div class="subContent">
 	<fieldset class="oneline">
 		<div class="filterfield">
@@ -29,13 +29,11 @@
 		</div>
 	</fieldset>
 	<fieldset class="oneline" style="white-space: nowrap; overflow: hidden;">
-		<% kinds = LogMessage.find_by_sql("SELECT distinct(kind) FROM log_messages").map &:kind %>
-		<%= select_tag 'severity_id', options_for_select(LogMessage::SEVERITY.to_a.insert(0,["Severity",""]), params[:severity_id].to_i), { :onChange=>"document.select_rec.submit()" } %> 
-		<%= select_tag 'kind', options_for_select(kinds.sort.insert(0,["Kind",""]), params[:kind]), { :onChange=>"document.select_rec.submit()" } %> 
+		<%= select_tag 'severity_id', options_for_select(LogMessage::SEVERITY.to_a.insert(0,["Severity",""]), params[:severity_id].to_i), { :onChange=>"document.select_rec.submit()" } %>
 	</fieldset>
 	<div class="bottom"></div>
 </div>
-<% end %> 
+<% end %>
 
 <div id="contentFrame">
 	<table class="uniTable">
