@@ -81,7 +81,7 @@ module ActionView #:nodoc:
       def cache(name = {}, options=nil, &block)
         content = @controller.cache_erb_fragment(block, name, options)
 
-        (options[:locals] || {}).each_pair do |key, value|
+        (options && options[:locals] || {}).each_pair do |key, value|
           content.gsub!(key.to_s, value.to_s)
         end
       end
@@ -95,7 +95,7 @@ module ActionController::Caching #:nodoc:
     def cache_erb_fragment(block, name = {}, options = nil)
       unless perform_caching
         content = block.call
-        (options[:locals] || {}).each_pair do |key, value|
+        (options && options[:locals] || {}).each_pair do |key, value|
           content.gsub!(key.to_s, value.to_s)
         end
         return content
@@ -113,7 +113,7 @@ module ActionController::Caching #:nodoc:
 
         write_fragment(name, buffer[pos..-1], options)
 
-        (options[:locals] || {}).each_pair do |key, value|
+        (options && options[:locals] || {}).each_pair do |key, value|
           buffer[pos..-1] = buffer[pos..-1].gsub!(key.to_s, value.to_s)
         end
         buffer[pos..-1]
