@@ -534,6 +534,8 @@ class SiteController < ApplicationController
     return if cookies[:default_website].nil?
     # check: are we on the same website as our cookie ?
     return if site == cookies[:default_website]
+    # check: are we in "/" (only redirect if we are in "/")
+    return unless params[:controller] == "site" && params[:action] == "root"
 
     # check the cookie, to see if it has a valid website
     website_id = get_website_id(cookies[:default_website])
