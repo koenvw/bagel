@@ -143,7 +143,7 @@ class Sobject < ActiveRecord::Base
           # not integer, look up by name
           tag = Tag.find_by_name(tag_id)
           # raise RecordNotFound if name not found
-          if tag.nil? 
+          if tag.nil?
             raise ActiveRecord::RecordNotFound.new("Couldn't find tag with name=#{tag_id}")
           else
             tag.id
@@ -159,7 +159,7 @@ class Sobject < ActiveRecord::Base
       end
       tag_check << ")"
     end
-    
+
     unless options[:tags_inverted].nil?
       # map elements to ids
       tags = options[:tags_inverted].to_a.compact.uniq.map do |tag_id|
@@ -168,7 +168,7 @@ class Sobject < ActiveRecord::Base
           # not integer, lookup by name
           tag = Tag.find_by_name(tag_id)
           # raise RecordNotFound if name not found
-          if tag.nil? 
+          if tag.nil?
             raise ActiveRecord::RecordNotFound.new("Couldn't find tag with name=#{tag_id}")
           else
             tag.id
@@ -183,7 +183,7 @@ class Sobject < ActiveRecord::Base
       end
       tag_inverted_check << ")"
     end
-    
+
     # website_name
     if options[:website]
       if options[:website].to_i == 0 # a string
@@ -217,8 +217,8 @@ class Sobject < ActiveRecord::Base
       end
       joins = " INNER JOIN relationships ON relationships.relation_id IN (#{relations.join(",")}) AND relationships.from_sobject_id = sobjects.id" unless relations.blank?
     end
-    
-    # relationships, feed with sobject ids or sobjects 
+
+    # relationships, feed with sobject ids or sobjects
     if options[:relationships]
       sobject_ids = options[:relationships].to_a.compact.uniq.map do |element|
         if element.is_a? Sobject
@@ -237,12 +237,12 @@ class Sobject < ActiveRecord::Base
       end
       published_by_check = " AND sobjects.updated_by IN (#{users.join(",")})"
     end
-    
+
     # search_string
     unless options[:search_string].blank?
       search_check = "AND (sobjects.name LIKE '%#{ActiveRecord::Base.connection.quote_string(options[:search_string])}%')"
     end
-    
+
     # content_types
     if options[:content_types]
       # map elements to ids
@@ -251,7 +251,7 @@ class Sobject < ActiveRecord::Base
           # not integer, look up by name
           content_type = ContentType.find_by_name(content_type_id)
           # raise RecordNotFound if name not found
-          if content_type.nil? 
+          if content_type.nil?
             raise ActiveRecord::RecordNotFound.new("Couldn't find content_type with name=#{content_type_id}")
           else
             content_type.id
@@ -261,7 +261,8 @@ class Sobject < ActiveRecord::Base
           content_type_id
         end
       }
-      content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")})" unless ctypes.blank?
+      # include null content-types (core content-type images might not have an content_type_id set
+      content_type_check = " AND (sobjects.content_type_id IN (#{ctypes.join(",")}) OR sobjects.content_type_id IS NULL)" unless ctypes.blank?
     end
 
     # publish_from
@@ -270,7 +271,8 @@ class Sobject < ActiveRecord::Base
     elsif options[:status] != :all
       publish_from_check = " AND sitems.publish_from<now()"
     else
-      publish_from_check = " AND sitems.publish_from>'0001-01-01'"
+      # FIXME: was: publish_from_check = " AND sitems.publish_from>'0001-01-01'" => WHY?
+      publish_from_check = ""
     end
 
     # publish_till
@@ -279,7 +281,8 @@ class Sobject < ActiveRecord::Base
     elsif options[:status] != :all
       publish_till_check = " AND (sitems.publish_till>now() OR sitems.publish_till IS NULL)"
     else
-      publish_till_check = " AND (sitems.publish_till<'9999-01-01' OR sitems.publish_till IS NULL)"
+      #FIXME: was:  publish_till_check = " AND (sitems.publish_till<'9999-01-01' OR sitems.publish_till IS NULL)" => WHY?
+      publish_till_check = ""
     end
 
     # is published
@@ -293,7 +296,7 @@ class Sobject < ActiveRecord::Base
       status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
     end
 
-    # has_workflow_step: will match content-items that have completed the given workflow_steps 
+    # has_workflow_step: will match content-items that have completed the given workflow_steps
     if options[:has_workflow_step]
       workflow_check = ""; content_type_ids = []
       options[:has_workflow_step].to_a.each do |step_id|
@@ -322,7 +325,7 @@ class Sobject < ActiveRecord::Base
     end
 
     # includes
-    # warning: be careful when including other tables without benchmarking 
+    # warning: be careful when including other tables without benchmarking
     # performance might drop significantly
     # sometimes its better not to solve the "n+1 problem"
     includes = :sitems
@@ -351,10 +354,10 @@ class Sobject < ActiveRecord::Base
       :offset  => options[:offset] || 0,
       :order   => options[:order]  || "sitems.publish_from DESC"
     )
-    
+
     website_name = (options[:website] and options[:website].to_i == 0) ? options[:website] : options[:website_name]
     website_id   = (options[:website] and options[:website].to_i != 0) ? options[:website.to_i] : options[:website_id]
-    
+
     # FIXME: website_name is not always used (also website or website_id) => we need to fill website_name if website or website_id is supplied by the user
     # FIXME: :published is optional, the default should be: "items with published?==true and publish_from < now" (but how will this work together with published_sync?
     if options[:published] == :all
