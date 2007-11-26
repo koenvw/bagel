@@ -262,7 +262,7 @@ class Sobject < ActiveRecord::Base
         end
       }
       # include null content-types (core content-type images might not have an content_type_id set
-      content_type_check = " AND (sobjects.content_type_id IN (#{ctypes.join(",")}) OR sobjects.content_type_id IS NULL)" unless ctypes.blank?
+      content_type_check = " AND sobjects.content_type_id IN (#{ctypes.join(",")}) " unless ctypes.blank?
     end
 
     # publish_from

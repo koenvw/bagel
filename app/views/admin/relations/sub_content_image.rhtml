@@ -1,14 +1,12 @@
 <%
 
 
-relation = Relation.find(params[:rel_id])
-
-sobjects = Sobject.find_with_parameters :status => :all,
-										:content_types => relation.content_type_id,
-										:search_string => params[:sub_search],
-										:limit => 99
-
-@image_pages, @images = controller.paginate_collection sobjects, :per_page => 5, :page => params[:page]
+unless params[:sub_search].blank?
+	conditions = ["image LIKE ? OR title LIKE ?", "%" + params[:sub_search] + "%","%" + params[:sub_search] + "%"]
+else
+	conditions = nil
+end
+@image_pages, @images = controller.paginate :image,:per_page=>4,:conditions => conditions, :include => :sobject, :order_by => "images.updated_on DESC"
 
 
 r_type='image'
@@ -20,7 +18,6 @@ r_type='image'
 <tr>
 <%
 	for @image in @images
-	  @image = @image.content
 %>
 <td class="imgContainer">
   <% @image.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
