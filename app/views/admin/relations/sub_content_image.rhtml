@@ -1,11 +1,16 @@
 <%
 
-unless params[:sub_search].blank?
-    conditions = ["image LIKE ? OR title LIKE ?", "%" + params[:sub_search] + "%","%" + params[:sub_search] + "%"]
-else
-    conditions = nil
-end
-@image_pages, @images = controller.paginate :image,:per_page=>4,:conditions => conditions, :include => :sobject, :order_by => "images.updated_on DESC"
+
+relation = Relation.find(params[:rel_id])
+
+sobjects = Sobject.find_with_parameters :status => :all,
+										:content_types => relation.content_type_id,
+										:search_string => params[:sub_search],
+										:limit => 99
+
+@image_pages, @images = controller.paginate_collection sobjects, :per_page => 5, :page => params[:page]
+
+
 r_type='image'
 %>
 
@@ -15,17 +20,17 @@ r_type='image'
 <tr>
 <%
 	for @image in @images
-
+	  @image = @image.content
 %>
 <td class="imgContainer">
   <% @image.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
   <%= link_to_remote image_tag(url_for_file_column('image', 'image', Setting.get("ImageSettings")[:default2]), :border=>0, :alt=> @image.image_file),
 		:url => "/admin/relations/add/#{@image.sobject.id}?rel_id=#{params[:rel_id]}",
 		:loading => "Element.show('spinner_relations_search')",
-		:complete => "Element.hide('spinner_relations_search'); relVisualAction();", 
+		:complete => "Element.hide('spinner_relations_search'); relVisualAction();",
 		:position => :top
-    %>
-    <br><small><%= truncate(@image.image_file, 12) %></small>
+	%>
+	<br><small><%= truncate(@image.image_file, 12) %></small>
 </td>
 <% end %>
 </tr>
@@ -36,26 +41,26 @@ r_type='image'
 <% url = "/admin/relations/sub_content_#{r_type}?rel_id=#{params[:rel_id]}&sub_search=#{params[:sub_search]}" %>
 <!-- FIRST -->
 <%= link_to_remote image_tag('arrow_left.png',:border=>0,:alt=> "first", :plugin => "bagel"),
-                   :update=>"relations_sub_content",
-                   :url => url + '&page='+@item.first.number.to_s %>
+				   :update=>"relations_sub_content",
+				   :url => url + '&page='+@item.first.number.to_s %>
 <!-- PREVIOUS -->
 <% if @item.current.previous %>
   <%= link_to_remote image_tag('arrow_left_green.png', :border=>0,:alt=> "next", :plugin => "bagel"),
-                     :update=>"relations_sub_content",
-                     :url => url + '&page='+@item.current.previous.number.to_s %>
+					 :update=>"relations_sub_content",
+					 :url => url + '&page='+@item.current.previous.number.to_s %>
 <% else %>
   <%= image_tag 'dot_clear.gif', :width=>16, :height=>16, :plugin => "bagel" %>
 <% end %>
 <!-- NEXT -->
 <% if @item.current.next %>
   <%= link_to_remote image_tag('arrow_right_green.png', :border=>0,:alt=> "previous", :plugin => "bagel"),
-                    :update=>"relations_sub_content",
-                    :url => url + '&page='+@item.current.next.number.to_s %>
+					:update=>"relations_sub_content",
+					:url => url + '&page='+@item.current.next.number.to_s %>
 <% else %>
   <%= image_tag 'dot_clear.gif', :width=>16, :height=>16, :plugin => "bagel" %>
 <% end %>
 <!-- LAST -->
 <%= link_to_remote image_tag('arrow_right.png', :border=>0,:alt=> "last", :plugin => "bagel"),
-                   :update=>"relations_sub_content",
-                   :url => url + '&page='+@item.last.number.to_s %>
+				   :update=>"relations_sub_content",
+				   :url => url + '&page='+@item.last.number.to_s %>
 
