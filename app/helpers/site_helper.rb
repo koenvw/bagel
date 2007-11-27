@@ -31,15 +31,20 @@ module SiteHelper
 
   end
 
+  def cache_key
+    cache_key = params.reject{|key,val| key.to_s == "clear"}.values.sort.join("_")
+    cache_key = "#{cache_key}_#{@content.updated_on.to_i}" if @content
+  end
+
   def link_for(content_item, options = {})
     # FIXME duplicated in bagel_application.rb
     # FIXME: this does not work reliably when there are multiple content_types with the same core_content_type
     return if content_item.nil?
     return if content_item.ctype.nil?
-    link_hash = {:controller => "site", 
+    link_hash = {:controller => "site",
                  :action => "content",
-                 :site => controller.site, 
-                 :type=> content_item.ctype.core_content_type.downcase, 
+                 :site => controller.site,
+                 :type=> content_item.ctype.core_content_type.downcase,
                  :id => content_item.id_url }
     url_for link_hash.update(options)
   end
@@ -64,16 +69,16 @@ module SiteHelper
     end
     parents = (selectpath.map{|m| m.parent}+[@menuselect]).uniq-[nil]
     parents_sql_filter = parents.empty? ? '' : " OR parent_id IN (#{parents.map{|p| p.id}.join(',')})"
-  
+
     # retrieve only the menus that need to be open (and are published on current site)
-    allmenus = Menu.find(:all, 
-                         :conditions => "(parent_id IS NULL #{parents_sql_filter}) AND sitems.website_id=#{Website.find_by_name(site).id} AND sitems.is_published=1", 
+    allmenus = Menu.find(:all,
+                         :conditions => "(parent_id IS NULL #{parents_sql_filter}) AND sitems.website_id=#{Website.find_by_name(site).id} AND sitems.is_published=1",
                          :order => 'lft', :include => :sitems)
 
     # mark where to open and close html lists
     @menus = []
     allmenus.each_index do |i|
-        @menus[i] = {:indent => allmenus[i].level, 
+        @menus[i] = {:indent => allmenus[i].level,
                      :title  => "#{allmenus[i].title}",
                      :children_count => allmenus[i].all_children_count,
                      :link  =>  allmenus[i].link.blank? ? "#" : allmenus[i].link,
@@ -90,11 +95,11 @@ module SiteHelper
     @menus.last[:open] = false
     @menus.first[:close] = 0
     @menus.last[:close] = 1
-    
+
     return @menus
   end
 
- 
+
   #
   def find_breadcrumb(item, options={})
     return if item.nil?
@@ -110,7 +115,7 @@ module SiteHelper
     @elements.last[:close] = 1
     return @elements
 
-  end 
+  end
 
   ### DEPRECATED
 
@@ -127,7 +132,7 @@ module SiteHelper
       end
       return tempArray
     end
-    
+
     # -- get menu children
     private
     def get_menu_tree_childs(parent, link)
@@ -142,10 +147,10 @@ module SiteHelper
     end
 
     # -- hash structure
-    def get_menu_tree_hash(item, link)  
-      # if item is selected (based on uri parsing)? 
+    def get_menu_tree_hash(item, link)
+      # if item is selected (based on uri parsing)?
       selected = false
-      request.request_uri.split("/").each do |uitem| 
+      request.request_uri.split("/").each do |uitem|
         if !uitem.blank? && !item.link.match("(http|ftp|https|)://.*")
           item.link.split("/").each { |litem| selected = (uitem == litem ? true : false) }
         end
