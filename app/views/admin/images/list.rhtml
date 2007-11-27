@@ -1,8 +1,9 @@
 <div id="contentFrame">	
 	<div class="topButton">
-		<h1>Media Gallery</h1>	
+		<h1>Media Gallery</h1>
+		<% ctype = ContentType.find(:first, :conditions => ["core_content_type='image'"], :order => "id DESC") %>
 		<ul class="mainNav">
-			<li><%= link_to 'Add Image', { :controller => 'images', :action => 'edit' }, :class => "add-image" %></li>
+			<li><%= link_to 'Add Image', figure_out_edit_link(ctype), :class => "add-image" %></li>
 		</ul>
 	</div>
 	<div class="clear"></div>
@@ -23,10 +24,10 @@
 <div class="subContent">
 	<% if @images.size > 0 %>
 	<div id="imageGallery">
-			<% 
+			<%
 				count = 0
 				for @image in @images
-                  if count == 4
+				  if count == 4
 					count = 0
 			%>
 			<div class="clear"></div>
@@ -51,6 +52,6 @@
 </div>
 
 <% if @images.size > 0 %>
-  <div class="paging"><%= bagel_pagination_links @image_pages %></div>
+	<div class="paging"><%= bagel_pagination_links @image_pages %></div>
 <% end %>
 <div class="clear"></div>
