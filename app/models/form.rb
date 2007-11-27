@@ -43,6 +43,7 @@ class Form < ActiveRecord::Base
   end
 
   def before_save
+    initialize_data
     check_data
     write_attribute(:data, @data)
     # FIXME: acts_as_content_type also does a before_safe
