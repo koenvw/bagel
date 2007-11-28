@@ -43,6 +43,7 @@ class Form < ActiveRecord::Base
   end
 
   def before_save
+    # FIXME: why do we still need to initialize ? -> initialize is not executed after Form.find()
     initialize_data
     check_data
     write_attribute(:data, @data)

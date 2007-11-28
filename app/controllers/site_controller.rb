@@ -444,7 +444,8 @@ class SiteController < ApplicationController
     @form.form_definition_id = @formdef.id
     @form.name = params[:form][:name]
     @form.data = params[:form]
-    @form.form = @formdef.template
+    # FIXME: results in illegal key: form
+    #@form.form = @formdef.template
 
     # Find the to address
     params[:to] = params[:form][:to] if params[:to].nil?
