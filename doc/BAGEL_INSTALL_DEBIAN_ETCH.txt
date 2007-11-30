@@ -7,22 +7,22 @@ Instructions for Debian 4.0 (Etch)
 0/ General requirements
 - build-essential
 - subversion
-- mysql
+- mysql-server
 /usr/bin/mysqladmin -u root password 'enter-your-good-new-password-here'
 
 A/ Install RAILS
-sudo apt-get install ruby rdoc irb
+sudo apt-get install ruby rdoc irb libopenssl-ruby ruby1.8-dev
 
 ->rubygems: do not install the debian package -> the bin folder of gems is not in path ???
 
-wget http://rubyforge.org/frs/download.php/20989/rubygems-0.9.4.tgz
+wget http://rubyforge.org/frs/download.php/28174/rubygems-0.9.5.tgz
 
-tar xvfz rubygems-0.9.4.tgz
-cd rubygems-0.9.4
+tar xvfz rubygems-0.9.5.tgz
+cd rubygems-0.9.5
 sudo ruby setup.rb
 
 sudo gem update
-sudo gem install rails -y
+sudo gem install rails
 
 B/ Install bagel dependencies
 
@@ -33,17 +33,18 @@ sudo apt-get install apache2 apache2.2-common apache2-mpm-prefork apache2-utils
 a2ensite benzine --> FIXME: config file
 a2enmod rewrite
 a2enmod proxy_balancer
+a2enmod proxy_http
 
 --
 MONGREL
-gem install mongrel_cluster -y
+gem install mongrel_cluster
 
 --
 EXTRAS
 apt-get install librmagick-ruby
 apt-get install memcached
 --
-gem install mongrel_cluster ferret hpricot htmlentities memcache-client mime-types capistrano -y
+gem install mongrel_cluster ferret hpricot htmlentities memcache-client mime-types capistrano liquid flickraw
 
 
 
