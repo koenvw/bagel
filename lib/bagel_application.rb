@@ -48,6 +48,8 @@ module BagelApplication
       }
     end
 
+
+
     ########## Exception Notification
 
     def consider_local(*args)
@@ -75,8 +77,9 @@ module BagelApplication
 
   module InstanceMethods
 
-  public
+    @@admin_menu = {}
 
+  public
     ########## Bagel-specific
 
     def bagel_log(options = {})
@@ -174,10 +177,10 @@ module BagelApplication
       # FIXME: this does not work reliably when there are multiple content_types with the same core_content_type
       return if content_item.nil?
       return if content_item.ctype.nil?
-      link_hash = { :controller => "/site", 
+      link_hash = { :controller => "/site",
                     :action => "content",
-                    :site => self.site, 
-                    :type=> content_item.ctype.core_content_type.downcase, 
+                    :site => self.site,
+                    :type=> content_item.ctype.core_content_type.downcase,
                     :id => content_item.id }
       url_for link_hash.update(options)
     end
@@ -190,6 +193,22 @@ module BagelApplication
         :url          => link_for(item, :site => params[:sharing_delicious_site]),
         :description  => item.title
       )
+    end
+
+    def admin_menu
+      return @@admin_menu unless @@admin_menu.blank?
+
+      admin_menu_project_filename = File.join(RAILS_ROOT, 'config', 'admin_menu.yml')
+      admin_menu_bagel_filename   = File.join(File.dirname(__FILE__), 'admin_menu.yml')
+
+puts admin_menu_project_filename
+      if File.exist?(admin_menu_project_filename)
+        # Read admin menu in project
+        @@admin_menu = File.open(admin_menu_project_filename) { |io| YAML::load(io) } || {}
+      else
+        # Read admin menu in bagel plugin
+        @@admin_menu = File.open(admin_menu_bagel_filename) { |io| YAML::load(io) } || {}
+      end
     end
 
   protected
@@ -209,7 +228,7 @@ module BagelApplication
       end
     end
 
-   
+
 
   public
     def paginate_collection(collection, options = {})
@@ -259,10 +278,10 @@ module BagelApplication
       case exception
         when ActiveRecord::RecordNotFound, ActionController::UnknownController, ActionController::UnknownAction, ActionController::RoutingError
           render_404
-          
+
           # Log exception
           bagel_log :exception => exception, :severity => :medium, :kind => '404', :extra_info => data, :hostname => request.host_with_port
-        else          
+        else
           render_500
 
           # Log exception

@@ -53,8 +53,8 @@
 			<ul class="mainMenu">
 <%# To edit the menu, look into vendor/plugins/bagel/admin_menu.yml %>
 <% active_menu_item = nil %>
-<% unless AppConfig[:admin_menu].nil? %>
-	<% AppConfig[:admin_menu].each do |menu_item| %>
+<% unless controller.admin_menu.nil? %>
+	<% controller.admin_menu.each do |menu_item| %>
 					<% is_active = menu_item_is_active?(menu_item, request.env) %>
 					<% active_menu_item = menu_item if is_active %>
 					<li><%= link_to_if_authorized menu_item['title'], menu_item['url'], :class => (is_active ? 'active' : '') %></li>
