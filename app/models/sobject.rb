@@ -123,7 +123,7 @@ class Sobject < ActiveRecord::Base
     options.assert_valid_keys [ :tags, :website, :website_name, :website_id, :published_by,
                                 :search_string, :content_types, :publish_from, :publish_till,
                                 :status, :published, :current_workflow_step, :has_workflow_step, :conditions,
-                                :include, :order, :limit, :tags_inverted, :relations, :relationships ]
+                                :include, :order, :limit, :offset, :tags_inverted, :relations, :relationships ]
 
     # Convert :status option into a :published option
     if options[:status] and !options[:published]
