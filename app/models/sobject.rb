@@ -120,7 +120,7 @@ class Sobject < ActiveRecord::Base
     # Default options:
     # website_name, website_id, content_types, tags, published_by, limit=5, offset=0, search_string=nil,publish_from=nil,publish_till=nil,conditions=nil,include=nil,order="sitems.publish_from DESC",status="Published"
 
-    options.assert_valid_keys [ :tags, :website, :website_name, :website_id, :published_by,
+    options.assert_valid_keys [ :tags, :tags_and, :website, :website_name, :website_id, :published_by,
                                 :search_string, :content_types, :publish_from, :publish_till,
                                 :status, :published, :current_workflow_step, :has_workflow_step, :conditions,
                                 :include, :order, :limit, :offset, :tags_inverted, :relations, :relationships ]
@@ -156,6 +156,34 @@ class Sobject < ActiveRecord::Base
       tag_check = "AND (1=0"
       tags.each do |tag_id|
         tag_check << " OR cached_tag_ids LIKE '%;#{tag_id};%' "
+      end
+      tag_check << ")"
+    end
+
+    # tags_and
+    unless options[:tags_and].nil?
+      # map elements to ids
+      tags = options[:tags_and].to_a.compact.uniq.map do |tag_id|
+        # FIXME: reject non-active tags
+        if tag_id.is_a?(Tag)
+            tag_id.id
+        elsif tag_id.to_i == 0
+          # not integer, look up by name
+          tag = Tag.find_by_name(tag_id)
+          # raise RecordNotFound if name not found
+          if tag.nil?
+            raise ActiveRecord::RecordNotFound.new("Couldn't find tag with name=#{tag_id}")
+          else
+            tag.id
+          end
+        else
+           # integer
+           tag_id.to_i
+        end
+      end
+      tag_check = "AND (1=1"
+      tags.each do |tag_id|
+        tag_check << " AND cached_tag_ids LIKE '%;#{tag_id};%' "
       end
       tag_check << ")"
     end
