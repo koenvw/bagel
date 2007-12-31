@@ -16,7 +16,7 @@ class Admin::FormsController < ApplicationController
 
   def list
     @formdef = FormDefinition.find(params[:id])
-    @form_pages, @forms = paginate :form, :per_page => 10, :conditions => ["form_definition_id=?",params[:id]], :order => "created_on DESC"
+    @form_pages, @forms = paginate :form, :per_page => 100, :conditions => ["form_definition_id=?",params[:id]], :order => "created_on DESC"
   end
 
   # this generates dynamic auto_complete_for methods.
@@ -156,8 +156,8 @@ class Admin::FormsController < ApplicationController
 
     rescue ActiveRecord::RecordInvalid
       # do nothing
-    rescue Exception 
-      raise 
+    rescue Exception
+      raise
     end
 
   end
@@ -170,7 +170,7 @@ class Admin::FormsController < ApplicationController
 
   def export_csv
     @formdef = FormDefinition.find(params[:id])
-    @forms = Form.find_all_by_form_definition_id(params[:id])
+    @forms = Form.find(:all, :conditions => ["form_definition_id = ?",params[:id]], :order => "id DESC")
     @csv = render_to_string :action => "export_csv", :layout => false
 
     send_data @csv, :type => 'application/vnd.ms-excel', :filename => @formdef.name.rubify + "_" + Date.today.strftime("%Y%m%d") + ".csv"
@@ -178,7 +178,7 @@ class Admin::FormsController < ApplicationController
 
   def export_html
     @formdef = FormDefinition.find(params[:id])
-    @forms = Form.find_all_by_form_definition_id(params[:id])
+    @forms = Form.find(:all, :conditions => ["form_definition_id = ?",params[:id]], :order => "id DESC")
     @csv = render_to_string :action => "export_html", :layout => false
 
     send_data @csv, :type => 'application/vnd.ms-excel', :filename => @formdef.name.rubify + "_" + Date.today.strftime("%Y%m%d") + ".xls"
