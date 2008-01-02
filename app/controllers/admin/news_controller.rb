@@ -16,6 +16,9 @@ class Admin::NewsController < ApplicationController
     @languages = Setting.languages
     @news.type_id ||= params[:type_id]
     @news.create_default_sitems # in case new websites were created after this item was created
+
+    @news_has_sub_title =  (Setting.get("ContentTypeSettings") && Setting.get("ContentTypeSettings")[:news_has_sub_title]) || false
+
     if request.post?
       old_attributes = @news.attributes
       is_new_item = @news.id.blank?
