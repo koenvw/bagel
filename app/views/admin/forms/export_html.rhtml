@@ -1,8 +1,8 @@
 <table>
-    <tr><% @forms.first.data.each_key do |key| -%><th><%= key%></th><% end %></tr>
+    <tr><% keys = []; @forms.first.data.each_key do |key| keys << key.to_sym -%><th><%= key%></th><% end %></tr>
 
     <% @forms.each do |f| -%>
-        <tr><% f.data.each_value do |val| %><td><%= val%></td><% end %></tr>
+        <tr><% keys.each do |key| %><td><%= f.send(key) %></td><% end %></tr>
     <% end-%>
 
 </table>
