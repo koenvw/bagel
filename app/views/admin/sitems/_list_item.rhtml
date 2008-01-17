@@ -57,7 +57,11 @@ end
 		<% end %>
 	</td>
 	<td style="text-align: left; width: 135px;">
-		<%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
+		<%
+			attributes = {}
+			attributes[:class] = "inFuture" if sitem.publish_from > Time.now
+		%>
+		<%= calendar_field_tag "sitems[#{sitem_id}][publish_from]", sitem.publish_from, true, true, attributes, {:showOthers => true, :showsTime => true} %>
 	</td>
 	<td style="text-align: left; width: 135px;">
 		<%= calendar_field_tag "sitems[#{sitem_id}][publish_till]", sitem.publish_till, { :class => "date" }, {:showOthers => true, :showsTime => true} %>

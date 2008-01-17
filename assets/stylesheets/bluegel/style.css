@@ -578,6 +578,7 @@
 	#content .subContent table.uniTable td.descr { font-weight: bold; }
 	#content .subContent table.uniTable tr.heading td { font-weight: bold; }
 	#content .subContent table.uniTable input.date { width: 150px; }
+	#content .subContent table.uniTable input.inFuture { border:2px solid red; }
 	#content .subContent table.uniTable img.date { cursor: pointer; }
 	#content .subContent table.uniTable tr.hidden td { background: #eeeeee; }
 	#content .subContent table.uniTable input.bigText { width: 450px; }
