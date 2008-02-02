@@ -1,2 +1,79 @@
---- {}
-
+--- 
+sobjects_001: 
+  name: dd
+  created_on: 2008-02-02 20:54:01
+  cached_tags: ""
+  content_type: News
+  content_id: "2"
+  language: 
+  updated_on: 2008-02-02 20:54:01
+  created_by: "3"
+  content_type_id: "3"
+  cached_tag_ids: ""
+  updated_by: "3"
+  id: "2"
+  publish_synced: 
+sobjects_002: 
+  name: website1_content_layout
+  created_on: 2008-02-02 20:58:54
+  cached_tags: |+
+    --- {}
+    
+  content_type: Generator
+  content_id: "9"
+  language: 
+  updated_on: 2008-02-02 20:58:54
+  created_by: 
+  content_type_id: 
+  cached_tag_ids: ;;
+  updated_by: 
+  id: "3"
+  publish_synced: 
+sobjects_003: 
+  name: website1_index_layout
+  created_on: 2008-02-02 20:59:26
+  cached_tags: |+
+    --- {}
+    
+  content_type: Generator
+  content_id: "10"
+  language: 
+  updated_on: 2008-02-02 20:59:26
+  created_by: 
+  content_type_id: 
+  cached_tag_ids: ;;
+  updated_by: 
+  id: "4"
+  publish_synced: 
+sobjects_004: 
+  name: website1_menu
+  created_on: 2008-02-02 21:00:06
+  cached_tags: |+
+    --- {}
+    
+  content_type: Generator
+  content_id: "11"
+  language: 
+  updated_on: 2008-02-02 21:00:07
+  created_by: 
+  content_type_id: 
+  cached_tag_ids: ;;
+  updated_by: 
+  id: "5"
+  publish_synced: 
+sobjects_005: 
+  name: website1_news
+  created_on: 2008-02-02 21:00:44
+  cached_tags: |+
+    --- {}
+    
+  content_type: Generator
+  content_id: "12"
+  language: 
+  updated_on: 2008-02-02 21:00:44
+  created_by: 
+  content_type_id: 
+  cached_tag_ids: ;;
+  updated_by: 
+  id: "6"
+  publish_synced: 

@@ -1,2 +1,8 @@
---- {}
-
+--- 
+news_001: 
+  created_on: 2008-02-02 20:54:01
+  intro: 
+  body: dd
+  title: dd
+  updated_on: 2008-02-02 20:54:01
+  id: "2"

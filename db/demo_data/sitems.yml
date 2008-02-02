@@ -1,2 +1,27 @@
---- {}
-
+--- 
+sitems_001: 
+  created_on: 2008-02-02 20:54:01
+  content_type: News
+  sobject_id: "2"
+  content_id: "2"
+  website_id: "2"
+  is_published: "0"
+  updated_on: 2008-02-02 20:54:01
+  publish_till: 
+  id: "3"
+  click_count: "0"
+  publish_date: 2008-02-02 00:00:00
+  publish_from: 2008-02-02 20:54:01
+sitems_002: 
+  created_on: 2008-02-02 20:54:01
+  content_type: News
+  sobject_id: "2"
+  content_id: "2"
+  website_id: "4"
+  is_published: "0"
+  updated_on: 2008-02-02 20:54:01
+  publish_till: 
+  id: "4"
+  click_count: "0"
+  publish_date: 2008-02-02 00:00:00
+  publish_from: 2008-02-02 20:54:01

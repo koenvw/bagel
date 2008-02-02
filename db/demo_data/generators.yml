@@ -1,11 +1,11 @@
 --- 
 generators_001: 
   generator_folder_id: 
-  created_on: 2007-05-15 13:33:15
+  created_on: 2008-02-02 20:58:54
   core_content_type: ""
   name: website1_content_layout
   website_id: "2"
-  updated_on: 2007-05-15 13:33:15
+  updated_on: 2008-02-02 20:58:54
   content_type_id: 
   template: |-
     <html>
@@ -26,20 +26,20 @@ generators_001:
     
     </body>
     </html>
-  id: "5"
+  id: "9"
   description: ""
   preview_url: 
   assigns: 
-  templating_engine: 
+  templating_engine: erb
 generators_002: 
   generator_folder_id: 
-  created_on: 2007-05-15 13:33:35
+  created_on: 2008-02-02 20:59:26
   core_content_type: ""
   name: website1_index_layout
   website_id: "2"
-  updated_on: 2007-05-15 13:33:35
+  updated_on: 2008-02-02 20:59:26
   content_type_id: 
-  template: |-
+  template: |
     <html>
     <body>
     
@@ -60,44 +60,46 @@ generators_002:
     
     </body>
     </html>
-  id: "6"
+    
+
+  id: "10"
   description: ""
   preview_url: 
   assigns: 
-  templating_engine: 
+  templating_engine: erb
 generators_003: 
   generator_folder_id: 
-  created_on: 2007-05-15 13:33:48
+  created_on: 2008-02-02 21:00:06
   core_content_type: ""
   name: website1_menu
   website_id: "2"
-  updated_on: 2007-05-15 13:35:57
+  updated_on: 2008-02-02 21:00:06
   content_type_id: 
-  template: |-
+  template: |
     <p>This is the menu for website1</p>
     
     
-    
-    
     <li><a href=""></a></li>
-  id: "7"
+    
+
+  id: "11"
   description: ""
   preview_url: 
   assigns: 
-  templating_engine: 
+  templating_engine: erb
 generators_004: 
   generator_folder_id: 
-  created_on: 2007-05-15 13:34:06
-  core_content_type: News
+  created_on: 2008-02-02 21:00:44
+  core_content_type: ""
   name: website1_news
   website_id: "2"
-  updated_on: 2007-05-15 13:34:06
+  updated_on: 2008-02-02 21:00:44
   content_type_id: 
   template: |-
     <h2></h2><br/>
     <i>This is a -item</i>
-  id: "8"
+  id: "12"
   description: ""
   preview_url: 
   assigns: 
-  templating_engine: 
+  templating_engine: erb
