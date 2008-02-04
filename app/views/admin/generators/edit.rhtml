@@ -49,6 +49,10 @@
 		<div class="bottom"></div>
 	</div>
 
+<% # do not use rails javascript helper the ?timestamp will fck things up %>
+<script src="/plugin_assets/bagel/javascripts/codepress/codepress.js" type="text/javascript"></script>
+<%= javascript_tag "Event.observe(window, 'load', function(){codepress1.toggleAutoComplete();} , false);" %>
+
 	<div class="bottomButton">
 		<ul class="mainNav">
 			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$('generator_template').value = codepress1.getCode(); $('generator-form').submit(); return false;" %></li>
@@ -58,7 +62,4 @@
 	<div class="clear"></div>
 <% end %>
 
-<% # do not use rails javascript helper the ?timestamp will fck things up %>
-<script src="/plugin_assets/bagel/javascripts/codepress/codepress.js" type="text/javascript"></script>
-<%= javascript_tag "Event.observe(window, 'load', function(){codepress1.toggleAutoComplete();} , false);" %>
 
