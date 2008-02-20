@@ -23,6 +23,9 @@ class Sobject < ActiveRecord::Base
                                  :after_remove            => :update_cached_tags,
                                  :join_table              => "sobjects_tags"
 
+  #comments
+  has_and_belongs_to_many :comments, :join_table => "sobjects_comments"
+
   # Workflow
   has_many   :workflow_actions
   has_many   :workflow_steps, :through => :workflow_actions

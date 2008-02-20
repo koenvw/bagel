@@ -75,7 +75,6 @@ class SiteController < ApplicationController
   end
 
   def content
-
     # Require both id and type
     render_404 and return if params[:id].nil?
     render_500 and return if params[:type].nil?

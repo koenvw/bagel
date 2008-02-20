@@ -13,6 +13,7 @@ class Admin::NewsController < ApplicationController
 
   def edit
     @news = News.find_by_id(params[:id]) || News.new
+    @newcomment = Comment.new
     @languages = Setting.languages
     @news.type_id ||= params[:type_id]
     @news.create_default_sitems # in case new websites were created after this item was created
@@ -32,6 +33,7 @@ class Admin::NewsController < ApplicationController
 
           # Save other stuff
           @news.save_tags(params[:tags])
+          @news.save_comment(params[:newcomment])
           @news.save_relations(params[:relations])
           @news.set_updated_by(params)
           @news.save_workflow(params[:workflow_steps])

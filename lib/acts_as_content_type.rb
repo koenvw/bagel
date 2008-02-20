@@ -266,6 +266,14 @@ module ActsAsContentType
     def remove_tag_unless(tag)
       sobject.tags.delete(tag) if !tag.nil? && sobject.tags.exists?(tag.id)
     end
+    
+    def save_comment(comment)
+      if comment != nil
+        newcomment = Comment.new(comment)
+        newcomment.admin_user = AdminUser.current_user
+        sobject.comments << newcomment
+      end  
+    end
 
     def type_id=(content_type_id)
       #FIXME this does not work if sobject is not assigned yet (Item.create :type_id => , ...)

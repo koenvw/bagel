@@ -5,6 +5,7 @@ class SiteUser < ActiveRecord::Base
   validates_uniqueness_of :email
   validates_format_of :email, :with => AppConfig[:email_expression]
 
+
   # just to make ourselves consistent with the other ContentTypes
   def title
     email

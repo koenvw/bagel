@@ -1,0 +1,55 @@
+<%
+# Parameters:
+# - item : the content object
+# - startOpen   : default relationpopup open
+# - showAdd   : show the "add" button
+#
+#
+if item.respond_to?(:ctype) and ( (item.ctype && !item.ctype.hide_tags?) or item.ctype.nil? )
+
+# show add defaults to true
+showAdd = true if showAdd.nil?
+# unless user does not have permissions
+#showAdd = false unless AdminUser.current_user.admin_permissions.include?(:content_tags_management) or AdminUser.current_user.is_admin?
+
+# figure out content type ...
+content_type = item.ctype
+if content_type.nil?
+  # our content item does not have a content type ...
+  if ContentType.exists?(params[:type_id])
+    # check the params
+    content_type = ContentType.find(params[:type_id])
+  end
+end
+# last resort, default to new content type
+content_type ||= ContentType.new
+
+%>
+<div class="subContent">
+	<a href="#" onclick="makeColapseMenusCheck()" class="openClose">Open</a>
+	<h3 class="forClose">Comments</h3>
+
+	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
+		<div class="mceFrame">
+			<%= text_area  :newcomment,:body, :class => 'text_area_large', :cols => 40, :rows => 10 %><br/>
+		</div>
+		<% item.sobject.comments.each do |comment| %>
+		<fieldset class="oneline">
+			<div style="padding-bottom:20px">
+				<div style="position:relative;float:left">
+					<label style="width:300px;"><%= comment.admin_user.firstname + " " + comment.admin_user.lastname %> says:</label>
+				</div>
+				<div style="position:relative;float:right">
+					<i><%= comment.created_on.strftime("%d %b %Y - %H:%M") %></i>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div><%= comment.body %></div>
+		</fieldset>
+		<% end -%>
+	</div>
+	
+		
+	<div class="bottom"></div>
+</div>
+<% end %>

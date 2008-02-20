@@ -5,6 +5,7 @@ class AdminUser < ActiveRecord::Base #:nodoc:
   attr_protected :password
   attr_protected :password_hash
   attr_protected :password_salt
+  has_many :comments
 
   validates_uniqueness_of   :username
   validates_presence_of     :username, :firstname, :lastname, :password_hash, :email_address
