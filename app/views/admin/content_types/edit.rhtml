@@ -34,6 +34,10 @@
 			<%= check_box 'type', 'hide_relations' %><br/>
 		</fieldset>
 		<fieldset class="oneline">
+			<label for="content_tags">Hide Comments?</label>
+			<%= check_box 'type', 'hide_comments' %><br/>
+		</fieldset>
+		<fieldset class="oneline">
 			<label for="content_type_description">Description</label>
 			<%= text_area 'type', 'description' , :class => "large_text_input", :size => "30" %>
 		</fieldset>

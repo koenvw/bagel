@@ -1,0 +1,26 @@
+ <% if sobject.content.tags.length > 0 %>
+ <tr>
+ 	<td class="moreinforow" colspan="4" >
+ 		<div class="infocontainer" id="<%="info#{sobject.content.id}" %>" style="display:none">
+ 			<% if sobject.content.tags.length !=0 && sobject.content.relations.length !=0  %>
+ 			<div style="padding:10px">
+ 					<strong>attached tags:</strong>
+ 					<% sobject.content.tags.each do |tag| %>
+ 						<%= tag.name %>
+ 						<%= "," unless tag == sobject.content.tags.last %>
+ 					<% end %>
+ 					<br/><br/>
+ 				<% end %>
+ 				
+ 				<% if sobject.content.relations.length > 0 %>
+ 					<strong>relations:</strong>
+ 					<% sobject.content.relations.each do |rel| %>
+ 						<%= rel.title %>
+ 						<%= "," unless rel == sobject.content.relations.last %>
+ 					<% end %>
+ 				<% end %>
+ 			</div>
+ 		</div>
+ 	</td>
+ </tr>
+ <% end %>

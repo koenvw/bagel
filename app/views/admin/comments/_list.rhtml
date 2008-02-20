@@ -5,7 +5,7 @@
 # - showAdd   : show the "add" button
 #
 #
-if item.respond_to?(:ctype) and ( (item.ctype && !item.ctype.hide_tags?) or item.ctype.nil? )
+if item.respond_to?(:ctype) and ( (item.ctype && !item.ctype.hide_comments?) or item.ctype.nil? )
 
 # show add defaults to true
 showAdd = true if showAdd.nil?
@@ -14,6 +14,7 @@ showAdd = true if showAdd.nil?
 
 # figure out content type ...
 content_type = item.ctype
+
 if content_type.nil?
   # our content item does not have a content type ...
   if ContentType.exists?(params[:type_id])
@@ -25,6 +26,7 @@ end
 content_type ||= ContentType.new
 
 %>
+
 <div class="subContent">
 	<a href="#" onclick="makeColapseMenusCheck()" class="openClose">Open</a>
 	<h3 class="forClose">Comments</h3>
@@ -40,7 +42,7 @@ content_type ||= ContentType.new
 					<label style="width:300px;"><%= comment.admin_user.firstname + " " + comment.admin_user.lastname %> says:</label>
 				</div>
 				<div style="position:relative;float:right">
-					<i><%= comment.created_on.strftime("%d %b %Y - %H:%M") %></i>
+					<i><%= comment.created_on.formatted %></i>
 				</div>
 			</div>
 			<div class="clear"></div>
