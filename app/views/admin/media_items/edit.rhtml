@@ -13,7 +13,8 @@
 		inpStyle = "width: 455px;"
 %>
 	<div class="imgPreview">
-		<img src="<%=h @media_item.default_thumbnail_public_filename %>" />
+		<img src="<%=h @media_item.default_thumbnail_public_filename %>" /><br/>
+		<%= link_to_function("edit image", "launchImageEditor('#{@media_item.id.to_s}','#{@media_item.public_filename}' )")   %>
 	</div>
 <%
 	end

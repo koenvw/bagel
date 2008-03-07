@@ -1,3 +1,5 @@
+
+
 class PictureFileSystem < MediaItem
 
   has_attachment :storage         => :file_system,
@@ -32,5 +34,7 @@ class PictureFileSystem < MediaItem
       self.title = '(Picture) ' + self.public_filename
     end
   end
+  
+  
 
 end

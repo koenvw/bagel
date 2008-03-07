@@ -1,3 +1,5 @@
+require 'RMagick'
+
 class Admin::MediaItemsController < ApplicationController
 
   requires_authorization :actions    => [ :index, :list, :edit, :destroy ],
@@ -34,6 +36,18 @@ class Admin::MediaItemsController < ApplicationController
     @media_items_filtered_count = @media_items.length
     @media_items_count          = MediaItem.find(:all, :conditions => 'type LIKE \'Picture%\' AND parent_id IS NULL').length
   end
+  
+  
+  def update_edited_image
+    media_item = MediaItem.find_by_id(params[:id])
+    img_orig = Magick::Image.read(RAILS_ROOT+'/public/'+ media_item.public_filename).first
+    img = img_orig.resize_to_fit(params[:newwidth],params[:newheight])
+    img.write(RAILS_ROOT+'/public/'+ media_item.public_filename)
+    media_item.update_attributes(:height=>params[:newheight],:width=>params[:newwidth])
+    @response.headers["Content-type"] = img.mime_type
+    render :text => img.to_blob
+  end
+  
 
   def edit
     # Find media item

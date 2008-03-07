@@ -21,14 +21,13 @@
 		<% unless @sobject.content.nil? %>
 		<tr class="content">
 			<td>
-				<%= link_to "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", '#', :id => 'show_info_link',:class => "moreinfo",:onclick => visual_effect(:toggle_blind,"info#{@sobject.content.id}") %>
+				<%= link_to image_tag('bluegel/icons/icon_moreinfo.png', :border=>0,:alt=> "next", :plugin => "bagel"), '#', :id => 'show_info_link',:onclick => visual_effect(:toggle_blind,"info#{@sobject.id}") %>
 				<%= link_to truncate(@sobject.content.title,80), :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %>
 			</td>
 			<td><%= @sobject.ctype_name %></td>
 			<td><%= @sobject.content.updated_on.formatted %></td>
 			<td class="iconbox">
 				<span class="icon">
-					
 					<%= link_to "delete", { :controller => @sobject.controller_name, :action => 'destroy', :id => @sobject.content.id }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>
 					<%= link_to "edit", { :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id }, :class => "edit", :title => "Edit entry" %>
 				</span>

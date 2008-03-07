@@ -1,9 +1,10 @@
- <% if sobject.content.tags.length > 0 %>
+ 
+
  <tr>
  	<td class="moreinforow" colspan="4" >
- 		<div class="infocontainer" id="<%="info#{sobject.content.id}" %>" style="display:none">
- 			<% if sobject.content.tags.length !=0 && sobject.content.relations.length !=0  %>
- 			<div style="padding:10px">
+ 		<div class="infocontainer" id="<%="info#{sobject.id}" %>" style="display:none">
+			<div style="padding:10px;">
+ 				<% if sobject.content.tags.length !=0 && sobject.content.relations.length !=0  %>
  					<strong>attached tags:</strong>
  					<% sobject.content.tags.each do |tag| %>
  						<%= tag.name %>
@@ -18,9 +19,17 @@
  						<%= rel.title %>
  						<%= "," unless rel == sobject.content.relations.last %>
  					<% end %>
+					<br/><br/>
+ 				<% end %>
+ 				<% if sobject.content.sitems.length > 0 %>
+ 					<strong>websites:</strong>
+ 					<% sobject.content.sitems.each do |sitem| %>
+ 						<%= sitem.website.name %>
+ 						<%= "," unless sitem == sitem.content.sitems.last %>
+ 					<% end %>
  				<% end %>
  			</div>
+
  		</div>
  	</td>
  </tr>
- <% end %>

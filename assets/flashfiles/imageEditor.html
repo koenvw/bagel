@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>imageEditor</title>
+	<script src="/plugin_assets/bagel/javascripts/swfobject.js" type="text/javascript"></script>
+	<script type="text/javascript" charset="utf-8">
+		var winW;
+		var winH;
+		function gup(name)
+		{
+		  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		  var regexS = "[\\?&]"+name+"=([^&#]*)";
+		  var regex = new RegExp( regexS );
+		  var results = regex.exec( window.location.href );
+		  if( results == null )
+		    return "";
+		  else
+		    return results[1];
+		}
+		
+		function getWindowSize(){
+			if (parseInt(navigator.appVersion)>3) {
+			 if (navigator.appName=="Netscape") {
+			  winW = window.innerWidth;
+			  winH = window.innerHeight;
+			 }
+			 if (navigator.appName.indexOf("Microsoft")!=-1) {
+			  winW = document.body.offsetWidth;
+			  winH = document.body.offsetHeight;
+			 }
+			}
+		}
+	</script>
+</head>
+<html>
+<body id="imageeditor" onload="" style="margin:0px">
+	<div id="editorcontent"></div>
+	<script type="text/javascript" charset="utf-8">
+		getWindowSize();
+		var file = gup('file');
+		var id = gup('id');
+		var so = new SWFObject("/plugin_assets/bagel/flashfiles/imageEditor.swf", "imageEditor",winW,winH, "8", "#336699");
+		so.addVariable("file",file);
+		so.addVariable("id",id);
+		so.write("editorcontent");
+	</script>
+	
+</body>
+</html>

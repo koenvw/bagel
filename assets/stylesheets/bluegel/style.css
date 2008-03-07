@@ -236,6 +236,9 @@
 	#content table.uniTable ul.extrainfo li { padding-right: 6px; display: inline; color: #777; font-size: 10px; }
 	
 	
+	#content table.uniTable td.moreinforow { background:#f9f9f9; padding:0px;margin:0px;}
+	#content table.uniTable td.moreinforow div.infocontainer { border-bottom: 1px solid #f1f3f3;position:relative; }
+	
 	/* special class(es) for the image gallery table because this really doenst meet grid standards :-) */
 	
 	#imageGallery 

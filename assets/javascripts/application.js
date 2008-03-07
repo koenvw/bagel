@@ -1,4 +1,13 @@
 
+	function launchImageEditor(id,filename) {
+		height = '800';
+		width = '1000';
+		newwindow=window.open('/plugin_assets/bagel/flashfiles/imageEditor.html?id='+id+'&file='+filename,'imageEditor :: '+filename,'height='+height+',width='+width);
+		if (window.focus) {newwindow.focus()}
+		return false;
+	}
+
+
 	/* simple function to send messages to the notice flashbox */
 	function flashNotice(msg) {
 		$('flashNotice').innerHTML = msg;
