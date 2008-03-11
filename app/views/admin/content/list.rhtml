@@ -73,7 +73,10 @@
 				<tr><td colspan="4">CONTENT NOT FOUND</td></tr>
 				<% else %>
 					<tr class="content">
-						<td><%= link_to truncate(@item.content.title,80), :controller => @item.controller_name, :action => "edit", :id => @item.content.id, :tag_names => params[:tag_names] %> </td>
+						<td>
+							<%= link_to_function(image_tag('/plugin_assets/bagel/images/bluegel/icons/icon_moreinfo.png'),nil) { |page| page.visual_effect(:toggle_blind,"info#{@item.id}") } %>
+							<%= link_to truncate(@item.content.title,80), :controller => @item.controller_name, :action => "edit", :id => @item.content.id, :tag_names => params[:tag_names] %> 
+						</td>
 						<td><%= @item.ctype_name %></td>
 						<% if @websites.size > 1 %>
 						<td>
@@ -94,6 +97,7 @@
 							</span>
 						</td>
 					</tr>
+					<%= render :partial => 'admin/home/moreinfo',:locals=>{:sobject=>@item} %>
 				<% end %>
 			<% end %>
 			<% if @items.size == 0 %>

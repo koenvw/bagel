@@ -21,7 +21,7 @@
 		<% unless @sobject.content.nil? %>
 		<tr class="content">
 			<td>
-				<%= link_to image_tag('bluegel/icons/icon_moreinfo.png', :border=>0,:alt=> "next", :plugin => "bagel"), '#', :id => 'show_info_link',:onclick => visual_effect(:toggle_blind,"info#{@sobject.id}") %>
+				<%= link_to_function(image_tag('/plugin_assets/bagel/images/bluegel/icons/icon_moreinfo.png'),nil) { |page| page.visual_effect(:toggle_blind,"info#{@sobject.id}") } %>
 				<%= link_to truncate(@sobject.content.title,80), :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %>
 			</td>
 			<td><%= @sobject.ctype_name %></td>
