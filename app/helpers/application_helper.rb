@@ -120,6 +120,46 @@ module ApplicationHelper
       link_hash = { :controller => ctrl, :action => action, :id => param_id, :type_id => ctype.id, :form_definition_id => form_definition_id }.merge(type_hash)
     end
   end
+  
+  def render_insite_editor 
+    if AdminUser.current_user
+      link_hash = "/admin/#{@content_type.pluralize}/edit/#{instance_variable_get("@"+@content_type).id}"
+      user = AdminUser.find(instance_variable_get("@"+@content_type).sobject.updated_by)
+      moreinfolink = link_to("more info","#",:onclick=>"toggle('insite_moreinfocontainer')") 
+      tags = instance_variable_get("@"+@content_type).sobject.content.tags.map{|tag| ', '+tag.name }.to_s.sub(',','')
+      relations = instance_variable_get("@"+@content_type).sobject.content.relations.map{|rel| ', '+rel.title }.to_s.sub(',','')
+      websites = instance_variable_get("@"+@content_type).sobject.content.sitems.map{|sitem| ', '+sitem.name }.to_s.sub(',','')
+      
+      result = <<-HTML
+        #{stylesheet_link_tag("/plugin_assets/bagel/stylesheets/insite-infobar.css")}
+        <div id="insite_infobar" >
+          <div class="bg">
+            <div class="metainfo">
+              <strong>title: </strong>#{instance_variable_get("@"+@content_type).sobject.name}<br/>
+              <strong>last update: </strong>#{instance_variable_get("@"+@content_type).sobject.updated_on.formatted} by #{user.firstname} #{user.lastname}<br/>
+            </div>
+            <div class="infobar_button"><div class="left"></div><div class="middle">#{link_to_if_authorized("edit", link_hash)}</div><div class="right"></div></div>
+  	  HTML
+    	if request.env['REQUEST_URI'].match(/\?/)
+    	      result += "<div class=\"infobar_button\"><div class=\"left\"></div><div class=\"middle\">"+link_to("clear cache", "#{request.env['REQUEST_URI']}&clear=1")+"</div><div class=\"right\"></div></div>"
+    	else
+    	      result += "<div class=\"infobar_button\"><div class=\"left\"></div><div class=\"middle\">"+link_to("clear cache", "#{request.env['REQUEST_URI']}?clear=1") +"</div><div class=\"right\"></div></div>"
+    	end
+    	result += <<-HTML
+    	      <div class="infobar_button"><div class="left"></div><div class="middle">#{moreinfolink}</div><div class="right"></div>
+    	    </div>
+    	  </div>
+    	  <div id="insite_moreinfocontainer" style="display:none">
+    	    <div class="metainfo">
+    	      <strong>tags: </strong>#{tags} |
+    	      <strong>relations: </strong>#{relations} |
+    	      <strong>websites: </strong>#{websites}
+    	    </div>
+    	  </div>
+    	HTML
+    	
+    end
+  end
 
 public
 

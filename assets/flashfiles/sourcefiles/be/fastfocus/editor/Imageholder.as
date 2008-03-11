@@ -15,6 +15,7 @@ package be.fastfocus.editor {
 		public var filename:String;
 		public var preloader;
 		public var documentroot;
+		public var imagemc:MovieClip;
 		
 		
 		public var originalw:Number;
@@ -25,6 +26,8 @@ package be.fastfocus.editor {
 		public function Imageholder(imageid){
 			super();
 			this.imageid = imageid;
+			imagemc = new MovieClip;
+			addChild(imagemc);
 		}
 				
 		public function loadImage(filename:String){
@@ -37,10 +40,11 @@ package be.fastfocus.editor {
 			
 			var imgloader = new Loader();
 			var req = new URLRequest(filename+'?n='+Math.random());
+			//var req = new URLRequest(filename);
 			imgloader.contentLoaderInfo.addEventListener(Event.COMPLETE,onComplete);
 			imgloader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, progressHandler);
 			imgloader.load(req);
-			addChild(imgloader);
+			imagemc.addChild(imgloader);
 		}
 		
 		public function onComplete(e) : void {

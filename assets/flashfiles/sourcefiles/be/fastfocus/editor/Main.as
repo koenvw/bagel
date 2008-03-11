@@ -23,6 +23,9 @@ package be.fastfocus.editor {
 		public var flashVars;
 		public var posturl:String = '/admin/media_items/update_edited_image'
 		public var flashmessage:String;
+		public var selectiontool;
+		public var croptool;
+		public var lastaction:String;
 
 
 		//--------------------------------------
@@ -35,10 +38,20 @@ package be.fastfocus.editor {
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(Event.RESIZE, stageResizeHandler);
 			images = [];
+			init();
+		}
+		
+		public function init(){
+			bg.width = stage.stageWidth + 400;
+			bg.height = stage.stageHeight + 400;
 			createScrollPane();
 			getParams();
 			flashmessage = "Loading image...";
-			openImage(flashVars['file'],flashVars['id']);		
+			openImage(flashVars['file'],flashVars['id']);
+			//openImage("woman.jpg","2");
+			selectiontool = new Selectiontool(this);
+			croptool = new Croptool(this);
+			toolbar.init();
 		}
 		
 		
@@ -90,6 +103,15 @@ package be.fastfocus.editor {
             addChild(sp);         
         }
 
+		public function undo(){
+			if(lastaction == 'resize'){
+				toolbar.resize_tool.undo();
+			}
+			if(lastaction == 'crop'){
+				croptool.undo();
+			}
+		}
+
 
         private function doDrawRoundRect(targetmc):void {
             var child:Shape = new Shape();
@@ -104,8 +126,18 @@ package be.fastfocus.editor {
 		public function saveResult(e) : void {
 			var url:String = posturl ;
             var variables:URLVariables = new URLVariables();
-            variables.newwidth = activeimage.width;
+            //resizing vars
+			variables.newwidth = activeimage.width;
 			variables.newheight = activeimage.height;
+			//cropping vars
+			if(croptool.iscropped){
+				variables.crop_x = selectiontool.p1.x;
+				variables.crop_y = selectiontool.p1.y;
+				variables.crop_width = selectiontool.p3.x;
+				variables.crop_height = selectiontool.p3.y; 
+				croptool.iscropped = false;
+			}
+			
 			variables.id = activeimage.imageid;
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE, loaderCompleteHandler);

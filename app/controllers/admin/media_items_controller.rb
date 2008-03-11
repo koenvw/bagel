@@ -40,10 +40,18 @@ class Admin::MediaItemsController < ApplicationController
   
   def update_edited_image
     media_item = MediaItem.find_by_id(params[:id])
+    #first resize
     img_orig = Magick::Image.read(RAILS_ROOT+'/public/'+ media_item.public_filename).first
     img = img_orig.resize_to_fit(params[:newwidth],params[:newheight])
     img.write(RAILS_ROOT+'/public/'+ media_item.public_filename)
     media_item.update_attributes(:height=>params[:newheight],:width=>params[:newwidth])
+    #then crop
+    if params[:crop_x]
+      img_orig = Magick::Image.read(RAILS_ROOT+'/public/'+ media_item.public_filename).first
+      img = img_orig.crop(params[:crop_x].to_i,params[:crop_y].to_i,params[:crop_width].to_i,params[:crop_height].to_i);
+      img.write(RAILS_ROOT+'/public/'+ media_item.public_filename)
+    end
+    
     @response.headers["Content-type"] = img.mime_type
     render :text => img.to_blob
   end
