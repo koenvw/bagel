@@ -65,8 +65,9 @@ package be.fastfocus.editor {
 				documentroot.activeimage.imagemc.height = documentroot.activeimage.originalh + ((documentroot.activeimage.originalh * pct) /100)*2;
 			}
 			else if(slider.x < 75){
-				documentroot.activeimage.imagemc.width = documentroot.activeimage.originalw - ((documentroot.activeimage.imagemc.originalw * pct) /100)*2;
-				documentroot.activeimage.imagemc.height = documentroot.activeimage.originalh - ((documentroot.activeimage.imagemc.originalh * pct) /100)*2;
+				trace(pct);
+				documentroot.activeimage.imagemc.width = documentroot.activeimage.originalw - ((documentroot.activeimage.originalw * pct) /100)*2;
+				documentroot.activeimage.imagemc.height = documentroot.activeimage.originalh - ((documentroot.activeimage.originalh * pct) /100)*2;
 			}
 			documentroot.updateContentarea();
 		}

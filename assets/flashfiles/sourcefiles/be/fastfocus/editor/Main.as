@@ -131,10 +131,10 @@ package be.fastfocus.editor {
 			variables.newheight = activeimage.height;
 			//cropping vars
 			if(croptool.iscropped){
-				variables.crop_x = selectiontool.p1.x;
-				variables.crop_y = selectiontool.p1.y;
-				variables.crop_width = selectiontool.p3.x;
-				variables.crop_height = selectiontool.p3.y; 
+				variables.crop_x = selectiontool.rect.x;
+				variables.crop_y = selectiontool.rect.y;
+				variables.crop_width = selectiontool.rect.width;
+				variables.crop_height = selectiontool.rect.height; 
 				croptool.iscropped = false;
 			}
 			
