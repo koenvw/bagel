@@ -35,9 +35,9 @@
 				workflows = Workflow.find(:all)
 				if workflows.size > 1
 			%>
-			<%= select_tag :step_id, '<option value="">Status</option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
+      <%= select_tag :step_id, '<option value="">Status</option><option value="none">None</option>' + option_groups_from_collection_for_select(workflows, "workflow_steps", "name", "id","name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
 			<% elsif workflows.size > 0 %>
-			  <%= select_tag :step_id, '<option value="">Status</option>' + options_from_collection_for_select(workflows.first.workflow_steps, "id", "name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
+        <%= select_tag :step_id, '<option value="">Status</option><option value="none_' + workflows.first.id.to_s + '" ' + (params[:step_id] == 'none_' + workflows.first.id.to_s ? "selected " : "") + '>None</option>' + options_from_collection_for_select(workflows.first.workflow_steps, "id", "name", params[:step_id].to_i), { :style => "width: #{selectWidth}", :onChange=>"document.select_rec.submit()" } %>
 
 			<% end %>
 			<%= calendar_field_tag "publish_date", params[:publish_date], true, true, { :class => "date"  }, {:showOthers => true, :showsTime => false} %>
@@ -89,7 +89,7 @@
 						</td>
 						<% end %>
 						<% publish_date = nil; publish_date = @item.sitems.first.publish_from if @item.sitems.size > 0 && @item.sitems.first.publish_from %>
-						<td <%= "style=\"color:red;\"" if publish_date && publish_date > Time.now %>><%=  publish_date.formatted if publish_date %> <%  # FIXME: publish_form is not manadotry? %></td>
+						<td <%= "style=\"color:red;\"" if publish_date && publish_date > Time.now %>><%=  publish_date.formatted if publish_date %> <%  # FIXME: publish_form is not mandatory? %></td>
 						<td class="iconbox">
 							<span class="icon">
 								<%= link_to "delete", { :controller => @item.controller_name, :action => 'destroy', :id => @item.content.id, :website_id=>params[:website_id], :search_string=>params[:search_string], :content_type=>params[:content_type], :redirect=>"/admin/content/list" }, :class => "delete", :confirm => 'Are you sure?', :method => :post %>

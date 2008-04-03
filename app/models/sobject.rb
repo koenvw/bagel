@@ -347,7 +347,13 @@ class Sobject < ActiveRecord::Base
     # current_workflow_step: will match content-items that have the given workflow_step as their highest workflow_action
     if options[:current_workflow_step]
       workflow_check = "";
-      current_step = WorkflowStep.find(options[:current_workflow_step])
+      if options[:current_workflow_step].starts_with?("none")
+        # create an dummy workflow step that comes before all others
+        workflow = Workflow.find(options[:current_workflow_step].split("_")[1])
+        current_step = WorkflowStep.new :position => -1, :workflow => workflow
+      else
+        current_step = WorkflowStep.find(options[:current_workflow_step])
+      end
       workflow_check << " AND sobjects.content_type_id IN (#{current_step.workflow.content_types.map{|ct|ct.id}.join(",")})"
       current_step.workflow.workflow_steps.each do |step|
         if current_step.optional? || !step.optional? # skip optional steps unless the request step is optional # FIXME: this only works when optional steps come first?
