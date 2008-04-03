@@ -14,8 +14,8 @@
 					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_cache_management) %>
 					<div class="containersm">
-						<h3><%= link_to "Aliases", admin_urlmappings_url %></h3>
-						<p>Use this for url rewriting</p>
+						<h3><%= link_to "Caching", :controller => "cache" %></h3>
+						<p>Statistics for caching</p>
 					</div>
 					<% end %>
 					<% if AdminUser.current_user.has_admin_permission?(:admin_generator_files_management) %>
