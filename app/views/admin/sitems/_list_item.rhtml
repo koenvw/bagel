@@ -46,7 +46,7 @@ end
 	</td>
 	<td class="descr">
 		<% case item.class.to_s
-			 when "News","Form","Container" %>
+			 when "News","Form","Container","Event" %>
 				<% if item.new_record? %>
 					<%= website_name %>
 				<% else %>
