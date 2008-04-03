@@ -1,8 +1,11 @@
 <%
 
-
 unless params[:sub_search].blank?
-	conditions = ["image LIKE ? OR title LIKE ?", "%" + params[:sub_search] + "%","%" + params[:sub_search] + "%"]
+  conditions = []
+  params[:sub_search].split(" ").each do |keyword|
+  conditions << "(image LIKE '%#{keyword}%' OR title LIKE '%#{keyword}%')"
+  end
+  conditions = conditions.join(" AND ")
 else
 	conditions = nil
 end

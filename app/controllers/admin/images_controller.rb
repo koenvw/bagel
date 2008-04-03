@@ -23,8 +23,10 @@ class Admin::ImagesController < ApplicationController
       condition_string = "1"
     end
     if params[:search_string]
-       condition_string+=" AND images.title LIKE '%#{params[:search_string].gsub("'","''")}%'"
-       condition_string+=" AND images.image LIKE '%#{params[:search_string].gsub("'","''")}%'"
+      condition_string = "1=1 "
+      params[:search_string].split(" ").each do |keyword|
+        condition_string << " AND (images.title LIKE '%#{ActiveRecord::Base.connection.quote_string(keyword)}%' OR images.image LIKE '%#{ActiveRecord::Base.connection.quote_string(keyword)}%')"
+      end
     end
     @image_pages, @images = paginate :image, :per_page => 20, :order => "images.updated_on DESC", :include => :sobject, :conditions => condition_string
   end

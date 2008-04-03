@@ -112,8 +112,10 @@ private
       return
     end
     
+
     # Attempt to authenticate user
     user = AdminUser.authenticate(params[:admin_user][:username], params[:admin_user][:password])
+
     if user.nil? or not user.is_active?
       flash[:notice] = 'Incorrect username or password.'
       bagel_log :message => "User #{params[:admin_user][:username]} failed to login", :kind => 'login', :severity => :medium, :hostname => request.host_with_port

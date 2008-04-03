@@ -272,7 +272,11 @@ class Sobject < ActiveRecord::Base
 
     # search_string
     unless options[:search_string].blank?
-      search_check = "AND (sobjects.name LIKE '%#{ActiveRecord::Base.connection.quote_string(options[:search_string])}%')"
+      search_check = "AND (1=1 "
+      options[:search_string].split(" ").each do |keyword|
+        search_check << "AND sobjects.name LIKE '%#{ActiveRecord::Base.connection.quote_string(keyword)}%'"
+      end
+      search_check << ")"
     end
 
     # content_types
