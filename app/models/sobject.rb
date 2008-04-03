@@ -58,6 +58,7 @@ class Sobject < ActiveRecord::Base
     hash = {}
     tags.each do |cat|
       hash[cat.parent.name] = cat.name unless cat.parent.nil?
+      hash[cat.name] = true if cat.parent.nil?
     end
     update_attribute(:cached_tags, hash.to_yaml)
   end
