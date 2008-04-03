@@ -21,7 +21,7 @@
 		<% unless @sobject.content.nil? %>
 		<tr class="content">
 			<td>
-				<%= link_to_function(image_tag('/plugin_assets/bagel/images/bluegel/icons/icon_moreinfo.png'),nil) { |page| page.visual_effect(:toggle_blind,"info#{@sobject.id}") } %>
+				<%= link_to_remote(image_tag('/plugin_assets/bagel/images/bluegel/icons/icon_moreinfo.png') ,:url => {:controller => "home", :action => "moreinfo", :id => @sobject.id }) %>
 				<%= link_to truncate(@sobject.content.title,80), :controller => @sobject.controller_name, :action => 'edit', :id => @sobject.content.id %>
 			</td>
 			<td><%= @sobject.ctype_name %></td>
@@ -33,10 +33,11 @@
 				</span>
 			</td>
 		</tr>
-		
-		<%= render :partial => 'moreinfo',:locals=>{:sobject=>@sobject} %>
-
-		
+		<tr>
+			<td class="moreinforow" colspan="4" >
+				<span id="moreinfo_<%= @sobject.id %>"></span>
+			</td>
+		</tr>
 		<% end %>
 		<% end %>
 		<tr>

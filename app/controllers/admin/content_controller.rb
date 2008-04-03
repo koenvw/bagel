@@ -20,16 +20,16 @@ class Admin::ContentController < ApplicationController
 
     # Find all items
     nonpaginated_items = Sobject.find_with_parameters(
-      :status           => :all, 
-      :content_types    => params[:type_id], 
-      :tags             => params[:tag_id], 
-      :website_id       => params[:website_id], 
-      :published_by     => params[:user_id], 
-      :current_workflow_step => params[:step_id], 
-      :publish_from     => publish_from, 
-      :publish_till     => publish_till, 
-      :limit            => 1000, 
-      :order            => "sitems.publish_date DESC, sobjects.id DESC", 
+      :status           => :all,
+      :content_types    => params[:type_id],
+      :tags             => params[:tag_id],
+      :website_id       => params[:website_id],
+      :published_by     => params[:user_id],
+      :current_workflow_step => params[:step_id],
+      :publish_from     => publish_from,
+      :publish_till     => publish_till,
+      :limit            => 1000,
+      :order            => "sitems.publish_date DESC, sobjects.id DESC",
       :search_string    => params[:search_string]
     )
 
@@ -45,7 +45,6 @@ class Admin::ContentController < ApplicationController
 
   def wizard
     # Find all content types except generators
-    # FIXME: hide via checkbox, not via extra info?
     @content_types = ContentType.find(:all, :conditions => "hidden=0", :order => "name")
   end
 

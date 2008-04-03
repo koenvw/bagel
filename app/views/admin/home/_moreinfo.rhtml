@@ -1,37 +1,30 @@
-<tr>
-	<td class="moreinforow" colspan="4" >
-		<div class="infocontainer" id="<%="info#{sobject.id}" %>" style="display:none">
-			<div style="padding:10px;">
-				<% if sobject.content.tags.length !=0 && sobject.content.relations.length !=0  %>
-					<strong>attached tags:</strong>
-					<% sobject.content.tags.each do |tag| %>
-						<%= tag.name %>
-						<%= "," unless tag == sobject.content.tags.last %>
-					<% end %>
-					<br/><br/>
-				<% end %>
-				
-				<% if sobject.content.relations.length > 0 %>
-					<strong>relations:</strong>
-					<% sobject.content.relations.each do |rel| %>
-						<%= rel.title %>
-						<%= "," unless rel == sobject.content.relations.last %>
-					<% end %>
-				<br/><br/>
-				<% end %>
-				<% if sobject.content.sitems.select{|sitem| sitem.is_published?}.length > 0 %>
-					<strong>websites:</strong>
-					<% sobject.content.sitems.select{|sitem| sitem.is_published?}.each do |sitem| %>
-						<%= sitem.website.name %>
-						<%= "," unless sitem == sitem.content.sitems.last %>
-					<% end %>
-				<br/><br/>
-				<% end %>
-				<% if sobject.content.current_workflow_step_name.length > 0 %>
-					<strong>workflow status:</strong>
-					<%= sobject.content.current_workflow_step_name %>
-				<% end %>
-			</div>
-		</div>
-	</td>
-</tr>
+<div class="infocontainer" id="<%="info#{sobject.id}" %>" style="display:inline">
+  <div style="padding:10px;">
+    <% tags = sobject.cached_tags %>
+    <% relations = sobject.content.relations %>
+    <% sitems = sobject.content.sitems.select{|sitem| sitem.is_published?} %>
+    <% workflow_step_name = sobject.content.current_workflow_step_name %>
+    <% if tags.size > 0 %>
+      <strong>tags:</strong>
+      <%= tags.values.join(", ") %>
+      <br/><br/>
+    <% end %>
+    <% if relations.length > 0 %>
+      <strong>relations:</strong>
+      <%= relations.map(&:title).join(", ") %>
+      <br/><br/>
+    <% end %>
+    <% if sitems.length > 0 %>
+      <strong>websites:</strong>
+      <%= sitems.map{|sitem| sitem.website.name }.join(", ") %>
+      <br/><br/>
+    <% end %>
+    <% if workflow_step_name.length > 0 %>
+      <strong>workflow status:</strong>
+      <%= workflow_step_name %>
+    <% end %>
+    <% if tags.size == 0 && relations.size == 0 && sitems.size == 0 && workflow_step_name.size == 0 %>
+      no more info.
+    <% end %>
+  </div>
+</div>

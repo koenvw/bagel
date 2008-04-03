@@ -1,0 +1,7 @@
+page << "var empty =  $('moreinfo_#{params[:id]}').empty()";
+page.replace_html "moreinfo_#{params[:id]}",
+                  :partial => "admin/home/moreinfo",
+                  :locals => { :sobject=> Sobject.find(params[:id]) }
+# toggle after insert so that next toggle will hide
+page << "if (empty) $('moreinfo_#{params[:id]}').toggle()"
+page.toggle "moreinfo_#{params[:id]}"
