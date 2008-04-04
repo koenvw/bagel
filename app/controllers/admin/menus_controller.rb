@@ -15,7 +15,7 @@ class Admin::MenusController < ApplicationController
   end
 
   def list
-    @menu_pages, @menus = paginate :menu, :order_by => 'lft ASC'
+    @menu_pages, @menus = paginate :menu, :per_page => 99999 :order_by => 'lft ASC'
     @menu = Menu.find(params[:id]) unless params[:id].nil?
   end
 
