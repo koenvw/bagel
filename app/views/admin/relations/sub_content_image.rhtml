@@ -24,7 +24,7 @@ r_type='image'
 %>
 <td class="imgContainer">
   <% @image.after_initialize #FIXME: this call is needed because @image "forgot" to do it ? %>
-  <%= link_to_remote image_tag(url_for_file_column('image', 'image', Setting.get("ImageSettings")[:default2]), :border=>0, :alt=> @image.image_file),
+  <%= link_to_remote image_tag(url_for_file_column('image', 'image', Setting.get("ImageSettings")[:default2]), :border=>0, :alt=> @image.image_file, :title=> @image.image_file),
 		:url => "/admin/relations/add/#{@image.sobject.id}?rel_id=#{params[:rel_id]}",
 		:loading => "Element.show('spinner_relations_search')",
 		:complete => "Element.hide('spinner_relations_search'); relVisualAction();",
