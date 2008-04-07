@@ -13,9 +13,11 @@ class Admin::ContainersController < ApplicationController
 
   def edit
     # Find or create container
+
     @container = Container.find_by_id(params[:id]) || Container.new
     @container.type_id ||= params[:type_id]
     @container.create_default_sitems
+
 
     if request.post?
       old_attr = {
@@ -37,9 +39,10 @@ class Admin::ContainersController < ApplicationController
         @container.save(false)
 
         # Save related
+        imagerelations = @container.save_imageuploads(params[:imageuploads])
         @container.save_workflow(params[:workflow_steps])
         @container.save_tags(params[:tags])
-        @container.save_relations(params[:relations])
+        @container.save_relations(params[:relations]+imagerelations)
         @container.set_updated_by(params)
 
         if @container.save

@@ -57,6 +57,24 @@ class Admin::ImagesController < ApplicationController
       end
     end
   end
+  
+  def update_edited_image
+    image = Image.find_by_id(params[:id])
+    #first resize
+    imagelocation = RAILS_ROOT+"/public/assets/"+image.created_on.year.to_s + image.created_on.month.to_s.rjust(2,"0") +"/#{image.id.to_s}/"+image.image_file
+    img_orig = Magick::Image.read(imagelocation).first
+    img = img_orig.resize_to_fit(params[:newwidth],params[:newheight])
+    img.write(imagelocation)
+    image.update_attributes(:height=>params[:newheight],:width=>params[:newwidth])
+    #then crop
+    if params[:crop_x]
+      img_orig = Magick::Image.read(imagelocation).first
+      img = img_orig.crop(params[:crop_x].to_i,params[:crop_y].to_i,params[:crop_width].to_i,params[:crop_height].to_i);
+      img.write(imagelocation)
+    end
+    @response.headers["Content-type"] = img.mime_type
+    render :text => img.to_blob
+  end
 
   def destroy
     Image.find(params[:id]).destroy

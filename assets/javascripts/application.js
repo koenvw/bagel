@@ -1,8 +1,11 @@
 
-	function launchImageEditor(id,filename) {
+	function launchImageEditor(id,filename,posturl) {
 		height = '800';
 		width = '1000';
-		newwindow=window.open('/plugin_assets/bagel/flashfiles/imageEditor.html?id='+id+'&file='+filename,'imageEditor :: '+filename,'height='+height+',width='+width);
+		if(typeof(posturl)=='undefined'){
+			posturl = "";
+		}
+		newwindow=window.open('/plugin_assets/bagel/flashfiles/imageEditor.html?id='+id+'&file='+filename+'&posturl='+posturl,'imageEditor :: '+filename,'height='+height+',width='+width);
 		if (window.focus) {newwindow.focus()}
 		return false;
 	}

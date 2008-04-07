@@ -40,9 +40,13 @@
 		getWindowSize();
 		var file = gup('file');
 		var id = gup('id');
+		var posturl = gup('posturl');
 		var so = new SWFObject("/plugin_assets/bagel/flashfiles/imageEditor.swf", "imageEditor",winW,winH, "8", "#336699");
 		so.addVariable("file",file);
 		so.addVariable("id",id);
+		if(posturl != ""){
+			so.addVariable("posturl",posturl);
+		}
 		so.write("editorcontent");
 	</script>
 	

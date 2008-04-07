@@ -4,7 +4,8 @@
 		inpStyle = "width: 438px;"
 %>
 	<div class="imgPreview">
-		<%= image_tag(url_for_file_column('image', 'image', 'small')) %>
+		<%= image_tag(url_for_file_column('image', 'image', 'small')) %><br/>
+		<%= link_to_function("edit image", "launchImageEditor('#{@image.id.to_s}','#{url_for_file_column('image', 'image')}','/admin/images/update_edited_image' )")   %>
 	</div>
 <% 
 	end

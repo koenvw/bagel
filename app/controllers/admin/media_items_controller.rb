@@ -40,8 +40,9 @@ class Admin::MediaItemsController < ApplicationController
   
   def update_edited_image
     media_item = MediaItem.find_by_id(params[:id])
+    logger.info(media_item.public_filename)
     #first resize
-    img_orig = Magick::Image.read(RAILS_ROOT+'/public/'+ media_item.public_filename).first
+    img_orig = Magick::Image.read(RAILS_ROOT+'/public'+ media_item.public_filename).first
     img = img_orig.resize_to_fit(params[:newwidth],params[:newheight])
     img.write(RAILS_ROOT+'/public/'+ media_item.public_filename)
     media_item.update_attributes(:height=>params[:newheight],:width=>params[:newwidth])

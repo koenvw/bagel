@@ -1,7 +1,6 @@
 <h1><%= figure_out_action(@container) %> <%= figure_out_content_type_name(@container) %></h1>
 
-<% form_tag :action => 'edit', :id => @container do %>
-
+<% form_tag({:action => 'edit'}, {:multipart => true, :id =>@container} ) do -%>
 	<%= hidden_field_tag "container[type_id]", @container.type_id || params[:type_id] %>
 	<%= hidden_field_tag "referer", params[:referer] || request.env['HTTP_REFERER'] %>
 	<%= error_messages_for 'container' %>
@@ -18,7 +17,9 @@
 	<%= render :partial => "admin/workflows/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @container } %>
+	<%= render :partial => "admin/containers/imageuploads",:locals => { :item => @container } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @container, :startOpen => "true" } %>
+	
 	<div class="bottomButton">
 		<ul class="mainNav">
 			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>

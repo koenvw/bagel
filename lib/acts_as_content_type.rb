@@ -312,6 +312,27 @@ module ActsAsContentType
         end
       end
     end
+    
+    
+    def save_imageuploads(imageuploads)
+      self.ctype.relations.each do |rel|
+        if(rel.name == 'Image')
+          relation_id = rel.id
+          newrelations = ''
+          imageuploads.each do |file_id,attr|
+            if(attr["image"]!="")
+              image= Image.new()
+              image.attributes = attr
+              image.title = image.image_file if image.title.blank?
+              image.save(false)
+              newrelations += ','+image.sobject.id.to_s+'-'+relation_id.to_s if(image.sobject.id)
+            end
+          end
+          return newrelations
+          break
+        end
+      end
+    end
 
     # relations is a string with this format: 1-2,2-3,... => (to_sobject_id-relation_id)
     def save_relations(relations)

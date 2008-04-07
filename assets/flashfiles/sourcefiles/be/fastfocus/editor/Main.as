@@ -9,6 +9,7 @@ package be.fastfocus.editor {
 	import flash.events.*;
 	import flash.display.Shape;
     import flash.net.*;
+	import flash.text.TextField;
 
 
 
@@ -124,7 +125,12 @@ package be.fastfocus.editor {
 		
 		
 		public function saveResult(e) : void {
-			var url:String = posturl ;
+			if(flashVars['posturl']){
+				var url:String = flashVars['posturl']
+			}
+			else{
+				var url:String = posturl ;
+			}
             var variables:URLVariables = new URLVariables();
             //resizing vars
 			variables.newwidth = activeimage.width;

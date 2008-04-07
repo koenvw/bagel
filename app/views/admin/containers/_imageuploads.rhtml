@@ -1,0 +1,49 @@
+<%
+# Parameters:
+# - item : the content object
+# - startOpen   : default relationpopup open
+# - showAdd   : show the "add" button
+#
+#
+if item.respond_to?(:ctype) and ( (item.ctype && !item.ctype.hide_imageuploads?) or item.ctype.nil? )
+
+# show add defaults to true
+showAdd = true if showAdd.nil?
+# unless user does not have permissions
+#showAdd = false unless AdminUser.current_user.admin_permissions.include?(:content_tags_management) or AdminUser.current_user.is_admin?
+
+# figure out content type ...
+content_type = item.ctype
+
+if content_type.nil?
+  # our content item does not have a content type ...
+  if ContentType.exists?(params[:type_id])
+    # check the params
+    content_type = ContentType.find(params[:type_id])
+  end
+end
+# last resort, default to new content type
+content_type ||= ContentType.new
+
+%>
+
+<div class="subContent">
+	<a href="#" onclick="makeColapseMenusCheck()" class="openClose">Open</a>
+	<h3 class="forClose">Imageuploads</h3>
+	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
+		<div style="padding:15px">
+			<label>files :</label><br/>
+			<div id="filerows">
+				<% i = 0 %>
+				<input id="<%= "imageuploads_#{i}_image_temp" %>" name="<%= "imageuploads[#{i}][image_temp]" %>" type="hidden" />
+				<input id="<%= "imageuploads_#{i}_image" %>" name="<%= "imageuploads[#{i}][image]" %>" size="30" type="file" />
+			</div>
+			<%= link_to_function("extra file", nil, :id => "extra_file") do |page| 
+				i+= 1
+				page.insert_html :bottom,"filerows","<br/>"+ "<input id=\"imageuploads_#{i}_image_temp\" name=\"imageuploads[#{i}][image_temp]\" type=\"hidden\" /><input id=\"imageuploads_#{i}_image\" name=\"imageuploads[#{i}][image]\" size=\"30\" type=\"file\" />"
+			end %>
+		</div>
+	</div>	
+	<div class="bottom"></div>
+</div>
+<% end %>
