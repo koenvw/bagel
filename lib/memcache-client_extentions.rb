@@ -114,7 +114,7 @@ module ActionController::Caching #:nodoc:
         write_fragment(name, buffer[pos..-1], options)
 
         (options && options[:locals] || {}).each_pair do |key, value|
-          buffer[pos..-1] = buffer[pos..-1].gsub!(key.to_s, value.to_s)
+          buffer[pos..-1] = buffer[pos..-1].gsub(key.to_s, value.to_s)
         end
         buffer[pos..-1]
       end
