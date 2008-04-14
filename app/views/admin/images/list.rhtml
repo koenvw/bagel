@@ -27,7 +27,8 @@
 			<%
 				count = 0
 				for @image in @images
-				  if count == 4
+				next if @image.image.nil?
+				if count == 4
 					count = 0
 			%>
 			<div class="clear"></div>
@@ -37,9 +38,11 @@
 					<li><%= link_to 'edit', { :action => 'edit', :id => @image }, :class => "edit", :title => "Edit image" %></li>
 					<li><%= link_to 'delete', { :action => 'destroy', :id => @image }, :class => "del", :title => "Delete image" , :confirm => 'Are you sure?', :method => :post %></li>
 				</ul>
+				<% if File.exists?(@image.image) %>
 				<%= image_tag url_for_file_column('image', 'image',Setting.get("ImageSettings")[:default]), :alt=> @image.image_file %>
 				<h3><%= truncate(@image.image_file, 23,'...') %></h3>
-				<p><%= MIME::Types.type_for(@image.image) %> - <%= number_to_human_size(File.size(@image.image)) if File.exists?(@image.image) %></p>
+				<p><%= MIME::Types.type_for(@image.image) %> - <%= number_to_human_size(File.size(@image.image)) %></p>
+			<% end %>
 			</div>
 		<% count = count+1 %>
 		<% end %>
