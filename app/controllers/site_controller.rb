@@ -9,6 +9,8 @@ class SiteController < ApplicationController
 
   @@dont_do_splash = false
 
+  bagel_caches_page :index, :content
+
   #no login required
   before_filter :check_authentication, :only => :nothing
 

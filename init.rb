@@ -30,6 +30,7 @@ ActiveRecord::Base.send(:include, ActsAsContentType)
 
 # Patches for memcache-client
 require 'memcache-client_extentions'
+require 'caching_extensions'
 
 # ActsAsEnhancedNestedSet
 require 'acts_as_enhanced_nested_set'

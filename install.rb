@@ -88,6 +88,11 @@ config = <<EOC
 
   # email validation
   config.app_config.email_expression = /^(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6}$/i
+
+  # set path for page_caching
+  config.action_controller.page_cache_directory = RAILS_ROOT + "/public/cache/"
+  config.app_config.cache_to_filesytem = true
+
 EOC
 insert_line(config, 'See Rails::Configuration for more options', file)
 
