@@ -68,12 +68,12 @@ module ActsAsContentType
       if respond_to?(:title) && respond_to?(:body) && !title.blank? && !body.blank?
 
         # if we don't have a number of words specified and our object does not have an intro field
-        if words == 0 and intro.blank?
+        if words == 0 and attributes['intro'].blank?
           # return the first 10 word of the body
           body.split[0..10].join(" ")
 
         # if we have a number of words to return and still no intro field
-        elsif words != 0 and intro.blank?
+        elsif words != 0 and attributes['intro'].blank?
           # 
           maximum_characters ||= (+1.0/0.0) # infinity!
 

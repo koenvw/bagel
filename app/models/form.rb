@@ -141,6 +141,11 @@ class Form < ActiveRecord::Base
     )
   end
 
+  def to_xml(options = {})
+    options.reverse_merge! :except => [ :data, :form ], :methods => data.keys
+    super
+  end
+
   # Liquid support
 
   def to_liquid
