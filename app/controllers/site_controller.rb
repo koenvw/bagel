@@ -99,6 +99,8 @@ class SiteController < ApplicationController
     when 'generator' # Slightly custom
       @generator = Generator.find_by_name(params[:id])
       render_404 and return if @generator.nil?
+      #rendering content_layout itself will cause an endless loop, so we stop that here
+      render_404 and return if @generator.name.match("content_layout")
       @content_title = "" # Empty, because users don't really want a <title></title>
       @content_generator = @generator
       @content_for_layout = @content_generator.template
