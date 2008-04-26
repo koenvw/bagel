@@ -418,6 +418,21 @@ class Sobject < ActiveRecord::Base
 
     res
   end
+  
+  def to_xml(options = {})
+    result = ""
+    xml = options[:builder] ||= Builder::XmlMarkup.new(result)
+    xml.instruct! unless options[:skip_instruct]
+    xml.sobject{
+      for col in Sobject.columns
+        xml.tag! col.name,CGI.escapeHTML(self.send(col.name).to_s),{:type=>col.type}
+      end
+      if(self.content)
+      xml << '<content>' +self.content.to_xml({:skip_instruct=>true})+'</content>'
+      end
+    }
+    result
+  end
 
   ########## DEPRECATED
 

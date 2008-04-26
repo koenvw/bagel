@@ -90,6 +90,12 @@
 						<p>Configure workflow here</p>
 					</div>
 					<% end %>
+					<% if AdminUser.current_user.has_admin_permission?(:_admin_management) %>
+					<div class="containersm">
+						<h3><%= link_to "Export", :controller => "export",:action=>"edit" %></h3>
+						<p>Export content here</p>
+					</div>
+					<% end %>
 				<div class="clear"></div>
 				<div class="bottom"></div>
 			</div>
