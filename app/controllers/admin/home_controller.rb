@@ -1,3 +1,4 @@
+require 'digest/sha2'
 class Admin::HomeController < ApplicationController
   requires_authorization :actions => [:admin], :permission => [:_main_menu_admin]
   requires_authorization :actions => [:index], :permission => [:_main_menu_content]
