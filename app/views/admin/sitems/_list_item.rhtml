@@ -14,7 +14,7 @@ end
 %>
 <!--[form:sitem]-->
 <tr class="content">
-	<td style="width: 20px;">
+	<td style="width: 45px;">
 		<%
 		# find out our workflow id
 		if sitem.content && sitem.content.ctype
@@ -43,6 +43,11 @@ end
 		<% else %>
 			<%= tag "input", {:type => "checkbox", :name => "sitems[#{sitem_id}][is_published]", :value=> 1, :disabled => disabled } %>
 		<% end %>
+
+		<% unless AppConfig[:multisite_setup] %>
+			<%= tag "input", {:type => "radio", :name => "sitems[default_sitem]", :value=> sitem_id, :checked => (sitem.is_default ? "checked": nil), :disabled => disabled } %>
+		<% end %>
+
 	</td>
 	<td class="descr">
 		<% case item.class.to_s

@@ -83,6 +83,9 @@ config = <<EOC
   # wizards
   config.app_config.wizard_for = [] # array of content type names
 
+  # multisite_setup
+  config.app_config.multisite_setup = true
+
   # admin menu
   config.app_config.admin_menu = admin_menu 
 

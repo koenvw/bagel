@@ -63,7 +63,6 @@ class Sobject < ActiveRecord::Base
     update_attribute(:cached_tags, hash.to_yaml)
   end
 
-  # FIXME: former name was "tags" -> massive breakage
   def cached_tags
     # FIXME: how to make operations on this hash persist to the form ? (eg.: f.data.delete())
     unless read_attribute(:cached_tags) == "" or read_attribute(:cached_tags).nil?
@@ -134,6 +133,20 @@ class Sobject < ActiveRecord::Base
       options[:published] = :all  if options[:status] == :all
       options[:published] = true  if options[:status] == 'Published'
       options[:published] = false if options[:status] == 'Hidden'
+    end
+
+    # find out if we are a multisite setup or not
+    # multisite means that 1 content item can be published to more than 1 website
+    # being multisite does have a performance hit given our current database mode
+    # (we need to join with the sitems table which can grow quite quick)
+    if AppConfig[:multisite_setup]
+      sitems_table = "sitems"
+      includes = :sitems
+    else
+      # the sobjects table contains the same information that is in 1 sitem.
+      sitems_table = "sobjects"
+      options[:order] = nil if options[:order] && options[:order].starts_with?("sitems")
+      includes = nil # this speeds things up tremendously
     end
 
     # tags
@@ -221,18 +234,18 @@ class Sobject < ActiveRecord::Base
       if options[:website].to_i == 0 # a string
         website = Website.find_by_name(options[:website])
         raise ActiveRecord::RecordNotFound.new("Couldn't find website with name=#{options[:website]}") if website.nil?
-        website_check = " AND sitems.website_id=#{website.id}"
+        website_check = " AND #{sitems_table}.website_id=#{website.id}"
       else # a number
-        website_check = " AND sitems.website_id=#{options[:website]}"
+        website_check = " AND #{sitems_table}.website_id=#{options[:website]}"
       end
     elsif options[:website_name]
       website = Website.find_by_name(options[:website_name])
       raise ActiveRecord::RecordNotFound.new("Couldn't find website with name=#{options[:website_name]}") if website.nil?
-      website_check = " AND sitems.website_id=#{website.id}"
+      website_check = " AND #{sitems_table}.website_id=#{website.id}"
     else
       # website_id
       if options[:website_id]
-        website_check = " AND sitems.website_id=#{options[:website_id]}"
+        website_check = " AND #{sitems_table}.website_id=#{options[:website_id]}"
       end
     end
 
@@ -303,21 +316,19 @@ class Sobject < ActiveRecord::Base
 
     # publish_from
     if options[:publish_from]
-      publish_from_check = " AND sitems.publish_from >= '#{options[:publish_from].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
+      publish_from_check = " AND #{sitems_table}.publish_from >= '#{options[:publish_from].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
     elsif options[:status] != :all
-      publish_from_check = " AND sitems.publish_from<now()"
+      publish_from_check = " AND #{sitems_table}.publish_from<now()"
     else
-      # FIXME: was: publish_from_check = " AND sitems.publish_from>'0001-01-01'" => WHY?
       publish_from_check = ""
     end
 
     # publish_till
     if options[:publish_till]
-      publish_till_check = " AND sitems.publish_from <= '#{options[:publish_till].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
+      publish_till_check = " AND #{sitems_table}.publish_from <= '#{options[:publish_till].to_time.strftime("%Y-%m-%d %H:%M:%S")}'"
     elsif options[:status] != :all
-      publish_till_check = " AND (sitems.publish_till>now() OR sitems.publish_till IS NULL)"
+      publish_till_check = " AND (#{sitems_table}.publish_till>now() OR #{sitems_table}.publish_till IS NULL)"
     else
-      #FIXME: was:  publish_till_check = " AND (sitems.publish_till<'9999-01-01' OR sitems.publish_till IS NULL)" => WHY?
       publish_till_check = ""
     end
 
@@ -326,10 +337,10 @@ class Sobject < ActiveRecord::Base
       if options[:published] == :all
         status_check = ' '
       else
-        status_check = " AND sitems.is_published='#{options[:published] ? '1' : '0'}' AND sitems.publish_from < now()"
+        status_check = " AND #{sitems_table}.is_published='#{options[:published] ? '1' : '0'}' AND #{sitems_table}.publish_from < now()"
       end
     else
-      status_check = ' AND sitems.is_published = "1" AND sitems.publish_from < now()'
+      status_check = " AND #{sitems_table}.is_published = 1 AND #{sitems_table}.publish_from < now()"
     end
 
     # has_workflow_step: will match content-items that have completed the given workflow_steps
@@ -370,7 +381,6 @@ class Sobject < ActiveRecord::Base
     # warning: be careful when including other tables without benchmarking
     # performance might drop significantly
     # sometimes its better not to solve the "n+1 problem"
-    includes = :sitems
     if options[:include]
       includes = [includes,options[:include]]
     end
@@ -394,7 +404,7 @@ class Sobject < ActiveRecord::Base
       :joins   => joins||=nil,
       :limit   => options[:limit]  || 5,
       :offset  => options[:offset] || 0,
-      :order   => options[:order]  || "sitems.publish_from DESC"
+      :order   => options[:order]  || "#{sitems_table}.publish_from DESC"
     )
 
     website_name = (options[:website] and options[:website].to_i == 0) ? options[:website] : options[:website_name]
@@ -432,49 +442,6 @@ class Sobject < ActiveRecord::Base
       end
     }
     result
-  end
-
-  ########## DEPRECATED
-
-  def self.list(site, content_types, tags, limit=5, offset=0, search_string="")
-    $stderr.puts('DEPRECATION WARNING: Sobject.list is deprecated; please use Sobject.find_with_parameters')
-    tag_check = "AND (1=0"
-    tags.each do |tag_name|
-      tag = Tag.find_by_name(tag)
-      unless tag.nil?
-        tag_check << " OR cached_category_ids LIKE '%;#{tag.id};%' "
-      end
-    end
-    #FIXME: TA is an exception because it does not have a tag (better exclude tags than include them ??)
-    tag_check << " OR sobjects.content_type ='TestArticle'"
-    tag_check << " OR sobjects.content_type ='Book')"
-    if search_string.size > 0
-      search_check = "AND (name LIKE '%#{search_string}%')"
-    else
-      search_check = ""
-    end
-
-    find(
-      :all,
-      :conditions=>"
-        sitems.website_id=#{Website.find_by_name(site).id}
-        AND (sitems.publish_till<now() OR sitems.publish_till IS NULL)
-        AND sitems.publish_from<now()
-        AND sitems.status='Published'
-        #{tag_check}
-        #{search_check}
-        AND sobjects.content_type IN (#{"'" + content_types.join("','") + "'"})
-      ",
-      :include=>:sitems,
-      :limit=>limit,
-      :offset=>offset,
-      :order=>"sitems.publish_from DESC"
-    )
-  end
-
-  def categories
-    $stderr.puts('DEPRECATION WARNING: Sobject.categories is deprecated; please use Sobject.tags')
-    tags
   end
 
 end

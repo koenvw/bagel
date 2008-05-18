@@ -221,7 +221,7 @@ module ActsAsContentType
 
     def add_sitem(website_id)
       # build a sitem, default status to NOT published
-      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :is_published => false 
+      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :is_published => false, :is_default => false
     end
 
     def add_sitem_unless(website)
@@ -237,6 +237,7 @@ module ActsAsContentType
         add_sitem(website_id)
       else
         sitem.is_published = true
+        sitem.is_default = false
         sitem.save
         sitem
       end
@@ -280,8 +281,21 @@ module ActsAsContentType
       sobject.content_type_id = content_type_id
     end
 
+    def default_sitem
+      default = sitems.select {|sitem| sitem.is_default? }
+      default.first if default.size > 0
+    end
+
+    def prepare_default_sitem
+      # set a default website on the first sitem unless
+      sitems.first.is_default = true unless default_sitem
+    end
+
     def prepare_sitems(params)
       unless params.blank?
+        # get id of default website
+        default_sitem = params.delete(:default_sitem)
+        #
         params.each do |key,new_sitem|
           # we use .select b/c find_by_website_id does not work for new records
           wsitems = sitems.select {|v| v.website_id == new_sitem[:website_id].to_i }
@@ -296,7 +310,10 @@ module ActsAsContentType
           end
           merged_attributes = wsitem.attributes.merge(new_sitem)
           wsitem.attributes = merged_attributes
+          # set is_default
+          wsitem.is_default = (key == default_sitem)
         end
+        prepare_default_sitem
       end
     end
 
@@ -406,9 +423,10 @@ module ActsAsContentType
       Website.find(:all).each do |website|
         sitem = sitems.select {|v| v.website_id == website.id }
         if sitem.blank?
-          add_sitem(website.id) 
+          add_sitem(website.id)
         end
       end
+      prepare_default_sitem
     end
 
     def prepare_sobject
@@ -422,7 +440,15 @@ module ActsAsContentType
     end
 
     def after_save
+      # set our sobject_id in our sitems
       sitems.each { |sitem| sitem.sobject_id = sobject.id; sitem.save! } if self.respond_to?("sitems")
+
+      # copy data from our default sitem to our sobject
+      sitem = default_sitem
+      [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
+        sobject.send("#{property}=",sitem.send(property))
+      end
+
       # FIXME: has_one relationships should automatically be saved ?
       sobject.save if valid?
     end
