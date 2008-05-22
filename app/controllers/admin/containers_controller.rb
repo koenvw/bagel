@@ -43,6 +43,7 @@ class Admin::ContainersController < ApplicationController
         @container.save_workflow(params[:workflow_steps])
         @container.save_tags(params[:tags])
         @container.save_relations(params[:relations]+imagerelations)
+        @container.save_comment(params[:newcomment])
         @container.set_updated_by(params)
 
         if @container.save

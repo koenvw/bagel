@@ -32,6 +32,7 @@
 	<%= render :partial => "admin/sitems/list", :locals => { :item => @site_user } %>
 	<%= render :partial => "admin/tags/list", :locals => { :item => @site_user } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @site_user } %>
+	<%= render :partial => "admin/comments/list", :locals => { :item => @site_user } %>
 	<div class="bottomButton">
 		<ul class="mainNav">
 			<li><%= link_to 'Save Changes', "#", :class => "save-big", :onclick => "$$('form')[0].submit(); return false;" %></li>

@@ -75,6 +75,7 @@ class Admin::FormsController < ApplicationController
         @form.save_tags(params[:tags])
         @form.save_relations(params[:relations])
         @form.set_updated_by(params)
+        @form.save_comment(params[:newcomment])
 
         @form.reload # make sure our tags/relations are up to date
 

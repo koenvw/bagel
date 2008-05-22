@@ -24,6 +24,7 @@ class Admin::SiteUsersController < ApplicationController
       if @site_user.save
         @site_user.save_tags(params[:tags])
         @site_user.save_relations(params[:relations])
+        @site_user.save_comment(params[:newcomment])
         flash[:notice] = 'SiteUser was successfully updated.'
         redirect_to params[:referer] || {:controller => "content", :action => "list"}
       end

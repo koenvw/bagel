@@ -49,6 +49,7 @@ class Admin::ImagesController < ApplicationController
       @image.save_workflow(params[:workflow_steps])
       @image.save_tags(params[:tags])
       @image.save_relations(params[:relations])
+      @image.save_comment(params[:newcomment])
       @image.set_updated_by(params)
       
       if @image.save

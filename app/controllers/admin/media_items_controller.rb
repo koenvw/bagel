@@ -112,6 +112,7 @@ class Admin::MediaItemsController < ApplicationController
         @media_item.save_workflow(params[:workflow_steps])
         @media_item.save_tags(params[:tags])
         @media_item.save_relations(params[:relations])
+        @media_item.save_comment(params[:newcomment])
 
         @media_item.set_updated_by(params)
 

@@ -39,6 +39,7 @@ class Admin::EventsController < ApplicationController
         # Save related
         @event.save_tags(params[:tags])
         @event.save_relations(params[:relations])
+        @event.save_comment(params[:newcomment])
         @event.set_updated_by(params)
 
         if @event.save

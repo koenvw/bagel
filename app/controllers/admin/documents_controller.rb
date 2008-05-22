@@ -26,6 +26,7 @@ class Admin::DocumentsController < ApplicationController
         @document.save_tags(params["tags"])
         @document.save_relations(params["relations"])
         @document.set_updated_by(params)
+        @document.save_comment(params[:newcomment])
         
         if @document.save
           # Share on del.icio.us

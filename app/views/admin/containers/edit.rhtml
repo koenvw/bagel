@@ -19,6 +19,7 @@
 	<%= render :partial => "admin/tags/list", :locals => { :item => @container } %>
 	<%= render :partial => "admin/containers/imageuploads",:locals => { :item => @container } %>
 	<%= render :partial => "admin/relations/list", :locals => { :item => @container, :startOpen => "true" } %>
+	<%= render :partial => "admin/comments/list", :locals => { :item => @container } %>
 	
 	<div class="bottomButton">
 		<ul class="mainNav">
