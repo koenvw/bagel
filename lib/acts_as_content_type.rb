@@ -221,7 +221,9 @@ module ActsAsContentType
 
     def add_sitem(website_id)
       # build a sitem, default status to NOT published
-      sitems.build :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :is_published => false, :is_default => false
+      options = { :website_id => website_id, :publish_date => Date.today, :publish_from => Time.now, :is_published => false }
+      options[:is_default] = false unless AppConfig[:multisite_setup]
+      sitems.build options
     end
 
     def add_sitem_unless(website)
@@ -443,10 +445,12 @@ module ActsAsContentType
       # set our sobject_id in our sitems
       sitems.each { |sitem| sitem.sobject_id = sobject.id; sitem.save! } if self.respond_to?("sitems")
 
-      # copy data from our default sitem to our sobject
-      sitem = default_sitem
-      [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
-        sobject.send("#{property}=",sitem.send(property))
+      unless AppConfig[:multisite_setup]
+        # copy data from our default sitem to our sobject
+        sitem = default_sitem
+        [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
+          sobject.send("#{property}=",sitem.send(property))
+        end
       end
 
       # FIXME: has_one relationships should automatically be saved ?
