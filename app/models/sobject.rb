@@ -145,7 +145,7 @@ class Sobject < ActiveRecord::Base
     else
       # the sobjects table contains the same information that is in 1 sitem.
       sitems_table = "sobjects"
-      options[:order] = nil if options[:order] && options[:order].starts_with?("sitems")
+      options[:order].gsub!("sitems","sobjects") if options[:order]
       includes = nil # this speeds things up tremendously
     end
 

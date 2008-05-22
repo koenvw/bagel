@@ -14,10 +14,12 @@ class MakeMultiSiteOptional < ActiveRecord::Migration
 
     # migrate data
     Sobject.find(:all, :include => :sitems).each do |sobject|
-      if sobject.sitems.size > 0
-        first_sitem = sobject.sitems.first # yea i know.
+      sitems = sobject.sitems
+      if sitems.size > 0
+        first_published_sitem = sitems.select {|sitem| sitem.attributes[:is_published] }.first
+        first_published_sitem = sitems.first if first_published_sitem.nil?
         [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
-          sobject.send("#{property}=",first_sitem.send(property))
+          sobject.send("#{property}=",first_published_sitem.send(property))
         end
         sobject.save
       end
@@ -30,5 +32,6 @@ class MakeMultiSiteOptional < ActiveRecord::Migration
     remove_column :sobjects, :publish_till
     remove_column :sobjects, :publish_date
     remove_column :sobjects, :is_published
+    remove_column :sitems, :is_default
   end
 end
