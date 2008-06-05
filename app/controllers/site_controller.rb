@@ -479,6 +479,9 @@ class SiteController < ApplicationController
           redirect_to_back_or_home and return
         end
 
+        # set from addres
+        params[:from] = params[:to] if params[:from].nil?
+
         # send mail
         # params: options[:form], options[:body], options[:subject], options[:to], options[:from]
         params[:content_type] ||= "text/html"
