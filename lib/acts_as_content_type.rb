@@ -399,6 +399,21 @@ module ActsAsContentType
 
   module Callbacks
 
+    def before_validation
+      unless sobject.ctype.nil?
+        sobject.ctype.business_rules.each do |rule|
+          # Call rule
+          dont_care = rule.passes_for(self)
+          # please note that we are running the rule before validate() is called
+          # this is necessary because apart from validations that happen in a business rule
+          # it is also possibly to modify the object (see http://wiki.bagel.be/wiki/BusinessRules)
+          # some modification might include fixing an invalid object, so we need run the rule
+          # before validation happens, hence def before_validation.
+          # This will result in running 1 rule twice per save() call though
+          end
+        end
+      end
+    end
     def validate
       unless sobject.ctype.nil?
         sobject.ctype.business_rules.each do |rule|
@@ -448,8 +463,10 @@ module ActsAsContentType
       unless AppConfig[:multisite_setup]
         # copy data from our default sitem to our sobject
         sitem = default_sitem
-        [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
-          sobject.send("#{property}=",sitem.send(property))
+        if sitem
+          [:website_id, :publish_from, :publish_till, :publish_date, :is_published].each do |property|
+            sobject.send("#{property}=",sitem.send(property))
+          end
         end
       end
 
