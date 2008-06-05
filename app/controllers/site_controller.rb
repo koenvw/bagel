@@ -480,7 +480,7 @@ class SiteController < ApplicationController
         end
 
         # set from addres
-        params[:from] = params[:to] if params[:from].nil?
+        params[:from] = params[:form][:email] if params[:from].nil?
 
         # send mail
         # params: options[:form], options[:body], options[:subject], options[:to], options[:from]
