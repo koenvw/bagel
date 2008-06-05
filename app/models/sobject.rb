@@ -141,12 +141,12 @@ class Sobject < ActiveRecord::Base
     # (we need to join with the sitems table which can grow quite quick)
     if AppConfig[:multisite_setup]
       sitems_table = "sitems"
-      includes = :sitems
+      includes = [:sitems]
     else
       # the sobjects table contains the same information that is in 1 sitem.
       sitems_table = "sobjects"
       options[:order].gsub!("sitems","sobjects") if options[:order]
-      includes = nil # this speeds things up tremendously
+      includes = [] # this speeds things up tremendously
     end
 
     # tags
@@ -382,7 +382,7 @@ class Sobject < ActiveRecord::Base
     # performance might drop significantly
     # sometimes its better not to solve the "n+1 problem"
     if options[:include]
-      includes = [includes,options[:include]]
+      includes << options[:include]
     end
 
     res = find(
