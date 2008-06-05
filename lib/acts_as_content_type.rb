@@ -410,7 +410,6 @@ module ActsAsContentType
           # some modification might include fixing an invalid object, so we need run the rule
           # before validation happens, hence def before_validation.
           # This will result in running 1 rule twice per save() call though
-          end
         end
       end
     end
