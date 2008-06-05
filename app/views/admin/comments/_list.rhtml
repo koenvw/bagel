@@ -29,9 +29,9 @@ content_type ||= ContentType.new
 
 <div class="subContent">
 	<a href="#" onclick="makeColapseMenusCheck()" class="openClose">Open</a>
-	<h3 class="forClose">Comments</h3>
-
+  <h3 class="forClose">Comments</h3>
 	<div class="collapsed" style="display: <%= (startOpen ||= false) || params[:websiteDisplayState] == "1" ? "block" : "none" %>;">
+		<fieldset class="oneline">for internal use only, these comments are not published on the website</fieldset>
 		<div class="mceFrame">
 			<%= text_area  :newcomment,:body, :class => 'text_area_large', :cols => 40, :rows => 10 %><br/>
 		</div>
