@@ -493,7 +493,9 @@ class SiteController < ApplicationController
       if @formdef.redirect_to == ""
         redirect_to_back_or_home
       else
-        redirect_to @formdef.redirect_to
+        # add all params to the redirect_to url
+        redirect_url = params.update :controller => @formdef.redirect_to, :action => nil, :id => nil
+        redirect_to url_for(redirect_url)
       end
 
     else
