@@ -11,13 +11,14 @@
 	
 	function bagel_addRelation() {
 		if(!$$('.relationManager')) return false;
-		$$('.relationManager').each(function(relationManager) { 
-			relationManager.getElementsByClassName('addRelation').each(function(a) { 
-				Event.observe(a, 'click', function(e) {
+		$$('.relationManager').each(function(rlm) { 
+			var action = rlm.getElementsByClassName('addRelation');
+			if(action[0]) {
+				Event.observe(action[0], 'click', function(e) {
 					bagel_addRelation_do(Event.element(e));
 					Event.stop(e);
 				}, false);
-			});
+			}
 		});
 		
 		// enable usage of random links (outsite the relationManager obj)
