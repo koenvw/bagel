@@ -3,6 +3,8 @@ class Admin::ContainersController < ApplicationController
                          :permission => [:content_container_management,:_content_management]
   uses_tiny_mce tinymce_options
 
+  helper "admin/forms"
+
   def index
     edit
     render :action => 'edit'

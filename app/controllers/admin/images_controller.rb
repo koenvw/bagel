@@ -3,6 +3,8 @@ class Admin::ImagesController < ApplicationController
 
   uses_tiny_mce tinymce_options
 
+  helper "admin/forms"
+
   def index
     list
     render :action => 'list'

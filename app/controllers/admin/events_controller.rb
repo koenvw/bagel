@@ -3,6 +3,8 @@ class Admin::EventsController < ApplicationController
                          :permission => [:content_events_management,:_content_management]
   uses_tiny_mce tinymce_options
 
+  helpder "admin/forms"
+
   def index
     edit
     render :action => 'edit'

@@ -74,7 +74,7 @@ module ActsAsContentType
 
         # if we have a number of words to return and still no intro field
         elsif words != 0 and attributes['intro'].blank?
-          # 
+          #
           maximum_characters ||= (+1.0/0.0) # infinity!
 
           # see how many words can fit in maximum_characters
@@ -215,6 +215,12 @@ module ActsAsContentType
       step && step.name || ''
     end
 
+    def dynfields
+      fields = Setting.get("ContentTypeFields")
+      return {} if fields.nil? or fields[ctype.name.to_sym].nil?
+      return fields[ctype.name.to_sym]
+    end
+
   end
 
   module HelperMethods
@@ -269,13 +275,13 @@ module ActsAsContentType
     def remove_tag_unless(tag)
       sobject.tags.delete(tag) if !tag.nil? && sobject.tags.exists?(tag.id)
     end
-    
+
     def save_comment(comment)
       if comment != nil
         newcomment = Comment.new(comment)
         newcomment.admin_user = AdminUser.current_user
         sobject.comments << newcomment
-      end  
+      end
     end
 
     def type_id=(content_type_id)
@@ -313,9 +319,9 @@ module ActsAsContentType
           merged_attributes = wsitem.attributes.merge(new_sitem)
           wsitem.attributes = merged_attributes
           # set is_default
-          wsitem.is_default = (key == default_sitem)
+          wsitem.is_default = (key == default_sitem) unless AppConfig[:multisite_setup]
         end
-        prepare_default_sitem
+        prepare_default_sitem unless AppConfig[:multisite_setup]
       end
     end
 
@@ -331,8 +337,7 @@ module ActsAsContentType
         end
       end
     end
-    
-    
+
     def save_imageuploads(imageuploads)
       self.ctype.relations.each do |rel|
         if(rel.name == 'Image')
@@ -442,7 +447,7 @@ module ActsAsContentType
           add_sitem(website.id)
         end
       end
-      prepare_default_sitem
+      prepare_default_sitem unless AppConfig[:multisite_setup]
     end
 
     def prepare_sobject

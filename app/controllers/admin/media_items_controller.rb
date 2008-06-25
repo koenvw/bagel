@@ -7,6 +7,8 @@ class Admin::MediaItemsController < ApplicationController
 
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :list }
 
+  helper "admin/forms"
+
   def index
     list
     render :action => 'list'

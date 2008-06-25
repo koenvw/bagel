@@ -6,6 +6,8 @@ class Admin::NewsController < ApplicationController
 
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :edit }
 
+  helper "admin/forms"
+
   def index
     edit
     render :action => 'edit'

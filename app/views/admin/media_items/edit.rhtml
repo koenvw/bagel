@@ -32,6 +32,10 @@
 	<%= file_field :media_item, :uploaded_data %>
 </fieldset>
 
+<% @media_item.dynfields.each do |method,options| %>
+	<%= bagel_dyn_field options[:type], :media_item, method, options %>
+<% end %>
+
 <div class="mceFrame" style="margin-top: 15px;">
 	<%= text_area  :media_item, :description, :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
 </div>

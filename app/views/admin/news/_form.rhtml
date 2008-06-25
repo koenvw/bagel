@@ -3,11 +3,8 @@
 		<label for="news_title">Title</label>
 		<%= text_field 'news', 'title' , :class => "large_text_input", :size => "30" %>
 	</fieldset>
-	<% if @news_has_sub_title %>
-	<fieldset class="oneline">
-		<label for="news_sub_title">Sub title</label>
-		<%= text_field 'news', 'sub_title' , :class => "large_text_input", :size => "30" %>
-	</fieldset>
+	<% @news.dynfields.each do |method,options| %>
+		<%= bagel_dyn_field options[:type], :news, method, options %>
 	<% end %>
 	<div class="mceFrame">
 		<%= text_area  'news', 'body', :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>

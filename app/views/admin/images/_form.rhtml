@@ -19,6 +19,9 @@
 	<label for="image_image">Image</label>
 	<%= file_column_field 'image', 'image' %>
 </fieldset>
+<% @image.dynfields.each do |method,options| %>
+	<%= bagel_dyn_field options[:type], :image, method, options %>
+<% end %>
 <div class="mceFrame" style="margin-top: 15px;">
 	<%= text_area  :image, :description, :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
 </div>

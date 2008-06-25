@@ -18,6 +18,9 @@
 			<label for="event_title">End</label>
 			<%= calendar_field_tag "event[event_stop]", @event.event_stop, { :class => "date" }, {:showOthers => true, :showsTime => true} %>
 		</fieldset>
+		<% @event.dynfields.each do |method,options| %>
+			<%= bagel_dyn_field options[:type], :event, method, options %>
+		<% end %>
 		<div class="mceFrame">
 		  <%= text_area  'event', 'body', :class => 'text_area_large', :cols => 40, :rows => 20 %><br/>
 		</div>
