@@ -343,13 +343,15 @@ module ActsAsContentType
         if(rel.name == 'Image')
           relation_id = rel.id
           newrelations = ''
-          imageuploads.each do |file_id,attr|
-            if(attr["image"]!="")
-              image= Image.new()
-              image.attributes = attr
-              image.title = image.image_file if image.title.blank?
-              image.save(false)
-              newrelations += ','+image.sobject.id.to_s+'-'+relation_id.to_s if(image.sobject.id)
+          if imageuploads
+            imageuploads.each do |file_id,attr|
+              if(attr["image"]!="")
+                image= Image.new()
+                image.attributes = attr
+                image.title = image.image_file if image.title.blank?
+                image.save(false)
+                newrelations += ','+image.sobject.id.to_s+'-'+relation_id.to_s if(image.sobject.id)
+              end
             end
           end
           return newrelations
