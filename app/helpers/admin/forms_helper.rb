@@ -102,7 +102,7 @@ module Admin::FormsHelper
   end
 
   def bagel_text_field(method, options = {})
-    bagel_dyn_field (:text_field, :form, method, options)
+    bagel_dyn_field(:text_field, :form, method, options)
   end
 
   def bagel_auto_complete_field(method, options = {}, completion_options = {})
@@ -146,6 +146,7 @@ module Admin::FormsHelper
   end
 
   def bagel_boolean_field(method, options = {}, html_options = {})
+    bagel_dyn_field(:boolean_field, :form, method, options)
   end
 
 end
