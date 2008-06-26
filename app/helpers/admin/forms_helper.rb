@@ -33,6 +33,7 @@ module Admin::FormsHelper
         out << '</div>'
         out << '<br />'
         out << '<p class="help">'+ options[:help] +'</p>' unless options[:help].blank?
+        return out
 
       when :check_box
         out = '<fieldset class="oneline">'
