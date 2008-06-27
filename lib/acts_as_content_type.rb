@@ -221,6 +221,18 @@ module ActsAsContentType
       return fields[ctype.name.to_sym]
     end
 
+    def tags_as_string
+      sobject.cached_tags.map do |name, value|
+        (value == true) ? name : value
+      end
+    end
+
+    def relations_as_string
+      relations.map do |content|
+        content.title
+      end
+    end
+
   end
 
   module HelperMethods
