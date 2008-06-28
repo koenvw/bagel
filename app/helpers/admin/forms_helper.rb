@@ -1,6 +1,6 @@
 module Admin::FormsHelper
 
-  def bagel_dyn_field(field_type, object_name, method, options, other1= {}, other2= {})
+  def bagel_dyn_field(field_type, object_name, method, options = {}, other1= {}, other2= {})
     case field_type
       when :text_field
         out = '<fieldset class="oneline">'
@@ -51,11 +51,11 @@ module Admin::FormsHelper
         out << '</fieldset>'
 
       when :country_select
-        options[:include_blank] = true
+        other1[:include_blank] = true
         out = '<fieldset class="oneline">'
-        out << '<label for="form_definition_action">' + (options[:label] || method.to_s.capitalize) + '</label>'
+        out << '<label for="form_definition_action">' + (other1[:label] || method.to_s.capitalize) + '</label>'
         out << country_select(object_name, method, options, other1, other2)
-        out << '<p class="help">'+ options[:help] +'</p>' unless options[:help].blank?
+        out << '<p class="help">'+ other1[:help] +'</p>' unless other1[:help].blank?
         out << '</fieldset>'
 
       when :google_map
