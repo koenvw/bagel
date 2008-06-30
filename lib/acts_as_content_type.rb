@@ -217,7 +217,7 @@ module ActsAsContentType
 
     def dynfields
       fields = Setting.get("ContentTypeFields")
-      return {} if fields.nil? or fields[ctype.name.to_sym].nil?
+      return {} if fields.nil? or ctype.nil? or fields[ctype.name.to_sym].nil?
       return fields[ctype.name.to_sym]
     end
 
