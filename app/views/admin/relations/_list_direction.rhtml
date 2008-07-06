@@ -56,7 +56,7 @@ end
 </div>
 
 <% if direction == "in" %>
-<%= sortable_element("relations_sorted_#{direction}#{uniq_id}list", :only => "draggable", :handle => "dragme", :onChange => "function(){$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}list\")}") %>
+<%= sortable_element("relations_sorted_#{direction}#{uniq_id}list",  :url => { :action => "order" }, :only => "draggable", :handle => "dragme", :onChange => "function(){$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}list\")}") %>
 <%= hidden_field_tag :relations %>
 <%= javascript_tag "$('relations').value = Sortable.sequence(\"relations_sorted_#{direction}#{uniq_id}list\")" %>
 <% end %>

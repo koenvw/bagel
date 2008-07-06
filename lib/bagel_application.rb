@@ -98,7 +98,7 @@ module BagelApplication
       return AppConfig[:domain_map][current_domain.domainify] if AppConfig[:domain_map] && AppConfig[:domain_map][current_domain.domainify]
 
       # 2/ we look in the database (expensive!)
-      current_website = Website.find(:first, :conditions => ["domain RLIKE ?",current_domain])
+      current_website = Website.find(:first, :conditions => ["domain LIKE ?",current_domain])
       return current_website.name if current_website
 
       # nothing figured out...

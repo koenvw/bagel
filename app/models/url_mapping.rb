@@ -1,5 +1,4 @@
 class UrlMapping < ActiveRecord::Base
-  acts_as_list
   belongs_to :website
 
   validates_presence_of :path

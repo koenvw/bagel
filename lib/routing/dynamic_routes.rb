@@ -34,7 +34,6 @@ module ActionController #:nodoc:
       # we assume that the last route is the default one (:controller/:action/:id)
       def add_route_with_a_vengeance(route) #:nodoc:
         last_route = routes.pop
-        raise "the default route is not the last route in config/routes.rb" unless last_route.to_s == "ANY    /:controller/:action/:id/                {}"
         routes << route << last_route
       end
     end

@@ -1,5 +1,11 @@
 # Include hook code here
 
+# Liquid
+require 'liquid'
+
+# AppConfig
+require 'configuration'
+
 # Core extensions
 require 'core_extensions.rb'
 
@@ -71,3 +77,30 @@ require 'delicious'
 # flickr
 require 'open-uri'
 require 'flickr'
+
+# better_nested_set
+# (c) 2005 Jean-Christophe Michel
+# MIT licence
+#
+require 'betternestedset/better_nested_set'
+require 'betternestedset/better_nested_set_helper'
+
+ActiveRecord::Base.class_eval do
+  include SymetrieCom::Acts::NestedSet
+end
+ActionView::Base.send :include, SymetrieCom::Acts::BetterNestedSetHelper
+
+# plugin init file for rails
+# this file will be picked up by rails automatically and
+# add the file_column extensions to rails
+
+require 'file_column/file_column'
+require 'file_column/file_compat'
+require 'file_column/file_column_helper'
+require 'file_column/validations'
+require 'file_column/test_case'
+
+ActiveRecord::Base.send(:include, FileColumn)
+ActionView::Base.send(:include, FileColumnHelper)
+ActiveRecord::Base.send(:include, FileColumn::Validations)
+

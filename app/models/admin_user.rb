@@ -36,7 +36,7 @@ class AdminUser < ActiveRecord::Base #:nodoc:
   # succeeds, nil otherwise
   def self.authenticate(username, password)
     # Find user
-    user = self.find(:first, :conditions => [ 'username = ? AND is_active = ?', username, true ])
+    user = self.find(:first, :conditions => [ 'username = ? AND is_active = 1', username])
     return nil if user.blank?
 
     # Check password
